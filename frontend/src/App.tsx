@@ -1,9 +1,6 @@
-import React from 'react'
+import { useRoutes } from "react-router";
+import { routes } from "./routes/index";
 
-const App = () => {
-  return (
-    <div className='bg-gray-700 text-5xl text-white'>App</div>
-  )
+export default function App() {
+  return useRoutes(routes);
 }
-
-export default App
