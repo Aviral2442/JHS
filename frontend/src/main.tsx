@@ -10,12 +10,12 @@ import { BrowserRouter } from "react-router";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider>
+    {/* <ThemeProvider> */}
       <AppWrapper>
         <BrowserRouter>
           <App />
         </BrowserRouter>
       </AppWrapper>
-    </ThemeProvider>
+    {/* </ThemeProvider> */}
   </StrictMode>,
 );
