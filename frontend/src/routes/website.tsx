@@ -10,9 +10,10 @@ import WebsiteLayout from "../layout/WebsiteLayout";
 // Lazy load website pages
 const HomePage = lazy(() => import("../views/pages/Home"));
 // Add more public pages here as needed
-// const AboutPage = lazy(() => import("../views/pages/About"));
-// const ContactPage = lazy(() => import("../views/pages/Contact"));
-// const ServicesPage = lazy(() => import("../views/pages/Services"));
+const AboutPage = lazy(() => import("../views/pages/about"));
+const ContactPage = lazy(() => import("../views/pages/contact"));
+const ServicesPage = lazy(() => import("../views/pages/services"));
+const BlogPage = lazy(() => import("../views/pages/blog"));
 
 /**
  * Public website routes configuration
@@ -24,9 +25,10 @@ const websiteRoutes: RouteObject[] = [
     index: true 
   },
   // Add more public routes here
-  // { path: "/about", element: <AboutPage /> },
-  // { path: "/contact", element: <ContactPage /> },
-  // { path: "/services", element: <ServicesPage /> },
+  { path: "/about", element: <AboutPage /> },
+  { path: "/contact", element: <ContactPage /> },
+  { path: "/services", element: <ServicesPage /> },
+  { path: "/blog", element: <BlogPage /> },
 ];
 
 /**

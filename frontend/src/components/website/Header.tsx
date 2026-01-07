@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 const Header: React.FC = () => {
   return (
@@ -8,13 +9,13 @@ const Header: React.FC = () => {
                 <nav className='flex justify-between items-center'>
                     <img src="/images/logo.png" alt="JHS Logo" className='w-14'/>
                     <ul className='flex gap-5'>
-                        <li>Home</li>
-                        <li>About</li>
-                        <li>Services</li>
-                        <li>Contact</li>
-                        <li>Blog</li>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/about">About</Link></li>
+                        <li><Link to="/services">Services</Link></li>
+                        <li><Link to="/contact">Contact</Link></li>
+                        <li><Link to="/blog">Blog</Link></li>
                     </ul>
-                    <button className=''>Login</button>
+                    <button className='bg-blue-500 text-white px-4 py-2 rounded-lg'>Login</button>
                 </nav>
             </div>
         </div>
