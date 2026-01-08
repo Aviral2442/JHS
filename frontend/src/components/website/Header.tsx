@@ -15,6 +15,7 @@ const Header: React.FC = () => {
                         <li><Link to="/contact">Contact</Link></li>
                         <li><Link to="/blog">Blog</Link></li>
                         <li><Link to="/cart">Cart</Link></li>
+                        <li><Link to="/checkout">Checkout</Link></li>
                     </ul>
                     <button className='bg-blue-500 text-white px-4 py-2 rounded-lg'>Login</button>
                 </nav>
