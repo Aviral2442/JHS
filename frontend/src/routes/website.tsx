@@ -16,6 +16,8 @@ const ServicesPage = lazy(() => import("../views/pages/services"));
 const BlogPage = lazy(() => import("../views/pages/blog"));
 const CartPage = lazy(() => import("../views/pages/cart"));
 const CheckoutPage = lazy(() => import("../views/pages/checkout"));
+const SignIn = lazy(() => import("../views/pages/auth/sign-in"));
+const SignUp = lazy(() => import("../views/pages/auth/sign-up"));
 
 /**
  * Public website routes configuration
@@ -33,6 +35,8 @@ const websiteRoutes: RouteObject[] = [
   { path: "/blog", element: <BlogPage /> },
   { path: "/cart", element: <CartPage /> },
   { path: "/checkout", element: <CheckoutPage /> },
+  { path: "/sign-in", element: <SignIn /> },
+  { path: "/sign-up", element: <SignUp /> },
 ];
 
 /**

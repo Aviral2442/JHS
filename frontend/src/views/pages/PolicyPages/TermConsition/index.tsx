@@ -5,7 +5,8 @@ import {
   ChevronUp, Check, AlertCircle, Mail,
   Phone, Home, Clock, User, BookOpen,
   ExternalLink, HelpCircle, Eye, Users,
-  CreditCard, Package, Heart, Star
+  CreditCard, Package, Heart, Star,
+  Download
 } from 'lucide-react';
 
 // ================ TYPES ================
@@ -1872,7 +1873,7 @@ export const PolicyHubPage: React.FC = () => {
 };
 
 // Main export
-export {
+export default {
   PrivacyPolicyPage,
   TermsOfServicePage,
   ShippingPolicyPage,
