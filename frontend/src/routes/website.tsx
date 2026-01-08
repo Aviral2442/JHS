@@ -14,6 +14,7 @@ const AboutPage = lazy(() => import("../views/pages/about"));
 const ContactPage = lazy(() => import("../views/pages/contact"));
 const ServicesPage = lazy(() => import("../views/pages/services"));
 const BlogPage = lazy(() => import("../views/pages/blog"));
+const CartPage = lazy(() => import("../views/pages/cart"));
 
 /**
  * Public website routes configuration
@@ -29,6 +30,7 @@ const websiteRoutes: RouteObject[] = [
   { path: "/contact", element: <ContactPage /> },
   { path: "/services", element: <ServicesPage /> },
   { path: "/blog", element: <BlogPage /> },
+  { path: "/cart", element: <CartPage /> },
 ];
 
 /**
