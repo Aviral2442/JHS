@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
 import Header from "../components/website/Header";
+import Footer from "../components/website/Footer";
 
 /**
  * WebsiteLayout Component
@@ -14,7 +15,7 @@ const WebsiteLayout: React.FC = () => {
       <main className="">
         <Outlet />
       </main>
-      
+      <Footer/>
       {/* Add your public website footer here if needed */}
       {/* <PublicFooter /> */}
     </div>

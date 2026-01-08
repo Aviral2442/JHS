@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Lock, CreditCard, Shield, Truck, MapPin, User, 
   Mail, Phone, ChevronRight, Check, AlertCircle, 
   Home, Briefcase, Plus, Minus, X, ArrowLeft,
-  Package, Clock, Heart, Globe, Download
+  Package, Clock, Heart, Globe, Download, ShoppingBag
 } from 'lucide-react';
-import Script from 'next/script';
 
 // ================ TYPES ================
 interface ShippingAddress {
@@ -45,6 +44,13 @@ interface OrderSummary {
   tax: number;
   total: number;
   itemCount: number;
+}
+
+interface PromoCode {
+  code: string;
+  discount: number;
+  type: 'percentage' | 'fixed';
+  minAmount?: number;
 }
 
 // ================ MOCK DATA ================
@@ -101,7 +107,7 @@ const orderItems: OrderItem[] = [
     name: 'Premium Wireless Headphones',
     price: 199.99,
     quantity: 1,
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w-200&h=200&fit=crop'
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop'
   },
   {
     id: 2,
@@ -119,14 +125,36 @@ const orderItems: OrderItem[] = [
   }
 ];
 
-const orderSummary: OrderSummary = {
-  subtotal: 419.96,
-  shipping: 9.99,
-  discount: 20.00,
-  tax: 33.60,
-  total: 443.55,
-  itemCount: 4
-};
+const promoCodes: PromoCode[] = [
+  { code: 'SAVE10', discount: 10, type: 'percentage', minAmount: 50 },
+  { code: 'SAVE20', discount: 20, type: 'percentage', minAmount: 100 },
+  { code: 'FREESHIP', discount: 0, type: 'fixed' },
+  { code: 'FLAT15', discount: 15, type: 'fixed' }
+];
+
+const shippingOptions = [
+  {
+    id: 'standard',
+    name: 'Standard Delivery',
+    price: 9.99,
+    estimated: '5-7 business days',
+    description: 'Regular shipping with tracking'
+  },
+  {
+    id: 'express',
+    name: 'Express Delivery',
+    price: 19.99,
+    estimated: '2-3 business days',
+    description: 'Priority shipping with tracking'
+  },
+  {
+    id: 'nextday',
+    name: 'Next Day Delivery',
+    price: 29.99,
+    estimated: '1 business day',
+    description: 'Guaranteed next-day delivery'
+  }
+];
 
 // ================ COMPONENTS ================
 
@@ -224,7 +252,8 @@ const PaymentMethodCard: React.FC<{
 // Credit Card Form Component
 const CreditCardForm: React.FC<{
   onSubmit: (cardData: any) => void;
-}> = ({ onSubmit }) => {
+  onCancel: () => void;
+}> = ({ onSubmit, onCancel }) => {
   const [cardNumber, setCardNumber] = useState('');
   const [cardName, setCardName] = useState('');
   const [expiry, setExpiry] = useState('');
@@ -268,94 +297,252 @@ const CreditCardForm: React.FC<{
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Card Number
-        </label>
-        <div className="relative">
-          <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            value={cardNumber}
-            onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-            placeholder="1234 5678 9012 3456"
-            maxLength={19}
-            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            required
-          />
-        </div>
+    <div className="mt-8 p-6 border border-blue-200 rounded-xl bg-blue-50">
+      <div className="flex justify-between items-center mb-6">
+        <h4 className="font-medium text-gray-800">Add Credit/Debit Card</h4>
+        <button 
+          onClick={onCancel}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          <X size={20} />
+        </button>
       </div>
-      
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Cardholder Name
-        </label>
-        <input
-          type="text"
-          value={cardName}
-          onChange={(e) => setCardName(e.target.value)}
-          placeholder="John Doe"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          required
-        />
-      </div>
-      
-      <div className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Expiry Date
+            Card Number
+          </label>
+          <div className="relative">
+            <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="text"
+              value={cardNumber}
+              onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+              placeholder="1234 5678 9012 3456"
+              maxLength={19}
+              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              required
+            />
+          </div>
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Cardholder Name
           </label>
           <input
             type="text"
-            value={expiry}
-            onChange={(e) => setExpiry(formatExpiry(e.target.value))}
-            placeholder="MM/YY"
-            maxLength={5}
+            value={cardName}
+            onChange={(e) => setCardName(e.target.value)}
+            placeholder="John Doe"
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             required
           />
         </div>
         
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            CVV
-          </label>
-          <div className="relative">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Expiry Date
+            </label>
             <input
-              type="password"
-              value={cvv}
-              onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').substring(0, 3))}
-              placeholder="123"
-              maxLength={3}
+              type="text"
+              value={expiry}
+              onChange={(e) => setExpiry(formatExpiry(e.target.value))}
+              placeholder="MM/YY"
+              maxLength={5}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
-            <Shield className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              CVV
+            </label>
+            <div className="relative">
+              <input
+                type="password"
+                value={cvv}
+                onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').substring(0, 3))}
+                placeholder="123"
+                maxLength={3}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+              <Shield className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            </div>
           </div>
         </div>
+        
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="saveCard"
+            checked={saveCard}
+            onChange={(e) => setSaveCard(e.target.checked)}
+            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+          />
+          <label htmlFor="saveCard" className="ml-2 text-sm text-gray-700">
+            Save this card for future purchases
+          </label>
+        </div>
+        
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="flex-1 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
+          >
+            Add Card
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+// Delivery Options Component
+const DeliveryOptions: React.FC<{
+  selectedOption: string;
+  onSelectOption: (option: string) => void;
+}> = ({ selectedOption, onSelectOption }) => {
+  return (
+    <div className="bg-white rounded-xl shadow-md p-6">
+      <h3 className="text-xl font-bold text-gray-800 mb-6">Delivery Options</h3>
+      <div className="space-y-4">
+        {shippingOptions.map((option) => (
+          <div 
+            key={option.id}
+            className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${
+              selectedOption === option.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+            }`}
+            onClick={() => onSelectOption(option.id)}
+          >
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-medium text-gray-800">{option.name}</h4>
+                  {option.id === 'express' && (
+                    <span className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">
+                      Recommended
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm text-gray-600 mt-1">{option.description}</p>
+                <div className="flex items-center text-sm text-gray-600 mt-2">
+                  <Clock size={14} className="mr-1" />
+                  Estimated: {option.estimated}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-xl font-bold text-gray-900">
+                  ${option.price.toFixed(2)}
+                </div>
+                <div className={`w-6 h-6 rounded-full border flex items-center justify-center ml-4 mt-2 ${
+                  selectedOption === option.id ? 'bg-blue-500 border-blue-500' : 'border-gray-300'
+                }`}>
+                  {selectedOption === option.id && <Check size={14} className="text-white" />}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
+    </div>
+  );
+};
+
+// Promo Code Component
+const PromoCodeInput: React.FC<{
+  onApplyPromo: (code: string) => void;
+  appliedCode?: PromoCode;
+  onRemovePromo: () => void;
+}> = ({ onApplyPromo, appliedCode, onRemovePromo }) => {
+  const [code, setCode] = useState('');
+  const [error, setError] = useState('');
+  
+  const handleApply = () => {
+    if (!code.trim()) {
+      setError('Please enter a promo code');
+      return;
+    }
+    
+    const foundCode = promoCodes.find(p => p.code === code.toUpperCase());
+    if (foundCode) {
+      onApplyPromo(code.toUpperCase());
+      setError('');
+      setCode('');
+    } else {
+      setError('Invalid promo code');
+    }
+  };
+  
+  return (
+    <div className="bg-white rounded-xl shadow-md p-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Promo Code</h3>
       
-      <div className="flex items-center">
-        <input
-          type="checkbox"
-          id="saveCard"
-          checked={saveCard}
-          onChange={(e) => setSaveCard(e.target.checked)}
-          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-        />
-        <label htmlFor="saveCard" className="ml-2 text-sm text-gray-700">
-          Save this card for future purchases
-        </label>
-      </div>
-      
-      <button
-        type="submit"
-        className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
-      >
-        Add Card
-      </button>
-    </form>
+      {appliedCode ? (
+        <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-4">
+          <div>
+            <div className="flex items-center text-green-700">
+              <Check size={18} className="mr-2" />
+              <span className="font-medium">Code applied: {appliedCode.code}</span>
+            </div>
+            <p className="text-sm text-green-600 mt-1">
+              {appliedCode.type === 'percentage' 
+                ? `${appliedCode.discount}% discount applied` 
+                : `$${appliedCode.discount} discount applied`}
+            </p>
+          </div>
+          <button 
+            onClick={onRemovePromo}
+            className="text-red-500 hover:text-red-700"
+          >
+            <X size={20} />
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              placeholder="Enter promo code"
+              className="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <button 
+              onClick={handleApply}
+              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
+            >
+              Apply
+            </button>
+          </div>
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          
+          <div className="mt-4">
+            <p className="text-sm text-gray-600 mb-2">Available promo codes:</p>
+            <div className="flex flex-wrap gap-2">
+              {promoCodes.map(promo => (
+                <span 
+                  key={promo.code}
+                  className="text-xs bg-gray-100 text-gray-800 px-3 py-1 rounded-full border border-gray-200"
+                >
+                  {promo.code}
+                </span>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 
@@ -468,81 +655,6 @@ const OrderSummary: React.FC<{
   );
 };
 
-// Delivery Options Component
-const DeliveryOptions: React.FC<{
-  selectedOption: string;
-  onSelectOption: (option: string) => void;
-}> = ({ selectedOption, onSelectOption }) => {
-  const options = [
-    {
-      id: 'standard',
-      name: 'Standard Delivery',
-      price: 9.99,
-      estimated: '5-7 business days',
-      description: 'Regular shipping with tracking'
-    },
-    {
-      id: 'express',
-      name: 'Express Delivery',
-      price: 19.99,
-      estimated: '2-3 business days',
-      description: 'Priority shipping with tracking'
-    },
-    {
-      id: 'nextday',
-      name: 'Next Day Delivery',
-      price: 29.99,
-      estimated: '1 business day',
-      description: 'Guaranteed next-day delivery'
-    }
-  ];
-
-  return (
-    <div className="bg-white rounded-xl shadow-md p-6">
-      <h3 className="text-xl font-bold text-gray-800 mb-6">Delivery Options</h3>
-      <div className="space-y-4">
-        {options.map((option) => (
-          <div 
-            key={option.id}
-            className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${
-              selectedOption === option.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
-            }`}
-            onClick={() => onSelectOption(option.id)}
-          >
-            <div className="flex justify-between items-center">
-              <div>
-                <div className="flex items-center gap-2">
-                  <h4 className="font-medium text-gray-800">{option.name}</h4>
-                  {option.id === 'express' && (
-                    <span className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">
-                      Recommended
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm text-gray-600 mt-1">{option.description}</p>
-                <div className="flex items-center text-sm text-gray-600 mt-2">
-                  <Clock size={14} className="mr-1" />
-                  Estimated: {option.estimated}
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-xl font-bold text-gray-900">
-                  ${option.price.toFixed(2)}
-                </div>
-                <div className={`w-6 h-6 rounded-full border flex items-center justify-center ml-4 mt-2 ${
-                  selectedOption === option.id ? 'bg-blue-500 border-blue-500' : 'border-gray-300'
-                }`}>
-                  {selectedOption === option.id && <Check size={14} className="text-white" />}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 // ================ RAZORPAY INTEGRATION ================
 declare global {
   interface Window {
@@ -550,54 +662,35 @@ declare global {
   }
 }
 
-const loadRazorpayScript = () => {
+// Load Razorpay script dynamically
+const loadRazorpayScript = (callback: () => void) => {
+  const script = document.createElement('script');
+  script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+  script.onload = callback;
+  script.onerror = () => {
+    console.error('Failed to load Razorpay script');
+  };
+  document.body.appendChild(script);
+};
+
+// Mock function to create order on backend
+const createRazorpayOrder = async (amount: number, currency: string = 'USD') => {
+  // In real application, this would be an API call to your backend
+  // For demo purposes, we'll generate a mock order ID
   return new Promise((resolve) => {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
+    setTimeout(() => {
+      resolve({
+        id: `order_${Math.random().toString(36).substr(2, 9)}`,
+        amount: amount * 100, // Convert to paise/cents
+        currency,
+        status: 'created'
+      });
+    }, 1000);
   });
 };
 
-const initializeRazorpay = (orderId: string, amount: number, userDetails: any) => {
-  const options = {
-    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_YOUR_KEY_ID',
-    amount: amount * 100, // Convert to paise
-    currency: 'USD',
-    name: 'ShopCart Store',
-    description: 'Complete your purchase',
-    image: 'https://your-logo-url.com/logo.png',
-    order_id: orderId,
-    handler: function (response: any) {
-      alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-      // Here you would typically send the payment details to your backend
-      console.log('Payment successful:', response);
-    },
-    prefill: {
-      name: userDetails.fullName,
-      email: userDetails.email,
-      contact: userDetails.phone
-    },
-    notes: {
-      address: 'Customer address'
-    },
-    theme: {
-      color: '#2563eb'
-    },
-    modal: {
-      ondismiss: function() {
-        alert('Payment cancelled');
-      }
-    }
-  };
-
-  const razorpay = new window.Razorpay(options);
-  razorpay.open();
-};
-
 // ================ MAIN CHECKOUT COMPONENT ================
-const index: React.FC = () => {
+const CheckoutPage: React.FC = () => {
   // State
   const [step, setStep] = useState<number>(1);
   const [addresses, setAddresses] = useState<ShippingAddress[]>(initialAddresses);
@@ -609,6 +702,10 @@ const index: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [paymentComplete, setPaymentComplete] = useState<boolean>(false);
   const [orderConfirmed, setOrderConfirmed] = useState<boolean>(false);
+  const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
+  
+  // Razorpay script loaded state
+  const [razorpayLoaded, setRazorpayLoaded] = useState<boolean>(false);
   
   // New Address Form State
   const [newAddress, setNewAddress] = useState<Partial<ShippingAddress>>({
@@ -628,6 +725,38 @@ const index: React.FC = () => {
     email: 'john.doe@example.com',
     phone: '+1 (555) 123-4567'
   });
+
+  // Order Summary State
+  const [orderSummary, setOrderSummary] = useState<OrderSummary>({
+    subtotal: 419.96,
+    shipping: 19.99,
+    discount: 20.00,
+    tax: 33.60,
+    total: 453.55,
+    itemCount: 4
+  });
+
+  // Load Razorpay script on component mount
+  useEffect(() => {
+    if (!razorpayLoaded) {
+      loadRazorpayScript(() => {
+        setRazorpayLoaded(true);
+        console.log('Razorpay script loaded');
+      });
+    }
+  }, [razorpayLoaded]);
+
+  // Update shipping cost when delivery option changes
+  useEffect(() => {
+    const selectedShipping = shippingOptions.find(opt => opt.id === deliveryOption);
+    if (selectedShipping) {
+      setOrderSummary(prev => ({
+        ...prev,
+        shipping: selectedShipping.price,
+        total: prev.subtotal + selectedShipping.price - prev.discount + prev.tax
+      }));
+    }
+  }, [deliveryOption]);
 
   // Handle Step Navigation
   const nextStep = () => {
@@ -664,7 +793,13 @@ const index: React.FC = () => {
         isDefault: newAddress.isDefault!
       };
       
-      setAddresses([...addresses, addressToAdd]);
+      // If setting as default, update all other addresses
+      const updatedAddresses = addresses.map(addr => ({
+        ...addr,
+        isDefault: addressToAdd.isDefault ? false : addr.isDefault
+      }));
+      
+      setAddresses([...updatedAddresses, addressToAdd]);
       if (newAddress.isDefault) {
         setSelectedAddress(newId);
       }
@@ -683,41 +818,95 @@ const index: React.FC = () => {
     }
   };
 
+  // Handle Promo Code Application
+  const handleApplyPromo = (code: string) => {
+    const promo = promoCodes.find(p => p.code === code);
+    if (promo) {
+      setAppliedPromo(promo);
+      
+      // Calculate discount
+      let discount = 0;
+      if (promo.type === 'percentage') {
+        discount = (orderSummary.subtotal * promo.discount) / 100;
+      } else {
+        discount = promo.discount;
+      }
+      
+      setOrderSummary(prev => ({
+        ...prev,
+        discount,
+        total: prev.subtotal + prev.shipping - discount + prev.tax
+      }));
+    }
+  };
+
+  const handleRemovePromo = () => {
+    setAppliedPromo(null);
+    setOrderSummary(prev => ({
+      ...prev,
+      discount: 0,
+      total: prev.subtotal + prev.shipping + prev.tax
+    }));
+  };
+
   // Handle Payment with Razorpay
   const handlePayment = async () => {
     setIsProcessing(true);
     
-    // Load Razorpay script if not already loaded
-    const razorpayLoaded = await loadRazorpayScript();
-    
     if (!razorpayLoaded) {
-      alert('Failed to load payment gateway. Please try again.');
+      alert('Payment gateway is still loading. Please try again in a moment.');
       setIsProcessing(false);
       return;
     }
 
     try {
-      // In a real application, you would create an order on your backend first
-      // For demo purposes, we'll simulate this with a mock order ID
-      const mockOrderId = 'order_' + Math.random().toString(36).substr(2, 9);
+      // Create order on backend
+      const orderData: any = await createRazorpayOrder(orderSummary.total, 'USD');
       
       const selectedAddressData = addresses.find(a => a.id === selectedAddress);
-      const userDetailsForPayment = {
-        fullName: selectedAddressData?.fullName || 'John Doe',
-        email: userDetails.email,
-        phone: selectedAddressData?.phone || userDetails.phone
+      
+      // Razorpay options
+      const options = {
+        key: import.meta.env.VITE_REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_YOUR_KEY_ID', // Replace with your Razorpay key
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'ShopCart Store',
+        description: 'Complete your purchase',
+        image: 'https://your-logo-url.com/logo.png',
+        order_id: orderData.id,
+        handler: function (response: any) {
+          // Handle successful payment
+          console.log('Payment successful:', response);
+          
+          // Verify payment on backend (in real app)
+          // Then mark payment as complete
+          setPaymentComplete(true);
+          setIsProcessing(false);
+          nextStep();
+        },
+        prefill: {
+          name: selectedAddressData?.fullName || 'Customer',
+          email: userDetails.email,
+          contact: selectedAddressData?.phone || userDetails.phone
+        },
+        notes: {
+          address: selectedAddressData?.street || ''
+        },
+        theme: {
+          color: '#2563eb'
+        },
+        modal: {
+          ondismiss: function() {
+            setIsProcessing(false);
+            alert('Payment was cancelled.');
+          }
+        }
       };
 
-      // Initialize Razorpay checkout
-      initializeRazorpay(mockOrderId, orderSummary.total, userDetailsForPayment);
+      // Initialize Razorpay
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
       
-      // Simulate payment success after 2 seconds
-      setTimeout(() => {
-        setIsProcessing(false);
-        setPaymentComplete(true);
-        nextStep();
-      }, 2000);
-
     } catch (error) {
       console.error('Payment error:', error);
       setIsProcessing(false);
@@ -733,6 +922,12 @@ const index: React.FC = () => {
       setOrderConfirmed(true);
       nextStep();
     }, 1500);
+  };
+
+  // Handle Edit Cart
+  const handleEditCart = () => {
+    alert('Redirecting to cart page...');
+    // In a real app, you would navigate to the cart page
   };
 
   // Render Step Content
@@ -969,6 +1164,13 @@ const index: React.FC = () => {
               selectedOption={deliveryOption}
               onSelectOption={setDeliveryOption}
             />
+            
+            {/* Promo Code Section */}
+            <PromoCodeInput
+              onApplyPromo={handleApplyPromo}
+              appliedCode={appliedPromo || undefined}
+              onRemovePromo={handleRemovePromo}
+            />
           </div>
         );
 
@@ -1004,23 +1206,13 @@ const index: React.FC = () => {
               )}
               
               {showCardForm && (
-                <div className="mt-8 p-6 border border-blue-200 rounded-xl bg-blue-50">
-                  <div className="flex justify-between items-center mb-6">
-                    <h4 className="font-medium text-gray-800">Add Credit/Debit Card</h4>
-                    <button 
-                      onClick={() => setShowCardForm(false)}
-                      className="text-gray-500 hover:text-gray-700"
-                    >
-                      <X size={20} />
-                    </button>
-                  </div>
-                  <CreditCardForm
-                    onSubmit={(cardData) => {
-                      console.log('Card data:', cardData);
-                      setShowCardForm(false);
-                    }}
-                  />
-                </div>
+                <CreditCardForm
+                  onSubmit={(cardData) => {
+                    console.log('Card data:', cardData);
+                    setShowCardForm(false);
+                  }}
+                  onCancel={() => setShowCardForm(false)}
+                />
               )}
               
               {/* Security Info */}
@@ -1051,8 +1243,7 @@ const index: React.FC = () => {
                 <div className="flex justify-between items-center py-3 border-b border-gray-200">
                   <span className="text-gray-600">Delivery Method</span>
                   <span className="font-medium text-gray-800">
-                    {deliveryOption === 'standard' ? 'Standard Delivery' : 
-                     deliveryOption === 'express' ? 'Express Delivery' : 'Next Day Delivery'}
+                    {shippingOptions.find(o => o.id === deliveryOption)?.name}
                   </span>
                 </div>
                 
@@ -1158,14 +1349,37 @@ const index: React.FC = () => {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all">
+                <button 
+                  onClick={() => {
+                    // Generate invoice download
+                    const invoiceContent = `
+                      Invoice for Order ORD-${Math.random().toString(36).substr(2, 8).toUpperCase()}
+                      Date: ${new Date().toLocaleDateString()}
+                      Total: $${orderSummary.total.toFixed(2)}
+                      Thank you for your purchase!
+                    `;
+                    const blob = new Blob([invoiceContent], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'invoice.txt';
+                    a.click();
+                  }}
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all"
+                >
                   <Download size={18} className="inline mr-2" />
                   Download Invoice
                 </button>
-                <button className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all">
+                <button 
+                  onClick={() => window.location.href = '/'}
+                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all"
+                >
                   Continue Shopping
                 </button>
-                <button className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all">
+                <button 
+                  onClick={() => alert('Order tracking would be implemented here')}
+                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all"
+                >
                   Track Order
                 </button>
               </div>
@@ -1210,12 +1424,6 @@ const index: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-      {/* Razorpay Script Loader */}
-      <Script 
-        src="https://checkout.razorpay.com/v1/checkout.js" 
-        strategy="lazyOnload"
-      />
-      
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="mb-10">
@@ -1300,9 +1508,9 @@ const index: React.FC = () => {
                 {step === 2 && (
                   <button 
                     onClick={handlePayment}
-                    disabled={isProcessing}
+                    disabled={isProcessing || !razorpayLoaded}
                     className={`flex items-center px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md ${
-                      isProcessing ? 'opacity-75 cursor-not-allowed' : 'hover:from-green-600 hover:to-emerald-700'
+                      isProcessing || !razorpayLoaded ? 'opacity-75 cursor-not-allowed' : 'hover:from-green-600 hover:to-emerald-700'
                     }`}
                   >
                     {isProcessing ? (
@@ -1310,6 +1518,8 @@ const index: React.FC = () => {
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                         Processing...
                       </>
+                    ) : !razorpayLoaded ? (
+                      'Loading Payment...'
                     ) : (
                       <>
                         Pay ${orderSummary.total.toFixed(2)}
@@ -1350,7 +1560,7 @@ const index: React.FC = () => {
               <OrderSummary
                 summary={orderSummary}
                 items={orderItems}
-                onEditCart={() => console.log('Edit cart clicked')}
+                onEditCart={handleEditCart}
               />
               
               {/* Security Badges */}
@@ -1391,6 +1601,19 @@ const index: React.FC = () => {
           )}
         </div>
         
+        {/* Loading Overlay */}
+        {isProcessing && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-8 rounded-2xl shadow-2xl text-center">
+              <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <h3 className="text-xl font-bold text-gray-800">
+                {step === 2 ? 'Processing Payment' : 'Placing Order'}
+              </h3>
+              <p className="text-gray-600 mt-2">Please wait while we complete your request...</p>
+            </div>
+          </div>
+        )}
+        
         {/* Footer */}
         <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
           <p>© 2023 ShopCart. All rights reserved. | 
@@ -1407,4 +1630,4 @@ const index: React.FC = () => {
   );
 };
 
-export default index;
+export default CheckoutPage;
