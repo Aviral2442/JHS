@@ -18,7 +18,16 @@ const CartPage = lazy(() => import("../views/pages/cart"));
 const CheckoutPage = lazy(() => import("../views/pages/checkout"));
 const SignIn = lazy(() => import("../views/pages/auth/sign-in"));
 const SignUp = lazy(() => import("../views/pages/auth/sign-up"));
+const CategoryPage = lazy(() => import("../views/pages/category"));
 
+// Policy Pages
+const CookiePolicyPage = lazy(() => import("../views/pages/PolicyPages/CookiePolicyPage"));
+const PolicyComponents = lazy(() => import("../views/pages/PolicyPages/PolicyComponents"));
+const PolicyHubPage = lazy(() => import("../views/pages/PolicyPages/PolicyHubPage"));
+const PrivacyPolicyPage = lazy(() => import("../views/pages/PolicyPages/PrivacyPolicyPage"));
+const ReturnPolicyPage = lazy(() => import("../views/pages/PolicyPages/ReturnPolicyPage"));
+const ShippingPolicyPage = lazy(() => import("../views/pages/PolicyPages/ShippingPolicyPage"));
+const TermsOfServicePage = lazy(() => import("../views/pages/PolicyPages/TermsOfServicePage"));
 /**
  * Public website routes configuration
  */
@@ -37,6 +46,16 @@ const websiteRoutes: RouteObject[] = [
   { path: "/checkout", element: <CheckoutPage /> },
   { path: "/sign-in", element: <SignIn /> },
   { path: "/sign-up", element: <SignUp /> },
+  { path: "/category", element: <CategoryPage /> },
+
+
+  { path: "/cookies", element: <CookiePolicyPage /> },
+  { path: "/policies/components", element: <PolicyComponents /> },
+  { path: "/policies/hub", element: <PolicyHubPage /> },
+  { path: "/privacy", element: <PrivacyPolicyPage /> },
+  { path: "/returns", element: <ReturnPolicyPage /> },
+  { path: "/shipping", element: <ShippingPolicyPage /> },
+  { path: "/terms", element: <TermsOfServicePage /> },
 ];
 
 /**

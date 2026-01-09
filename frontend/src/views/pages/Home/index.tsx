@@ -35,6 +35,7 @@ import {
   Brush,
   Zap,
 } from "lucide-react";
+import CommonHero from "../../../components/website/Hero";
 
 // Service data
 const services = [
@@ -218,15 +219,16 @@ export default function HomeEaseLanding() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   const controls = useAnimation();
-  const ref = useInView({
+  const ref = useRef(null);
+  const isInView = useInView(ref, {
     threshold: 0.1,
   });
 
   useEffect(() => {
-    if (ref) {
+    if (isInView) {
       controls.start("visible");
     }
-  }, [controls, ref]);
+  }, [controls, isInView]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -268,8 +270,13 @@ export default function HomeEaseLanding() {
   return (
     <div className="min-h-screen bg-white">
       {/* Sticky Navbar */}
-
-
+      <CommonHero
+        title="Let’s Talk"
+        highlightedText="About Your Project"
+        subtitle="We’re here to help you turn your ideas into reality."
+        primaryBtnText="Send Message"
+        align="left"
+      />
       {/* Hero Section */}
       <section className="py-12 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -660,7 +667,6 @@ export default function HomeEaseLanding() {
       </section>
 
       {/* Footer */}
-
     </div>
   );
 }
