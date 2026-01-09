@@ -1,141 +1,185 @@
-import React from "react";
+import { motion } from "framer-motion";
 import {
-  FaXTwitter,
-  FaLinkedinIn,
-  FaFacebookF,
-  FaGithub,
-  FaDribbble,
-} from "react-icons/fa6";
+  Sparkles,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Home,
+  Wrench,
+  PaintBucket,
+  Droplets,
+  Hammer,
+  Construction,
+  Bug,
+  Wind,
+  Brush,
+  Zap,
+} from "lucide-react";
 
-const Footer: React.FC = () => {
+const services = [
+  {
+    id: 1,
+    name: "Cleaning",
+    icon: Sparkles,
+    description: "Professional home cleaning with eco-friendly products",
+  },
+  {
+    id: 2,
+    name: "Interior Design",
+    icon: Home,
+    description: "Transform your space with expert interior design",
+  },
+  {
+    id: 3,
+    name: "Laundry",
+    icon: Droplets,
+    description: "Professional laundry and dry cleaning services",
+  },
+  {
+    id: 4,
+    name: "Carpenter",
+    icon: Hammer,
+    description: "Custom furniture and woodwork solutions",
+  },
+  {
+    id: 5,
+    name: "Painting",
+    icon: PaintBucket,
+    description: "Interior and exterior painting services",
+  },
+  {
+    id: 6,
+    name: "Plumber",
+    icon: Wrench,
+    description: "24/7 emergency plumbing services",
+  },
+  {
+    id: 7,
+    name: "Electrician",
+    icon: Zap,
+    description: "Electrical repairs and installations",
+  },
+  {
+    id: 8,
+    name: "Civil Contractor",
+    icon: Construction,
+    description: "Construction and renovation projects",
+  },
+  {
+    id: 9,
+    name: "Renovation",
+    icon: Brush,
+    description: "Complete home renovation services",
+  },
+  {
+    id: 10,
+    name: "Pest Control",
+    icon: Bug,
+    description: "Safe and effective pest elimination",
+  },
+  {
+    id: 11,
+    name: "AC Repair",
+    icon: Wind,
+    description: "AC installation and repair services",
+  },
+];
+
+const Footer = () => {
   return (
-    <footer className="bg-[#5B3FA3] text-white rounded-2xl p-10 md:p-14">
-      {/* CTA SECTION */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div>
-          <h2 className="text-3xl font-semibold mb-2">
-            Start your 30-day free trial
-          </h2>
-          <p className="text-white/80">
-            Join over 4,000+ startups already growing with Untitled.
-          </p>
-        </div>
-
-        <div className="flex gap-3">
-          <button className="px-5 py-2.5 bg-white text-[#5B3FA3] rounded-lg font-medium hover:bg-gray-100 transition">
-            Learn more
-          </button>
-          <button className="px-5 py-2.5 bg-[#7C5CDB] rounded-lg font-medium hover:bg-[#6a4fc7] transition">
-            Get started
-          </button>
-        </div>
-      </div>
-
-      {/* DIVIDER */}
-      <div className="border-t border-white/20 my-10" />
-
-      {/* LINKS SECTION */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-8">
-        {/* BRAND */}
-        <div className="md:col-span-1">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#5B3FA3] font-bold">
-              U
+    <>
+      <footer className="bg-gray-900 text-white pt-12 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Company */}
+            <div>
+              <h3 className="text-2xl font-bold mb-4">HomeEase</h3>
+              <p className="text-gray-400">
+                Making home services simple, reliable, and accessible for
+                everyone.
+              </p>
             </div>
-            <span className="font-semibold text-lg">Untitled UI</span>
+
+            {/* Services */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Services</h4>
+              <ul className="space-y-2">
+                {services.slice(0, 6).map((service) => (
+                  <li key={service.id}>
+                    <a
+                      href="#"
+                      className="text-gray-400 hover:text-white transition-colors"
+                    >
+                      {service.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company Links */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Company</h4>
+              <ul className="space-y-2">
+                {["About Us", "Careers", "Blog", "Press", "Partners"].map(
+                  (item) => (
+                    <li key={item}>
+                      <a
+                        href="#"
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+
+            {/* Support & Social */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 mb-6">
+                {[
+                  "Help Center",
+                  "Contact Us",
+                  "Privacy Policy",
+                  "Terms of Service",
+                ].map((item) => (
+                  <li key={item}>
+                    <a
+                      href="#"
+                      className="text-gray-400 hover:text-white transition-colors"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex space-x-4">
+                {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
+                  <motion.a
+                    key={index}
+                    href="#"
+                    whileHover={{ scale: 1.1 }}
+                    className="bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition-colors"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </motion.a>
+                ))}
+              </div>
+            </div>
           </div>
-          <p className="text-white/80 text-sm leading-relaxed">
-            Design amazing digital experiences that create more happy in the
-            world.
-          </p>
-        </div>
 
-        {/* PRODUCT */}
-        <div>
-          <h4 className="font-semibold mb-3">Product</h4>
-          <ul className="space-y-2 text-white/80 text-sm">
-            <li>Overview</li>
-            <li>Features</li>
-            <li className="flex items-center gap-2">
-              Solutions
-              <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">
-                New
-              </span>
-            </li>
-            <li>Tutorials</li>
-            <li>Pricing</li>
-            <li>Releases</li>
-          </ul>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>
+              &copy; {new Date().getFullYear()} HomeEase. All rights reserved.
+            </p>
+          </div>
         </div>
-
-        {/* COMPANY */}
-        <div>
-          <h4 className="font-semibold mb-3">Company</h4>
-          <ul className="space-y-2 text-white/80 text-sm">
-            <li>About us</li>
-            <li>Careers</li>
-            <li>Press</li>
-            <li>News</li>
-            <li>Media kit</li>
-            <li>Contact</li>
-          </ul>
-        </div>
-
-        {/* RESOURCES */}
-        <div>
-          <h4 className="font-semibold mb-3">Resources</h4>
-          <ul className="space-y-2 text-white/80 text-sm">
-            <li>Blog</li>
-            <li>Newsletter</li>
-            <li>Events</li>
-            <li>Help centre</li>
-            <li>Tutorials</li>
-            <li>Support</li>
-          </ul>
-        </div>
-
-        {/* SOCIAL */}
-        <div>
-          <h4 className="font-semibold mb-3">Social</h4>
-          <ul className="space-y-2 text-white/80 text-sm">
-            <li>Twitter</li>
-            <li>LinkedIn</li>
-            <li>Facebook</li>
-            <li>GitHub</li>
-            <li>AngelList</li>
-            <li>Dribbble</li>
-          </ul>
-        </div>
-
-        {/* LEGAL */}
-        <div>
-          <h4 className="font-semibold mb-3">Legal</h4>
-          <ul className="space-y-2 text-white/80 text-sm">
-            <li>Terms</li>
-            <li>Privacy</li>
-            <li>Cookies</li>
-            <li>Licenses</li>
-            <li>Settings</li>
-            <li>Contact</li>
-          </ul>
-        </div>
-      </div>
-
-      {/* BOTTOM BAR */}
-      <div className="border-t border-white/20 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-white/70 text-sm">
-          © 2077 Untitled UI. All rights reserved.
-        </p>
-
-        <div className="flex gap-4 text-white/80">
-          <FaXTwitter className="cursor-pointer hover:text-white" />
-          <FaLinkedinIn className="cursor-pointer hover:text-white" />
-          <FaFacebookF className="cursor-pointer hover:text-white" />
-          <FaGithub className="cursor-pointer hover:text-white" />
-          <FaDribbble className="cursor-pointer hover:text-white" />
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 };
 
