@@ -1,0 +1,24 @@
+:root {
+    --theme-black: #101828;
+    --theme-gray: #475467;
+    --theme-blue: #203f78;
+    --theme-transparent: #eef5ff;
+    --theme-bg-gray: #f9fafb;
+    --theme-light-blue: #35a4dc;
+    --theme-red: #f61516;
+    --status-bg-success: #dbfce7;
+    --status-bg-warning: #fef9c2;
+}
+
+.main-heading {
+    color: var(--theme-black)
+}
+.sub-heading {
+    color: var(--theme-gray)
+}
+.btn-main {
+    background: linear-gradient(to right, #3b82f6, #06b6d4);
+}
+.btn-main:hover {
+    background: linear-gradient(to right, #2563eb, #0891b2);
+}

@@ -25,6 +25,8 @@ import {
   Wind,
   Brush,
   Zap,
+  Thermometer,
+  Sun,
 } from "lucide-react";
 import CommonHero from "../../../components/website/Hero";
 
@@ -340,6 +342,31 @@ export default function HomeEaseLanding() {
             </motion.div>
           </div>
         </div>
+
+        <div className="fixed right-8 top-96 transform -translate-y-1/2 z-50 hidden md:block">
+          <div className="flex flex-col gap-4">
+            {[
+              { icon: <Wrench />, label: "Plumbing" },
+              { icon: <Zap />, label: "Electrical" },
+              { icon: <Thermometer />, label: "HVAC" },
+              { icon: <Droplets />, label: "Water" },
+              { icon: <Wind />, label: "Ventilation" },
+              { icon: <Sun />, label: "Solar" },
+            ].map((service, index) => (
+              <div
+          key={index}
+          className="bg-white w-20 rounded-xl p-3 shadow-2xl transform hover:-translate-x-2 transition-all duration-300 group cursor-pointer"
+              >
+          <div className="bg-linear-to-br from-blue-500 to-cyan-500 w-10 h-10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
+            <div className="text-white text-sm">{service.icon}</div>
+          </div>
+          <p className="text-center font-semibold text-gray-800 text-xs">
+            {service.label}
+          </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Services Section */}
@@ -496,10 +523,11 @@ export default function HomeEaseLanding() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: plan.id * 0.1 }}
                 viewport={{ once: true }}
-                className={`rounded-2xl p-8 border-2 ${plan.popular
+                className={`rounded-2xl p-8 border-2 ${
+                  plan.popular
                     ? "border-indigo-600 shadow-xl relative bg-white"
                     : "border-gray-200 shadow-sm bg-white"
-                  }`}
+                }`}
               >
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
@@ -531,10 +559,11 @@ export default function HomeEaseLanding() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`w-full py-3 rounded-lg font-medium ${plan.popular
+                  className={`w-full py-3 rounded-lg font-medium ${
+                    plan.popular
                       ? "bg-indigo-600 text-white hover:bg-indigo-700"
                       : "bg-gray-100 text-gray-900 hover:bg-gray-200"
-                    }`}
+                  }`}
                 >
                   {plan.buttonText}
                 </motion.button>
@@ -607,10 +636,11 @@ export default function HomeEaseLanding() {
                     <button
                       key={index}
                       onClick={() => setActiveTestimonial(index)}
-                      className={`w-2 h-2 rounded-full transition-colors ${index === activeTestimonial
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        index === activeTestimonial
                           ? "bg-indigo-600"
                           : "bg-gray-300"
-                        }`}
+                      }`}
                     />
                   ))}
                 </div>
@@ -651,7 +681,6 @@ export default function HomeEaseLanding() {
           </motion.div>
         </div>
       </section>
-
     </div>
   );
 }
