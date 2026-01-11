@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Search,
   Filter,
@@ -6,7 +6,6 @@ import {
   Star,
   Clock,
   Shield,
-  Users,
   Sparkles,
   Zap,
   Droplets,
@@ -21,17 +20,14 @@ import {
   Settings,
   Plug,
   Bath,
-  Fan,
   Trash2,
   Coffee,
   Tv,
   Microwave,
   Refrigerator,
-  Sprout,
   Lock,
   Phone,
   MessageSquare,
-  MapPin,
   Award,
   CheckCircle,
   ArrowRight,
@@ -567,13 +563,15 @@ const serviceSections: ServiceSection[] = [
 // ================ COMPONENTS ================
 
 // Header Component
-const ServiceHeader: React.FC = () => {
+export const ServiceHeader = () => {
   const stats = [
     { value: "500+", label: "Services Available" },
     { value: "4.9", label: "Average Rating" },
     { value: "24/7", label: "Emergency Service" },
     { value: "50+", label: "Expert Technicians" },
   ];
+
+
 
 //   return (
 //     <div className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white pt-16 pb-24">

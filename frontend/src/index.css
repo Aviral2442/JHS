@@ -26,6 +26,9 @@ layer(base);
   animation-delay: 0.3s;
 }
 
+
+
+
 @theme {
   --font-*: initial;
   --font-outfit: Outfit, sans-serif;

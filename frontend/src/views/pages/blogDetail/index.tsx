@@ -1,23 +1,16 @@
 // pages/BlogDetailPage.tsx
 import React, { useRef, useState } from 'react';
 import { BlogPost, Comment, RelatedPost } from '../blogDetail/blog';
-import { TableOfContents } from '../blogDetail/TableOfContents';
-import { AuthorCard } from '../blogDetail/AuthorCard';
 import { CommentSection } from '../blogDetail/CommentSection';
 import { RelatedPosts } from '../blogDetail/RelatedPosts';
-import { BlogActions } from '../blogDetail/BlogActions';
 import {
     FaCalendar,
     FaClock,
-    FaEye,
     FaTag,
-    FaBookmark,
-    FaShareAlt,
     FaLinkedin,
     FaTwitter,
     FaFacebook,
     FaLink,
-    FaChevronLeft,
     FaHeart,
 } from 'react-icons/fa';
 import { HiChevronDoubleUp } from 'react-icons/hi';
@@ -199,13 +192,13 @@ export const BlogDetailPage: React.FC = () => {
         );
     };
 
-    const handleThemeToggle = () => {
-        document.documentElement.classList.toggle('dark');
-    };
+    // const handleThemeToggle = () => {
+    //     document.documentElement.classList.toggle('dark');
+    // };
 
-    const handleBookmarkToggle = () => {
-        setIsBookmarked(!isBookmarked);
-    };
+    // const handleBookmarkToggle = () => {
+    //     setIsBookmarked(!isBookmarked);
+    // };
 
     const handleLikeToggle = () => {
         // Handle like functionality

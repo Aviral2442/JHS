@@ -1,8 +1,7 @@
 // components/blog/CommentSection.tsx
 import React, { useState } from 'react';
 import { Comment } from '../../types/blog';
-import { FaHeart, FaReply, FaShare, FaCrown } from 'react-icons/fa';
-import { BsThreeDots } from 'react-icons/bs';
+import { FaHeart, FaCrown } from 'react-icons/fa';
 
 interface CommentSectionProps {
   comments: Comment[];
@@ -15,7 +14,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
   const CommentItem: React.FC<{ comment: Comment; depth?: number }> = ({ comment, depth = 0 }) => {
     const [isLiked, setIsLiked] = useState(comment.isLiked);
     const [likes, setLikes] = useState(comment.likes);
-    const [showReplies, setShowReplies] = useState(true);
 
     const handleLike = () => {
       setIsLiked(!isLiked);
