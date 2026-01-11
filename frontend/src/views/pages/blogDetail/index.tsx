@@ -1,23 +1,16 @@
 // pages/BlogDetailPage.tsx
 import React, { useRef, useState } from 'react';
 import { BlogPost, Comment, RelatedPost } from '../blogDetail/blog';
-import { TableOfContents } from '../blogDetail/TableOfContents';
-import { AuthorCard } from '../blogDetail/AuthorCard';
 import { CommentSection } from '../blogDetail/CommentSection';
 import { RelatedPosts } from '../blogDetail/RelatedPosts';
-import { BlogActions } from '../blogDetail/BlogActions';
 import {
     FaCalendar,
     FaClock,
-    FaEye,
     FaTag,
-    FaBookmark,
-    FaShareAlt,
     FaLinkedin,
     FaTwitter,
     FaFacebook,
     FaLink,
-    FaChevronLeft,
     FaHeart,
 } from 'react-icons/fa';
 import { HiChevronDoubleUp } from 'react-icons/hi';
@@ -73,7 +66,7 @@ function getUser(id: string): Promise&lt;User&gt; {
     <p>A comprehensive testing strategy is essential for maintaining code quality in large applications. Implement unit tests, integration tests, and end-to-end tests.</p>
   `,
     featuredImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-    categories: ['React', 'TypeScript', 'Architecture'],
+    // categories: ['React', 'TypeScript', 'Architecture'],
     tags: ['Frontend', 'Scalability', 'Microservices', 'Performance'],
     author: {
         id: '1',
@@ -199,13 +192,13 @@ export const BlogDetailPage: React.FC = () => {
         );
     };
 
-    const handleThemeToggle = () => {
-        document.documentElement.classList.toggle('dark');
-    };
+    // const handleThemeToggle = () => {
+    //     document.documentElement.classList.toggle('dark');
+    // };
 
-    const handleBookmarkToggle = () => {
-        setIsBookmarked(!isBookmarked);
-    };
+    // const handleBookmarkToggle = () => {
+    //     setIsBookmarked(!isBookmarked);
+    // };
 
     const handleLikeToggle = () => {
         // Handle like functionality
@@ -221,7 +214,7 @@ export const BlogDetailPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 max-w-[90%] mx-auto">
             {/* Back Navigation */}
             {/* <nav className="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
                 <div className="container mx-auto px-4 py-4">
@@ -266,7 +259,7 @@ export const BlogDetailPage: React.FC = () => {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                 <div className="absolute bottom-0 left-0 right-0 p-8">
-                                    <div className="flex flex-wrap gap-2 mb-4">
+                                    {/* <div className="flex flex-wrap gap-2 mb-4">
                                         {mockBlogPost.categories.map((category) => (
                                             <span
                                                 key={category}
@@ -275,7 +268,7 @@ export const BlogDetailPage: React.FC = () => {
                                                 {category}
                                             </span>
                                         ))}
-                                    </div>
+                                    </div> */}
                                     <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
                                         {mockBlogPost.title}
                                     </h1>
@@ -309,10 +302,6 @@ export const BlogDetailPage: React.FC = () => {
                                             <span>{mockBlogPost.readTime} min read</span>
                                         </div>
 
-                                        <div className="flex items-center gap-2">
-                                            <FaEye className="w-4 h-4" />
-                                            <span>{mockBlogPost.views.toLocaleString()} views</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -322,7 +311,7 @@ export const BlogDetailPage: React.FC = () => {
                                 {/* Stats Bar */}
                                 <div className="flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
                                     <div className="flex items-center gap-6">
-                                        <button
+                                        {/* <button
                                             onClick={handleBookmarkToggle}
                                             className={`flex items-center gap-2 ${isBookmarked
                                                     ? 'text-yellow-600 dark:text-yellow-400'
@@ -331,12 +320,12 @@ export const BlogDetailPage: React.FC = () => {
                                         >
                                             <FaBookmark className="w-5 h-5" />
                                             <span className="font-medium">{isBookmarked ? 'Saved' : 'Save'}</span>
-                                        </button>
+                                        </button> */}
 
-                                        <button className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                                        {/* <button className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                                             <FaEye className="w-5 h-5" />
                                             <span className="font-medium">{mockBlogPost.views.toLocaleString()}</span>
-                                        </button>
+                                        </button> */}
 
                                         <button
                                             onClick={handleLikeToggle}

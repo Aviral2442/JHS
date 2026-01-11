@@ -1,8 +1,7 @@
 // components/blog/CommentSection.tsx
 import React, { useState } from 'react';
 import { Comment } from '../../types/blog';
-import { FaHeart, FaReply, FaShare, FaCrown } from 'react-icons/fa';
-import { BsThreeDots } from 'react-icons/bs';
+import { FaHeart, FaCrown } from 'react-icons/fa';
 
 interface CommentSectionProps {
   comments: Comment[];
@@ -15,7 +14,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
   const CommentItem: React.FC<{ comment: Comment; depth?: number }> = ({ comment, depth = 0 }) => {
     const [isLiked, setIsLiked] = useState(comment.isLiked);
     const [likes, setLikes] = useState(comment.likes);
-    const [showReplies, setShowReplies] = useState(true);
 
     const handleLike = () => {
       setIsLiked(!isLiked);
@@ -60,9 +58,9 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
                 </p>
               </div>
               
-              <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+              {/* <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                 <BsThreeDots className="w-5 h-5 text-gray-500" />
-              </button>
+              </button> */}
             </div>
             
             <p className="mt-4 text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -81,39 +79,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
                 <FaHeart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
                 <span className="text-sm font-medium">{likes}</span>
               </button>
-              
-              <button
-                onClick={() => setReplyingTo(comment.id)}
-                className="flex items-center gap-2 px-3 py-1.5 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                <FaReply className="w-4 h-4" />
-                <span className="text-sm font-medium">Reply</span>
-              </button>
-              
-              <button className="flex items-center gap-2 px-3 py-1.5 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <FaShare className="w-4 h-4" />
-                <span className="text-sm font-medium">Share</span>
-              </button>
             </div>
-            
-            {comment.replies && comment.replies.length > 0 && (
-              <>
-                <button
-                  onClick={() => setShowReplies(!showReplies)}
-                  className="mt-4 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
-                >
-                  {showReplies ? 'Hide' : 'Show'} {comment.replies.length} replies
-                </button>
-                
-                {showReplies && (
-                  <div className="mt-4">
-                    {comment.replies.map((reply) => (
-                      <CommentItem key={reply.id} comment={reply} depth={depth + 1} />
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
             
             {replyingTo === comment.id && (
               <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
@@ -173,18 +139,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
         />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <input type="checkbox" id="notify" className="rounded" />
-              <label htmlFor="notify" className="text-sm text-gray-600 dark:text-gray-400">
-                Notify me of replies
-              </label>
-            </div>
-            <div className="flex items-center gap-2">
-              <input type="checkbox" id="subscribe" className="rounded" defaultChecked />
-              <label htmlFor="subscribe" className="text-sm text-gray-600 dark:text-gray-400">
-                Subscribe to comments
-              </label>
-            </div>
           </div>
           <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg">
             Post Comment

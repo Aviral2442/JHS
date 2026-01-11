@@ -20,7 +20,7 @@ export interface BlogPost {
   excerpt: string;
   content: string;
   featuredImage: string;
-  categories: string[];
+  categories?: string[];
   tags: string[];
   author: Author;
   publishedAt: Date;

@@ -12,8 +12,8 @@ export enum UserRole {
 
 // Auth token key
 const AUTH_TOKEN_KEY = 'auth_token';
-const USER_ROLE_KEY = 'user_role';
-const USER_DATA_KEY = 'user_data';
+// const USER_ROLE_KEY = 'user_role';
+// const USER_DATA_KEY = 'user_data';
 
 /**
  * Check if user is authenticated
