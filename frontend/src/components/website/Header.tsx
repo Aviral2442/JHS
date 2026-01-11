@@ -273,9 +273,7 @@ const services: Service[] = [
 
 const mainMenuItems = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "/services", hasMegaMenu: true },
-  { name: "Book Now", href: "/book" },
-  { name: "Pricing", href: "/pricing" },
+  { name: "Services", href: "/services"},
   { name: "About Us", href: "/about" },
   { name: "Contact", href: "/contact" }
 ];
@@ -819,12 +817,12 @@ const MegaMenuHeader: React.FC = () => {
         />
 
         {/* Service Slider */}
-        <ServiceSlider
+        {/* <ServiceSlider
           services={services}
           activeService={activeService}
           onServiceHover={handleServiceHover}
           onServiceLeave={handleServiceLeave}
-        />
+        /> */}
 
         {/* Mega Menu */}
         <MegaMenu
