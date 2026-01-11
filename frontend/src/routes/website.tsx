@@ -20,6 +20,8 @@ const PrivacyPolicyPage = lazy(() => import("../views/pages/PolicyPages/PrivacyP
 const ReturnPolicyPage = lazy(() => import("../views/pages/PolicyPages/ReturnPolicyPage"));
 const ShippingPolicyPage = lazy(() => import("../views/pages/PolicyPages/ShippingPolicyPage"));
 const TermsOfServicePage = lazy(() => import("../views/pages/PolicyPages/TermsOfServicePage"));
+const OrderPage = lazy(() => import("../views/pages/order"));
+const OrderDetailPage = lazy(() => import("../views/pages/orderDetail"));
 
 const websiteRoutes: RouteObject[] = [
   {
@@ -44,6 +46,8 @@ const websiteRoutes: RouteObject[] = [
   { path: "/returns", element: <ReturnPolicyPage /> },
   { path: "/shipping", element: <ShippingPolicyPage /> },
   { path: "/terms", element: <TermsOfServicePage /> },
+  { path: "/order", element: <OrderPage /> },
+  { path: "/order-detail", element: <OrderDetailPage /> },
 ];
 
 
