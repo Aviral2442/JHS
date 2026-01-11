@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useAnimation,
@@ -214,8 +214,6 @@ const testimonials = [
 ];
 
 export default function HomeEaseLanding() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   const controls = useAnimation();
@@ -270,13 +268,13 @@ export default function HomeEaseLanding() {
   return (
     <div className="min-h-screen bg-white">
       {/* Sticky Navbar */}
-      <CommonHero
+      {/* <CommonHero
         title="Let’s Talk"
         highlightedText="About Your Project"
         subtitle="We’re here to help you turn your ideas into reality."
         primaryBtnText="Send Message"
         align="left"
-      />
+      /> */}
       {/* Hero Section */}
       <section className="py-12 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

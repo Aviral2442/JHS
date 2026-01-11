@@ -22,8 +22,6 @@ import {
   PaintBucket,
   Droplets,
   Hammer,
-  Palette,
-  Plug,
   Construction,
   Bug,
   Wind,

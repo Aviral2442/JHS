@@ -3,14 +3,15 @@ import {
   Search, User, ShoppingCart, Menu, X, ChevronDown,
   ChevronRight, Phone, Mail, Clock,
   Home, Wrench, Droplets, Zap, Thermometer,
-  Sparkles, Shield, Leaf, Settings, Truck,
+  Sparkles, Shield, Leaf, Settings,
   PaintBucket, Hammer, Fan, Lock, Tv,
   Refrigerator, Microwave, Bath,
-  ArrowRight, Star, Check, AlertCircle,
+  ArrowRight, Star, AlertCircle,
   Wind,
   Sun
 } from 'lucide-react';
 import { FaCouch } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
 
 // ================ TYPES ================
 interface ServiceCategory {
@@ -273,7 +274,7 @@ const services: Service[] = [
 
 const mainMenuItems = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "/services"},
+  { name: "Services", href: "/category"},
   { name: "About Us", href: "/about" },
   { name: "Contact", href: "/contact" }
 ];
@@ -282,6 +283,10 @@ const mainMenuItems = [
 
 // Top Bar Component
 const TopBar: React.FC = () => {
+  const navigate = useNavigate();
+  const [hasMegaMenu, sethasMegaMenu] = useState(false);
+
+
   return (
     <div className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white text-sm py-2 hidden md:block">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -319,6 +324,8 @@ const MainHeader: React.FC<{
 }> = ({ isMobileMenuOpen, onMobileMenuToggle, onServiceHover }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const navigate = useNavigate();
+
 
   return (
     <div className="bg-white shadow-md">
@@ -386,7 +393,7 @@ const MainHeader: React.FC<{
             </div>
 
             {/* Cart */}
-            <button className="relative p-2 rounded-lg hover:bg-gray-100 hidden md:block">
+            <button onClick={() => navigate('/cart')} className="relative p-2 rounded-lg hover:bg-gray-100 hidden md:block">
               <ShoppingCart size={22} className="text-gray-700" />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                 3
@@ -395,11 +402,11 @@ const MainHeader: React.FC<{
 
             {/* Auth Buttons */}
             <div className="hidden md:flex items-center space-x-2">
-              <button className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-sm flex items-center">
+              <button onClick={() => navigate('/sign-in')} className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-sm flex items-center">
                 <User size={18} className="mr-2" />
                 Login
               </button>
-              <button className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-sm">
+              <button onClick={() => navigate('/sign-up')} className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-sm">
                 Register
               </button>
             </div>
