@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
   Phone, Mail, MapPin, Clock, MessageSquare,
-  ChevronRight, Star, Check, Users, Shield,
-  Award, Truck, Home, Wrench, Droplets, Sparkles,
-  Leaf, Thermometer, Zap, Wind, Sun,
-  Facebook, Twitter, Instagram, Youtube, Linkedin,
+  ChevronRight, Star, Check, Shield,
+  Truck, Home, Wrench, Droplets, Sparkles,
+  Thermometer, Zap, Wind, Sun,
   Send, AlertCircle, User, Calendar, FileText
 } from 'lucide-react';
 
@@ -84,7 +83,7 @@ const ContactHeader: React.FC = () => {
           </h1>
 
           <p className="text-xl text-blue-200 max-w-3xl mx-auto mb-10">
-            Professional home services at your doorstep. From plumbing to electrical, 
+            Professional home services at your doorstep. From plumbing to electrical,
             we handle it all with expertise and care.
           </p>
 
@@ -203,10 +202,10 @@ const ServiceCategories: React.FC = () => {
                   {category.icon}
                 </div>
               </div>
-              
+
               <h3 className="text-xl font-bold text-gray-900 mb-3">{category.name}</h3>
               <p className="text-gray-600 mb-6">{category.description}</p>
-              
+
               <div className="flex items-center text-blue-600 font-semibold">
                 <span>Learn More</span>
                 <ChevronRight size={20} className="ml-2 group-hover:translate-x-2 transition-transform" />
@@ -247,7 +246,7 @@ const ContactFormSection: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
@@ -260,7 +259,7 @@ const ContactFormSection: React.FC = () => {
         date: '',
         message: ''
       });
-      
+
       // Reset success message after 5 seconds
       setTimeout(() => setIsSubmitted(false), 5000);
     }, 2000);
@@ -288,7 +287,7 @@ const ContactFormSection: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">Request Submitted!</h3>
                 <p className="text-gray-600 mb-6">
-                  Thank you for your request. Our team will contact you within 30 minutes 
+                  Thank you for your request. Our team will contact you within 30 minutes
                   to confirm your service appointment.
                 </p>
                 <button
@@ -310,7 +309,7 @@ const ContactFormSection: React.FC = () => {
                       type="text"
                       required
                       value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="John Smith"
                     />
@@ -325,7 +324,7 @@ const ContactFormSection: React.FC = () => {
                       type="email"
                       required
                       value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="john@example.com"
                     />
@@ -342,7 +341,7 @@ const ContactFormSection: React.FC = () => {
                       type="tel"
                       required
                       value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="(555) 123-4567"
                     />
@@ -356,7 +355,7 @@ const ContactFormSection: React.FC = () => {
                     <input
                       type="date"
                       value={formData.date}
-                      onChange={(e) => setFormData({...formData, date: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
@@ -370,7 +369,7 @@ const ContactFormSection: React.FC = () => {
                   <select
                     required
                     value={formData.service}
-                    onChange={(e) => setFormData({...formData, service: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">Select a service</option>
@@ -388,7 +387,7 @@ const ContactFormSection: React.FC = () => {
                   <textarea
                     rows={4}
                     value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Please describe your service needs..."
                   />
@@ -424,7 +423,7 @@ const ContactFormSection: React.FC = () => {
             <div className="sticky top-24">
               <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h3>
-                
+
                 <div className="space-y-6">
                   <div className="flex items-start">
                     <div className="bg-blue-100 p-3 rounded-xl mr-4">
@@ -475,7 +474,7 @@ const ContactFormSection: React.FC = () => {
                   <Shield className="text-green-600 mr-3" size={32} />
                   <h3 className="text-2xl font-bold text-gray-900">Our Guarantee</h3>
                 </div>
-                
+
                 <ul className="space-y-4">
                   {[
                     '100% Satisfaction Guaranteed',
@@ -586,11 +585,10 @@ const LocationMap: React.FC = () => {
                   return (
                     <div
                       key={area.id}
-                      className={`absolute w-8 h-8 rounded-full cursor-pointer transform transition-all duration-300 ${
-                        selectedArea.id === area.id
+                      className={`absolute w-8 h-8 rounded-full cursor-pointer transform transition-all duration-300 ${selectedArea.id === area.id
                           ? 'bg-gradient-to-r from-blue-500 to-cyan-500 scale-125 ring-4 ring-blue-500/50'
                           : 'bg-gradient-to-r from-gray-600 to-gray-700 hover:scale-110'
-                      }`}
+                        }`}
                       style={positions[index]}
                       onClick={() => setSelectedArea(area)}
                     >
@@ -631,16 +629,15 @@ const LocationMap: React.FC = () => {
           <div>
             <div className="bg-gray-800/50 rounded-2xl p-8">
               <h3 className="text-2xl font-bold mb-8">Service Areas We Cover</h3>
-              
+
               <div className="space-y-6">
                 {serviceAreas.map((area) => (
                   <div
                     key={area.id}
-                    className={`p-6 rounded-xl cursor-pointer transition-all ${
-                      selectedArea.id === area.id
+                    className={`p-6 rounded-xl cursor-pointer transition-all ${selectedArea.id === area.id
                         ? 'bg-gradient-to-r from-blue-800 to-blue-900 border border-blue-700'
                         : 'bg-gray-800 hover:bg-gray-700/50'
-                    }`}
+                      }`}
                     onClick={() => setSelectedArea(area)}
                   >
                     <div className="flex justify-between items-center mb-3">
@@ -651,7 +648,7 @@ const LocationMap: React.FC = () => {
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="flex flex-wrap gap-2 mb-4">
                       {area.zipCodes.map((zip) => (
                         <span key={zip} className="px-3 py-1 bg-gray-700 rounded-lg text-sm">
@@ -659,7 +656,7 @@ const LocationMap: React.FC = () => {
                         </span>
                       ))}
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center text-gray-300">
                         <Truck size={20} className="mr-2" />
@@ -860,9 +857,8 @@ const FAQSection: React.FC = () => {
                 <h3 className="text-lg font-bold text-gray-900 text-left">
                   {item.question}
                 </h3>
-                <div className={`transform transition-transform ${
-                  expandedIndex === index ? 'rotate-180' : ''
-                }`}>
+                <div className={`transform transition-transform ${expandedIndex === index ? 'rotate-180' : ''
+                  }`}>
                   <ChevronRight size={24} className="text-gray-400" />
                 </div>
               </button>
@@ -1083,9 +1079,9 @@ const ContactFooter: React.FC = () => {
         </div>
 
         <div className="mt-16 pt-8 border-t border-gray-800 text-center text-gray-500">
-          <p>© 2023 HomeService Pro. All rights reserved. | 
-            <a href="#" className="hover:text-white mx-2">Privacy Policy</a> | 
-            <a href="#" className="hover:text-white mx-2">Terms of Service</a> | 
+          <p>© 2023 HomeService Pro. All rights reserved. |
+            <a href="#" className="hover:text-white mx-2">Privacy Policy</a> |
+            <a href="#" className="hover:text-white mx-2">Terms of Service</a> |
             <a href="#" className="hover:text-white mx-2">Licenses</a>
           </p>
           <p className="mt-2">License #: HS123456 | Insured & Bonded</p>

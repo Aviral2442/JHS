@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {
   Shield, Lock, FileText, Globe, Cookie,
-  Truck, RefreshCw, X, Search, ChevronDown,
+  Truck, RefreshCw, Search, ChevronDown,
   ChevronUp, Check, AlertCircle, Mail,
-  Phone, Home, Clock, User, BookOpen,
-  ExternalLink, HelpCircle, Eye, Users,
-  CreditCard, Package, Heart, Star,
+  Phone, Home, BookOpen,
+  ExternalLink, HelpCircle,
   Download
 } from 'lucide-react';
 

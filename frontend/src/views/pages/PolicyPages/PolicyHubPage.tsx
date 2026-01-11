@@ -1,5 +1,4 @@
 import React from 'react';
-import { PolicyHeader } from './PolicyComponents';
 import { Shield, FileText, Truck, RefreshCw, Lock } from 'react-feather';
 import { Cookie } from 'lucide-react';
 

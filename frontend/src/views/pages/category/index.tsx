@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Search,
   Filter,
@@ -6,7 +6,6 @@ import {
   Star,
   Clock,
   Shield,
-  Users,
   Sparkles,
   Zap,
   Droplets,
@@ -21,17 +20,14 @@ import {
   Settings,
   Plug,
   Bath,
-  Fan,
   Trash2,
   Coffee,
   Tv,
   Microwave,
   Refrigerator,
-  Sprout,
   Lock,
   Phone,
   MessageSquare,
-  MapPin,
   Award,
   CheckCircle,
   ArrowRight,

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  Lock, CreditCard, Shield, Truck, MapPin, User, 
-  Mail, Phone, ChevronRight, Check, AlertCircle, 
-  Home, Briefcase, Plus, Minus, X, ArrowLeft,
-  Package, Clock, Heart, Globe, Download, ShoppingBag
+  Lock, CreditCard, Shield, Truck,
+  Mail, Phone, ChevronRight, Check,
+  Home, Briefcase, Plus, X, ArrowLeft,
+  Package, Clock, Globe, Download
 } from 'lucide-react';
 
 // ================ TYPES ================
