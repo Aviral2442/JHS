@@ -63,42 +63,127 @@ interface FAQItem {
 // Animated Header Component
 const ContactHeader: React.FC = () => {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white pt-20 pb-32">
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6">
-            <Sparkles size={16} className="mr-2" />
-            <span className="text-sm font-medium">
-              24/7 Emergency Service Available
-            </span>
-          </div>
+    <section className="relative bg-[#0B1220] overflow-hidden">
+      
+      {/* Gradient Orbs */}
+      <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
+      <div className="absolute top-40 -right-32 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" />
 
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Your Trusted
-            <span className="block text-blue-300 mt-2">
-              Home Service Experts
-            </span>
+      <div className="relative max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-center">
+
+        {/* LEFT CONTENT */}
+        <div>
+          {/* <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-sm text-white mb-6">
+            <Shield className="w-4 h-4 text-green-400" />
+            Trusted Home Service Professionals
+          </div> */}
+
+          <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+            Fast & Reliable  
+            <span className="block text-blue-400">Home Services</span>
+            When You Need Them
           </h1>
 
-          <p className="text-xl text-blue-200 max-w-3xl mx-auto mb-10">
-            Professional home services at your doorstep. From plumbing to
-            electrical, we handle it all with expertise and care.
+          <p className="text-lg text-gray-300 mt-6 max-w-xl">
+            Book expert plumbers, electricians, cleaners & technicians in minutes. 
+            We serve Lucknow with 24/7 emergency support and verified professionals.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="group px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all transform hover:-translate-y-1 shadow-2xl hover:shadow-3xl flex items-center justify-center">
-              <Phone size={20} className="mr-2" />
-              <span className="text-lg font-semibold">
-                Call Now: (888) 555-1234
-              </span>
-            </button>
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap gap-4 mt-10">
+            <a
+              href="tel:8960628965"
+              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl text-white text-lg font-semibold shadow-xl hover:scale-105 transition flex items-center gap-2"
+            >
+              <Phone /> Call Now
+            </a>
+
+            <a
+              href="#contact"
+              className="px-8 py-4 border border-white/20 text-white rounded-xl hover:bg-white/10 transition"
+            >
+              Book Service Online
+            </a>
+          </div>
+
+          {/* TRUST BADGES */}
+          <div className="grid grid-cols-3 gap-6 mt-14">
+            {[
+              { icon: <Star className="text-yellow-400" />, label: "4.9 Rated" },
+              { icon: <Truck className="text-blue-400" />, label: "Same Day Service" },
+              { icon: <Shield className="text-green-400" />, label: "Verified Staff" },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center text-white"
+              >
+                <div className="flex justify-center mb-2">{item.icon}</div>
+                <p className="text-sm">{item.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* RIGHT SIDE – GLASS CONTACT CARD */}
+        <div className="relative">
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl">
+
+            <h3 className="text-white text-2xl font-bold mb-6">
+              Need Immediate Help?
+            </h3>
+
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-blue-500/20 p-3 rounded-xl">
+                  <Phone className="text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-gray-300 text-sm">Call Us</p>
+                  <p className="text-white text-lg font-semibold">
+                    +91 8960628965
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="bg-green-500/20 p-3 rounded-xl">
+                  <Mail className="text-green-400" />
+                </div>
+                <div>
+                  <p className="text-gray-300 text-sm">Email</p>
+                  <p className="text-white text-lg font-semibold">
+                    jeevancleaningservices@gmail.com
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="bg-purple-500/20 p-3 rounded-xl">
+                  <MapPin className="text-purple-400" />
+                </div>
+                <div>
+                  <p className="text-gray-300 text-sm">Location</p>
+                  <p className="text-white text-sm">
+                    Indira Nagar, Lucknow
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="#contact"
+              className="block mt-10 text-center py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold hover:scale-105 transition"
+            >
+              Request a Service
+            </a>
+
           </div>
         </div>
       </div>
-
-    </div>
+    </section>
   );
 };
+
 
 // Interactive Contact Form
 const ContactFormSection: React.FC = () => {
@@ -404,65 +489,62 @@ const ContactFormSection: React.FC = () => {
 
 // Interactive Map Component
 const LocationMap: React.FC = () => {
-  const serviceAreas: ServiceArea[] = [
-    {
-      id: 1,
-      area: "Downtown",
-      zipCodes: ["10001", "10002", "10003"],
-      travelTime: "15-30 mins",
-    },
-    {
-      id: 2,
-      area: "Uptown",
-      zipCodes: ["10021", "10022", "10023"],
-      travelTime: "30-45 mins",
-    },
-    {
-      id: 3,
-      area: "Brooklyn",
-      zipCodes: ["11201", "11205", "11215"],
-      travelTime: "45-60 mins",
-    },
-    {
-      id: 4,
-      area: "Queens",
-      zipCodes: ["11101", "11354", "11423"],
-      travelTime: "60-75 mins",
-    },
-  ];
-
-  const [selectedArea, setSelectedArea] = useState<ServiceArea>(
-    serviceAreas[0]
-  );
-
   return (
-    <div className="py-20 bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative bg-[#0B1220] overflow-hidden py-24">
+
+      {/* Gradient Orbs */}
+      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
+      <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" />
+
+      <div className="relative max-w-7xl mx-auto px-6">
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Service Areas & Location
+          <h2 className="text-4xl font-bold text-white">
+            Our Service Coverage
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            We proudly serve the greater metropolitan area with quick response
-            times
+          <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+            We provide fast, reliable home services across Lucknow and nearby areas
           </p>
         </div>
 
-        <div>
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6764.947135035159!2d80.995199!3d26.886113!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39995938108ae189%3A0x5e9d35bc7ae00695!2sJeevan%20Cleaning%20Services%20-%20Quality%20Cleaning%20Service%2C%20House%20Cleaning%20Services%20%26%20Cleaning%20Services%20in%20Lucknow!5e1!3m2!1sen!2sin!4v1768152993441!5m2!1sen!2sin"
-            width="600"
-            height="450"
-            loading="lazy"
-            className="w-full h-100 rounded-2xl border-0"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
+        {/* Glass Card */}
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 md:p-6 shadow-2xl">
+          <div className="rounded-2xl overflow-hidden">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6764.947135035159!2d80.995199!3d26.886113!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39995938108ae189%3A0x5e9d35bc7ae00695!2sJeevan%20Cleaning%20Services%20-%20Quality%20Cleaning%20Service%2C%20House%20Cleaning%20Services%20%26%20Cleaning%20Services%20in%20Lucknow!5e1!3m2!1sen!2sin!4v1768152993441!5m2!1sen!2sin"
+              className="w-full h-[400px] rounded-2xl"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+
+          {/* Floating Location Card */}
+          <div className="mt-6 grid md:grid-cols-3 gap-6 text-white">
+            <div className="bg-white/10 rounded-xl p-6 backdrop-blur-md">
+              <MapPin className="text-blue-400 mb-3" />
+              <p className="font-semibold">Service Area</p>
+              <p className="text-gray-300 text-sm">Lucknow & Nearby Locations</p>
+            </div>
+
+            <div className="bg-white/10 rounded-xl p-6 backdrop-blur-md">
+              <Truck className="text-cyan-400 mb-3" />
+              <p className="font-semibold">Response Time</p>
+              <p className="text-gray-300 text-sm">30–60 Minutes</p>
+            </div>
+
+            <div className="bg-white/10 rounded-xl p-6 backdrop-blur-md">
+              <Shield className="text-green-400 mb-3" />
+              <p className="font-semibold">Verified Staff</p>
+              <p className="text-gray-300 text-sm">Trained & Background Checked</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
+
 
 // ================ MAIN CONTACT PAGE ================
 const ContactPage: React.FC = () => {

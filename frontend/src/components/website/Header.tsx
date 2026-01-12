@@ -294,15 +294,11 @@ const TopBar: React.FC = () => {
           <div className="flex items-center space-x-6">
             <div className="flex items-center">
               <Phone size={14} className="mr-2" />
-              <span>24/7 Support: (888) 555-1234</span>
+              <span>24/7 Support: +91 8960628965</span>
             </div>
             <div className="flex items-center">
               <Mail size={14} className="mr-2" />
-              <span>support@homeservice.com</span>
-            </div>
-            <div className="flex items-center">
-              <Clock size={14} className="mr-2" />
-              <span>Mon-Sun: 7:00 AM - 10:00 PM</span>
+              <span>jeevancleaningservices@gmail.com</span>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -841,7 +837,7 @@ const MegaMenuHeader: React.FC = () => {
       </div>
 
       {/* Spacer for fixed header */}
-      <div className="h-32"></div>
+      <div className="h-24"></div>
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
