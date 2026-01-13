@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Trash2, Plus, Minus, Heart, ShoppingBag, 
-  Truck, Shield, RotateCcw, CreditCard, 
-  ArrowLeft, X, Check, AlertCircle 
+import {
+  Trash2, Plus, Minus, Heart, ShoppingBag,
+  Truck, Shield, RotateCcw, CreditCard,
+  ArrowLeft, X, Check, AlertCircle
 } from 'lucide-react';
 
 // ================ TYPES ================
@@ -113,32 +113,32 @@ const CartItemCard: React.FC<{
   onToggleWishlist: (id: number) => void;
 }> = ({ item, onUpdateQuantity, onRemove, onToggleWishlist }) => {
   const [isRemoving, setIsRemoving] = useState(false);
-  
+
   const handleRemove = () => {
     setIsRemoving(true);
     setTimeout(() => onRemove(item.id), 300);
   };
-  
+
   const increment = () => {
     if (item.quantity < item.maxQuantity) {
       onUpdateQuantity(item.id, item.quantity + 1);
     }
   };
-  
+
   const decrement = () => {
     if (item.quantity > 1) {
       onUpdateQuantity(item.id, item.quantity - 1);
     }
   };
-  
+
   return (
     <div className={`bg-white rounded-xl shadow-md p-4 mb-4 border border-gray-100 transition-all duration-300 ${isRemoving ? 'opacity-0 scale-95' : 'opacity-100'}`}>
       <div className="flex flex-col sm:flex-row gap-4">
         {/* Product Image */}
         <div className="flex-shrink-0">
           <div className="relative w-full sm:w-32 h-32 rounded-lg overflow-hidden">
-            <img 
-              src={item.image} 
+            <img
+              src={item.image}
               alt={item.name}
               className="w-full h-full object-cover"
             />
@@ -154,7 +154,7 @@ const CartItemCard: React.FC<{
             )}
           </div>
         </div>
-        
+
         {/* Product Details */}
         <div className="flex-grow">
           <div className="flex justify-between">
@@ -176,7 +176,7 @@ const CartItemCard: React.FC<{
                 )}
               </div>
             </div>
-            
+
             {/* Desktop Price */}
             <div className="hidden md:block text-right">
               <div className="text-2xl font-bold text-gray-900">
@@ -192,7 +192,7 @@ const CartItemCard: React.FC<{
               </div>
             </div>
           </div>
-          
+
           {/* Mobile Price */}
           <div className="md:hidden mt-4">
             <div className="flex justify-between items-center">
@@ -211,13 +211,13 @@ const CartItemCard: React.FC<{
               </div>
             </div>
           </div>
-          
+
           {/* Quantity Controls & Actions */}
           <div className="flex justify-between items-center mt-6">
             <div className="flex items-center space-x-4">
               {/* Quantity Selector */}
               <div className="flex items-center border border-gray-300 rounded-lg">
-                <button 
+                <button
                   onClick={decrement}
                   className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-50"
                   disabled={item.quantity <= 1}
@@ -225,7 +225,7 @@ const CartItemCard: React.FC<{
                   <Minus size={16} />
                 </button>
                 <span className="w-12 text-center font-semibold">{item.quantity}</span>
-                <button 
+                <button
                   onClick={increment}
                   className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-50"
                   disabled={item.quantity >= item.maxQuantity}
@@ -233,54 +233,24 @@ const CartItemCard: React.FC<{
                   <Plus size={16} />
                 </button>
               </div>
-              
+
               {/* Wishlist Button */}
-              <button 
+              <button
                 onClick={() => onToggleWishlist(item.id)}
                 className={`p-2 rounded-full ${item.isWishlisted ? 'text-red-500 bg-red-50' : 'text-gray-400 hover:text-red-500 hover:bg-red-50'} transition-all`}
               >
                 <Heart size={20} fill={item.isWishlisted ? "currentColor" : "none"} />
               </button>
             </div>
-            
+
             {/* Remove Button */}
-            <button 
+            <button
               onClick={handleRemove}
               className="flex items-center text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-2 rounded-lg transition-colors"
             >
               <Trash2 size={18} className="mr-2" />
               <span className="hidden sm:inline">Remove</span>
             </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Shipping Method Component
-const ShippingMethodCard: React.FC<{
-  method: ShippingMethod;
-  selected: boolean;
-  onSelect: (id: number) => void;
-}> = ({ method, selected, onSelect }) => {
-  return (
-    <div 
-      className={`border rounded-xl p-4 cursor-pointer transition-all duration-200 ${selected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}`}
-      onClick={() => onSelect(method.id)}
-    >
-      <div className="flex justify-between items-center">
-        <div>
-          <h4 className="font-medium text-gray-800">{method.name}</h4>
-          <p className="text-sm text-gray-600 mt-1">{method.description}</p>
-          <p className="text-sm text-gray-600 mt-1">Estimated: {method.estimatedDays}</p>
-        </div>
-        <div className="text-right">
-          <div className="text-xl font-bold text-gray-900">
-            {method.price === 0 ? 'FREE' : `$${method.price.toFixed(2)}`}
-          </div>
-          <div className={`w-6 h-6 rounded-full border flex items-center justify-center ml-4 ${selected ? 'bg-blue-500 border-blue-500' : 'border-gray-300'}`}>
-            {selected && <Check size={14} className="text-white" />}
           </div>
         </div>
       </div>
@@ -296,13 +266,13 @@ const PromoCodeInput: React.FC<{
 }> = ({ onApplyPromo, appliedCode, onRemovePromo }) => {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
-  
+
   const handleApply = () => {
     if (!code.trim()) {
       setError('Please enter a promo code');
       return;
     }
-    
+
     const foundCode = promoCodes.find(p => p.code === code.toUpperCase());
     if (foundCode) {
       onApplyPromo(code.toUpperCase());
@@ -312,11 +282,11 @@ const PromoCodeInput: React.FC<{
       setError('Invalid promo code');
     }
   };
-  
+
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">Promo Code</h3>
-      
+
       {appliedCode ? (
         <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-4">
           <div>
@@ -325,12 +295,12 @@ const PromoCodeInput: React.FC<{
               <span className="font-medium">Code applied: {appliedCode.code}</span>
             </div>
             <p className="text-sm text-green-600 mt-1">
-              {appliedCode.type === 'percentage' 
-                ? `${appliedCode.discount}% discount applied` 
+              {appliedCode.type === 'percentage'
+                ? `${appliedCode.discount}% discount applied`
                 : `$${appliedCode.discount} discount applied`}
             </p>
           </div>
-          <button 
+          <button
             onClick={onRemovePromo}
             className="text-red-500 hover:text-red-700"
           >
@@ -347,7 +317,7 @@ const PromoCodeInput: React.FC<{
               placeholder="Enter promo code"
               className="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-            <button 
+            <button
               onClick={handleApply}
               className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
             >
@@ -355,12 +325,12 @@ const PromoCodeInput: React.FC<{
             </button>
           </div>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-          
+
           <div className="mt-4">
             <p className="text-sm text-gray-600 mb-2">Available promo codes:</p>
             <div className="flex flex-wrap gap-2">
               {promoCodes.map(promo => (
-                <span 
+                <span
                   key={promo.code}
                   className="text-xs bg-gray-100 text-gray-800 px-3 py-1 rounded-full border border-gray-200"
                 >
@@ -388,32 +358,32 @@ const CartSummary: React.FC<{
   return (
     <div className="bg-white rounded-xl shadow-md p-6 sticky top-6">
       <h3 className="text-xl font-bold text-gray-800 mb-6 pb-4 border-b">Order Summary</h3>
-      
+
       <div className="space-y-4">
         <div className="flex justify-between">
           <span className="text-gray-600">Items ({itemCount})</span>
           <span className="font-medium">${subtotal.toFixed(2)}</span>
         </div>
-        
+
         <div className="flex justify-between">
           <span className="text-gray-600">Shipping</span>
           <span className="font-medium">
             {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
           </span>
         </div>
-        
+
         {discount > 0 && (
           <div className="flex justify-between text-green-600">
             <span>Discount</span>
             <span className="font-medium">-${discount.toFixed(2)}</span>
           </div>
         )}
-        
+
         <div className="flex justify-between">
           <span className="text-gray-600">Tax</span>
           <span className="font-medium">${tax.toFixed(2)}</span>
         </div>
-        
+
         <div className="pt-4 mt-4 border-t border-gray-200">
           <div className="flex justify-between text-lg font-bold">
             <span>Total</span>
@@ -422,15 +392,15 @@ const CartSummary: React.FC<{
           <p className="text-sm text-gray-500 mt-1">Including ${tax.toFixed(2)} in taxes</p>
         </div>
       </div>
-      
-      <button 
+
+      <button
         onClick={onCheckout}
         className="w-full mt-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-xl flex items-center justify-center"
       >
         <CreditCard size={20} className="mr-2" />
         Proceed to Checkout
       </button>
-      
+
       <div className="mt-8 space-y-4">
         <div className="flex items-center text-gray-600">
           <Truck size={18} className="mr-3" />
@@ -456,42 +426,42 @@ const index: React.FC = () => {
   const [selectedShipping, setSelectedShipping] = useState<number>(1);
   const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Calculations
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shippingMethod = shippingMethods.find(m => m.id === selectedShipping) || shippingMethods[0];
   const shipping = subtotal >= 100 && shippingMethod.id === 4 ? 0 : shippingMethod.price;
-  
-  const discount = appliedPromo 
-    ? appliedPromo.type === 'percentage' 
+
+  const discount = appliedPromo
+    ? appliedPromo.type === 'percentage'
       ? (subtotal * appliedPromo.discount) / 100
       : appliedPromo.discount
     : 0;
-  
+
   const tax = (subtotal - discount) * 0.08; // 8% tax
   const total = Math.max(0, subtotal + shipping - discount + tax);
-  
+
   // Handlers
   const updateQuantity = (id: number, quantity: number) => {
-    setCartItems(prev => prev.map(item => 
+    setCartItems(prev => prev.map(item =>
       item.id === id ? { ...item, quantity } : item
     ));
   };
-  
+
   const removeItem = (id: number) => {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
-  
+
   const toggleWishlist = (id: number) => {
-    setCartItems(prev => prev.map(item => 
+    setCartItems(prev => prev.map(item =>
       item.id === id ? { ...item, isWishlisted: !item.isWishlisted } : item
     ));
   };
-  
+
   const clearCart = () => {
     setCartItems([]);
   };
-  
+
   const handleCheckout = () => {
     setIsLoading(true);
     // Simulate API call
@@ -501,18 +471,18 @@ const index: React.FC = () => {
       setCartItems([]);
     }, 1500);
   };
-  
+
   const applyPromoCode = (code: string) => {
     const promo = promoCodes.find(p => p.code === code);
     if (promo) {
       setAppliedPromo(promo);
     }
   };
-  
+
   const removePromoCode = () => {
     setAppliedPromo(null);
   };
-  
+
   // Effects
   useEffect(() => {
     // Auto-select free shipping if eligible
@@ -520,7 +490,7 @@ const index: React.FC = () => {
       setSelectedShipping(4);
     }
   }, [subtotal]);
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -536,9 +506,9 @@ const index: React.FC = () => {
               <span className="text-xl font-bold text-gray-900">{cartItems.length} items</span>
             </div>
           </div>
-          
+
           {/* Progress Bar */}
-          <div className="mt-8">
+          {/* <div className="mt-8">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">1</div>
@@ -557,9 +527,9 @@ const index: React.FC = () => {
                 <span className="ml-2 font-medium text-gray-500">Payment</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </header>
-        
+
         {/* Main Content */}
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Column - Cart Items */}
@@ -570,7 +540,7 @@ const index: React.FC = () => {
                 Cart Items <span className="text-blue-600">({cartItems.length})</span>
               </h2>
               {cartItems.length > 0 && (
-                <button 
+                <button
                   onClick={clearCart}
                   className="text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-2 rounded-lg transition-colors flex items-center"
                 >
@@ -579,7 +549,7 @@ const index: React.FC = () => {
                 </button>
               )}
             </div>
-            
+
             {/* Cart Items List */}
             {cartItems.length === 0 ? (
               <div className="bg-white rounded-2xl shadow-md p-12 text-center">
@@ -588,7 +558,7 @@ const index: React.FC = () => {
                 <p className="text-gray-600 mb-8 max-w-md mx-auto">
                   Looks like you haven't added any items to your cart yet. Start shopping to fill it up!
                 </p>
-                <button 
+                <button
                   onClick={() => setCartItems(initialCartItems)}
                   className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md flex items-center mx-auto"
                 >
@@ -609,24 +579,7 @@ const index: React.FC = () => {
                 ))}
               </div>
             )}
-            
-            {/* Shipping Methods */}
-            {cartItems.length > 0 && (
-              <div className="mt-12">
-                <h3 className="text-2xl font-bold text-gray-800 mb-6">Shipping Method</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {shippingMethods.map(method => (
-                    <ShippingMethodCard
-                      key={method.id}
-                      method={method}
-                      selected={selectedShipping === method.id}
-                      onSelect={setSelectedShipping}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-            
+
             {/* Promo Code Section */}
             {cartItems.length > 0 && (
               <div className="mt-12">
@@ -638,7 +591,7 @@ const index: React.FC = () => {
               </div>
             )}
           </div>
-          
+
           {/* Right Column - Order Summary */}
           {cartItems.length > 0 && (
             <div className="lg:w-1/3">
@@ -651,7 +604,7 @@ const index: React.FC = () => {
                 onCheckout={handleCheckout}
                 itemCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
               />
-              
+
               {/* Security Badges */}
               <div className="mt-8 grid grid-cols-3 gap-4">
                 <div className="bg-white p-4 rounded-xl text-center shadow-sm">
@@ -670,7 +623,7 @@ const index: React.FC = () => {
             </div>
           )}
         </div>
-        
+
         {/* Loading Overlay */}
         {isLoading && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -681,12 +634,7 @@ const index: React.FC = () => {
             </div>
           </div>
         )}
-        
-        {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
-          <p>© 2023 ShopCart. All rights reserved. | <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a> | <a href="#" className="text-blue-600 hover:underline">Terms of Service</a></p>
-          <p className="mt-2">Need help? <a href="#" className="text-blue-600 hover:underline">Contact our support team</a></p>
-        </footer>
+
       </div>
     </div>
   );
