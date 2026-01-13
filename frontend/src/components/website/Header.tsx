@@ -1,17 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
-  Search, User, ShoppingCart, Menu, X, ChevronDown,
-  ChevronRight, Phone, Mail, Clock,
-  Home, Wrench, Droplets, Zap, Thermometer,
-  Sparkles, Shield, Leaf, Settings,
-  PaintBucket, Hammer, Fan, Lock, Tv,
-  Refrigerator, Microwave, Bath,
-  ArrowRight, Star, AlertCircle,
+  Search,
+  User,
+  ShoppingCart,
+  Menu,
+  X,
+  ChevronDown,
+  ChevronRight,
+  Phone,
+  Mail,
+  Clock,
+  Home,
+  Wrench,
+  Droplets,
+  Zap,
+  Thermometer,
+  Sparkles,
+  Shield,
+  Leaf,
+  Settings,
+  PaintBucket,
+  Hammer,
+  Fan,
+  Lock,
+  Tv,
+  Refrigerator,
+  Microwave,
+  Bath,
+  ArrowRight,
+  Star,
+  AlertCircle,
   Wind,
-  Sun
-} from 'lucide-react';
-import { FaCouch } from 'react-icons/fa';
-import { useNavigate } from 'react-router';
+  Sun,
+} from "lucide-react";
+import { FaCouch } from "react-icons/fa";
+import { Link, useNavigate } from "react-router";
 
 // ================ TYPES ================
 interface ServiceCategory {
@@ -54,8 +77,13 @@ const services: Service[] = [
         icon: <AlertCircle size={16} />,
         color: "text-red-600 bg-red-50",
         description: "24/7 emergency plumbing services",
-        subcategories: ["Leak Repair", "Pipe Burst", "Clogged Drain", "Water Heater"],
-        popular: true
+        subcategories: [
+          "Leak Repair",
+          "Pipe Burst",
+          "Clogged Drain",
+          "Water Heater",
+        ],
+        popular: true,
       },
       {
         id: 102,
@@ -64,7 +92,7 @@ const services: Service[] = [
         color: "text-blue-600 bg-blue-50",
         description: "Professional fixture installation",
         subcategories: ["Toilets", "Sinks", "Showers", "Pipes"],
-        popular: true
+        popular: true,
       },
       {
         id: 103,
@@ -72,8 +100,13 @@ const services: Service[] = [
         icon: <Wrench size={16} />,
         color: "text-green-600 bg-green-50",
         description: "Regular maintenance services",
-        subcategories: ["Drain Cleaning", "Pipe Inspection", "Water Pressure", "Valve Repair"],
-        popular: false
+        subcategories: [
+          "Drain Cleaning",
+          "Pipe Inspection",
+          "Water Pressure",
+          "Valve Repair",
+        ],
+        popular: false,
       },
       {
         id: 104,
@@ -81,10 +114,15 @@ const services: Service[] = [
         icon: <Droplets size={16} />,
         color: "text-cyan-600 bg-cyan-50",
         description: "Water treatment and systems",
-        subcategories: ["Water Filters", "Softener", "Pump Systems", "Tank Installation"],
-        popular: false
-      }
-    ]
+        subcategories: [
+          "Water Filters",
+          "Softener",
+          "Pump Systems",
+          "Tank Installation",
+        ],
+        popular: false,
+      },
+    ],
   },
   {
     id: 2,
@@ -97,8 +135,13 @@ const services: Service[] = [
         icon: <Zap size={16} />,
         color: "text-yellow-600 bg-yellow-50",
         description: "Complete electrical wiring solutions",
-        subcategories: ["Light Installation", "Switch Repair", "Panel Upgrade", "Circuit Breaker"],
-        popular: true
+        subcategories: [
+          "Light Installation",
+          "Switch Repair",
+          "Panel Upgrade",
+          "Circuit Breaker",
+        ],
+        popular: true,
       },
       {
         id: 202,
@@ -106,8 +149,13 @@ const services: Service[] = [
         icon: <Shield size={16} />,
         color: "text-orange-600 bg-orange-50",
         description: "Electrical safety and compliance",
-        subcategories: ["Home Inspection", "Code Compliance", "Safety Audit", "Certification"],
-        popular: true
+        subcategories: [
+          "Home Inspection",
+          "Code Compliance",
+          "Safety Audit",
+          "Certification",
+        ],
+        popular: true,
       },
       {
         id: 203,
@@ -115,10 +163,15 @@ const services: Service[] = [
         icon: <Tv size={16} />,
         color: "text-purple-600 bg-purple-50",
         description: "Home automation solutions",
-        subcategories: ["Smart Lighting", "Security Systems", "Voice Control", "Home Theater"],
-        popular: false
-      }
-    ]
+        subcategories: [
+          "Smart Lighting",
+          "Security Systems",
+          "Voice Control",
+          "Home Theater",
+        ],
+        popular: false,
+      },
+    ],
   },
   {
     id: 3,
@@ -131,8 +184,13 @@ const services: Service[] = [
         icon: <Fan size={16} />,
         color: "text-blue-600 bg-blue-50",
         description: "Air conditioning repair & maintenance",
-        subcategories: ["AC Repair", "Maintenance", "Installation", "Refrigerant"],
-        popular: true
+        subcategories: [
+          "AC Repair",
+          "Maintenance",
+          "Installation",
+          "Refrigerant",
+        ],
+        popular: true,
       },
       {
         id: 302,
@@ -140,8 +198,13 @@ const services: Service[] = [
         icon: <Thermometer size={16} />,
         color: "text-red-600 bg-red-50",
         description: "Heating system services",
-        subcategories: ["Furnace Repair", "Boiler Service", "Heat Pump", "Radiator"],
-        popular: true
+        subcategories: [
+          "Furnace Repair",
+          "Boiler Service",
+          "Heat Pump",
+          "Radiator",
+        ],
+        popular: true,
       },
       {
         id: 303,
@@ -149,10 +212,15 @@ const services: Service[] = [
         icon: <Wind size={16} />,
         color: "text-gray-600 bg-gray-50",
         description: "Air quality and ventilation",
-        subcategories: ["Duct Cleaning", "Air Purification", "Vent Repair", "Humidity Control"],
-        popular: false
-      }
-    ]
+        subcategories: [
+          "Duct Cleaning",
+          "Air Purification",
+          "Vent Repair",
+          "Humidity Control",
+        ],
+        popular: false,
+      },
+    ],
   },
   {
     id: 4,
@@ -165,8 +233,13 @@ const services: Service[] = [
         icon: <Sparkles size={16} />,
         color: "text-green-600 bg-green-50",
         description: "Comprehensive cleaning services",
-        subcategories: ["Move-in/out", "Spring Cleaning", "Post-construction", "Office Cleaning"],
-        popular: true
+        subcategories: [
+          "Move-in/out",
+          "Spring Cleaning",
+          "Post-construction",
+          "Office Cleaning",
+        ],
+        popular: true,
       },
       {
         id: 402,
@@ -174,10 +247,15 @@ const services: Service[] = [
         icon: <FaCouch size={16} />,
         color: "text-teal-600 bg-teal-50",
         description: "Specialized cleaning solutions",
-        subcategories: ["Carpet Cleaning", "Window Cleaning", "Upholstery", "Mattress"],
-        popular: false
-      }
-    ]
+        subcategories: [
+          "Carpet Cleaning",
+          "Window Cleaning",
+          "Upholstery",
+          "Mattress",
+        ],
+        popular: false,
+      },
+    ],
   },
   {
     id: 5,
@@ -190,8 +268,13 @@ const services: Service[] = [
         icon: <Microwave size={16} />,
         color: "text-amber-600 bg-amber-50",
         description: "Kitchen remodeling and upgrades",
-        subcategories: ["Cabinet Installation", "Countertops", "Backsplash", "Appliances"],
-        popular: true
+        subcategories: [
+          "Cabinet Installation",
+          "Countertops",
+          "Backsplash",
+          "Appliances",
+        ],
+        popular: true,
       },
       {
         id: 502,
@@ -199,8 +282,13 @@ const services: Service[] = [
         icon: <Bath size={16} />,
         color: "text-cyan-600 bg-cyan-50",
         description: "Bathroom renovation services",
-        subcategories: ["Tile Work", "Plumbing", "Vanity Installation", "Shower Enclosure"],
-        popular: true
+        subcategories: [
+          "Tile Work",
+          "Plumbing",
+          "Vanity Installation",
+          "Shower Enclosure",
+        ],
+        popular: true,
       },
       {
         id: 503,
@@ -209,9 +297,9 @@ const services: Service[] = [
         color: "text-purple-600 bg-purple-50",
         description: "Interior and exterior painting",
         subcategories: ["Wall Painting", "Ceiling", "Trim Work", "Exterior"],
-        popular: false
-      }
-    ]
+        popular: false,
+      },
+    ],
   },
   {
     id: 6,
@@ -224,8 +312,13 @@ const services: Service[] = [
         icon: <Refrigerator size={16} />,
         color: "text-gray-600 bg-gray-50",
         description: "Repair and installation",
-        subcategories: ["Refrigerator", "Oven/Stove", "Dishwasher", "Microwave"],
-        popular: true
+        subcategories: [
+          "Refrigerator",
+          "Oven/Stove",
+          "Dishwasher",
+          "Microwave",
+        ],
+        popular: true,
       },
       {
         id: 602,
@@ -233,10 +326,15 @@ const services: Service[] = [
         icon: <Settings size={16} />,
         color: "text-blue-600 bg-blue-50",
         description: "Washer and dryer services",
-        subcategories: ["Washing Machine", "Dryer", "Washer-Dryer Combo", "Vent Cleaning"],
-        popular: false
-      }
-    ]
+        subcategories: [
+          "Washing Machine",
+          "Dryer",
+          "Washer-Dryer Combo",
+          "Vent Cleaning",
+        ],
+        popular: false,
+      },
+    ],
   },
   {
     id: 7,
@@ -249,10 +347,15 @@ const services: Service[] = [
         icon: <Lock size={16} />,
         color: "text-indigo-600 bg-indigo-50",
         description: "Home security installation",
-        subcategories: ["Alarm Systems", "CCTV Cameras", "Smart Locks", "Monitoring"],
-        popular: true
-      }
-    ]
+        subcategories: [
+          "Alarm Systems",
+          "CCTV Cameras",
+          "Smart Locks",
+          "Monitoring",
+        ],
+        popular: true,
+      },
+    ],
   },
   {
     id: 8,
@@ -265,18 +368,23 @@ const services: Service[] = [
         icon: <Sun size={16} />,
         color: "text-yellow-600 bg-yellow-50",
         description: "Solar panel installation",
-        subcategories: ["Solar Panels", "Battery Storage", "Inverter Installation", "Maintenance"],
-        popular: true
-      }
-    ]
-  }
+        subcategories: [
+          "Solar Panels",
+          "Battery Storage",
+          "Inverter Installation",
+          "Maintenance",
+        ],
+        popular: true,
+      },
+    ],
+  },
 ];
 
 const mainMenuItems = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "/category"},
+  { name: "Services", href: "/category" },
   { name: "About Us", href: "/about" },
-  { name: "Contact", href: "/contact" }
+  { name: "Contact", href: "/contact" },
 ];
 
 // ================ COMPONENTS ================
@@ -285,7 +393,6 @@ const mainMenuItems = [
 const TopBar: React.FC = () => {
   const navigate = useNavigate();
   const [hasMegaMenu, sethasMegaMenu] = useState(false);
-
 
   return (
     <div className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white text-sm py-2 hidden md:block">
@@ -302,9 +409,13 @@ const TopBar: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <button className="hover:text-blue-200 transition-colors">Track Order</button>
+            <button className="hover:text-blue-200 transition-colors">
+              Track Order
+            </button>
             <span className="text-white/30">|</span>
-            <button className="hover:text-blue-200 transition-colors">Help Center</button>
+            <button className="hover:text-blue-200 transition-colors">
+              Help Center
+            </button>
           </div>
         </div>
       </div>
@@ -318,10 +429,9 @@ const MainHeader: React.FC<{
   onMobileMenuToggle: () => void;
   onServiceHover: (service: Service | null) => void;
 }> = ({ isMobileMenuOpen, onMobileMenuToggle, onServiceHover }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
   const navigate = useNavigate();
-
 
   return (
     <div className="bg-white shadow-md">
@@ -329,19 +439,21 @@ const MainHeader: React.FC<{
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <button 
+            <button
               onClick={onMobileMenuToggle}
               className="md:hidden mr-4 p-2 rounded-lg hover:bg-gray-100"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
             <div className="flex items-center">
-              <div className="bg-gradient-to-r from-blue-600 to-cyan-500 w-10 h-10 rounded-lg flex items-center justify-center">
-                <Home className="text-white" size={24} />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                <img src="/images/logo.png" alt="" />
               </div>
               <div className="ml-3">
-                <div className="text-xl font-bold text-gray-900">HomeService</div>
-                <div className="text-xs text-gray-500 -mt-1">Professional Services</div>
+                <div className="text-xl font-bold text-gray-900">
+                  G.ONE Home
+                </div>
+                {/* <div className="text-xs text-gray-500 -mt-1">Professional Services</div> */}
               </div>
             </div>
           </div>
@@ -350,14 +462,13 @@ const MainHeader: React.FC<{
           <nav className="hidden md:flex items-center space-x-1">
             {mainMenuItems.map((item) => (
               <div key={item.name} className="relative">
-                <a
-                  href={item.href}
+                <Link
+                  to={item.href}
                   className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-sm"
-                  onMouseEnter={() => item.hasMegaMenu && onServiceHover(null)}
+                  onMouseEnter={() => item && onServiceHover(null)}
                 >
                   {item.name}
-                  {item.hasMegaMenu && <ChevronDown size={14} className="inline ml-1" />}
-                </a>
+                </Link>
               </div>
             ))}
           </nav>
@@ -365,9 +476,16 @@ const MainHeader: React.FC<{
           {/* Right Section - Search & Auth */}
           <div className="flex items-center space-x-4">
             {/* Search */}
-            <div className={`relative transition-all duration-300 ${isSearchActive ? 'w-64' : 'w-48'}`}>
+            <div
+              className={`relative transition-all duration-300 ${
+                isSearchActive ? "w-64" : "w-48"
+              }`}
+            >
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder="Search services..."
@@ -378,8 +496,8 @@ const MainHeader: React.FC<{
                   className="w-full pl-10 pr-4 py-2 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 {searchQuery && (
-                  <button 
-                    onClick={() => setSearchQuery('')}
+                  <button
+                    onClick={() => setSearchQuery("")}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   >
                     <X size={18} />
@@ -389,7 +507,10 @@ const MainHeader: React.FC<{
             </div>
 
             {/* Cart */}
-            <button onClick={() => navigate('/cart')} className="relative p-2 rounded-lg hover:bg-gray-100 hidden md:block">
+            <button
+              onClick={() => navigate("/cart")}
+              className="relative p-2 rounded-lg hover:bg-gray-100 hidden md:block"
+            >
               <ShoppingCart size={22} className="text-gray-700" />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                 3
@@ -398,11 +519,17 @@ const MainHeader: React.FC<{
 
             {/* Auth Buttons */}
             <div className="hidden md:flex items-center space-x-2">
-              <button onClick={() => navigate('/sign-in')} className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-sm flex items-center">
+              <button
+                onClick={() => navigate("/sign-in")}
+                className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-sm flex items-center"
+              >
                 <User size={18} className="mr-2" />
                 Login
               </button>
-              <button onClick={() => navigate('/sign-up')} className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-sm">
+              <button
+                onClick={() => navigate("/sign-up")}
+                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-sm"
+              >
                 Register
               </button>
             </div>
@@ -425,14 +552,15 @@ const ServiceSlider: React.FC<{
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
 
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = (direction: "left" | "right") => {
     if (sliderRef.current) {
       const scrollAmount = 200;
-      const newPosition = direction === 'left' 
-        ? scrollPosition - scrollAmount 
-        : scrollPosition + scrollAmount;
-      
-      sliderRef.current.scrollTo({ left: newPosition, behavior: 'smooth' });
+      const newPosition =
+        direction === "left"
+          ? scrollPosition - scrollAmount
+          : scrollPosition + scrollAmount;
+
+      sliderRef.current.scrollTo({ left: newPosition, behavior: "smooth" });
       setScrollPosition(newPosition);
     }
   };
@@ -448,8 +576,8 @@ const ServiceSlider: React.FC<{
   useEffect(() => {
     const slider = sliderRef.current;
     if (slider) {
-      slider.addEventListener('scroll', checkScrollButtons);
-      return () => slider.removeEventListener('scroll', checkScrollButtons);
+      slider.addEventListener("scroll", checkScrollButtons);
+      return () => slider.removeEventListener("scroll", checkScrollButtons);
     }
   }, []);
 
@@ -460,7 +588,7 @@ const ServiceSlider: React.FC<{
           {/* Left Arrow */}
           {showLeftArrow && (
             <button
-              onClick={() => scroll('left')}
+              onClick={() => scroll("left")}
               className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-50"
             >
               <ChevronRight className="rotate-180" size={20} />
@@ -471,7 +599,7 @@ const ServiceSlider: React.FC<{
           <div
             ref={sliderRef}
             className="flex space-x-1 overflow-x-auto scrollbar-hide"
-            style={{ scrollBehavior: 'smooth' }}
+            style={{ scrollBehavior: "smooth" }}
             onScroll={checkScrollButtons}
           >
             {services.map((service) => (
@@ -481,21 +609,36 @@ const ServiceSlider: React.FC<{
                 onMouseLeave={onServiceLeave}
                 className={`flex-shrink-0 px-4 py-2 rounded-lg flex items-center space-x-2 transition-all ${
                   activeService?.id === service.id
-                    ? 'bg-blue-50 text-blue-600 border border-blue-200'
-                    : 'hover:bg-gray-100 text-gray-700'
+                    ? "bg-blue-50 text-blue-600 border border-blue-200"
+                    : "hover:bg-gray-100 text-gray-700"
                 }`}
               >
-                <div className={`p-1.5 rounded-md ${
-                  activeService?.id === service.id ? 'bg-blue-100' : 'bg-gray-100'
-                }`}>
-                  <div className={`${activeService?.id === service.id ? 'text-blue-600' : 'text-gray-600'}`}>
+                <div
+                  className={`p-1.5 rounded-md ${
+                    activeService?.id === service.id
+                      ? "bg-blue-100"
+                      : "bg-gray-100"
+                  }`}
+                >
+                  <div
+                    className={`${
+                      activeService?.id === service.id
+                        ? "text-blue-600"
+                        : "text-gray-600"
+                    }`}
+                  >
                     {service.icon}
                   </div>
                 </div>
-                <span className="font-medium text-sm whitespace-nowrap">{service.name}</span>
-                <ChevronDown size={14} className={`transition-transform ${
-                  activeService?.id === service.id ? 'rotate-180' : ''
-                }`} />
+                <span className="font-medium text-sm whitespace-nowrap">
+                  {service.name}
+                </span>
+                <ChevronDown
+                  size={14}
+                  className={`transition-transform ${
+                    activeService?.id === service.id ? "rotate-180" : ""
+                  }`}
+                />
               </button>
             ))}
           </div>
@@ -503,7 +646,7 @@ const ServiceSlider: React.FC<{
           {/* Right Arrow */}
           {showRightArrow && (
             <button
-              onClick={() => scroll('right')}
+              onClick={() => scroll("right")}
               className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-50"
             >
               <ChevronRight size={20} />
@@ -529,7 +672,7 @@ const MegaMenu: React.FC<{
       className="fixed left-0 right-0 bg-white shadow-2xl border-t border-gray-200 z-40 animate-in slide-in-from-top-5 duration-200"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      style={{ top: '136px' }} // Height of both headers
+      style={{ top: "136px" }} // Height of both headers
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -540,11 +683,15 @@ const MegaMenu: React.FC<{
                 <div className="text-blue-600">{service.icon}</div>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900">{service.name} Services</h3>
-                <p className="text-gray-600 text-sm mt-1">Professional {service.name.toLowerCase()} solutions</p>
+                <h3 className="text-xl font-bold text-gray-900">
+                  {service.name} Services
+                </h3>
+                <p className="text-gray-600 text-sm mt-1">
+                  Professional {service.name.toLowerCase()} solutions
+                </p>
               </div>
             </div>
-            
+
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -567,14 +714,20 @@ const MegaMenu: React.FC<{
             {service.categories.map((category) => (
               <div key={category.id} className="group cursor-pointer">
                 <div className="flex items-start space-x-3 mb-3">
-                  <div className={`p-2 rounded-lg ${category.color.split(' ')[1]}`}>
-                    <div className={category.color.split(' ')[0]}>
+                  <div
+                    className={`p-2 rounded-lg ${category.color.split(" ")[1]}`}
+                  >
+                    <div className={category.color.split(" ")[0]}>
                       {category.icon}
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 mb-1">{category.name}</h4>
-                    <p className="text-gray-600 text-sm">{category.description}</p>
+                    <h4 className="font-bold text-gray-900 mb-1">
+                      {category.name}
+                    </h4>
+                    <p className="text-gray-600 text-sm">
+                      {category.description}
+                    </p>
                   </div>
                   {category.popular && (
                     <span className="ml-auto px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded">
@@ -582,11 +735,14 @@ const MegaMenu: React.FC<{
                     </span>
                   )}
                 </div>
-                
+
                 <div className="space-y-2 ml-12">
                   {category.subcategories.map((subcategory, idx) => (
                     <div key={idx} className="flex items-center group/item">
-                      <ChevronRight size={12} className="text-gray-400 mr-2 group-hover/item:text-blue-600" />
+                      <ChevronRight
+                        size={12}
+                        className="text-gray-400 mr-2 group-hover/item:text-blue-600"
+                      />
                       <span className="text-gray-600 hover:text-blue-600 text-sm">
                         {subcategory}
                       </span>
@@ -600,21 +756,34 @@ const MegaMenu: React.FC<{
           {/* Right Column - Featured Services */}
           <div className="lg:col-span-1">
             <div className="bg-gray-50 rounded-xl p-6">
-              <h4 className="font-bold text-gray-900 mb-4">Most Popular Services</h4>
+              <h4 className="font-bold text-gray-900 mb-4">
+                Most Popular Services
+              </h4>
               <div className="space-y-4">
                 {service.categories
-                  .filter(cat => cat.popular)
+                  .filter((cat) => cat.popular)
                   .slice(0, 3)
                   .map((category) => (
-                    <div key={category.id} className="flex items-center p-3 bg-white rounded-lg hover:shadow-md transition-shadow">
-                      <div className={`p-2 rounded-md ${category.color.split(' ')[1]} mr-3`}>
-                        <div className={category.color.split(' ')[0]}>
+                    <div
+                      key={category.id}
+                      className="flex items-center p-3 bg-white rounded-lg hover:shadow-md transition-shadow"
+                    >
+                      <div
+                        className={`p-2 rounded-md ${
+                          category.color.split(" ")[1]
+                        } mr-3`}
+                      >
+                        <div className={category.color.split(" ")[0]}>
                           {category.icon}
                         </div>
                       </div>
                       <div className="flex-1">
-                        <div className="font-medium text-gray-900 text-sm">{category.name}</div>
-                        <div className="text-xs text-gray-500">Starting from $99</div>
+                        <div className="font-medium text-gray-900 text-sm">
+                          {category.name}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Starting from $99
+                        </div>
                       </div>
                       <button className="text-blue-600 hover:text-blue-800">
                         <ChevronRight size={16} />
@@ -622,14 +791,18 @@ const MegaMenu: React.FC<{
                     </div>
                   ))}
               </div>
-              
+
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <div className="flex items-center text-sm text-gray-600">
                   <Shield size={14} className="mr-2 text-green-600" />
                   <span>All services include 1-year warranty</span>
                 </div>
                 <div className="flex items-center text-sm text-gray-600 mt-2">
-                  <Star size={14} className="mr-2 text-yellow-600" fill="currentColor" />
+                  <Star
+                    size={14}
+                    className="mr-2 text-yellow-600"
+                    fill="currentColor"
+                  />
                   <span>4.9 average customer rating</span>
                 </div>
                 <div className="flex items-center text-sm text-gray-600 mt-2">
@@ -661,7 +834,10 @@ const MobileMenu: React.FC<{
       <div className="px-4 py-6">
         {/* Search in Mobile */}
         <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <Search
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            size={20}
+          />
           <input
             type="text"
             placeholder="Search services..."
@@ -687,22 +863,33 @@ const MobileMenu: React.FC<{
           <h3 className="font-bold text-gray-900 mb-4 px-4">All Services</h3>
           <div className="space-y-2">
             {services.map((service) => (
-              <div key={service.id} className="border border-gray-200 rounded-lg">
+              <div
+                key={service.id}
+                className="border border-gray-200 rounded-lg"
+              >
                 <button
-                  onClick={() => setExpandedService(expandedService === service.id ? null : service.id)}
+                  onClick={() =>
+                    setExpandedService(
+                      expandedService === service.id ? null : service.id
+                    )
+                  }
                   className="w-full p-4 flex items-center justify-between hover:bg-gray-50"
                 >
                   <div className="flex items-center">
                     <div className="p-2 bg-gray-100 rounded-md mr-3">
                       {service.icon}
                     </div>
-                    <span className="font-medium text-gray-900">{service.name}</span>
+                    <span className="font-medium text-gray-900">
+                      {service.name}
+                    </span>
                   </div>
-                  <ChevronDown className={`transition-transform ${
-                    expandedService === service.id ? 'rotate-180' : ''
-                  }`} />
+                  <ChevronDown
+                    className={`transition-transform ${
+                      expandedService === service.id ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
-                
+
                 {expandedService === service.id && (
                   <div className="px-4 pb-4">
                     <div className="grid grid-cols-2 gap-2">
@@ -713,14 +900,22 @@ const MobileMenu: React.FC<{
                           className="p-3 bg-gray-50 rounded-lg text-left hover:bg-gray-100"
                         >
                           <div className="flex items-center mb-2">
-                            <div className={`p-1 rounded ${category.color.split(' ')[1]} mr-2`}>
-                              <div className={category.color.split(' ')[0]}>
+                            <div
+                              className={`p-1 rounded ${
+                                category.color.split(" ")[1]
+                              } mr-2`}
+                            >
+                              <div className={category.color.split(" ")[0]}>
                                 {category.icon}
                               </div>
                             </div>
-                            <span className="font-medium text-sm">{category.name}</span>
+                            <span className="font-medium text-sm">
+                              {category.name}
+                            </span>
                           </div>
-                          <p className="text-xs text-gray-600">{category.description}</p>
+                          <p className="text-xs text-gray-600">
+                            {category.description}
+                          </p>
                         </button>
                       ))}
                     </div>
@@ -761,14 +956,14 @@ const MegaMenuHeader: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleServiceHover = (service: Service | null) => {
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
     if (leaveTimeoutRef.current) clearTimeout(leaveTimeoutRef.current);
-    
+
     hoverTimeoutRef.current = setTimeout(() => {
       setActiveService(service);
       if (service) {
@@ -806,9 +1001,11 @@ const MegaMenuHeader: React.FC = () => {
   return (
     <>
       {/* Fixed Header Container */}
-      <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'shadow-xl' : 'shadow-md'
-      }`}>
+      <div
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? "shadow-xl" : "shadow-md"
+        }`}
+      >
         {/* Top Bar */}
         <TopBar />
 
