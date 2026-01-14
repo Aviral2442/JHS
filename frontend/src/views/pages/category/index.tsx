@@ -571,65 +571,63 @@ export const ServiceHeader = () => {
     { value: "50+", label: "Expert Technicians" },
   ];
 
+  //   return (
+  //     <div className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white pt-16 pb-24">
+  //       {/* Animated Background */}
+  //       <div className="absolute inset-0">
+  //         {[...Array(15)].map((_, i) => (
+  //           <div
+  //             key={i}
+  //             className="absolute rounded-full bg-white/5 animate-pulse"
+  //             style={{
+  //               width: Math.random() * 80 + 20 + "px",
+  //               height: Math.random() * 80 + 20 + "px",
+  //               left: Math.random() * 100 + "%",
+  //               top: Math.random() * 100 + "%",
+  //               animationDelay: Math.random() * 5 + "s",
+  //               animationDuration: Math.random() * 10 + 10 + "s",
+  //             }}
+  //           />
+  //         ))}
+  //       </div>
 
+  //       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  //         <div className="text-center">
+  //           <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6">
+  //             <Sparkles size={16} className="mr-2" />
+  //             <span className="text-sm font-medium">
+  //               One-stop solution for all home services
+  //             </span>
+  //           </div>
 
-//   return (
-//     <div className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white pt-16 pb-24">
-//       {/* Animated Background */}
-//       <div className="absolute inset-0">
-//         {[...Array(15)].map((_, i) => (
-//           <div
-//             key={i}
-//             className="absolute rounded-full bg-white/5 animate-pulse"
-//             style={{
-//               width: Math.random() * 80 + 20 + "px",
-//               height: Math.random() * 80 + 20 + "px",
-//               left: Math.random() * 100 + "%",
-//               top: Math.random() * 100 + "%",
-//               animationDelay: Math.random() * 5 + "s",
-//               animationDuration: Math.random() * 10 + 10 + "s",
-//             }}
-//           />
-//         ))}
-//       </div>
+  //           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+  //             Find the Perfect
+  //             <span className="block text-blue-300 mt-2">Home Service</span>
+  //           </h1>
 
-//       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="text-center">
-//           <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6">
-//             <Sparkles size={16} className="mr-2" />
-//             <span className="text-sm font-medium">
-//               One-stop solution for all home services
-//             </span>
-//           </div>
+  //           <p className="text-xl text-blue-200 max-w-3xl mx-auto mb-10">
+  //             Browse through hundreds of professional services. From quick fixes
+  //             to major renovations, we connect you with trusted experts.
+  //           </p>
 
-//           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-//             Find the Perfect
-//             <span className="block text-blue-300 mt-2">Home Service</span>
-//           </h1>
-
-//           <p className="text-xl text-blue-200 max-w-3xl mx-auto mb-10">
-//             Browse through hundreds of professional services. From quick fixes
-//             to major renovations, we connect you with trusted experts.
-//           </p>
-
-//           {/* Stats */}
-//           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto mb-12">
-//             {stats.map((stat, index) => (
-//               <div
-//                 key={index}
-//                 className="bg-white/10 backdrop-blur-sm rounded-xl p-4"
-//               >
-//                 <div className="text-2xl md:text-3xl font-bold mb-1">
-//                   {stat.value}
-//                 </div>
-//                 <div className="text-sm text-blue-200">{stat.label}</div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
+  //           {/* Stats */}
+  //           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto mb-12">
+  //             {stats.map((stat, index) => (
+  //               <div
+  //                 key={index}
+  //                 className="bg-white/10 backdrop-blur-sm rounded-xl p-4"
+  //               >
+  //                 <div className="text-2xl md:text-3xl font-bold mb-1">
+  //                   {stat.value}
+  //                 </div>
+  //                 <div className="text-sm text-blue-200">{stat.label}</div>
+  //               </div>
+  //             ))}
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
 };
 
 // Search and Filter Component

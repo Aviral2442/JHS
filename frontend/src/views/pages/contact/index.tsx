@@ -63,11 +63,7 @@ interface FAQItem {
 // Animated Header Component
 const ContactHeader: React.FC = () => {
   return (
-    <section className="relative bg-[#0B1220] overflow-hidden">
-      
-      {/* Gradient Orbs */}
-      <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
-      <div className="absolute top-40 -right-32 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" />
+    <section className="relative bg-white overflow-hidden">
 
       <div className="relative max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-center">
 
@@ -78,13 +74,13 @@ const ContactHeader: React.FC = () => {
             Trusted Home Service Professionals
           </div> */}
 
-          <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+          <h2 className="text-4xl md:text-6xl font-bold leading-tight">
             Fast & Reliable  
             <span className="block text-blue-400">Home Services</span>
             When You Need Them
-          </h1>
+          </h2>
 
-          <p className="text-lg text-gray-300 mt-6 max-w-xl">
+          <p className="text-lg text-gray-700 mt-6 max-w-xl">
             Book expert plumbers, electricians, cleaners & technicians in minutes. 
             We serve Lucknow with 24/7 emergency support and verified professionals.
           </p>
@@ -100,7 +96,7 @@ const ContactHeader: React.FC = () => {
 
             <a
               href="#contact"
-              className="px-8 py-4 border border-white/20 text-white rounded-xl hover:bg-white/10 transition"
+              className="px-8 py-4 border border-black/20 rounded-xl hover:bg-white/10 transition"
             >
               Book Service Online
             </a>
@@ -115,7 +111,7 @@ const ContactHeader: React.FC = () => {
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center text-white"
+                className="bg-gray-200 backdrop-blur-md rounded-xl p-4 text-center"
               >
                 <div className="flex justify-center mb-2">{item.icon}</div>
                 <p className="text-sm">{item.label}</p>
@@ -128,18 +124,18 @@ const ContactHeader: React.FC = () => {
         <div className="relative">
           <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl">
 
-            <h3 className="text-white text-2xl font-bold mb-6">
+            <h3 className="text-2xl font-bold mb-6">
               Need Immediate Help?
             </h3>
 
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <div className="bg-blue-500/20 p-3 rounded-xl">
-                  <Phone className="text-blue-400" />
+                  <Phone className="text-blue-800" />
                 </div>
                 <div>
-                  <p className="text-gray-300 text-sm">Call Us</p>
-                  <p className="text-white text-lg font-semibold">
+                  <p className="text-gray-800 text-sm">Call Us</p>
+                  <p className="text-gray-900 text-lg font-semibold">
                     +91 8960628965
                   </p>
                 </div>
@@ -150,8 +146,8 @@ const ContactHeader: React.FC = () => {
                   <Mail className="text-green-400" />
                 </div>
                 <div>
-                  <p className="text-gray-300 text-sm">Email</p>
-                  <p className="text-white text-lg font-semibold">
+                  <p className="text-gray-800 text-sm">Email</p>
+                  <p className="text-gray-900 text-lg font-semibold">
                     jeevancleaningservices@gmail.com
                   </p>
                 </div>
@@ -162,8 +158,8 @@ const ContactHeader: React.FC = () => {
                   <MapPin className="text-purple-400" />
                 </div>
                 <div>
-                  <p className="text-gray-300 text-sm">Location</p>
-                  <p className="text-white text-sm">
+                  <p className="text-gray-800 text-sm">Location</p>
+                  <p className="text-gray-900 text-lg font-semibold">
                     Indira Nagar, Lucknow
                   </p>
                 </div>
@@ -231,7 +227,7 @@ const ContactFormSection: React.FC = () => {
   };
 
   return (
-    <div className="py-20 bg-white">
+    <div className="py-20 bg-[#f9fafb]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Left Column - Form */}
@@ -490,16 +486,12 @@ const ContactFormSection: React.FC = () => {
 // Interactive Map Component
 const LocationMap: React.FC = () => {
   return (
-    <section className="relative bg-[#0B1220] overflow-hidden py-24">
-
-      {/* Gradient Orbs */}
-      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
-      <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" />
+    <section className="relative bg-white overflow-hidden py-24">
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white">
+          <h2 className="text-4xl font-bold">
             Our Service Coverage
           </h2>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
@@ -519,26 +511,6 @@ const LocationMap: React.FC = () => {
             />
           </div>
 
-          {/* Floating Location Card */}
-          <div className="mt-6 grid md:grid-cols-3 gap-6 text-white">
-            <div className="bg-white/10 rounded-xl p-6 backdrop-blur-md">
-              <MapPin className="text-blue-400 mb-3" />
-              <p className="font-semibold">Service Area</p>
-              <p className="text-gray-300 text-sm">Lucknow & Nearby Locations</p>
-            </div>
-
-            <div className="bg-white/10 rounded-xl p-6 backdrop-blur-md">
-              <Truck className="text-cyan-400 mb-3" />
-              <p className="font-semibold">Response Time</p>
-              <p className="text-gray-300 text-sm">30–60 Minutes</p>
-            </div>
-
-            <div className="bg-white/10 rounded-xl p-6 backdrop-blur-md">
-              <Shield className="text-green-400 mb-3" />
-              <p className="font-semibold">Verified Staff</p>
-              <p className="text-gray-300 text-sm">Trained & Background Checked</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
