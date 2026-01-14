@@ -1,1513 +1,491 @@
-import React, { useState, useMemo } from "react";
+"use client";
+
+import React, { useState, useRef } from "react";
 import {
-  Search,
-  Filter,
-  ChevronRight,
-  Star,
-  Clock,
-  Shield,
-  Sparkles,
-  Zap,
-  Droplets,
-  Home,
-  Wrench,
-  Thermometer,
-  Wind,
-  Sun,
-  Leaf,
-  PaintBucket,
-  Hammer,
-  Settings,
-  Plug,
-  Bath,
-  Trash2,
-  Coffee,
-  Tv,
-  Microwave,
-  Refrigerator,
-  Lock,
-  Phone,
-  MessageSquare,
-  Award,
-  CheckCircle,
-  ArrowRight,
-  ChevronLeft,
-  ChevronDown,
-  Grid,
-  List,
+    ArrowRight, Globe, Code, Smartphone, Zap, CreditCard, Check, CreditCard as CardIcon, Wallet, Building2, Link as LinkIcon, Store, ChevronLeft, ChevronRight, Leaf,
+    Sprout,
+    TreePine,
+    Truck,
+    ShieldCheck,
+    Droplets,
+    Sun,
+    Wind,
+    Flower2,
+    Package,
+    Users,
+    BookOpen,
+    Heart,
+    Star,
+    Settings,
+    LeafIcon,
+    DropletsIcon
 } from "lucide-react";
-import { FaCouch } from "react-icons/fa";
 
-// ================ TYPES ================
-interface ServiceCategory {
-  id: number;
-  name: string;
-  description: string;
-  icon: React.ReactNode;
-  color: string;
-  serviceCount: number;
-  popular: boolean;
-  tags: string[];
-}
-
-interface ServiceItem {
-  id: number;
-  name: string;
-  description: string;
-  priceRange: string;
-  duration: string;
-  rating: number;
-  reviews: number;
-  popular: boolean;
-  categoryId: number;
-  categoryName: string;
-  icon: React.ReactNode;
-  color: string;
-  features: string[];
-  image?: string;
-}
-
-interface ServiceSection {
-  id: number;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  color: string;
-  categories: ServiceCategory[];
-  services: ServiceItem[];
-}
-
-// ================ MOCK DATA ================
-const serviceSections: ServiceSection[] = [
-  {
-    id: 1,
-    title: "Home Maintenance & Repair",
-    description:
-      "Complete home repair and maintenance services to keep your home in perfect condition",
-    icon: <Home size={32} />,
-    color: "from-blue-500 to-cyan-500",
-    categories: [
-      {
-        id: 101,
-        name: "Plumbing Services",
-        description:
-          "Fix leaks, install fixtures, and handle all plumbing needs",
-        icon: <Droplets size={24} />,
-        color: "from-blue-500 to-blue-600",
-        serviceCount: 12,
-        popular: true,
-        tags: ["Emergency", "Installation", "Repair"],
-      },
-      {
-        id: 102,
-        name: "Electrical Work",
-        description: "Wiring, lighting, and electrical system services",
-        icon: <Zap size={24} />,
-        color: "from-yellow-500 to-orange-500",
-        serviceCount: 8,
-        popular: true,
-        tags: ["Safety", "Installation", "Upgrade"],
-      },
-      {
-        id: 103,
-        name: "Carpentry & Woodwork",
-        description: "Custom furniture, repairs, and wood installations",
-        icon: <Hammer size={24} />,
-        color: "from-amber-600 to-amber-700",
-        serviceCount: 6,
-        popular: false,
-        tags: ["Custom", "Repair", "Installation"],
-      },
-      {
-        id: 104,
-        name: "Painting & Decorating",
-        description: "Interior and exterior painting services",
-        icon: <PaintBucket size={24} />,
-        color: "from-purple-500 to-pink-500",
-        serviceCount: 5,
-        popular: true,
-        tags: ["Interior", "Exterior", "Commercial"],
-      },
-      {
-        id: 105,
-        name: "HVAC Services",
-        description: "Heating, ventilation, and air conditioning",
-        icon: <Thermometer size={24} />,
-        color: "from-red-500 to-pink-500",
-        serviceCount: 7,
-        popular: true,
-        tags: ["AC", "Heating", "Maintenance"],
-      },
-      {
-        id: 106,
-        name: "Appliance Repair",
-        description: "Fix and maintain home appliances",
-        icon: <Settings size={24} />,
-        color: "from-gray-600 to-gray-700",
-        serviceCount: 10,
-        popular: false,
-        tags: ["Kitchen", "Laundry", "Repair"],
-      },
-    ],
-    services: [
-      {
-        id: 1001,
-        name: "Emergency Leak Repair",
-        description: "Immediate response to water leaks and pipe bursts",
-        priceRange: "$120 - $350",
-        duration: "2-4 hours",
-        rating: 4.9,
-        reviews: 245,
-        popular: true,
-        categoryId: 101,
-        categoryName: "Plumbing Services",
-        icon: <Droplets size={20} />,
-        color: "from-blue-500 to-blue-600",
-        features: [
-          "Same-day service",
-          "24/7 emergency",
-          "Water damage prevention",
-        ],
-        image:
-          "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-      },
-      {
-        id: 1002,
-        name: "Light Fixture Installation",
-        description: "Professional installation of all types of lighting",
-        priceRange: "$80 - $250",
-        duration: "1-2 hours",
-        rating: 4.8,
-        reviews: 189,
-        popular: true,
-        categoryId: 102,
-        categoryName: "Electrical Work",
-        icon: <Zap size={20} />,
-        color: "from-yellow-500 to-orange-500",
-        features: ["LED compatible", "Safety certified", "Warranty included"],
-        image:
-          "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=300&fit=crop",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Cleaning & Sanitation",
-    description: "Professional cleaning services for homes and offices",
-    icon: <Sparkles size={32} />,
-    color: "from-green-500 to-emerald-500",
-    categories: [
-      {
-        id: 201,
-        name: "Deep Cleaning",
-        description: "Thorough cleaning of entire homes",
-        icon: <Trash2 size={24} />,
-        color: "from-green-500 to-green-600",
-        serviceCount: 8,
-        popular: true,
-        tags: ["Spring", "Move-in", "Move-out"],
-      },
-      {
-        id: 202,
-        name: "Carpet Cleaning",
-        description: "Professional carpet and rug cleaning",
-        icon: <FaCouch size={24} />,
-        color: "from-teal-500 to-teal-600",
-        serviceCount: 5,
-        popular: true,
-        tags: ["Steam", "Stain", "Odor"],
-      },
-      {
-        id: 203,
-        name: "Window Cleaning",
-        description: "Interior and exterior window cleaning",
-        icon: <Sun size={24} />,
-        color: "from-cyan-500 to-blue-500",
-        serviceCount: 4,
-        popular: false,
-        tags: ["Interior", "Exterior", "High-rise"],
-      },
-      {
-        id: 204,
-        name: "Kitchen Deep Clean",
-        description: "Specialized kitchen cleaning services",
-        icon: <Microwave size={24} />,
-        color: "from-orange-500 to-red-500",
-        serviceCount: 6,
-        popular: true,
-        tags: ["Appliance", "Degreasing", "Sanitization"],
-      },
-      {
-        id: 205,
-        name: "Bathroom Sanitization",
-        description: "Complete bathroom cleaning and disinfection",
-        icon: <Bath size={24} />,
-        color: "from-blue-400 to-cyan-400",
-        serviceCount: 5,
-        popular: false,
-        tags: ["Mold", "Grout", "Disinfect"],
-      },
-      {
-        id: 206,
-        name: "Post-Construction Clean",
-        description: "Cleaning after renovation or construction",
-        icon: <Hammer size={24} />,
-        color: "from-gray-500 to-gray-600",
-        serviceCount: 3,
-        popular: false,
-        tags: ["Construction", "Renovation", "Dust"],
-      },
-    ],
-    services: [
-      {
-        id: 2001,
-        name: "Complete Home Deep Clean",
-        description: "Thorough cleaning of every room including hidden areas",
-        priceRange: "$200 - $500",
-        duration: "4-6 hours",
-        rating: 4.9,
-        reviews: 312,
-        popular: true,
-        categoryId: 201,
-        categoryName: "Deep Cleaning",
-        icon: <Sparkles size={20} />,
-        color: "from-green-500 to-emerald-500",
-        features: ["Eco-friendly products", "Move-in/out", "Spring cleaning"],
-        image:
-          "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&h=300&fit=crop",
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: "Home Improvement",
-    description: "Upgrade and enhance your living space",
-    icon: <Wrench size={32} />,
-    color: "from-purple-500 to-pink-500",
-    categories: [
-      {
-        id: 301,
-        name: "Kitchen Remodeling",
-        description: "Complete kitchen renovation and upgrades",
-        icon: <Refrigerator size={24} />,
-        color: "from-red-500 to-pink-500",
-        serviceCount: 10,
-        popular: true,
-        tags: ["Cabinets", "Countertops", "Appliances"],
-      },
-      {
-        id: 302,
-        name: "Bathroom Renovation",
-        description: "Bathroom remodeling and fixture upgrades",
-        icon: <Bath size={24} />,
-        color: "from-blue-400 to-cyan-400",
-        serviceCount: 8,
-        popular: true,
-        tags: ["Tiles", "Fixtures", "Plumbing"],
-      },
-      {
-        id: 303,
-        name: "Flooring Installation",
-        description: "Hardwood, tile, and carpet installation",
-        icon: <Home size={24} />,
-        color: "from-amber-600 to-amber-700",
-        serviceCount: 7,
-        popular: false,
-        tags: ["Hardwood", "Tile", "Carpet"],
-      },
-      {
-        id: 304,
-        name: "Smart Home Setup",
-        description: "Installation of smart home devices and systems",
-        icon: <Plug size={24} />,
-        color: "from-indigo-500 to-purple-500",
-        serviceCount: 6,
-        popular: true,
-        tags: ["Automation", "Security", "Voice"],
-      },
-      {
-        id: 305,
-        name: "Energy Efficiency",
-        description: "Home energy upgrades and insulation",
-        icon: <Leaf size={24} />,
-        color: "from-green-500 to-emerald-500",
-        serviceCount: 5,
-        popular: false,
-        tags: ["Insulation", "Windows", "Solar"],
-      },
-      {
-        id: 306,
-        name: "Outdoor Living",
-        description: "Patio, deck, and outdoor space improvements",
-        icon: <Sun size={24} />,
-        color: "from-yellow-500 to-orange-500",
-        serviceCount: 6,
-        popular: true,
-        tags: ["Deck", "Patio", "Landscaping"],
-      },
-    ],
-    services: [],
-  },
-  {
-    id: 4,
-    title: "Appliance Services",
-    description: "Installation, repair, and maintenance of home appliances",
-    icon: <Settings size={32} />,
-    color: "from-orange-500 to-red-500",
-    categories: [
-      {
-        id: 401,
-        name: "Refrigerator Repair",
-        description: "Fix cooling issues and maintenance",
-        icon: <Refrigerator size={24} />,
-        color: "from-blue-400 to-cyan-400",
-        serviceCount: 7,
-        popular: true,
-        tags: ["Cooling", "Freezer", "Maintenance"],
-      },
-      {
-        id: 402,
-        name: "Washing Machine",
-        description: "Washer and dryer repair services",
-        icon: <Settings size={24} />,
-        color: "from-gray-600 to-gray-700",
-        serviceCount: 6,
-        popular: false,
-        tags: ["Drum", "Motor", "Drainage"],
-      },
-      {
-        id: 403,
-        name: "Oven & Stove",
-        description: "Cooktop and oven repair services",
-        icon: <Microwave size={24} />,
-        color: "from-red-500 to-pink-500",
-        serviceCount: 5,
-        popular: true,
-        tags: ["Heating", "Gas", "Electric"],
-      },
-      {
-        id: 404,
-        name: "AC Unit Service",
-        description: "Air conditioner maintenance and repair",
-        icon: <Wind size={24} />,
-        color: "from-cyan-500 to-blue-500",
-        serviceCount: 8,
-        popular: true,
-        tags: ["Cooling", "Maintenance", "Repair"],
-      },
-      {
-        id: 405,
-        name: "Dishwasher Repair",
-        description: "Dishwasher installation and fixing",
-        icon: <Droplets size={24} />,
-        color: "from-blue-500 to-blue-600",
-        serviceCount: 4,
-        popular: false,
-        tags: ["Drainage", "Spray", "Heating"],
-      },
-      {
-        id: 406,
-        name: "Small Appliances",
-        description: "Coffee makers, microwaves, and more",
-        icon: <Coffee size={24} />,
-        color: "from-brown-500 to-amber-500",
-        serviceCount: 6,
-        popular: false,
-        tags: ["Kitchen", "Repair", "Maintenance"],
-      },
-    ],
-    services: [],
-  },
-  {
-    id: 5,
-    title: "Safety & Security",
-    description: "Home security systems and safety installations",
-    icon: <Shield size={32} />,
-    color: "from-indigo-500 to-purple-500",
-    categories: [
-      {
-        id: 501,
-        name: "Security Systems",
-        description: "Alarm systems and monitoring",
-        icon: <Lock size={24} />,
-        color: "from-indigo-500 to-purple-500",
-        serviceCount: 8,
-        popular: true,
-        tags: ["Alarm", "Monitoring", "Installation"],
-      },
-      {
-        id: 502,
-        name: "Camera Installation",
-        description: "CCTV and security camera setup",
-        icon: <Tv size={24} />,
-        color: "from-gray-600 to-gray-700",
-        serviceCount: 6,
-        popular: true,
-        tags: ["CCTV", "Wireless", "Monitoring"],
-      },
-      {
-        id: 503,
-        name: "Smart Locks",
-        description: "Electronic and smart lock installation",
-        icon: <Lock size={24} />,
-        color: "from-blue-500 to-cyan-500",
-        serviceCount: 5,
-        popular: false,
-        tags: ["Electronic", "Access", "Smart"],
-      },
-      {
-        id: 504,
-        name: "Fire Safety",
-        description: "Smoke detectors and fire extinguishers",
-        icon: <Sparkles size={24} />,
-        color: "from-red-500 to-orange-500",
-        serviceCount: 4,
-        popular: true,
-        tags: ["Smoke", "Fire", "Safety"],
-      },
-      {
-        id: 505,
-        name: "Lighting Security",
-        description: "Motion sensor and security lighting",
-        icon: <Zap size={24} />,
-        color: "from-yellow-500 to-orange-500",
-        serviceCount: 5,
-        popular: false,
-        tags: ["Motion", "Outdoor", "LED"],
-      },
-      {
-        id: 506,
-        name: "Safe Installation",
-        description: "Home safe installation and setup",
-        icon: <Shield size={24} />,
-        color: "from-gray-700 to-gray-800",
-        serviceCount: 3,
-        popular: false,
-        tags: ["Vault", "Wall", "Floor"],
-      },
-    ],
-    services: [],
-  },
-  {
-    id: 6,
-    title: "Green Living",
-    description: "Eco-friendly and sustainable home solutions",
-    icon: <Leaf size={32} />,
-    color: "from-emerald-500 to-green-500",
-    categories: [
-      {
-        id: 601,
-        name: "Solar Panel Installation",
-        description: "Renewable energy solutions for homes",
-        icon: <Sun size={24} />,
-        color: "from-yellow-500 to-orange-500",
-        serviceCount: 7,
-        popular: true,
-        tags: ["Renewable", "Energy", "Installation"],
-      },
-      {
-        id: 602,
-        name: "Water Conservation",
-        description: "Water-saving fixtures and systems",
-        icon: <Droplets size={24} />,
-        color: "from-blue-500 to-cyan-500",
-        serviceCount: 6,
-        popular: false,
-        tags: ["Low-flow", "Rainwater", "Efficient"],
-      },
-      {
-        id: 603,
-        name: "Energy Audit",
-        description: "Home energy efficiency assessment",
-        icon: <Zap size={24} />,
-        color: "from-green-500 to-emerald-500",
-        serviceCount: 4,
-        popular: true,
-        tags: ["Assessment", "Efficiency", "Report"],
-      },
-      {
-        id: 604,
-        name: "Smart Thermostats",
-        description: "Energy-efficient climate control",
-        icon: <Thermometer size={24} />,
-        color: "from-red-500 to-pink-500",
-        serviceCount: 5,
-        popular: false,
-        tags: ["Smart", "Energy", "Climate"],
-      },
-      {
-        id: 605,
-        name: "Green Cleaning",
-        description: "Eco-friendly cleaning products and services",
-        icon: <Sparkles size={24} />,
-        color: "from-green-400 to-emerald-400",
-        serviceCount: 6,
-        popular: true,
-        tags: ["Eco", "Non-toxic", "Sustainable"],
-      },
-      {
-        id: 606,
-        name: "Indoor Air Quality",
-        description: "Air purification and ventilation systems",
-        icon: <Wind size={24} />,
-        color: "from-cyan-500 to-blue-500",
-        serviceCount: 5,
-        popular: false,
-        tags: ["Purification", "Ventilation", "Filters"],
-      },
-    ],
-    services: [],
-  },
+const features = [
+    {
+        id: 1,
+        category: "Shop Plants",
+        title: "Indoor Plants",
+        desc: "Transform your living space with our curated collection of low-maintenance indoor plants.",
+        icon: <LeafIcon className="w-6 h-6 " />,
+        color: "bg-green-600",
+        badge: "BESTSELLER",
+        highlight: true,
+        tabs: ["Popular", "Low Light", "Air Purifying", "Pet Friendly"],
+        subcards: [
+            {
+                title: "Snake Plant",
+                icon: <Leaf className="w-5 h-5" />,
+                image: "https://plus.unsplash.com/premium_photo-1661407472404-7413bd7568f9?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                hasNoCode: false,
+                description: "Perfect for beginners"
+            },
+            {
+                title: "Monstera Deliciosa",
+                icon: <Leaf className="w-5 h-5" />,
+                image: "https://thursd.com/storage/media/59733/heart-shaped--leaves-of-plants-square-feature-image.webp",
+                hasNoCode: false,
+                description: "Tropical beauty"
+            },
+            {
+                title: "Peace Lily",
+                icon: <Flower2 className="w-5 h-5" />,
+                image: "https://ngb.org/wp-content/uploads/2021/02/heart-leaf-philodendron-canva-1024x1024.png",
+                hasNoCode: false,
+                description: "Air purifying"
+            },
+            {
+                title: "Pothos",
+                icon: <Leaf className="w-5 h-5" />,
+                image: "https://m.media-amazon.com/images/I/81lwCKlKamL.jpg",
+                hasNoCode: false,
+                description: "Easy to grow"
+            },
+            {
+                title: "ZZ Plant",
+                icon: <Sprout className="w-5 h-5" />,
+                image: "https://img.freepik.com/premium-photo/group-plants-that-are-labeled-plant-square-container_1078211-318551.jpg",
+                hasNoCode: false,
+                description: "Drought tolerant"
+            }
+        ]
+    },
+    {
+        id: 2,
+        category: "Shop Plants",
+        title: "Outdoor Plants",
+        desc: "Beautify your garden with weather-resistant outdoor plants and flowering varieties.",
+        icon: <Sun className="w-6 h-6 text-white" />,
+        color: "bg-amber-600",
+        badge: "NEW ARRIVALS",
+        highlight: false,
+        tabs: ["Flowering", "Shrubs", "Climbers", "Seasonal"],
+        subcards: [
+            {
+                title: "Rose Bushes",
+                icon: <Flower2 className="w-5 h-5" />,
+                image: "https://i.pinimg.com/736x/30/e8/b9/30e8b9e5a79a0cf2627d187357fcd6d1.jpg",
+                hasNoCode: false,
+                description: "Classic beauty"
+            },
+            {
+                title: "Bougainvillea",
+                icon: <Flower2 className="w-5 h-5" />,
+                image: "https://plus.unsplash.com/premium_photo-1678382342637-55835400891b?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                hasNoCode: false,
+                description: "Vibrant colors"
+            },
+            {
+                title: "Hibiscus",
+                icon: <Flower2 className="w-5 h-5" />,
+                image: "https://images.unsplash.com/photo-1730042315892-d2eddfdf62c2?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                hasNoCode: false,
+                description: "Tropical flowers"
+            },
+            {
+                title: "Money Plant",
+                icon: <Leaf className="w-5 h-5" />,
+                image: "https://cdn.pixabay.com/photo/2012/04/14/16/53/flowers-34592_1280.png",
+                hasNoCode: false,
+                description: "Good luck charm"
+            }
+        ]
+    },
+    {
+        id: 3,
+        category: "Shop Plants",
+        title: "Fruit Trees",
+        desc: "Grow your own organic fruits with our premium fruit tree saplings.",
+        icon: <TreePine className="w-6 h-6 text-white" />,
+        color: "bg-emerald-600",
+        badge: "ORGANIC",
+        highlight: false,
+        tabs: ["Citrus", "Tropical", "Berries", "Stone Fruits"],
+        subcards: [
+            {
+                title: "Lemon Tree",
+                icon: <TreePine className="w-5 h-5" />,
+                image: "https://www.creativefabrica.com/wp-content/uploads/2023/02/13/Beautiful-Fruit-Tree-In-An-Inviting-Garden-61043375-1.png",
+                hasNoCode: false,
+                description: "Fresh citrus"
+            },
+            {
+                title: "Mango Tree",
+                icon: <TreePine className="w-5 h-5" />,
+                image: "http://cdn.shopify.com/s/files/1/0646/1305/6767/products/Clementine-mandarin-tree1.jpg?v=1684453698",
+                hasNoCode: false,
+                description: "King of fruits"
+            },
+            {
+                title: "Guava Tree",
+                icon: <TreePine className="w-5 h-5" />,
+                image: "https://static.vecteezy.com/system/resources/previews/022/984/257/non_2x/big-apple-tree-free-illustration-free-png.png",
+                hasNoCode: false,
+                description: "Rich in Vitamin C"
+            },
+            {
+                title: "Dwarf Plant",
+                icon: <Sprout className="w-5 h-5" />,
+                image: "https://balconygardenweb.b-cdn.net/wp-content/uploads/2021/06/dwarf-orange-tree.jpg",
+                hasNoCode: false,
+                description: "Fast growing"
+            }
+        ]
+    },
+    {
+        id: 4,
+        category: "Gardening Tools",
+        title: "Essential Tools",
+        desc: "Complete your gardening toolkit with our professional-grade tools and equipment.",
+        icon: <Settings className="w-6 h-6 text-white" />,
+        color: "bg-slate-700",
+        badge: "PREMIUM",
+        highlight: false,
+        tabs: ["Hand Tools", "Power Tools", "Watering", "Accessories"],
+        subcards: [
+            {
+                title: "Pruning Shears",
+                icon: <Settings className="w-5 h-5" />,
+                image: "https://www.kebtek.com/upload/2021-01-27/20210127182911761.jpg",
+                hasNoCode: false,
+                description: "Professional grade"
+            },
+            {
+                title: "Garden Trowel Set",
+                icon: <Settings className="w-5 h-5" />,
+                image: "https://static.wixstatic.com/media/51b1fa_5aae52c7f25945b5b87648dd36177af1~mv2.jpg",
+                hasNoCode: false,
+                description: "Durable steel"
+            },
+            {
+                title: "Watering Can",
+                icon: <Droplets className="w-5 h-5" />,
+                image: "https://static.wixstatic.com/media/51b1fa_5aae52c7f25945b5b87648dd36177af1~mv2.jpg",
+                hasNoCode: false,
+                description: "2L capacity"
+            },
+            {
+                title: "Garden Gloves",
+                icon: <Settings className="w-5 h-5" />,
+                image: "https://www.whiteflowerfarm.com/mas_assets/cache/image/9/b/b/0/39856.Jpg",
+                hasNoCode: false,
+                description: "Comfortable grip"
+            }
+        ]
+    },
+    {
+        id: 5,
+        category: "Plant Care",
+        title: "Fertilizers & Soil",
+        desc: "Nourish your plants with organic fertilizers and premium potting mixes.",
+        icon: <DropletsIcon className="w-6 h-6" />,
+        color: "bg-brown-600",
+        badge: "ORGANIC",
+        highlight: false,
+        tabs: ["Organic", "Chemical", "Soil Mix", "Pest Control"],
+        subcards: [
+            {
+                title: "Organic Compost",
+                icon: <Leaf className="w-5 h-5" />,
+                image: "https://tse4.mm.bing.net/th/id/OIP.9j_gt1QQpUBXskrC93GgfgHaGP?pid=Api&P=0&h=180",
+                hasNoCode: false,
+                description: "100% natural"
+            },
+            {
+                title: "Potting Mix",
+                icon: <Package className="w-5 h-5" />,
+                image: "https://m.media-amazon.com/images/I/81BRM3b7qTL._AC_.jpg",
+                hasNoCode: false,
+                description: "Well-draining"
+            }
+        ]
+    },
 ];
 
-// ================ COMPONENTS ================
+const STACK_TOP_OFFSET = 80; // px
+const STACK_SPACING = 12; // px
+const STACK_OVERLAP_PX = 40; // px overlap so next card barely peeks through
+const STACK_SCALE_DIFFERENCE = 0.05; // max scale reduction
+const STACK_SHRINK_DISTANCE = 220; // px scroll range for scaling
 
-// Header Component
-export const ServiceHeader = () => {
-  const stats = [
-    { value: "500+", label: "Services Available" },
-    { value: "4.9", label: "Average Rating" },
-    { value: "24/7", label: "Emergency Service" },
-    { value: "50+", label: "Expert Technicians" },
-  ];
+const FeatureCard = ({ item }) => {
+    const [activeTab, setActiveTab] = useState(0);
+    const scrollContainerRef = useRef(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(false);
 
-  //   return (
-  //     <div className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white pt-16 pb-24">
-  //       {/* Animated Background */}
-  //       <div className="absolute inset-0">
-  //         {[...Array(15)].map((_, i) => (
-  //           <div
-  //             key={i}
-  //             className="absolute rounded-full bg-white/5 animate-pulse"
-  //             style={{
-  //               width: Math.random() * 80 + 20 + "px",
-  //               height: Math.random() * 80 + 20 + "px",
-  //               left: Math.random() * 100 + "%",
-  //               top: Math.random() * 100 + "%",
-  //               animationDelay: Math.random() * 5 + "s",
-  //               animationDuration: Math.random() * 10 + 10 + "s",
-  //             }}
-  //           />
-  //         ))}
-  //       </div>
+    // Check scroll position
+    const checkScroll = () => {
+        if (scrollContainerRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+            setCanScrollLeft(scrollLeft > 0);
+            setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+        }
+    };
 
-  //       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  //         <div className="text-center">
-  //           <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6">
-  //             <Sparkles size={16} className="mr-2" />
-  //             <span className="text-sm font-medium">
-  //               One-stop solution for all home services
-  //             </span>
-  //           </div>
+    // Handle scroll
+    const scroll = (direction) => {
+        if (scrollContainerRef.current) {
+            const scrollAmount = 300;
+            const newScrollLeft = direction === 'left'
+                ? scrollContainerRef.current.scrollLeft - scrollAmount
+                : scrollContainerRef.current.scrollLeft + scrollAmount;
 
-  //           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-  //             Find the Perfect
-  //             <span className="block text-blue-300 mt-2">Home Service</span>
-  //           </h1>
+            scrollContainerRef.current.scrollTo({
+                left: newScrollLeft,
+                behavior: 'smooth'
+            });
+        }
+    };
 
-  //           <p className="text-xl text-blue-200 max-w-3xl mx-auto mb-10">
-  //             Browse through hundreds of professional services. From quick fixes
-  //             to major renovations, we connect you with trusted experts.
-  //           </p>
+    // Check if we need scroll buttons (more than 4 items)
+    const needsScroll = item.subcards.length > 4;
 
-  //           {/* Stats */}
-  //           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto mb-12">
-  //             {stats.map((stat, index) => (
-  //               <div
-  //                 key={index}
-  //                 className="bg-white/10 backdrop-blur-sm rounded-xl p-4"
-  //               >
-  //                 <div className="text-2xl md:text-3xl font-bold mb-1">
-  //                   {stat.value}
-  //                 </div>
-  //                 <div className="text-sm text-blue-200">{stat.label}</div>
-  //               </div>
-  //             ))}
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-};
+    // Update scroll state on mount and scroll
+    React.useEffect(() => {
+        if (needsScroll) {
+            checkScroll();
+            const container = scrollContainerRef.current;
+            if (container) {
+                container.addEventListener('scroll', checkScroll);
+                // Check scroll on mount after a brief delay
+                setTimeout(checkScroll, 100);
+                return () => container.removeEventListener('scroll', checkScroll);
+            }
+        }
+    }, [needsScroll]);
 
-// Search and Filter Component
-const SearchFilters: React.FC<{
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-  selectedCategory: string;
-  onCategoryChange: (category: string) => void;
-  viewMode: "grid" | "list";
-  onViewModeChange: (mode: "grid" | "list") => void;
-}> = ({
-  searchQuery,
-  onSearchChange,
-  selectedCategory,
-  onCategoryChange,
-  viewMode,
-  onViewModeChange,
-}) => {
-  const categories = [
-    "All Services",
-    "Popular",
-    "Emergency",
-    "Installation",
-    "Repair",
-    "Maintenance",
-  ];
+    return (
+        <div className={`
+            relative w-full flex flex-col p-6 transition-all duration-300
+             shadow-[0_-4px_20px_rgba(0,0,0,0.1)] border border-slate-200
+            ${item.highlight
+                ? "bg-blue-50"
+                : "bg-white"
+            }
+        `}>
+            {/* Card Header */}
+            <div className="flex justify-between items-start mb-4">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg ${item.highlight ? 'bg-white' : item.color}`}>
+                    {item.icon}
+                </div>
 
-  return (
-    <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 py-4">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-4">
-          {/* Search Bar */}
-          <div className="flex-1 relative">
-            <Search
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-            <input
-              type="text"
-              placeholder="Search services, categories, or keywords..."
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1.5 rounded-full">
+                    {item.category}
+                </span>
+            </div>
 
-          {/* View Toggle */}
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => onViewModeChange("grid")}
-              className={`p-3 rounded-lg ${
-                viewMode === "grid"
-                  ? "bg-blue-100 text-blue-600"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              <Grid size={20} />
-            </button>
-            <button
-              onClick={() => onViewModeChange("list")}
-              className={`p-3 rounded-lg ${
-                viewMode === "list"
-                  ? "bg-blue-100 text-blue-600"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              <List size={20} />
-            </button>
-          </div>
-
-          {/* Filter Button */}
-          <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors flex items-center justify-center">
-            <Filter size={20} className="mr-2" />
-            Filters
-          </button>
-        </div>
-
-        {/* Category Filter Chips */}
-        <div className="mt-4 flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => onCategoryChange(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedCategory === category
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Service Section Card Component
-const ServiceSectionCard: React.FC<{
-  section: ServiceSection;
-  isExpanded: boolean;
-  onToggle: () => void;
-  onServiceSelect: (service: ServiceItem) => void;
-}> = ({ section, isExpanded, onToggle, onServiceSelect }) => {
-  return (
-    <div
-      id={`section-${section.id}`}
-      className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8"
-    >
-      {/* Section Header */}
-      <button
-        onClick={onToggle}
-        className="w-full p-8 flex flex-col md:flex-row justify-between items-start md:items-center hover:bg-gray-50 transition-colors group"
-      >
-        <div className="flex items-start md:items-center">
-          <div
-            className={`bg-gradient-to-br ${section.color} w-16 h-16 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform`}
-          >
-            <div className="text-white">{section.icon}</div>
-          </div>
-          <div className="text-left">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-              {section.title}
-            </h2>
-            <p className="text-gray-600">{section.description}</p>
-          </div>
-        </div>
-        <div className="mt-4 md:mt-0 flex items-center">
-          <span className="text-gray-500 mr-3">
-            {section.categories.length} categories • {section.services.length}{" "}
-            services
-          </span>
-          <ChevronDown
-            className={`text-gray-400 transition-transform ${
-              isExpanded ? "rotate-180" : ""
-            }`}
-            size={24}
-          />
-        </div>
-      </button>
-
-      {/* Expanded Content */}
-      {isExpanded && (
-        <div className="px-8 pb-8">
-          {/* Categories Grid */}
-          <div className="mb-12">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">
-              Service Categories
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {section.categories.map((category) => (
-                <div
-                  key={category.id}
-                  className="group bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 cursor-pointer"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div
-                      className={`bg-gradient-to-br ${category.color} w-12 h-12 rounded-lg flex items-center justify-center`}
-                    >
-                      <div className="text-white">{category.icon}</div>
-                    </div>
-                    {category.popular && (
-                      <span className="px-3 py-1 bg-blue-100 text-blue-600 text-xs font-medium rounded-full">
-                        Popular
-                      </span>
+            {/* Title Section */}
+            <div className="mb-4">
+                <div className="flex items-center gap-3 mb-2">
+                    <h3 className={`text-3xl font-bold ${item.highlight ? 'text-blue-900' : 'text-slate-900'}`}>
+                        {item.title}
+                    </h3>
+                    {item.badge && (
+                        <span className="bg-green-100 text-green-700 text-xs font-extrabold px-3 py-1.5 rounded uppercase tracking-wide">
+                            {item.badge}
+                        </span>
                     )}
-                  </div>
-
-                  <h4 className="text-lg font-bold text-gray-900 mb-2">
-                    {category.name}
-                  </h4>
-                  <p className="text-gray-600 text-sm mb-4">
-                    {category.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {category.tags.map((tag, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-500">
-                      {category.serviceCount} services
-                    </span>
-                    <button className="text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center">
-                      Explore
-                      <ChevronRight size={16} className="ml-1" />
-                    </button>
-                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Services List (if available) */}
-          {section.services.length > 0 && (
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 mb-6">
-                Popular Services
-              </h3>
-              <div className="space-y-4">
-                {section.services.map((service) => (
-                  <div
-                    key={service.id}
-                    className="bg-gradient-to-r from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 cursor-pointer group"
-                    onClick={() => onServiceSelect(service)}
-                  >
-                    <div className="flex flex-col md:flex-row md:items-center">
-                      {service.image && (
-                        <div className="md:w-32 md:h-24 rounded-lg overflow-hidden mb-4 md:mb-0 md:mr-6">
-                          <img
-                            src={service.image}
-                            alt={service.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      )}
-
-                      <div className="flex-1">
-                        <div className="flex flex-wrap items-center gap-3 mb-3">
-                          <div
-                            className={`bg-gradient-to-br ${service.color} w-10 h-10 rounded-lg flex items-center justify-center`}
-                          >
-                            <div className="text-white">{service.icon}</div>
-                          </div>
-                          <h4 className="text-lg font-bold text-gray-900">
-                            {service.name}
-                          </h4>
-                          {service.popular && (
-                            <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
-                              Popular
-                            </span>
-                          )}
-                          <div className="flex items-center ml-auto">
-                            <Star
-                              size={16}
-                              className="text-yellow-500 mr-1"
-                              fill="currentColor"
-                            />
-                            <span className="font-bold">{service.rating}</span>
-                            <span className="text-gray-500 text-sm ml-1">
-                              ({service.reviews})
-                            </span>
-                          </div>
-                        </div>
-
-                        <p className="text-gray-600 mb-4">
-                          {service.description}
-                        </p>
-
-                        <div className="flex flex-wrap items-center justify-between gap-4">
-                          <div className="flex flex-wrap gap-4">
-                            <div className="flex items-center text-gray-700">
-                              <Clock size={16} className="mr-2 text-gray-400" />
-                              <span className="text-sm">
-                                {service.duration}
-                              </span>
-                            </div>
-                            <div className="flex items-center text-gray-700">
-                              <span className="text-lg font-bold text-blue-600">
-                                {service.priceRange}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-wrap gap-2">
-                            {service.features.map((feature, idx) => (
-                              <span
-                                key={idx}
-                                className="px-3 py-1 bg-blue-50 text-blue-600 text-xs rounded-full"
-                              >
-                                {feature}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-// Quick Navigation Sidebar
-const QuickNavigation: React.FC<{
-  sections: ServiceSection[];
-  activeSection: number;
-  onSectionClick: (id: number) => void;
-}> = ({ sections, activeSection, onSectionClick }) => {
-  const [collapsed, setCollapsed] = useState(false);
-
-  return (
-    <div
-      className={`hidden lg:block sticky top-24 ${
-        collapsed ? "w-16" : "w-64"
-      } transition-all duration-300`}
-    >
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            {!collapsed && (
-              <h3 className="font-bold text-gray-900">Quick Jump</h3>
-            )}
-            <button
-              onClick={() => setCollapsed(!collapsed)}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <ChevronLeft
-                className={`transition-transform ${
-                  collapsed ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-          </div>
-        </div>
-
-        <nav className="p-4">
-          {sections.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => onSectionClick(section.id)}
-              className={`w-full mb-2 p-3 rounded-xl transition-all text-left ${
-                activeSection === section.id
-                  ? "bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200"
-                  : "hover:bg-gray-50"
-              }`}
-            >
-              <div className="flex items-center">
-                <div
-                  className={`bg-gradient-to-br ${section.color} w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0`}
-                >
-                  <div className="text-white">{section.icon}</div>
-                </div>
-                {!collapsed && (
-                  <div className="ml-3">
-                    <div className="font-medium text-gray-900 text-sm">
-                      {section.title}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {section.categories.length} categories
-                    </div>
-                  </div>
-                )}
-              </div>
-            </button>
-          ))}
-        </nav>
-      </div>
-    </div>
-  );
-};
-
-// Service Inquiry Modal
-const ServiceInquiryModal: React.FC<{
-  service: ServiceItem | null;
-  isOpen: boolean;
-  onClose: () => void;
-}> = ({ service, isOpen, onClose }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    date: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  if (!isOpen || !service) return null;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-
-      setTimeout(() => {
-        setIsSubmitted(false);
-        onClose();
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          date: "",
-          message: "",
-        });
-      }, 3000);
-    }, 2000);
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        {/* Background overlay */}
-        <div
-          className="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75"
-          onClick={onClose}
-        />
-
-        {/* Modal panel */}
-        <div className="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-6 pt-6 pb-6 sm:p-8">
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900">
-                  Inquire About Service
-                </h3>
-                <p className="text-gray-600 mt-1">{service.name}</p>
-              </div>
-              <button
-                onClick={onClose}
-                className="text-gray-400 hover:text-gray-500"
-              >
-                ✕
-              </button>
-            </div>
-
-            {isSubmitted ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="text-green-600" size={32} />
-                </div>
-                <h4 className="text-xl font-bold text-gray-900 mb-2">
-                  Request Sent!
-                </h4>
-                <p className="text-gray-600">
-                  We'll contact you within 30 minutes to schedule your service.
+                <p className="text-slate-600 text-base leading-relaxed">
+                    {item.desc}
                 </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Service
-                  </label>
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
-                      <div
-                        className={`bg-gradient-to-br ${service.color} w-10 h-10 rounded-lg flex items-center justify-center mr-3`}
-                      >
-                        <div className="text-white">{service.icon}</div>
-                      </div>
-                      <div>
-                        <div className="font-medium text-gray-900">
-                          {service.name}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {service.priceRange}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="John Smith"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone *
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="(555) 123-4567"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Preferred Date
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.date}
-                      onChange={(e) =>
-                        setFormData({ ...formData, date: e.target.value })
-                      }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Additional Details
-                  </label>
-                  <textarea
-                    rows={3}
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Please describe your specific needs..."
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-75 disabled:cursor-not-allowed flex items-center justify-center"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
-                      Sending Request...
-                    </>
-                  ) : (
-                    <>
-                      <MessageSquare size={20} className="mr-3" />
-                      Send Service Inquiry
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Category Grid View Component
-const CategoryGridView: React.FC<{
-  categories: ServiceCategory[];
-  onCategoryClick: (category: ServiceCategory) => void;
-}> = ({ categories, onCategoryClick }) => {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {categories.map((category) => (
-        <div
-          key={category.id}
-          onClick={() => onCategoryClick(category)}
-          className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer overflow-hidden"
-        >
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div
-                className={`bg-gradient-to-br ${category.color} w-14 h-14 rounded-xl flex items-center justify-center`}
-              >
-                <div className="text-white">{category.icon}</div>
-              </div>
-              {category.popular && (
-                <span className="px-3 py-1 bg-blue-100 text-blue-600 text-xs font-medium rounded-full">
-                  Popular
-                </span>
-              )}
             </div>
 
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              {category.name}
-            </h3>
-            <p className="text-gray-600 mb-6">{category.description}</p>
-
-            <div className="flex flex-wrap gap-2 mb-6">
-              {category.tags.map((tag, idx) => (
-                <span
-                  key={idx}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
+            {/* Tab Navigation */}
+            <div className="border-b border-slate-200 mb-4">
+                <nav className="flex gap-8 overflow-x-auto scrollbar-hide">
+                    {item.tabs.map((tab, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setActiveTab(index)}
+                            className={`
+                                pb-3 px-2 text-sm font-semibold whitespace-nowrap transition-colors relative
+                                ${activeTab === index
+                                    ? 'text-blue-600'
+                                    : 'text-slate-500 hover:text-slate-700'
+                                }
+                            `}
+                        >
+                            {tab}
+                            {activeTab === index && (
+                                <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t" />
+                            )}
+                        </button>
+                    ))}
+                </nav>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-500">
-                {category.serviceCount} services available
-              </div>
-              <div className="text-blue-600 group-hover:text-blue-800 font-semibold flex items-center">
-                Explore
-                <ArrowRight
-                  size={16}
-                  className="ml-2 group-hover:translate-x-1 transition-transform"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// Main Component
-const ServiceCategoriesPage: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Services");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [expandedSections, setExpandedSections] = useState<Set<number>>(
-    new Set([1])
-  );
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(
-    null
-  );
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState(1);
-
-  // Flatten all categories for search
-  const allCategories = useMemo(() => {
-    return serviceSections.flatMap((section) => section.categories);
-  }, []);
-
-  // Flatten all services for search
-  const allServices = useMemo(() => {
-    return serviceSections.flatMap((section) => section.services);
-  }, []);
-
-  // Filter categories based on search and selected filter
-  const filteredCategories = useMemo(() => {
-    let filtered = allCategories;
-
-    // Apply search filter
-    if (searchQuery) {
-      filtered = filtered.filter(
-        (category) =>
-          category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          category.description
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          category.tags.some((tag) =>
-            tag.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-      );
-    }
-
-    // Apply category filter
-    if (selectedCategory !== "All Services") {
-      if (selectedCategory === "Popular") {
-        filtered = filtered.filter((cat) => cat.popular);
-      } else {
-        filtered = filtered.filter((cat) =>
-          cat.tags.some((tag) =>
-            tag.toLowerCase().includes(selectedCategory.toLowerCase())
-          )
-        );
-      }
-    }
-
-    return filtered;
-  }, [searchQuery, selectedCategory, allCategories]);
-
-  // Handle section toggle
-  const toggleSection = (sectionId: number) => {
-    const newExpanded = new Set(expandedSections);
-    if (newExpanded.has(sectionId)) {
-      newExpanded.delete(sectionId);
-    } else {
-      newExpanded.add(sectionId);
-    }
-    setExpandedSections(newExpanded);
-  };
-
-  // Handle service selection
-  const handleServiceSelect = (service: ServiceItem) => {
-    setSelectedService(service);
-    setIsModalOpen(true);
-  };
-
-  // Handle category click
-  const handleCategoryClick = (category: ServiceCategory) => {
-    // Find the parent section
-    const parentSection = serviceSections.find((section) =>
-      section.categories.some((cat) => cat.id === category.id)
-    );
-
-    if (parentSection) {
-      // Expand the parent section
-      if (!expandedSections.has(parentSection.id)) {
-        setExpandedSections(new Set([...expandedSections, parentSection.id]));
-      }
-
-      // Scroll to the section
-      document.getElementById(`section-${parentSection.id}`)?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-  };
-
-  // Handle section navigation
-  const handleSectionClick = (sectionId: number) => {
-    setActiveSection(sectionId);
-    if (!expandedSections.has(sectionId)) {
-      setExpandedSections(new Set([...expandedSections, sectionId]));
-    }
-    document.getElementById(`section-${sectionId}`)?.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <ServiceHeader />
-
-      {/* Search and Filters */}
-      <SearchFilters
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Quick Navigation Sidebar */}
-          <QuickNavigation
-            sections={serviceSections}
-            activeSection={activeSection}
-            onSectionClick={handleSectionClick}
-          />
-
-          {/* Main Content */}
-          <div className="flex-1">
-            {/* Search Results Summary */}
-            {(searchQuery || selectedCategory !== "All Services") && (
-              <div className="mb-8 p-6 bg-white rounded-2xl shadow-lg">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  Search Results
-                </h3>
-                <div className="flex flex-wrap items-center gap-4">
-                  <span className="text-gray-600">
-                    Found{" "}
-                    <span className="font-bold">
-                      {filteredCategories.length}
-                    </span>{" "}
-                    categories
-                    {searchQuery && (
-                      <>
-                        {" "}
-                        for "<span className="font-bold">{searchQuery}</span>"
-                      </>
-                    )}
-                  </span>
-                  {(searchQuery || selectedCategory !== "All Services") && (
+            {/* Subcards Grid with Scroll */}
+            <div className="relative mb-6 flex-1">
+                {/* Left Arrow */}
+                {needsScroll && canScrollLeft && (
                     <button
-                      onClick={() => {
-                        setSearchQuery("");
-                        setSelectedCategory("All Services");
-                      }}
-                      className="text-blue-600 hover:text-blue-800 font-medium"
+                        onClick={() => scroll('left')}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white shadow-xl rounded-full p-3 hover:bg-gray-50 transition-all hover:scale-110"
+                        aria-label="Scroll left"
                     >
-                      Clear filters
+                        <ChevronLeft className="w-6 h-6 text-gray-700" />
                     </button>
-                  )}
+                )}
+
+                {/* Right Arrow */}
+                {needsScroll && canScrollRight && (
+                    <button
+                        onClick={() => scroll('right')}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white shadow-xl rounded-full p-3 hover:bg-gray-50 transition-all hover:scale-110"
+                        aria-label="Scroll right"
+                    >
+                        <ChevronRight className="w-6 h-6 text-gray-700" />
+                    </button>
+                )}
+
+                {/* Subcards Container */}
+                <div
+                    ref={scrollContainerRef}
+                    className={`
+                        ${needsScroll ? 'flex gap-6 overflow-x-auto' : 'grid grid-cols-2 lg:grid-cols-4 gap-6'}
+                        ${needsScroll ? 'scroll-smooth snap-x snap-mandatory' : ''}
+                    `}
+                    style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                        WebkitOverflowScrolling: 'touch'
+                    }}
+                >
+                    {item.subcards.map((subcard, index) => (
+                        <div
+                            key={index}
+                            className={`
+                                bg-slate-50 rounded-2xl p-4 hover:shadow-lg transition-all cursor-pointer 
+                                border border-slate-100 hover:border-blue-200 relative group
+                                ${needsScroll ? 'min-w-[200px] shrink-0 snap-start' : ''}
+                            `}
+                        >
+
+                            <div className="flex flex-col items-center text-center gap-3">
+                                <img src={subcard.image} alt={subcard.title} className="w-40 h-40 object-contain" />
+                                <span className="text-sm font-semibold text-slate-700 group-hover:text-blue-600 transition-colors">
+                                    {subcard.title}
+                                </span>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-              </div>
-            )}
-
-            {/* Grid View for Search Results */}
-            {viewMode === "grid" &&
-            (searchQuery || selectedCategory !== "All Services") ? (
-              <CategoryGridView
-                categories={filteredCategories}
-                onCategoryClick={handleCategoryClick}
-              />
-            ) : (
-              /* Section-based View */
-              <div>
-                {serviceSections.map((section) => (
-                  <ServiceSectionCard
-                    key={section.id}
-                    section={section}
-                    isExpanded={expandedSections.has(section.id)}
-                    onToggle={() => toggleSection(section.id)}
-                    onServiceSelect={handleServiceSelect}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+            </div>
         </div>
-
-        {/* CTA Section */}
-        <div className="mt-12 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-center text-white">
-          <div className="max-w-2xl mx-auto">
-            <Shield size={48} className="mx-auto mb-6" />
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              Can't Find What You're Looking For?
-            </h3>
-            <p className="text-blue-100 mb-8">
-              Our team can help you with custom service requests and specialized
-              solutions
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-white text-blue-600 rounded-xl hover:bg-gray-100 transition-all font-semibold flex items-center justify-center">
-                <Phone size={20} className="mr-2" />
-                Call for Custom Quote
-              </button>
-              <button className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-xl hover:bg-white/10 transition-all font-semibold flex items-center justify-center">
-                <MessageSquare size={20} className="mr-2" />
-                Chat with Expert
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Benefits Section */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-2xl p-6 text-center">
-            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Award className="text-blue-600" size={32} />
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">
-              Certified Professionals
-            </h4>
-            <p className="text-gray-600">
-              All services provided by licensed and verified experts
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl p-6 text-center">
-            <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Shield className="text-green-600" size={32} />
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">Service Guarantee</h4>
-            <p className="text-gray-600">
-              100% satisfaction guarantee on all services
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl p-6 text-center">
-            <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Clock className="text-purple-600" size={32} />
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">Quick Response</h4>
-            <p className="text-gray-600">
-              Same-day service available for most requests
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Service Inquiry Modal */}
-      <ServiceInquiryModal
-        service={selectedService}
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedService(null);
-        }}
-      />
-    </div>
-  );
+    );
 };
 
-export default ServiceCategoriesPage;
+const StackedFeatureCard = ({ item, index, totalItems }) => {
+    const cardRef = useRef(null);
+    const [scale, setScale] = useState(1);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            if (!cardRef.current) return;
+
+            const rect = cardRef.current.getBoundingClientRect();
+            const targetTop = STACK_TOP_OFFSET + index * STACK_SPACING;
+            const delta = targetTop - rect.top;
+            const progress = Math.min(1, Math.max(0, delta / STACK_SHRINK_DISTANCE));
+            const newScale = 1 - (STACK_SCALE_DIFFERENCE * progress);
+            setScale(Number(newScale.toFixed(3)));
+        };
+
+        handleScroll();
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [index]);
+
+    return (
+        <div
+            ref={cardRef}
+            className="sticky w-full transition-transform duration-150 will-change-transform"
+            style={{
+                top: `${STACK_TOP_OFFSET + index * STACK_SPACING}px`,
+                zIndex: index + 1,
+                marginTop: index === 0 ? 0 : `-${STACK_OVERLAP_PX}px`,
+                paddingTop: index === 0 ? 0 : `${STACK_SPACING}px`,
+                transform: `scale(${scale})`,
+                transformOrigin: 'top center'
+            }}
+        >
+            <FeatureCard item={item} />
+        </div>
+    );
+};
+
+export default function RazorpayStackSection() {
+    return (
+        <section className="relative w-full bg-emerald-50">
+            {/* subtle decorative background */}
+            <div className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-emerald-400 via-transparent to-transparent" />
+
+            <div className="relative z-10">
+                {/* Page Header */}
+                <div className="text-center px-4 pt-20 pb-8 flex flex-col items-center">
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-emerald-900 mb-3">
+                        Plant Haven — Explore Our Collections
+                    </h2>
+                    <p className="max-w-2xl text-slate-600 text-lg">
+                        Discover indoor and outdoor plants, tools, and care products curated for every gardener.
+                        Scroll to preview featured categories and top picks.
+                    </p>
+
+                    <div className="mt-6 flex gap-3">
+                        <a
+                            href="#shop"
+                            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full shadow hover:bg-emerald-700 transition"
+                        >
+                            Shop Now
+                            <ArrowRight className="w-4 h-4" />
+                        </a>
+                        <a
+                            href="#learn"
+                            className="inline-flex items-center gap-2 bg-white text-emerald-700 px-4 py-2 rounded-full shadow-sm border border-emerald-100 hover:bg-emerald-50 transition"
+                        >
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+
+                {/* Stacked feature area — tall container to allow scrolling stack effect */}
+                <div
+                    className="relative w-full max-w-[90%] mx-auto px-4 md:px-8"
+                    style={{ height: `400vh` }}
+                >
+                    {features.map((item, index) => (
+                        <StackedFeatureCard
+                            key={item.id}
+                            item={item}
+                            index={index}
+                            totalItems={features.length}
+                        />
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
