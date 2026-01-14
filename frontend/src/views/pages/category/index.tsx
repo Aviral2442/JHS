@@ -278,7 +278,7 @@ const features = [
 
 const STACK_TOP_OFFSET = 130; // px
 const STACK_SPACING = 20; // px
-const STACK_OVERLAP_PX = 10; // px overlap so next card barely peeks through
+const STACK_OVERLAP_PX = 30; // px overlap so next card barely peeks through
 const STACK_SCALE_DIFFERENCE = 0.05; // max scale reduction
 const STACK_SHRINK_DISTANCE = 220; // px scroll range for scaling
 
