@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
-  Search,
   User,
   ShoppingCart,
   Menu,
   X,
+  Search,
   ChevronDown,
   ChevronRight,
   Phone,
   Mail,
   Clock,
-  Home,
   Wrench,
   Droplets,
   Zap,
@@ -35,6 +34,7 @@ import {
 } from "lucide-react";
 import { FaCouch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
+import SearchOverlay from "../../components/website/SearchOverlay";
 
 // ================ TYPES ================
 interface ServiceCategory {
@@ -428,9 +428,13 @@ const MainHeader: React.FC<{
   isMobileMenuOpen: boolean;
   onMobileMenuToggle: () => void;
   onServiceHover: (service: Service | null) => void;
-}> = ({ isMobileMenuOpen, onMobileMenuToggle, onServiceHover }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchActive, setIsSearchActive] = useState(false);
+  onSearchOpen: () => void;
+}> = ({
+  isMobileMenuOpen,
+  onMobileMenuToggle,
+  onServiceHover,
+  onSearchOpen,
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -476,35 +480,12 @@ const MainHeader: React.FC<{
           {/* Right Section - Search & Auth */}
           <div className="flex items-center space-x-4">
             {/* Search */}
-            <div
-              className={`relative transition-all duration-300 ${
-                isSearchActive ? "w-64" : "w-48"
-              }`}
+            <button
+              onClick={onSearchOpen}
+              className="p-2 rounded-lg hover:bg-gray-100"
             >
-              <div className="relative">
-                <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="Search services..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsSearchActive(true)}
-                  onBlur={() => setIsSearchActive(false)}
-                  className="w-full pl-10 pr-4 py-2 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    <X size={18} />
-                  </button>
-                )}
-              </div>
-            </div>
+              <Search size={22} className="text-gray-700" />
+            </button>
 
             {/* Cart */}
             <button
@@ -533,6 +514,7 @@ const MainHeader: React.FC<{
     </div>
   );
 };
+
 
 // Service Slider Component
 const ServiceSlider: React.FC<{
@@ -818,7 +800,8 @@ const MobileMenu: React.FC<{
   services: Service[];
   activeService: Service | null;
   onServiceSelect: (service: Service) => void;
-}> = ({ isOpen, services, activeService, onServiceSelect }) => {
+  onOpenSearch?: () => void;
+}> = ({ isOpen, services, activeService, onServiceSelect, onOpenSearch }) => {
   const [expandedService, setExpandedService] = useState<number | null>(null);
 
   if (!isOpen) return null;
@@ -835,6 +818,7 @@ const MobileMenu: React.FC<{
           <input
             type="text"
             placeholder="Search services..."
+            onFocus={() => onOpenSearch && onOpenSearch()}
             className="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -944,6 +928,7 @@ const MegaMenuHeader: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const hoverTimeoutRef = useRef<number | undefined>(undefined);
   const leaveTimeoutRef = useRef<number | undefined>(undefined);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Handle scroll for shadow effect
   useEffect(() => {
@@ -1008,6 +993,7 @@ const MegaMenuHeader: React.FC = () => {
           isMobileMenuOpen={isMobileMenuOpen}
           onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           onServiceHover={handleServiceHover}
+          onSearchOpen={() => setIsSearchOpen(true)}
         />
 
         {/* Service Slider */}
@@ -1044,6 +1030,12 @@ const MegaMenuHeader: React.FC = () => {
         services={services}
         activeService={activeService}
         onServiceSelect={handleServiceSelect}
+        onOpenSearch={() => setIsSearchOpen(true)}
+      />
+
+      <SearchOverlay
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
       />
     </>
   );
