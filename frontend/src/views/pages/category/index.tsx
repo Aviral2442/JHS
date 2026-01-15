@@ -54,6 +54,7 @@ const features = [
           "https://plus.unsplash.com/premium_photo-1661407472404-7413bd7568f9?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         hasNoCode: false,
         description: "Perfect for beginners",
+        tags: ["Popular", "Low Light", "Air Purifying"],
       },
       {
         title: "Monstera Deliciosa",
@@ -62,6 +63,7 @@ const features = [
           "https://thursd.com/storage/media/59733/heart-shaped--leaves-of-plants-square-feature-image.webp",
         hasNoCode: false,
         description: "Tropical beauty",
+        tags: ["Popular"],
       },
       {
         title: "Peace Lily",
@@ -70,6 +72,7 @@ const features = [
           "https://ngb.org/wp-content/uploads/2021/02/heart-leaf-philodendron-canva-1024x1024.png",
         hasNoCode: false,
         description: "Air purifying",
+        tags: ["Air Purifying", "Low Light"],
       },
       {
         title: "Pothos",
@@ -77,6 +80,7 @@ const features = [
         image: "https://m.media-amazon.com/images/I/81lwCKlKamL.jpg",
         hasNoCode: false,
         description: "Easy to grow",
+        tags: ["Popular", "Pet Friendly"],
       },
       {
         title: "ZZ Plant",
@@ -85,6 +89,7 @@ const features = [
           "https://img.freepik.com/premium-photo/group-plants-that-are-labeled-plant-square-container_1078211-318551.jpg",
         hasNoCode: false,
         description: "Drought tolerant",
+        tags: ["Low Light"],
       },
       {
         title: "ZZ Plant",
@@ -93,6 +98,7 @@ const features = [
           "https://img.freepik.com/premium-photo/group-plants-that-are-labeled-plant-square-container_1078211-318551.jpg",
         hasNoCode: false,
         description: "Drought tolerant",
+        tags: ["Popular"],
       },
       {
         title: "ZZ Plant",
@@ -101,6 +107,7 @@ const features = [
           "https://img.freepik.com/premium-photo/group-plants-that-are-labeled-plant-square-container_1078211-318551.jpg",
         hasNoCode: false,
         description: "Drought tolerant",
+        tags: ["Pet Friendly"],
       },
       {
         title: "ZZ Plant",
@@ -109,6 +116,7 @@ const features = [
           "https://img.freepik.com/premium-photo/group-plants-that-are-labeled-plant-square-container_1078211-318551.jpg",
         hasNoCode: false,
         description: "Drought tolerant",
+        tags: ["Popular", "Low Light"],
       },
     ],
   },
@@ -130,6 +138,7 @@ const features = [
           "https://plus.unsplash.com/premium_photo-1661407472404-7413bd7568f9?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         hasNoCode: false,
         description: "Classic beauty",
+        tags: ["Flowering", "Seasonal"],
       },
       {
         title: "Bougainvillea",
@@ -138,6 +147,7 @@ const features = [
           "https://plus.unsplash.com/premium_photo-1678382342637-55835400891b?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         hasNoCode: false,
         description: "Vibrant colors",
+        tags: ["Flowering"],
       },
       {
         title: "Hibiscus",
@@ -146,6 +156,7 @@ const features = [
           "https://images.unsplash.com/photo-1730042315892-d2eddfdf62c2?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         hasNoCode: false,
         description: "Tropical flowers",
+        tags: ["Flowering", "Seasonal"],
       },
       {
         title: "Money Plant",
@@ -154,6 +165,7 @@ const features = [
           "https://cdn.pixabay.com/photo/2012/04/14/16/53/flowers-34592_1280.png",
         hasNoCode: false,
         description: "Good luck charm",
+        tags: ["Shrubs"],
       },
     ],
   },
@@ -175,6 +187,7 @@ const features = [
           "https://www.creativefabrica.com/wp-content/uploads/2023/02/13/Beautiful-Fruit-Tree-In-An-Inviting-Garden-61043375-1.png",
         hasNoCode: false,
         description: "Fresh citrus",
+        tags: ["Citrus"],
       },
       {
         title: "Mango Tree",
@@ -183,6 +196,7 @@ const features = [
           "http://cdn.shopify.com/s/files/1/0646/1305/6767/products/Clementine-mandarin-tree1.jpg?v=1684453698",
         hasNoCode: false,
         description: "King of fruits",
+        tags: ["Tropical"],
       },
       {
         title: "Guava Tree",
@@ -191,6 +205,7 @@ const features = [
           "https://static.vecteezy.com/system/resources/previews/022/984/257/non_2x/big-apple-tree-free-illustration-free-png.png",
         hasNoCode: false,
         description: "Rich in Vitamin C",
+        tags: ["Tropical", "Berries"],
       },
       {
         title: "Dwarf Plant",
@@ -199,6 +214,7 @@ const features = [
           "https://balconygardenweb.b-cdn.net/wp-content/uploads/2021/06/dwarf-orange-tree.jpg",
         hasNoCode: false,
         description: "Fast growing",
+        tags: ["Stone Fruits"],
       },
     ],
   },
@@ -219,6 +235,7 @@ const features = [
         image: "https://www.kebtek.com/upload/2021-01-27/20210127182911761.jpg",
         hasNoCode: false,
         description: "Professional grade",
+        tags: ["Hand Tools"],
       },
       {
         title: "Garden Trowel Set",
@@ -227,6 +244,7 @@ const features = [
           "https://static.wixstatic.com/media/51b1fa_5aae52c7f25945b5b87648dd36177af1~mv2.jpg",
         hasNoCode: false,
         description: "Durable steel",
+        tags: ["Hand Tools"],
       },
       {
         title: "Watering Can",
@@ -235,6 +253,7 @@ const features = [
           "https://static.wixstatic.com/media/51b1fa_5aae52c7f25945b5b87648dd36177af1~mv2.jpg",
         hasNoCode: false,
         description: "2L capacity",
+        tags: ["Watering"],
       },
       {
         title: "Garden Gloves",
@@ -243,6 +262,7 @@ const features = [
           "https://www.whiteflowerfarm.com/mas_assets/cache/image/9/b/b/0/39856.Jpg",
         hasNoCode: false,
         description: "Comfortable grip",
+        tags: ["Accessories"],
       },
     ],
   },
@@ -264,6 +284,7 @@ const features = [
           "https://tse4.mm.bing.net/th/id/OIP.9j_gt1QQpUBXskrC93GgfgHaGP?pid=Api&P=0&h=180",
         hasNoCode: false,
         description: "100% natural",
+        tags: ["Organic"],
       },
       {
         title: "Potting Mix",
@@ -271,6 +292,7 @@ const features = [
         image: "https://m.media-amazon.com/images/I/81BRM3b7qTL._AC_.jpg",
         hasNoCode: false,
         description: "Well-draining",
+        tags: ["Soil Mix"],
       },
     ],
   },
@@ -314,22 +336,39 @@ const FeatureCard = ({ item }) => {
     }
   };
 
-  // Check if we need scroll buttons (more than 4 items)
-  const needsScroll = item.subcards.length > 4;
+  // Filter subcards for the active tab and determine whether scrolling is needed
+  const filteredSubcards = item.subcards.filter((sc) =>
+    sc.tags ? sc.tags.includes(item.tabs[activeTab]) : true
+  );
+  const needsScroll = filteredSubcards.length > 4; 
 
-  // Update scroll state on mount and scroll
+  // Update scroll state on mount and scroll based on filtered items. Also reset scroll when tab changes
   React.useEffect(() => {
-    if (needsScroll) {
+    const container = scrollContainerRef.current;
+
+    // reset scroll to start when tab changes
+    if (container) {
+      try {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      } catch (e) {
+        container.scrollLeft = 0;
+      }
+    }
+
+    if (filteredSubcards.length > 4) {
       checkScroll();
-      const container = scrollContainerRef.current;
       if (container) {
         container.addEventListener("scroll", checkScroll);
         // Check scroll on mount after a brief delay
         setTimeout(checkScroll, 100);
         return () => container.removeEventListener("scroll", checkScroll);
       }
+    } else {
+      // no scrolling needed; reset indicators
+      setCanScrollLeft(false);
+      setCanScrollRight(false);
     }
-  }, [needsScroll]);
+  }, [filteredSubcards.length, activeTab]);
 
   return (
     <div
@@ -445,10 +484,15 @@ const FeatureCard = ({ item }) => {
             WebkitOverflowScrolling: "touch",
           }}
         >
-          {item.subcards.map((subcard, index) => (
-            <div
-              key={index}
-              className={`
+          {filteredSubcards.length === 0 ? (
+            <div className="w-full text-center text-sm text-slate-500 py-8">
+              No items available in this category.
+            </div>
+          ) : (
+            filteredSubcards.map((subcard, index) => (
+              <div
+                key={index}
+                className={`
                                 bg-slate-50 rounded-2xl p-4 hover:shadow-lg transition-all cursor-pointer 
                                 border border-slate-100 hover:border-blue-200 relative group max-w-[200px] shrink-0 snap-start
                                 // ${
@@ -457,19 +501,20 @@ const FeatureCard = ({ item }) => {
                                     : ""
                                 }
                             `}
-            >
-              <div className="flex flex-col items-center text-center gap-3">
-                <img
-                  src={subcard.image}
-                  alt={subcard.title}
-                  className="w-40 h-40 object-contain"
-                />
-                <span className="text-sm font-semibold text-slate-700 group-hover:text-blue-600 transition-colors">
-                  {subcard.title}
-                </span>
+              >
+                <div className="flex flex-col items-center text-center gap-3">
+                  <img
+                    src={subcard.image}
+                    alt={subcard.title}
+                    className="w-40 h-40 object-contain"
+                  />
+                  <span className="text-sm font-semibold text-slate-700 group-hover:text-blue-600 transition-colors">
+                    {subcard.title}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

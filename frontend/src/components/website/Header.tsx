@@ -382,7 +382,7 @@ const services: Service[] = [
 
 const mainMenuItems = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "/category" },
+  { name: "Services", href: "/services" },
   { name: "About Us", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
@@ -521,16 +521,10 @@ const MainHeader: React.FC<{
             <div className="hidden md:flex items-center space-x-2">
               <button
                 onClick={() => navigate("/sign-in")}
-                className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-sm flex items-center"
+                className="px-4 flex justify-center items-center py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-sm"
               >
-                <User size={18} className="mr-2" />
+                <User size={18} className="mr-1" />
                 Login
-              </button>
-              <button
-                onClick={() => navigate("/sign-up")}
-                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-sm"
-              >
-                Register
               </button>
             </div>
           </div>
