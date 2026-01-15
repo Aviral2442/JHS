@@ -156,7 +156,7 @@ const CartItemCard: React.FC<{
         </div>
 
         {/* Product Details */}
-        <div className="flex-grow">
+        <div className="grow">
           <div className="flex justify-between">
             <div>
               <h3 className="font-semibold text-lg text-gray-800">{item.name}</h3>
@@ -315,7 +315,7 @@ const PromoCodeInput: React.FC<{
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder="Enter promo code"
-              className="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button
               onClick={handleApply}
