@@ -2,28 +2,26 @@ export default function AboutPage() {
   return (
     <div className="">
       {/* Hero Section */}
-      <section className="relative bg-[#0B1220] overflow-hidden py-32">
-        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
-        <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" />
+      <section className="relative bg-White overflow-hidden py-32 bg-white">
 
-        <div className="relative max-w-7xl mx-auto px-6 text-center text-white">
-          <span className="bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-sm">
+        <div className="relative max-w-7xl mx-auto px-6 text-center ">
+          <span className="bg-gray-200 backdrop-blur-md px-5 py-2 rounded-full text-sm">
             About Jeevan Cleaning Services
           </span>
 
           <h1 className="text-5xl md:text-6xl font-bold mt-6">
             One Platform For All
-            <span className="block text-blue-400">Your Home Service Needs</span>
+            <span className="inline-block text-transparent bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text">Your Home Service Needs</span>
           </h1>
 
-          <p className="text-gray-300 mt-6 max-w-3xl mx-auto">
+          <p className="text-gray-400 mt-6 max-w-3xl mx-auto">
             We deliver the best cleaning and home services across India with
             trained professionals, transparent pricing and fast booking.
           </p>
         </div>
       </section>
 
-      <section className="bg-white py-24">
+      <section className="bg-[#f9fafb] py-24">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
             <span className="text-pink-500 font-semibold">
@@ -66,16 +64,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="relative bg-[#0B1220] overflow-hidden py-24 text-white">
-        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
-        <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" />
+      <section className="relative bg-white overflow-hidden py-24 ">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-4xl font-bold mb-6">
               We deliver the best cleaning and home services across India.
             </h2>
 
-            <div className="space-y-4 text-gray-300">
+            <div className="space-y-4 text-gray-700">
               <p>
                 Johann Chaining Avenue Solutions is a leading and prominent
                 house and cleaning service provider across India. Our rapid and
@@ -95,11 +91,11 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-xl rounded-2xl h-80"></div>
+          <div className="bg-[#f2f4f7] backdrop-blur-xl rounded-2xl h-80"></div>
         </div>
       </section>
 
-      <section className="bg-white py-24">
+      <section className="bg-[#f9fafb] py-24">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold">
             We provide cleaning and home services at your doorstep.
@@ -137,9 +133,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-10 md:py-10 px-4 md:px-6 relative overflow-hidden bg-[#0B1220]">
-        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
-        <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" />
+      <section className="py-10 md:py-10 px-4 md:px-6 relative overflow-hidden bg-white">
+        {/* <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
+        <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" /> */}
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
