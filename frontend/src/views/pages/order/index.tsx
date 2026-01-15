@@ -37,7 +37,7 @@ interface Order {
 
 const AllOrdersPage: React.FC = () => {
   // State management
-  const [orders, setOrders] = useState<Order[]>([
+  const [orders, _setOrders] = useState<Order[]>([
     {
       id: 'ORD-001',
       serviceName: 'Plumbing Repair',
@@ -476,7 +476,7 @@ const AllOrdersPage: React.FC = () => {
             
             {/* Stats Cards */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-5 text-white">
+              <div className="bg-linear-to-r from-blue-500 to-blue-600 rounded-xl p-5 text-white">
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="text-blue-100">Total Spent</p>
@@ -487,7 +487,7 @@ const AllOrdersPage: React.FC = () => {
                 <p className="text-blue-100 text-sm mt-3">Across all completed services</p>
               </div>
               
-              <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-5 text-white">
+              <div className="bg-linear-to-r from-green-500 to-green-600 rounded-xl p-5 text-white">
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="text-green-100">Services Completed</p>
@@ -498,7 +498,7 @@ const AllOrdersPage: React.FC = () => {
                 <p className="text-green-100 text-sm mt-3">Satisfaction rate: 98%</p>
               </div>
               
-              <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-5 text-white">
+              <div className="bg-linear-to-r from-purple-500 to-purple-600 rounded-xl p-5 text-white">
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="text-purple-100">Upcoming Services</p>

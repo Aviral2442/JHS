@@ -1,5 +1,5 @@
 import { Mail, MapPin, Phone, Send } from "lucide-react";
-import { Facebook, Instagram, Youtube, Home } from "react-feather";
+import { Facebook, Instagram, Youtube } from "react-feather";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { Link } from "react-router";
 
@@ -126,9 +126,9 @@ const ContactFooter: React.FC = () => {
               <input
                 type="email"
                 placeholder="Your email"
-                className="flex-grow px-4 py-3 border-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="grow px-4 py-3 border-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-r-lg hover:from-blue-600 hover:to-cyan-600 transition-all">
+              <button className="px-6 py-3 bg-linear-to-r from-blue-500 to-cyan-500 rounded-r-lg hover:from-blue-600 hover:to-cyan-600 transition-all">
                 <Send size={20} />
               </button>
             </div>

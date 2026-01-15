@@ -43,7 +43,7 @@ const CommonHero: React.FC<HeroProps> = ({
           <h1 className="max-w-4xl text-4xl font-extrabold leading-tight text-white sm:text-5xl md:text-6xl animate-fadeInUp">
             {title}{" "}
             {highlightedText && (
-              <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
                 {highlightedText}
               </span>
             )}

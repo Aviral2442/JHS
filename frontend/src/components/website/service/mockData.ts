@@ -1,5 +1,5 @@
 // data/mockData.ts
-import { Service, SubCategory, Product } from '../../../types/service.types';
+import { Service, Product } from '../../../types/service.types';
 
 export const services: Service[] = [
   {

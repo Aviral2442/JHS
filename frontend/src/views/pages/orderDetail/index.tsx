@@ -7,24 +7,16 @@ import {
   CheckCircle, 
   Clock as ClockIcon, 
   XCircle, 
-  DollarSign,
   Star,
-  User,
   Phone,
   Mail,
   Download,
-  Printer,
   FileText,
   CreditCard,
-  Shield,
-  Truck,
   Home,
   Wrench,
   MessageSquare,
   Share2,
-  ChevronRight,
-  CreditCard as PaymentIcon,
-  FileCheck,
   AlertCircle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -76,7 +68,7 @@ interface TrackingStep {
 
 const OrderDetailPage: React.FC = () => {
   // Sample order data
-  const [order, setOrder] = useState<Order>({
+  const [order, _setOrder] = useState<Order>({
     id: 'ORD-001',
     serviceName: 'Plumbing Repair & Faucet Installation',
     serviceProvider: {
@@ -404,7 +396,7 @@ const OrderDetailPage: React.FC = () => {
                   {trackingSteps.map((step) => (
                     <div key={step.id} className="relative flex items-start">
                       {/* Status Indicator */}
-                      <div className={`z-10 flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center
+                      <div className={`z-10 shrink-0 w-12 h-12 rounded-full flex items-center justify-center
                         ${step.status === 'completed' ? 'bg-green-500' : 
                           step.status === 'current' ? 'bg-blue-500' : 'bg-gray-300'}`}>
                         {step.status === 'completed' ? (
@@ -434,7 +426,7 @@ const OrderDetailPage: React.FC = () => {
                         {step.status === 'current' && order.status === 'in-progress' && (
                           <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
                             <div className="flex items-start">
-                              <AlertCircle className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                              <AlertCircle className="h-5 w-5 text-blue-600 mr-2 mt-0.5 shrink-0" />
                               <div>
                                 <p className="font-medium text-blue-800">Service in Progress</p>
                                 <p className="text-blue-700 text-sm mt-1">
@@ -461,7 +453,7 @@ const OrderDetailPage: React.FC = () => {
                   <h4 className="font-medium text-gray-700 mb-3">Schedule & Location</h4>
                   <div className="space-y-4">
                     <div className="flex items-start">
-                      <Calendar className="h-5 w-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                      <Calendar className="h-5 w-5 text-gray-400 mr-3 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium text-gray-800">Service Date</p>
                         <p className="text-gray-600">{formatDate(order.scheduledDate)}</p>
@@ -470,7 +462,7 @@ const OrderDetailPage: React.FC = () => {
                     </div>
                     
                     <div className="flex items-start">
-                      <MapPin className="h-5 w-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                      <MapPin className="h-5 w-5 text-gray-400 mr-3 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium text-gray-800">Service Address</p>
                         <p className="text-gray-600">{order.address}</p>
@@ -478,7 +470,7 @@ const OrderDetailPage: React.FC = () => {
                     </div>
                     
                     <div className="flex items-start">
-                      <Home className="h-5 w-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                      <Home className="h-5 w-5 text-gray-400 mr-3 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium text-gray-800">Service Type</p>
                         <p className="text-gray-600 capitalize">{order.serviceType}</p>
@@ -601,7 +593,7 @@ const OrderDetailPage: React.FC = () => {
             </div>
 
             {/* Need Help Section */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
+            <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
               <h3 className="font-semibold text-gray-800 mb-3">Need Help?</h3>
               <p className="text-gray-600 text-sm mb-4">
                 Our customer support team is available 24/7 to assist you with any questions or concerns.

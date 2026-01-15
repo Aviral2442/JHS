@@ -1,62 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Phone,
   Mail,
   MapPin,
-  Clock,
-  MessageSquare,
-  ChevronRight,
   Star,
   Check,
   Shield,
   Truck,
-  Home,
   Wrench,
-  Droplets,
-  Sparkles,
-  Thermometer,
-  Zap,
-  Wind,
-  Sun,
   Send,
-  AlertCircle,
   User,
-  Calendar,
   FileText,
   Building,
 } from "lucide-react";
-import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "react-feather";
 
-// ================ TYPES ================
-interface ServiceCategory {
-  id: number;
-  name: string;
-  description: string;
-  icon: React.ReactNode;
-  color: string;
-}
-
-interface TeamMember {
-  id: number;
-  name: string;
-  role: string;
-  experience: string;
-  image: string;
-  specialties: string[];
-  rating: number;
-}
-
-interface ServiceArea {
-  id: number;
-  area: string;
-  zipCodes: string[];
-  travelTime: string;
-}
-
-interface FAQItem {
-  question: string;
-  answer: string;
-}
 
 // ================ COMPONENTS ================
 
@@ -89,7 +46,7 @@ const ContactHeader: React.FC = () => {
           <div className="flex flex-wrap gap-4 mt-10">
             <a
               href="tel:8960628965"
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl text-white text-lg font-semibold shadow-xl hover:scale-105 transition flex items-center gap-2"
+              className="px-8 py-4 bg-linear-to-r from-blue-500 to-cyan-500 rounded-xl text-white text-lg font-semibold shadow-xl hover:scale-105 transition flex items-center gap-2"
             >
               <Phone /> Call Now
             </a>
@@ -168,7 +125,7 @@ const ContactHeader: React.FC = () => {
 
             <a
               href="#contact"
-              className="block mt-10 text-center py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold hover:scale-105 transition"
+              className="block mt-10 text-center py-4 bg-linear-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold hover:scale-105 transition"
             >
               Request a Service
             </a>
@@ -243,7 +200,7 @@ const ContactFormSection: React.FC = () => {
             </div>
 
             {isSubmitted ? (
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8 text-center">
+              <div className="bg-linear-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8 text-center">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Check size={40} className="text-green-600" />
                 </div>
@@ -384,7 +341,7 @@ const ContactFormSection: React.FC = () => {
           {/* Right Column - Contact Info */}
           <div>
             <div className="sticky top-24">
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
+              <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">
                   Contact Information
                 </h3>
@@ -451,7 +408,7 @@ const ContactFormSection: React.FC = () => {
               </div>
 
               {/* Guarantee Card */}
-              {/* <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8">
+              {/* <div className="bg-linear-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8">
                 <div className="flex items-center mb-6">
                   <Shield className="text-green-600 mr-3" size={32} />
                   <h3 className="text-2xl font-bold text-gray-900">

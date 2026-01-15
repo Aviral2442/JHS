@@ -1,6 +1,6 @@
 // components/blog/AuthorCard.tsx
 import React from 'react';
-import { Author } from '../../types/blog';
+import { Author } from '../../../types/blog';
 import { FaTwitter, FaLinkedin, FaGithub, FaGlobe } from 'react-icons/fa';
 
 interface AuthorCardProps {
@@ -9,7 +9,7 @@ interface AuthorCardProps {
 
 export const AuthorCard: React.FC<AuthorCardProps> = ({ author }) => {
   return (
-    <div className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-linear-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
         <div className="relative">
           <img

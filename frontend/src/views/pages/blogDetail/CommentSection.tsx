@@ -1,6 +1,6 @@
 // components/blog/CommentSection.tsx
 import React, { useState } from 'react';
-import { Comment } from '../../types/blog';
+import { Comment } from '../../../types/blog';
 import { FaHeart, FaCrown } from 'react-icons/fa';
 
 interface CommentSectionProps {
@@ -23,7 +23,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
     return (
       <div className={`${depth > 0 ? 'ml-6 md:ml-12 pt-6' : 'py-6'} border-b border-gray-100 dark:border-gray-800 last:border-0`}>
         <div className="flex gap-4">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <img
               src={comment.author.avatar}
               alt={comment.author.name}
@@ -126,7 +126,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
       </div>
 
       {/* New Comment Form */}
-      <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-2xl">
+      <div className="mb-8 p-6 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-2xl">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           Join the discussion
         </h3>

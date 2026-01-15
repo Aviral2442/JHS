@@ -1,5 +1,5 @@
 // components/SearchOverlay.tsx
-import React, { useState, useEffect, useRef, useCallback, ChangeEvent } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 
 export interface SearchResult {
   id: string;
@@ -46,10 +46,6 @@ const searchApi = {
       const data = await response.json();
       return data.results || [];
     } catch (error) {
-      if (error.name === 'AbortError') {
-        console.log('Search aborted');
-        return [];
-      }
       console.error('Search error:', error);
       return [];
     }
@@ -216,7 +212,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
           setSearchHistory(updatedHistory);
         }
       } catch (error) {
-        if (error.name !== 'AbortError') {
+        if (error instanceof Error && error.name !== 'AbortError') {
           setError('Failed to fetch search results. Please try again.');
           console.error('Search error:', error);
         }
@@ -360,7 +356,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 z-[9999]">
+      <div className="fixed inset-0 z-9999">
         {/* Blur Background */}
         <div 
           className="absolute inset-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
@@ -479,7 +475,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
                       >
                         <div className="flex items-start gap-4">
                           {/* Icon */}
-                          <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-blue-50">
+                          <div className="w-12 h-12 shrink-0 flex items-center justify-center rounded-lg bg-blue-50">
                             <span className="text-xl">{getResultIcon(result.type)}</span>
                           </div>
 
@@ -530,7 +526,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
                           </div>
 
                           {/* Arrow */}
-                          <div className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                             <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                             </svg>

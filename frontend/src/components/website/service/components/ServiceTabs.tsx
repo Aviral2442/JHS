@@ -1,11 +1,11 @@
 // components/ServiceTabs.tsx
 import React from 'react';
-import { Service } from '../types/service.types';
+import { Service } from '../../../../types/service.types';
 
 interface ServiceTabsProps {
   services: Service[];
   selectedService: string | null;
-  onSelectService: (serviceId: string) => void;
+  onSelectService: (serviceId: string | null) => void;
 }
 
 const ServiceTabs: React.FC<ServiceTabsProps> = ({

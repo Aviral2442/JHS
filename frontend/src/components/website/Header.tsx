@@ -54,16 +54,6 @@ interface Service {
   categories: ServiceCategory[];
 }
 
-interface MegaMenuItem {
-  title: string;
-  items: string[];
-  featured?: {
-    title: string;
-    description: string;
-    image: string;
-  };
-}
-
 // ================ MOCK DATA ================
 const services: Service[] = [
   {
@@ -391,11 +381,9 @@ const mainMenuItems = [
 
 // Top Bar Component
 const TopBar: React.FC = () => {
-  const navigate = useNavigate();
-  const [hasMegaMenu, sethasMegaMenu] = useState(false);
 
   return (
-    <div className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white text-sm py-2 hidden md:block">
+    <div className="bg-linear-to-r from-blue-900 to-indigo-900 text-white text-sm py-2 hidden md:block">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-6">
@@ -502,7 +490,7 @@ const MainHeader: React.FC<{
             <div className="hidden md:flex items-center space-x-2">
               <button
                 onClick={() => navigate("/sign-in")}
-                className="px-4 flex justify-center items-center py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-sm"
+                className="px-4 flex justify-center items-center py-2 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-sm"
               >
                 <User size={18} className="mr-1" />
                 Login
@@ -517,122 +505,122 @@ const MainHeader: React.FC<{
 
 
 // Service Slider Component
-const ServiceSlider: React.FC<{
-  services: Service[];
-  activeService: Service | null;
-  onServiceHover: (service: Service) => void;
-  onServiceLeave: () => void;
-}> = ({ services, activeService, onServiceHover, onServiceLeave }) => {
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [showLeftArrow, setShowLeftArrow] = useState(false);
-  const [showRightArrow, setShowRightArrow] = useState(true);
+// const ServiceSlider: React.FC<{
+//   services: Service[];
+//   activeService: Service | null;
+//   onServiceHover: (service: Service) => void;
+//   onServiceLeave: () => void;
+// }> = ({ services, activeService, onServiceHover, onServiceLeave }) => {
+//   const sliderRef = useRef<HTMLDivElement>(null);
+//   const [scrollPosition, setScrollPosition] = useState(0);
+//   const [showLeftArrow, setShowLeftArrow] = useState(false);
+//   const [showRightArrow, setShowRightArrow] = useState(true);
 
-  const scroll = (direction: "left" | "right") => {
-    if (sliderRef.current) {
-      const scrollAmount = 200;
-      const newPosition =
-        direction === "left"
-          ? scrollPosition - scrollAmount
-          : scrollPosition + scrollAmount;
+//   const scroll = (direction: "left" | "right") => {
+//     if (sliderRef.current) {
+//       const scrollAmount = 200;
+//       const newPosition =
+//         direction === "left"
+//           ? scrollPosition - scrollAmount
+//           : scrollPosition + scrollAmount;
 
-      sliderRef.current.scrollTo({ left: newPosition, behavior: "smooth" });
-      setScrollPosition(newPosition);
-    }
-  };
+//       sliderRef.current.scrollTo({ left: newPosition, behavior: "smooth" });
+//       setScrollPosition(newPosition);
+//     }
+//   };
 
-  const checkScrollButtons = () => {
-    if (sliderRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
-      setShowLeftArrow(scrollLeft > 0);
-      setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  };
+//   const checkScrollButtons = () => {
+//     if (sliderRef.current) {
+//       const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
+//       setShowLeftArrow(scrollLeft > 0);
+//       setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
+//     }
+//   };
 
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (slider) {
-      slider.addEventListener("scroll", checkScrollButtons);
-      return () => slider.removeEventListener("scroll", checkScrollButtons);
-    }
-  }, []);
+//   useEffect(() => {
+//     const slider = sliderRef.current;
+//     if (slider) {
+//       slider.addEventListener("scroll", checkScrollButtons);
+//       return () => slider.removeEventListener("scroll", checkScrollButtons);
+//     }
+//   }, []);
 
-  return (
-    <div className="relative bg-gradient-to-r from-gray-50 to-white border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative py-3">
-          {/* Left Arrow */}
-          {showLeftArrow && (
-            <button
-              onClick={() => scroll("left")}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-50"
-            >
-              <ChevronRight className="rotate-180" size={20} />
-            </button>
-          )}
+//   return (
+//     <div className="relative bg-linear-to-r from-gray-50 to-white border-t border-gray-200">
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//         <div className="relative py-3">
+//           {/* Left Arrow */}
+//           {showLeftArrow && (
+//             <button
+//               onClick={() => scroll("left")}
+//               className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-50"
+//             >
+//               <ChevronRight className="rotate-180" size={20} />
+//             </button>
+//           )}
 
-          {/* Service Slider */}
-          <div
-            ref={sliderRef}
-            className="flex space-x-1 overflow-x-auto scrollbar-hide"
-            style={{ scrollBehavior: "smooth" }}
-            onScroll={checkScrollButtons}
-          >
-            {services.map((service) => (
-              <button
-                key={service.id}
-                onMouseEnter={() => onServiceHover(service)}
-                onMouseLeave={onServiceLeave}
-                className={`flex-shrink-0 px-4 py-2 rounded-lg flex items-center space-x-2 transition-all ${
-                  activeService?.id === service.id
-                    ? "bg-blue-50 text-blue-600 border border-blue-200"
-                    : "hover:bg-gray-100 text-gray-700"
-                }`}
-              >
-                <div
-                  className={`p-1.5 rounded-md ${
-                    activeService?.id === service.id
-                      ? "bg-blue-100"
-                      : "bg-gray-100"
-                  }`}
-                >
-                  <div
-                    className={`${
-                      activeService?.id === service.id
-                        ? "text-blue-600"
-                        : "text-gray-600"
-                    }`}
-                  >
-                    {service.icon}
-                  </div>
-                </div>
-                <span className="font-medium text-sm whitespace-nowrap">
-                  {service.name}
-                </span>
-                <ChevronDown
-                  size={14}
-                  className={`transition-transform ${
-                    activeService?.id === service.id ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
+//           {/* Service Slider */}
+//           <div
+//             ref={sliderRef}
+//             className="flex space-x-1 overflow-x-auto scrollbar-hide"
+//             style={{ scrollBehavior: "smooth" }}
+//             onScroll={checkScrollButtons}
+//           >
+//             {services.map((service) => (
+//               <button
+//                 key={service.id}
+//                 onMouseEnter={() => onServiceHover(service)}
+//                 onMouseLeave={onServiceLeave}
+//                 className={`flex-shrink-0 px-4 py-2 rounded-lg flex items-center space-x-2 transition-all ${
+//                   activeService?.id === service.id
+//                     ? "bg-blue-50 text-blue-600 border border-blue-200"
+//                     : "hover:bg-gray-100 text-gray-700"
+//                 }`}
+//               >
+//                 <div
+//                   className={`p-1.5 rounded-md ${
+//                     activeService?.id === service.id
+//                       ? "bg-blue-100"
+//                       : "bg-gray-100"
+//                   }`}
+//                 >
+//                   <div
+//                     className={`${
+//                       activeService?.id === service.id
+//                         ? "text-blue-600"
+//                         : "text-gray-600"
+//                     }`}
+//                   >
+//                     {service.icon}
+//                   </div>
+//                 </div>
+//                 <span className="font-medium text-sm whitespace-nowrap">
+//                   {service.name}
+//                 </span>
+//                 <ChevronDown
+//                   size={14}
+//                   className={`transition-transform ${
+//                     activeService?.id === service.id ? "rotate-180" : ""
+//                   }`}
+//                 />
+//               </button>
+//             ))}
+//           </div>
 
-          {/* Right Arrow */}
-          {showRightArrow && (
-            <button
-              onClick={() => scroll("right")}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-50"
-            >
-              <ChevronRight size={20} />
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+//           {/* Right Arrow */}
+//           {showRightArrow && (
+//             <button
+//               onClick={() => scroll("right")}
+//               className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-50"
+//             >
+//               <ChevronRight size={20} />
+//             </button>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 // Mega Menu Component
 const MegaMenu: React.FC<{
@@ -668,7 +656,7 @@ const MegaMenu: React.FC<{
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
+            <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <div className="text-sm text-gray-600">Starting from</div>
@@ -678,7 +666,7 @@ const MegaMenu: React.FC<{
                   Popular
                 </div>
               </div>
-              <button className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all font-medium flex items-center justify-center">
+              <button className="w-full py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all font-medium flex items-center justify-center">
                 Book Now
                 <ArrowRight size={16} className="ml-2" />
               </button>
@@ -801,7 +789,7 @@ const MobileMenu: React.FC<{
   activeService: Service | null;
   onServiceSelect: (service: Service) => void;
   onOpenSearch?: () => void;
-}> = ({ isOpen, services, activeService, onServiceSelect, onOpenSearch }) => {
+}> = ({ isOpen, services, onServiceSelect, onOpenSearch }) => {
   const [expandedService, setExpandedService] = useState<number | null>(null);
 
   if (!isOpen) return null;
@@ -910,7 +898,7 @@ const MobileMenu: React.FC<{
             <button className="py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium">
               Login
             </button>
-            <button className="py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 font-medium">
+            <button className="py-3 px-4 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 font-medium">
               Register
             </button>
           </div>

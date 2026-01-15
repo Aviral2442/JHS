@@ -33,7 +33,7 @@ interface PolicyHeaderProps {
 }
 
 export const PolicyHeader: React.FC<PolicyHeaderProps> = ({ title, description, icon }) => (
-  <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 mb-8 shadow-lg">
+  <div className="bg-linear-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 mb-8 shadow-lg">
     <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
       <div className="flex items-center mb-4 md:mb-0">
         <div className="bg-white/20 p-3 rounded-xl mr-4">{icon}</div>
@@ -189,7 +189,7 @@ export const FAQSection: React.FC = () => {
 };
 
 export const ContactSection: React.FC = () => (
-  <div id="contact" className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
+  <div id="contact" className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
     <div className="text-center mb-8">
       <h3 className="text-2xl font-bold text-gray-800 mb-2">Need More Help?</h3>
       <p className="text-gray-600">Contact our support team for assistance</p>
@@ -241,7 +241,7 @@ export const DownloadSection: React.FC = () => {
           <p className="text-gray-600">Get a printable PDF version of this policy document</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
-          <button onClick={handleDownload} disabled={downloading} className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg flex items-center">
+          <button onClick={handleDownload} disabled={downloading} className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg flex items-center">
             {downloading ? 'Downloading...' : (<><Download size={20} className="mr-2"/>Download PDF (2.4 MB)</>)}
           </button>
           <button className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg">Print Version</button>

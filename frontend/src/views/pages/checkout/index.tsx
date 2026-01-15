@@ -398,7 +398,7 @@ const CreditCardForm: React.FC<{
           </button>
           <button
             type="submit"
-            className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
+            className="flex-1 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
           >
             Add Card
           </button>
@@ -516,11 +516,11 @@ const PromoCodeInput: React.FC<{
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder="Enter promo code"
-              className="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button 
               onClick={handleApply}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
+              className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
             >
               Apply
             </button>
@@ -583,7 +583,7 @@ const OrderSummary: React.FC<{
                   {item.quantity}
                 </div>
               </div>
-              <div className="ml-4 flex-grow">
+              <div className="ml-4 grow">
                 <h5 className="font-medium text-gray-800 text-sm">{item.name}</h5>
                 <p className="text-gray-600 text-sm">${item.price.toFixed(2)} × {item.quantity}</p>
               </div>
@@ -701,7 +701,7 @@ const CheckoutPage: React.FC = () => {
   const [showCardForm, setShowCardForm] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [paymentComplete, setPaymentComplete] = useState<boolean>(false);
-  const [orderConfirmed, setOrderConfirmed] = useState<boolean>(false);
+  const [_orderConfirmed, setOrderConfirmed] = useState<boolean>(false);
   const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
   
   // Razorpay script loaded state
@@ -1136,7 +1136,7 @@ const CheckoutPage: React.FC = () => {
                         type="email"
                         value={userDetails.email}
                         onChange={(e) => setUserDetails({...userDetails, email: e.target.value})}
-                        className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
                   </div>
@@ -1151,7 +1151,7 @@ const CheckoutPage: React.FC = () => {
                         type="tel"
                         value={userDetails.phone}
                         onChange={(e) => setUserDetails({...userDetails, phone: e.target.value})}
-                        className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
                   </div>
@@ -1323,7 +1323,7 @@ const CheckoutPage: React.FC = () => {
           <div className="space-y-8">
             {/* Order Confirmation */}
             <div className="bg-white rounded-xl shadow-md p-8 text-center">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-linear-to-r from-green-500 to-emerald-500 flex items-center justify-center">
                 <Check size={40} className="text-white" />
               </div>
               
@@ -1365,7 +1365,7 @@ const CheckoutPage: React.FC = () => {
                     a.download = 'invoice.txt';
                     a.click();
                   }}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all"
+                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all"
                 >
                   <Download size={18} className="inline mr-2" />
                   Download Invoice
@@ -1423,7 +1423,7 @@ const CheckoutPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="mb-10">
@@ -1493,12 +1493,12 @@ const CheckoutPage: React.FC = () => {
                   </button>
                 )}
                 
-                <div className="flex-grow"></div>
+                <div className="grow"></div>
                 
                 {step === 1 && (
                   <button 
                     onClick={nextStep}
-                    className="flex items-center px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
+                    className="flex items-center px-8 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
                   >
                     Continue to Payment
                     <ChevronRight size={18} className="ml-2" />
@@ -1509,7 +1509,7 @@ const CheckoutPage: React.FC = () => {
                   <button 
                     onClick={handlePayment}
                     disabled={isProcessing || !razorpayLoaded}
-                    className={`flex items-center px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md ${
+                    className={`flex items-center px-8 py-3 bg-linear-to-r from-green-500 to-emerald-600 text-white rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md ${
                       isProcessing || !razorpayLoaded ? 'opacity-75 cursor-not-allowed' : 'hover:from-green-600 hover:to-emerald-700'
                     }`}
                   >
@@ -1533,7 +1533,7 @@ const CheckoutPage: React.FC = () => {
                   <button 
                     onClick={handlePlaceOrder}
                     disabled={isProcessing}
-                    className={`flex items-center px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md ${
+                    className={`flex items-center px-8 py-3 bg-linear-to-r from-green-500 to-emerald-600 text-white rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md ${
                       isProcessing ? 'opacity-75 cursor-not-allowed' : 'hover:from-green-600 hover:to-emerald-700'
                     }`}
                   >

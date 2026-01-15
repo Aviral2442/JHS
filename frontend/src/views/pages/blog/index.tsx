@@ -339,7 +339,7 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
+      <div className="bg-linear-to-r from-indigo-600 to-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -576,7 +576,7 @@ export default function BlogPage() {
                     whileHover={{ y: -5 }}
                     className="bg-white rounded-xl shadow-lg overflow-hidden group cursor-pointer"
                   >
-                    <div className="relative h-48 bg-gradient-to-r from-indigo-400 to-blue-400">
+                    <div className="relative h-48 bg-linear-to-r from-indigo-400 to-blue-400">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-white text-center p-6">
                           <Tag className="h-8 w-8 mx-auto mb-3" />
@@ -833,7 +833,7 @@ export default function BlogPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mt-16 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-2xl p-8 text-white"
+              className="mt-16 bg-linear-to-r from-indigo-500 to-blue-500 rounded-2xl p-8 text-white"
             >
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>

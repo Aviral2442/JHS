@@ -6,7 +6,7 @@ interface FilterSidebarProps {
   filters: FilterState;
   services: Service[];
   selectedService: Service | null;
-  onServiceSelect: (serviceId: string) => void;
+  onServiceSelect: (serviceId: string | null) => void;
   onSubCategorySelect: (subCategoryId: string | null) => void;
   onPriceFilter: (min: number, max: number) => void;
   onSort: (sortBy: FilterState['sortBy']) => void;

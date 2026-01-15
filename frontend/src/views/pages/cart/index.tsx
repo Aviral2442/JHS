@@ -319,7 +319,7 @@ const PromoCodeInput: React.FC<{
             />
             <button
               onClick={handleApply}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
+              className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
             >
               Apply
             </button>
@@ -395,7 +395,7 @@ const CartSummary: React.FC<{
 
       <button
         onClick={onCheckout}
-        className="w-full mt-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-xl flex items-center justify-center"
+        className="w-full mt-8 py-4 bg-linear-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-xl flex items-center justify-center"
       >
         <CreditCard size={20} className="mr-2" />
         Proceed to Checkout
@@ -560,7 +560,7 @@ const index: React.FC = () => {
                 </p>
                 <button
                   onClick={() => setCartItems(initialCartItems)}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md flex items-center mx-auto"
+                  className="px-8 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md flex items-center mx-auto"
                 >
                   <ArrowLeft size={20} className="mr-2" />
                   Back to Shopping

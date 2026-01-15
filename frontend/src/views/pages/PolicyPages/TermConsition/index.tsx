@@ -31,7 +31,7 @@ const PolicyHeader: React.FC<{ title: string; description: string; icon: React.R
   icon 
 }) => {
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 mb-8 shadow-lg">
+    <div className="bg-linear-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 mb-8 shadow-lg">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
         <div className="flex items-center mb-4 md:mb-0">
           <div className="bg-white/20 p-3 rounded-xl mr-4">
@@ -306,7 +306,7 @@ const FAQSection: React.FC = () => {
 // Contact Section Component
 const ContactSection: React.FC = () => {
   return (
-    <div id="contact" className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
+    <div id="contact" className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold text-gray-800 mb-2">Need More Help?</h3>
         <p className="text-gray-600">Contact our support team for assistance</p>
@@ -382,7 +382,7 @@ const DownloadSection: React.FC = () => {
           <button
             onClick={handleDownload}
             disabled={downloading}
-            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md flex items-center justify-center"
+            className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md flex items-center justify-center"
           >
             {downloading ? (
               <>
@@ -1077,13 +1077,13 @@ export const ShippingPolicyPage: React.FC = () => {
           {/* Right Column */}
           <div className="lg:w-3/4">
             {/* Shipping Calculator */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
+            <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
               <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="mb-4 md:mb-0">
                   <h3 className="text-xl font-bold text-gray-800 mb-2">Shipping Calculator</h3>
                   <p className="text-gray-600">Estimate shipping costs and delivery times</p>
                 </div>
-                <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all">
+                <button className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all">
                   Calculate Shipping
                 </button>
               </div>
@@ -1378,14 +1378,14 @@ export const ReturnPolicyPage: React.FC = () => {
             ))}
             
             {/* Start Return Button */}
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-8 mb-8 text-center">
+            <div className="bg-linear-to-r from-green-50 to-emerald-50 rounded-2xl p-8 mb-8 text-center">
               <RefreshCw size={48} className="text-green-600 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-gray-800 mb-2">Ready to Start a Return?</h3>
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                 Use our online return portal for a quick and easy return process. 
                 Generate a prepaid shipping label and track your return every step of the way.
               </p>
-              <button className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all transform hover:-translate-y-0.5 shadow-md">
+              <button className="px-8 py-3 bg-linear-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all transform hover:-translate-y-0.5 shadow-md">
                 Start Return Process
               </button>
             </div>
@@ -1749,7 +1749,7 @@ export const PolicyHubPage: React.FC = () => {
               className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group"
             >
               {/* Card Header */}
-              <div className={`bg-gradient-to-r ${policy.color} p-6 text-white`}>
+              <div className={`bg-linear-to-r ${policy.color} p-6 text-white`}>
                 <div className="flex items-center justify-between">
                   <div className="bg-white/20 p-3 rounded-xl">
                     {policy.icon}
@@ -1786,7 +1786,7 @@ export const PolicyHubPage: React.FC = () => {
         </div>
         
         {/* Additional Resources */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-12">
+        <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-12">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800 mb-2">Need Help Understanding?</h2>
             <p className="text-gray-600">We're here to help clarify any questions about our policies</p>

@@ -1,6 +1,6 @@
 // components/ProductsPage.tsx
 import React, { useState, useEffect } from 'react';
-import { Service, SubCategory, Product, FilterState, CartItem } from '../../../../types/service.types';
+import { Product, FilterState, CartItem } from '../../../../types/service.types';
 import { services, products as mockProducts } from '../mockData';
 import ProductCard from './ProductCard';
 import FilterSidebar from './FilterSidebar';
@@ -86,7 +86,7 @@ const ProductsPage: React.FC = () => {
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
 
   // Handle service selection
-  const handleServiceSelect = (serviceId: string) => {
+  const handleServiceSelect = (serviceId: string | null) => {
     setSelectedService(serviceId);
     setFilters(prev => ({
       ...prev,
@@ -162,8 +162,8 @@ const ProductsPage: React.FC = () => {
   };
 
   // Get subcategories for selected service
-  const selectedServiceData = selectedService 
-    ? services.find(s => s.id === selectedService)
+  const selectedServiceData = selectedService
+    ? services.find(s => s.id === selectedService) || null
     : null;
 
   return (

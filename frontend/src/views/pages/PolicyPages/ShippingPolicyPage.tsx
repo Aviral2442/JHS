@@ -26,7 +26,7 @@ const ShippingPolicyPage: React.FC = () => {
             <TableOfContents sections={shippingSections as any} activeSection={Array.from(expandedSections)[0] || ''} onSectionClick={(id) => { if (!expandedSections.has(id)) toggleSection(id); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }} />
           </div>
           <div className="lg:w-3/4">
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
+            <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
               <h3 className="text-lg font-semibold">Delivery & Options</h3>
               <p className="text-gray-600">Choose a shipping method based on speed and cost.</p>
             </div>

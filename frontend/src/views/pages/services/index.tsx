@@ -1,5 +1,4 @@
 // App.tsx
-import React from 'react';
 import ProductsPage from '../../../components/website/service/components/ProductsPage';
 
 function App() {

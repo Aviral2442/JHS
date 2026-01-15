@@ -28,7 +28,6 @@ import {
   Thermometer,
   Sun,
 } from "lucide-react";
-import CommonHero from "../../../components/website/Hero";
 
 // Service data
 const services = [
@@ -211,9 +210,7 @@ export default function HomeEaseLanding() {
 
   const controls = useAnimation();
   const ref = useRef(null);
-  const isInView = useInView(ref, {
-    threshold: 0.1,
-  });
+  const isInView = useInView(ref);
 
   useEffect(() => {
     if (isInView) {
@@ -310,7 +307,7 @@ export default function HomeEaseLanding() {
               transition={{ delay: 0.2 }}
               className="relative"
             >
-              <div className="bg-gradient-to-br from-indigo-100 to-blue-100 rounded-2xl p-8 h-96">
+              <div className="bg-linear-to-br from-indigo-100 to-blue-100 rounded-2xl p-8 h-96">
                 <div className="grid grid-cols-2 gap-4 h-full">
                   {services.slice(0, 4).map((service, index) => (
                     <motion.div
@@ -449,7 +446,7 @@ export default function HomeEaseLanding() {
                 viewport={{ once: true }}
                 className="relative"
               >
-                <div className="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                <div className="bg-linear-to-br from-indigo-50 to-white rounded-2xl p-8 shadow-sm border border-gray-100">
                   <div className="absolute -top-4 left-8 bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
                     {step.step}
                   </div>
@@ -663,7 +660,7 @@ export default function HomeEaseLanding() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl p-12 text-white"
+            className="bg-linear-to-r from-indigo-600 to-blue-600 rounded-3xl p-12 text-white"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to make your home better?

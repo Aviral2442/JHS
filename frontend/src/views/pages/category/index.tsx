@@ -2,38 +2,41 @@
 
 import React, { useState, useRef } from "react";
 import {
-  ArrowRight,
-  Globe,
-  Code,
-  Smartphone,
-  Zap,
-  CreditCard,
-  Check,
-  CreditCard as CardIcon,
-  Wallet,
-  Building2,
-  Link as LinkIcon,
-  Store,
   ChevronLeft,
   ChevronRight,
   Leaf,
   Sprout,
   TreePine,
-  Truck,
-  ShieldCheck,
   Droplets,
   Sun,
-  Wind,
   Flower2,
   Package,
-  Users,
-  BookOpen,
-  Heart,
-  Star,
   Settings,
   LeafIcon,
   DropletsIcon,
 } from "lucide-react";
+
+interface Subcard {
+  title: string;
+  icon: React.ReactNode;
+  image: string;
+  hasNoCode: boolean;
+  description: string;
+  tags: string[];
+}
+
+interface Feature {
+  id: number;
+  category: string;
+  title: string;
+  desc: string;
+  icon: React.ReactNode;
+  color: string;
+  badge: string;
+  highlight: boolean;
+  tabs: string[];
+  subcards: Subcard[];
+}
 
 const features = [
   {
@@ -304,9 +307,9 @@ const STACK_OVERLAP_PX = 30; // px overlap so next card barely peeks through
 const STACK_SCALE_DIFFERENCE = 0.05; // max scale reduction
 const STACK_SHRINK_DISTANCE = 220; // px scroll range for scaling
 
-const FeatureCard = ({ item }) => {
+const FeatureCard = ({ item }: { item: Feature }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const scrollContainerRef = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
@@ -321,7 +324,7 @@ const FeatureCard = ({ item }) => {
   };
 
   // Handle scroll
-  const scroll = (direction) => {
+  const scroll = (direction: string) => {
     if (scrollContainerRef.current) {
       const scrollAmount = 300;
       const newScrollLeft =
@@ -494,10 +497,10 @@ const FeatureCard = ({ item }) => {
                 key={index}
                 className={`
                                 bg-slate-50 rounded-2xl p-4 hover:shadow-lg transition-all cursor-pointer 
-                                border border-slate-100 hover:border-blue-200 relative group max-w-[200px] shrink-0 snap-start
+                                border border-slate-100 hover:border-blue-200 relative group max-w-50 shrink-0 snap-start
                                 // ${
                                   needsScroll
-                                    ? "max-w-[200px] shrink-0 snap-start"
+                                    ? "max-w-50 shrink-0 snap-start"
                                     : ""
                                 }
                             `}
@@ -521,8 +524,8 @@ const FeatureCard = ({ item }) => {
   );
 };
 
-const StackedFeatureCard = ({ item, index, totalItems }) => {
-  const cardRef = useRef(null);
+const StackedFeatureCard = ({ item, index }: { item: Feature; index: number }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
 
   React.useEffect(() => {
@@ -564,7 +567,7 @@ export default function RazorpayStackSection() {
   return (
     <section className="relative w-full bg-white">
       {/* subtle decorative background */}
-      <div className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-emerald-400 via-transparent to-transparent" />
+      <div className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(ellipse_at_top_left,var(--tw-gradient-stops))] from-emerald-400 via-transparent to-transparent" />
 
       <div className="relative z-10">
         {/* Page Header */}
@@ -589,7 +592,6 @@ export default function RazorpayStackSection() {
               key={item.id}
               item={item}
               index={index}
-              totalItems={features.length}
             />
           ))}
         </div>

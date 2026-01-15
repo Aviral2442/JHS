@@ -11,7 +11,7 @@ export default function AboutPage() {
 
           <h1 className="text-5xl md:text-6xl font-bold mt-6">
             One Platform For All
-            <span className="inline-block text-transparent bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text">Your Home Service Needs</span>
+            <span className="inline-block text-transparent bg-linear-to-r from-blue-500 to-cyan-500 bg-clip-text">Your Home Service Needs</span>
           </h1>
 
           <p className="text-gray-400 mt-6 max-w-3xl mx-auto">
@@ -142,7 +142,7 @@ export default function AboutPage() {
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6">
               How It{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#8B5CF6]">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6366F1] to-[#8B5CF6]">
                 Works
               </span>
             </h2>
@@ -226,12 +226,12 @@ export default function AboutPage() {
             {/* Step 01 - Left Top */}
             <div className="absolute" style={{ left: "-2%", top: "-5%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-gradient-to-b from-transparent via-[#6366F1] to-transparent"
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-b from-transparent via-[#6366F1] to-transparent"
                 style={{ bottom: "-112px" }}
               />
               <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#6366F1] to-[#6366F1]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#6366F1] to-[#6366F1]/70 flex items-center justify-center text-white font-bold text-xl">
                     01
                   </div>
                   <h3 className="ml-4 text-xl font-bold text-[#6366F1]">
@@ -248,12 +248,12 @@ export default function AboutPage() {
             {/* Step 02 - Left Bottom */}
             <div className="absolute" style={{ left: "16%", top: "52%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-gradient-to-t from-transparent via-[#10B981] to-transparent"
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-t from-transparent via-[#10B981] to-transparent"
                 style={{ top: "-112px" }}
               />
               <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
                     02
                   </div>
                   <h3 className="ml-4 text-xl font-bold text-[#10B981]">
@@ -273,15 +273,15 @@ export default function AboutPage() {
               style={{ top: "2%" }}
             >
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-32 bg-gradient-to-b from-transparent via-[#F59E0B] to-transparent"
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-32 bg-linear-to-b from-transparent via-[#F59E0B] to-transparent"
                 style={{ bottom: "-128px" }}
               />
               <div className="bg-white rounded-2xl shadow-xl p-8 w-96 relative border-2 border-[#F59E0B]/30">
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
                   Most Important
                 </div>
                 <div className="flex items-center mb-4">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                  <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
                     03
                   </div>
                   <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
@@ -298,12 +298,12 @@ export default function AboutPage() {
             {/* Step 04 - Right Top */}
             <div className="absolute" style={{ right: "13%", top: "58%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-gradient-to-b from-transparent via-[#EC4899] to-transparent"
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-b from-transparent via-[#EC4899] to-transparent"
                 style={{ bottom: "200px" }}
               />
               <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#EC4899] to-[#EC4899]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#EC4899] to-[#EC4899]/70 flex items-center justify-center text-white font-bold text-xl">
                     04
                   </div>
                   <h3 className="ml-4 text-xl font-bold text-[#EC4899]">
@@ -320,12 +320,12 @@ export default function AboutPage() {
             {/* Step 05 - Right Bottom - Additional Step from UI pattern */}
             <div className="absolute" style={{ right: "-2%", top: "27%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-gradient-to-t from-transparent via-[#8B5CF6] to-transparent"
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-t from-transparent via-[#8B5CF6] to-transparent"
                 style={{ top: "200px" }}
               />
               <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#8B5CF6]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#8B5CF6] to-[#8B5CF6]/70 flex items-center justify-center text-white font-bold text-xl">
                     05
                   </div>
                   <h3 className="ml-4 text-xl font-bold text-[#8B5CF6]">
@@ -344,7 +344,7 @@ export default function AboutPage() {
         <div className="hidden lg:grid xl:hidden grid-cols-2 gap-8 mb-12 max-w-5xl mx-auto">
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="flex items-center mb-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#6366F1] to-[#6366F1]/70 flex items-center justify-center text-white font-bold text-xl">
+              <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#6366F1] to-[#6366F1]/70 flex items-center justify-center text-white font-bold text-xl">
                 01
               </div>
               <h3 className="ml-4 text-xl font-bold text-[#6366F1]">
@@ -359,7 +359,7 @@ export default function AboutPage() {
 
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="flex items-center mb-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+              <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
                 02
               </div>
               <h3 className="ml-4 text-xl font-bold text-[#10B981]">
@@ -374,11 +374,11 @@ export default function AboutPage() {
 
           <div className="col-span-2">
             <div className="bg-white rounded-2xl shadow-xl p-8 max-w-2xl mx-auto relative border-2 border-[#F59E0B]/30">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
                 Most Important
               </div>
               <div className="flex items-center mb-4">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
                   03
                 </div>
                 <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
@@ -395,7 +395,7 @@ export default function AboutPage() {
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="bg-white rounded-2xl shadow-xl p-8">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
                   02
                 </div>
                 <h3 className="ml-4 text-xl font-bold text-[#10B981]">
@@ -410,11 +410,11 @@ export default function AboutPage() {
 
             <div className="col-span-2">
               <div className="bg-white rounded-2xl shadow-xl p-8 max-w-2xl mx-auto relative border-2 border-[#F59E0B]/30">
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
                   Most Important
                 </div>
                 <div className="flex items-center mb-4">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                  <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
                     03
                   </div>
                   <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
@@ -430,7 +430,7 @@ export default function AboutPage() {
 
             <div className="bg-white rounded-2xl shadow-xl p-8">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#EC4899] to-[#EC4899]/70 flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#EC4899] to-[#EC4899]/70 flex items-center justify-center text-white font-bold text-xl">
                   04
                 </div>
                 <h3 className="ml-4 text-xl font-bold text-[#EC4899]">
@@ -445,7 +445,7 @@ export default function AboutPage() {
 
             <div className="bg-white rounded-2xl shadow-xl p-8 col-span-2">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#8B5CF6]/70 flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#8B5CF6] to-[#8B5CF6]/70 flex items-center justify-center text-white font-bold text-xl">
                   05
                 </div>
                 <h3 className="ml-4 text-xl font-bold text-[#8B5CF6]">
@@ -501,7 +501,7 @@ export default function AboutPage() {
               <div key={index} className="relative">
                 {index < 4 && (
                   <div
-                    className="absolute left-1/2 transform -translate-x-1/2 w-1 h-16 md:h-20 bg-gradient-to-b from-current to-transparent"
+                    className="absolute left-1/2 transform -translate-x-1/2 w-1 h-16 md:h-20 bg-linear-to-b from-current to-transparent"
                     style={{
                       color: step.color,
                       opacity: 0.3,
