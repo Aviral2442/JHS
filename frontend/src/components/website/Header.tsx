@@ -384,7 +384,7 @@ const TopBar: React.FC = () => {
 
   return (
     <div className="bg-linear-to-r from-blue-900 to-indigo-900 text-white text-sm py-2 hidden md:block">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-6">
             <div className="flex items-center">
@@ -427,7 +427,7 @@ const MainHeader: React.FC<{
 
   return (
     <div className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">

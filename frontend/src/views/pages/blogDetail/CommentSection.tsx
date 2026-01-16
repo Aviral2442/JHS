@@ -1,7 +1,7 @@
 // components/blog/CommentSection.tsx
 import React, { useState } from 'react';
 import { Comment } from '../../../types/blog';
-import { FaHeart, FaCrown } from 'react-icons/fa';
+import { FaCrown } from 'react-icons/fa';
 
 interface CommentSectionProps {
   comments: Comment[];
@@ -12,13 +12,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
 
   const CommentItem: React.FC<{ comment: Comment; depth?: number }> = ({ comment, depth = 0 }) => {
-    const [isLiked, setIsLiked] = useState(comment.isLiked);
-    const [likes, setLikes] = useState(comment.likes);
 
-    const handleLike = () => {
-      setIsLiked(!isLiked);
-      setLikes(isLiked ? likes - 1 : likes + 1);
-    };
 
     return (
       <div className={`${depth > 0 ? 'ml-6 md:ml-12 pt-6' : 'py-6'} border-b border-gray-100 dark:border-gray-800 last:border-0`}>
@@ -58,28 +52,11 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
                 </p>
               </div>
               
-              {/* <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                <BsThreeDots className="w-5 h-5 text-gray-500" />
-              </button> */}
             </div>
             
             <p className="mt-4 text-gray-700 dark:text-gray-300 leading-relaxed">
               {comment.content}
             </p>
-            
-            <div className="flex items-center gap-6 mt-4">
-              <button
-                onClick={handleLike}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors ${
-                  isLiked
-                    ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
-                }`}
-              >
-                <FaHeart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
-                <span className="text-sm font-medium">{likes}</span>
-              </button>
-            </div>
             
             {replyingTo === comment.id && (
               <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
@@ -113,16 +90,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           💬 Discussion ({comments.length})
         </h2>
-        {/* <div className="flex items-center gap-4">
-          <select className="px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300">
-            <option>Newest First</option>
-            <option>Oldest First</option>
-            <option>Most Liked</option>
-          </select>
-          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg">
-            Subscribe
-          </button>
-        </div> */}
       </div>
 
       {/* New Comment Form */}

@@ -71,28 +71,6 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = ({ posts }) => {
         ))}
       </div>
 
-      <div className="mt-8 p-6 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-xl">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-              Want more content like this?
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">
-              Subscribe to our newsletter for weekly insights and tutorials
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none min-w-62.5"
-            />
-            <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg whitespace-nowrap">
-              Subscribe
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
