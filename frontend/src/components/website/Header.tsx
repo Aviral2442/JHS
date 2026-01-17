@@ -374,6 +374,7 @@ const mainMenuItems = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
   { name: "About Us", href: "/about" },
+  { name: "Consumer Profile", href: "/consumer-profile" },
   { name: "Contact", href: "/contact" },
 ];
 
