@@ -1,611 +1,395 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  BrainCircuit,
-  Wallet,
-  Users,
-  Zap,
-  Shield,
-  Activity,
-  Globe,
-  Cpu,
-  Network,
-  Sparkles,
-  Lock,
-  QrCode,
-  Share2,
-  TrendingUp,
-  Palette,
-  Orbit,
-  Satellite,
-  Brain,
-  CircuitBoard,
-  Binary,
-  Crystals,
-  Waves,
-  Nebula,
-  Atom,
-  Infinity,
-  Matrix,
-  Radar,
-  SatelliteDish,
-  Cloud
+// src/pages/ConsumerProfile.tsx
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  Bell, 
+  Settings, 
+  HelpCircle,
+  LogOut,
+  Menu,
+  X
 } from 'lucide-react';
+import UserProfileCard from './components/UserProfileCard';
+import WalletCard from './components/WalletCard';
+import ReferralDashboard from './components/ReferralDashboard';
+import TransactionHistory from './components/TransactionHistory';
+import { 
+  User, 
+  Wallet, 
+  Referral, 
+  Transaction 
+} from '../../../types/index';
 
-// Particle animation for background
-const NeuralParticles: React.FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+const ConsumerProfile: React.FC = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<'overview' | 'transactions' | 'referrals'>('overview');
   
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    
-    const particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      color: string;
-      connections: number[];
-    }> = [];
-    
-    const colors = [
-      'rgba(0, 247, 255, 0.8)',
-      'rgba(168, 85, 247, 0.8)',
-      'rgba(255, 0, 234, 0.8)',
-      'rgba(0, 255, 157, 0.8)'
-    ];
-    
-    // Create particles
-    for (let i = 0; i < 30; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 2 + 1,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        connections: []
-      });
-    }
-    
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Draw connections
-      particles.forEach((p1, i) => {
-        particles.forEach((p2, j) => {
-          if (i !== j) {
-            const dx = p1.x - p2.x;
-            const dy = p1.y - p2.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 150) {
-              ctx.beginPath();
-              ctx.strokeStyle = `rgba(0, 247, 255, ${0.2 * (1 - distance/150)})`;
-              ctx.lineWidth = 0.5;
-              ctx.moveTo(p1.x, p1.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
-          }
-        });
-      });
-      
-      // Update and draw particles
-      particles.forEach(particle => {
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-        
-        // Bounce off walls
-        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
-        
-        // Draw particle
-        ctx.beginPath();
-        ctx.fillStyle = particle.color;
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Glow effect
-        const gradient = ctx.createRadialGradient(
-          particle.x, particle.y, 0,
-          particle.x, particle.y, particle.size * 3
-        );
-        gradient.addColorStop(0, particle.color);
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        
-        ctx.beginPath();
-        ctx.fillStyle = gradient;
-        ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      
-      requestAnimationFrame(animate);
-    };
-    
-    animate();
-    
-    const handleResize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
-      style={{ opacity: 0.3 }}
-    />
-  );
-};
-
-// Holographic Card Component
-const HolographicCard: React.FC<{
-  children: React.ReactNode;
-  className?: string;
-  glowColor?: string;
-}> = ({ children, className = '', glowColor = 'rgba(0, 247, 255, 0.3)' }) => {
-  return (
-    <div className={`relative rounded-2xl overflow-hidden ${className}`}>
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `linear-gradient(135deg, 
-            rgba(0, 0, 0, 0.8) 0%,
-            rgba(20, 20, 40, 0.9) 50%,
-            rgba(0, 0, 0, 0.8) 100%)`,
-          border: '1px solid rgba(0, 247, 255, 0.2)',
-          boxShadow: `0 0 40px ${glowColor}`,
-        }}
-      />
-      <div className="relative z-10 p-6">{children}</div>
-    </div>
-  );
-};
-
-// Animated Progress Ring
-const ProgressRing: React.FC<{
-  progress: number;
-  size?: number;
-  strokeWidth?: number;
-  colors?: [string, string];
-}> = ({ progress, size = 80, strokeWidth = 8, colors = ['#00f7ff', '#a855f7'] }) => {
-  const radius = (size - strokeWidth) / 2;
-  const circumference = radius * 2 * Math.PI;
-  const offset = circumference - (progress / 100) * circumference;
-  
-  return (
-    <div className="relative" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="rotate-[-90deg]">
-        {/* Background circle */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke="rgba(255, 255, 255, 0.1)"
-          strokeWidth={strokeWidth}
-          fill="transparent"
-        />
-        {/* Progress circle */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke={`url(#gradient-${colors.join('-')})`}
-          strokeWidth={strokeWidth}
-          fill="transparent"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          strokeLinecap="round"
-        />
-        <defs>
-          <linearGradient id={`gradient-${colors.join('-')}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={colors[0]} />
-            <stop offset="100%" stopColor={colors[1]} />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-lg font-bold" style={{ color: colors[0] }}>
-          {progress}%
-        </span>
-      </div>
-    </div>
-  );
-};
-
-// Main Component
-const NeuroFinanceDashboard: React.FC = () => {
-  const [activeModule, setActiveModule] = useState<'neural' | 'quantum' | 'hologram'>('neural');
-  const [balance, setBalance] = useState(12542.75);
-  const [neuralActivity, setNeuralActivity] = useState(72);
-  const [securityScore, setSecurityScore] = useState(98);
-  const [referralBoost, setReferralBoost] = useState(3.2);
-  const [isTransferring, setIsTransferring] = useState(false);
-  
-  const modules = [
-    {
-      id: 'neural',
-      name: 'Neural Network',
-      icon: BrainCircuit,
-      color: '#00f7ff',
-      description: 'AI-powered financial insights'
-    },
-    {
-      id: 'quantum',
-      name: 'Quantum Wallet',
-      icon: Cpu,
-      color: '#a855f7',
-      description: 'Quantum-secure transactions'
-    },
-    {
-      id: 'hologram',
-      name: 'Hologram Interface',
-      icon: Globe,
-      color: '#ff00ea',
-      description: '3D visualization engine'
-    }
-  ];
-  
-  const transactions = [
-    { id: 1, type: 'credit', amount: 2500, description: 'AI Trading Profit', time: '2 mins ago', icon: Sparkles },
-    { id: 2, type: 'debit', amount: 899, description: 'Quantum Hardware', time: '1 hour ago', icon: Cpu },
-    { id: 3, type: 'credit', amount: 500, description: 'Referral Bonus', time: '3 hours ago', icon: Users },
-    { id: 4, type: 'credit', amount: 1250, description: 'Neural Network Reward', time: '5 hours ago', icon: BrainCircuit },
-    { id: 5, type: 'debit', amount: 299, description: 'Cloud Processing', time: '1 day ago', icon: Cloud },
-  ];
-  
-  const referralStats = [
-    { label: 'Active Nodes', value: '247', change: '+12%', icon: Network },
-    { label: 'Network Power', value: '3.2kW', change: '+5%', icon: Zap },
-    { label: 'Data Streams', value: '1.2TB/s', change: '+8%', icon: Waves },
-    { label: 'Quantum Links', value: '48', change: '+15%', icon: CircuitBoard },
-  ];
-  
-  const simulateTransfer = () => {
-    setIsTransferring(true);
-    setTimeout(() => {
-      setBalance(prev => prev + 1000);
-      setIsTransferring(false);
-    }, 1500);
+  // Mock data
+  const user: User = {
+    id: 'USR001',
+    name: 'Alex Johnson',
+    email: 'alex.johnson@example.com',
+    phone: '+1 (555) 123-4567',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex',
+    joinDate: '2022-03-15',
+    membership: 'Gold',
+    verified: true
   };
-  
-  const increaseNeuralActivity = () => {
-    setNeuralActivity(prev => Math.min(prev + 5, 100));
+
+  const wallet: Wallet = {
+    balance: 2450.75,
+    currency: 'USD',
+    totalEarned: 5200.50,
+    totalSpent: 2749.75,
+    transactions: [
+      {
+        id: 'TX001',
+        type: 'credit',
+        amount: 500,
+        description: 'Wallet Top-up',
+        date: '2024-01-15',
+        status: 'completed',
+        category: 'Deposit'
+      },
+      {
+        id: 'TX002',
+        type: 'referral',
+        amount: 100,
+        description: 'Referral Bonus - John Doe',
+        date: '2024-01-14',
+        status: 'completed',
+        category: 'Referral'
+      },
+      {
+        id: 'TX003',
+        type: 'purchase',
+        amount: 149.25,
+        description: 'Online Shopping',
+        date: '2024-01-13',
+        status: 'completed',
+        category: 'Shopping'
+      },
+      {
+        id: 'TX004',
+        type: 'debit',
+        amount: 200,
+        description: 'Withdrawal',
+        date: '2024-01-12',
+        status: 'pending',
+        category: 'Withdrawal'
+      }
+    ]
   };
-  
+
+  const referral: Referral = {
+    id: 'REF001',
+    code: 'ALEX50',
+    totalEarnings: 1250.50,
+    totalReferrals: 8,
+    pendingAmount: 150,
+    referrals: [
+      {
+        id: 'REF001-1',
+        name: 'John Doe',
+        email: 'john@example.com',
+        joinDate: '2024-01-10',
+        status: 'active',
+        earnedAmount: 50
+      },
+      {
+        id: 'REF001-2',
+        name: 'Jane Smith',
+        email: 'jane@example.com',
+        joinDate: '2024-01-08',
+        status: 'active',
+        earnedAmount: 75
+      },
+      {
+        id: 'REF001-3',
+        name: 'Bob Wilson',
+        email: 'bob@example.com',
+        joinDate: '2024-01-05',
+        status: 'pending',
+        earnedAmount: 25
+      }
+    ],
+    campaign: {
+      name: 'Winter Referral Program',
+      commissionRate: 15,
+      minWithdrawal: 20,
+      expirationDate: '2024-03-31'
+    }
+  };
+
+  const handleAddFunds = () => {
+    // Implement add funds logic
+    console.log('Add funds clicked');
+  };
+
+  const handleWithdraw = () => {
+    // Implement withdraw logic
+    console.log('Withdraw clicked');
+  };
+
+  const handleEditProfile = () => {
+    // Implement edit profile logic
+    console.log('Edit profile clicked');
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-purple-900" />
-        <NeuralParticles />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(0,247,255,0.1),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.1),transparent_50%)]" />
-      </div>
-      
-      {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
-          <div className="mb-6 lg:mb-0">
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="relative">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center">
-                  <Brain className="w-6 h-6" />
-                </div>
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-black flex items-center justify-center">
-                  <div className="w-2 h-2 bg-black rounded-full animate-pulse" />
-                </div>
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
-                  NeuroFinance Matrix
-                </h1>
-                <p className="text-gray-400">Quantum-Enhanced Consumer Profile</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-green-500" />
-                <span className="text-sm">Security Level: Quantum</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Activity className="w-4 h-4 text-cyan-500" />
-                <span className="text-sm">Neural Sync: {neuralActivity}%</span>
-              </div>
-            </div>
-          </div>
-          
-          {/* Module Selector */}
-          <div className="flex space-x-4">
-            {modules.map(module => (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Header */}
+      <header className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
               <button
-                key={module.id}
-                onClick={() => setActiveModule(module.id as any)}
-                className={`relative px-4 py-2 rounded-lg backdrop-blur-sm transition-all duration-300 ${
-                  activeModule === module.id
-                    ? 'border border-cyan-500/50 bg-cyan-500/10'
-                    : 'border border-gray-800 bg-black/20 hover:bg-gray-900/50'
-                }`}
-                style={{
-                  boxShadow: activeModule === module.id
-                    ? `0 0 20px ${module.color}40`
-                    : 'none'
-                }}
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                <div className="flex items-center space-x-2">
-                  <module.icon className="w-5 h-5" style={{ color: module.color }} />
-                  <span>{module.name}</span>
-                </div>
+                {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
-            ))}
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                My Profile
+              </h1>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <button className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+                <Bell className="w-6 h-6" />
+                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              </button>
+              <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+                <Settings className="w-6 h-6" />
+              </button>
+              <button className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg">
+                <LogOut className="w-5 h-5" />
+                <span className="hidden md:inline">Logout</span>
+              </button>
+            </div>
           </div>
         </div>
-        
-        {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Quantum Balance Card */}
-          <div className="lg:col-span-2">
-            <HolographicCard glowColor="rgba(0, 247, 255, 0.4)">
-              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-xl font-bold mb-2 flex items-center">
-                    <Wallet className="w-6 h-6 mr-2 text-cyan-400" />
-                    Quantum Balance
-                  </h2>
-                  <p className="text-gray-400">Real-time multi-dimensional asset tracking</p>
-                </div>
-                <div className="mt-4 lg:mt-0">
-                  <button
-                    onClick={simulateTransfer}
-                    disabled={isTransferring}
-                    className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:opacity-50 transition-all duration-300 flex items-center"
-                  >
-                    {isTransferring ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="w-4 h-4 mr-2" />
-                        Quantum Transfer
-                      </>
-                    )}
+      </header>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar - Mobile Drawer */}
+          <motion.aside
+            initial={false}
+            animate={{
+              x: sidebarOpen ? 0 : '-100%',
+              opacity: sidebarOpen ? 1 : 0
+            }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white dark:bg-gray-800 shadow-xl lg:shadow-none lg:bg-transparent lg:w-1/4 lg:block ${
+              sidebarOpen ? 'block' : 'hidden lg:block'
+            }`}
+          >
+            <div className="h-full p-6 lg:p-0">
+              {/* Navigation */}
+              <nav className="space-y-2">
+                <button
+                  onClick={() => {
+                    setActiveSection('overview');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-xl transition-colors ${
+                    activeSection === 'overview'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                      : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  Overview Dashboard
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveSection('transactions');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-xl transition-colors ${
+                    activeSection === 'transactions'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                      : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  Transaction History
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveSection('referrals');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-xl transition-colors ${
+                    activeSection === 'referrals'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                      : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  Referral Program
+                </button>
+                
+                {/* Additional menu items */}
+                <div className="pt-8 border-t border-gray-200 dark:border-gray-700">
+                  <button className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    Security Settings
+                  </button>
+                  <button className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    Notification Preferences
+                  </button>
+                  <button className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    Privacy Settings
                   </button>
                 </div>
-              </div>
+              </nav>
               
-              <div className="mb-8">
-                <div className="text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
-                  ${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              {/* Help section */}
+              <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 rounded-xl">
+                <div className="flex items-center gap-3 mb-3">
+                  <HelpCircle className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  <h4 className="font-semibold">Need Help?</h4>
                 </div>
-                <div className="flex items-center text-green-500">
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  <span>+12.4% this month</span>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="p-4 rounded-xl bg-black/30 border border-gray-800">
-                  <div className="text-sm text-gray-400 mb-1">Active Chains</div>
-                  <div className="text-xl font-bold text-cyan-400">12</div>
-                </div>
-                <div className="p-4 rounded-xl bg-black/30 border border-gray-800">
-                  <div className="text-sm text-gray-400 mb-1">Quantum Yield</div>
-                  <div className="text-xl font-bold text-purple-400">8.42%</div>
-                </div>
-                <div className="p-4 rounded-xl bg-black/30 border border-gray-800">
-                  <div className="text-sm text-gray-400 mb-1">AI Rewards</div>
-                  <div className="text-xl font-bold text-green-400">$342</div>
-                </div>
-                <div className="p-4 rounded-xl bg-black/30 border border-gray-800">
-                  <div className="text-sm text-gray-400 mb-1">Risk Score</div>
-                  <div className="text-xl font-bold text-yellow-400">A+</div>
-                </div>
-              </div>
-            </HolographicCard>
-          </div>
-          
-          {/* Neural Activity Card */}
-          <div>
-            <HolographicCard glowColor="rgba(168, 85, 247, 0.4)">
-              <h2 className="text-xl font-bold mb-6 flex items-center">
-                <BrainCircuit className="w-6 h-6 mr-2 text-purple-400" />
-                Neural Activity
-              </h2>
-              
-              <div className="flex flex-col items-center mb-6">
-                <ProgressRing progress={neuralActivity} colors={['#a855f7', '#ec4899']} />
-                <button
-                  onClick={increaseNeuralActivity}
-                  className="mt-6 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
-                >
-                  Boost Neural Sync
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  Our support team is here 24/7
+                </p>
+                <button className="w-full px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600">
+                  Contact Support
                 </button>
               </div>
-              
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400">Processing Power</span>
-                  <span className="text-cyan-400">82%</span>
-                </div>
-                <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style={{ width: '82%' }} />
-                </div>
-                
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400">Memory Allocation</span>
-                  <span className="text-purple-400">64%</span>
-                </div>
-                <div className="w-full bg-gray-800 rounded-full h-2">
-                  <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" style={{ width: '64%' }} />
-                </div>
-              </div>
-            </HolographicCard>
-          </div>
-        </div>
-        
-        {/* Bottom Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Transactions */}
-          <div className="lg:col-span-2">
-            <HolographicCard>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold flex items-center">
-                  <Binary className="w-6 h-6 mr-2 text-green-400" />
-                  Quantum Transactions
-                </h2>
-                <div className="flex items-center space-x-2">
-                  <button className="p-2 hover:bg-gray-800 rounded-lg">
-                    <QrCode className="w-5 h-5" />
-                  </button>
-                  <button className="p-2 hover:bg-gray-800 rounded-lg">
-                    <Share2 className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                {transactions.map(tx => (
-                  <div
-                    key={tx.id}
-                    className="flex items-center justify-between p-4 rounded-xl bg-black/30 border border-gray-800 hover:border-cyan-500/50 transition-all duration-300 group"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div className={`p-3 rounded-lg ${
-                        tx.type === 'credit'
-                          ? 'bg-green-500/10 border border-green-500/30'
-                          : 'bg-red-500/10 border border-red-500/30'
-                      }`}>
-                        <tx.icon className={`w-6 h-6 ${
-                          tx.type === 'credit' ? 'text-green-400' : 'text-red-400'
-                        }`} />
-                      </div>
-                      <div>
-                        <div className="font-medium">{tx.description}</div>
-                        <div className="text-sm text-gray-400">{tx.time}</div>
-                      </div>
-                    </div>
-                    <div className={`text-lg font-bold ${
-                      tx.type === 'credit' ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {tx.type === 'credit' ? '+' : '-'}${tx.amount.toLocaleString()}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </HolographicCard>
-          </div>
-          
-          {/* Referral Network */}
-          <div>
-            <HolographicCard glowColor="rgba(255, 0, 234, 0.4)">
-              <h2 className="text-xl font-bold mb-6 flex items-center">
-                <SatelliteDish className="w-6 h-6 mr-2 text-pink-400" />
-                Neural Network
-              </h2>
-              
-              <div className="mb-6 p-4 rounded-xl bg-gradient-to-br from-pink-900/20 to-purple-900/20 border border-pink-500/30">
-                <div className="text-3xl font-bold mb-2 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400">
-                  {referralBoost.toFixed(1)}x
-                </div>
-                <div className="text-center text-gray-300">Network Boost Multiplier</div>
-              </div>
-              
-              <div className="space-y-4">
-                {referralStats.map((stat, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 rounded-lg bg-black/30 hover:bg-black/50 transition-all duration-300"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 rounded-lg bg-gradient-to-r from-pink-500/10 to-purple-500/10">
-                        <stat.icon className="w-4 h-4 text-pink-400" />
-                      </div>
-                      <div>
-                        <div className="text-sm text-gray-400">{stat.label}</div>
-                        <div className="font-bold">{stat.value}</div>
-                      </div>
-                    </div>
-                    <div className="text-green-400 text-sm">{stat.change}</div>
-                  </div>
-                ))}
-              </div>
-              
-              <button className="w-full mt-6 py-3 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center">
-                <Network className="w-5 h-5 mr-2" />
-                Expand Neural Network
-              </button>
-            </HolographicCard>
-          </div>
-        </div>
-        
-        {/* Security & Status Bar */}
-        <div className="mt-8">
-          <HolographicCard>
-            <div className="flex flex-col lg:flex-row items-center justify-between">
-              <div className="flex items-center space-x-4 mb-4 lg:mb-0">
-                <div className="relative">
-                  <Lock className="w-8 h-8 text-green-400" />
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse" />
-                </div>
-                <div>
-                  <div className="font-bold">Quantum Encryption Active</div>
-                  <div className="text-sm text-gray-400">Security Score: {securityScore}/100</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-cyan-400">24/7</div>
-                  <div className="text-sm text-gray-400">Uptime</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-400">0ms</div>
-                  <div className="text-sm text-gray-400">Latency</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-400">∞</div>
-                  <div className="text-sm text-gray-400">Scalability</div>
-                </div>
-              </div>
             </div>
-          </HolographicCard>
+          </motion.aside>
+
+          {/* Overlay for mobile */}
+          {sidebarOpen && (
+            <div
+              className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+          )}
+
+          {/* Main content */}
+          <main className="flex-1">
+            {activeSection === 'overview' ? (
+              <>
+                {/* Welcome Banner */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-8"
+                >
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    Welcome back, {user.name}!
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Here's your account overview and recent activities
+                  </p>
+                </motion.div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  {/* Left Column - Profile */}
+                  <div className="lg:col-span-1">
+                    <UserProfileCard
+                      user={user}
+                      wallet={wallet}
+                      onEditProfile={handleEditProfile}
+                    />
+                  </div>
+
+                  {/* Right Column - Wallet & Referrals */}
+                  <div className="lg:col-span-2 space-y-8">
+                    <WalletCard
+                      wallet={wallet}
+                      onAddFunds={handleAddFunds}
+                      onWithdraw={handleWithdraw}
+                      onViewTransactions={() => setActiveSection('transactions')}
+                    />
+                    
+                    <ReferralDashboard referral={referral} />
+                  </div>
+                </div>
+              </>
+            ) : activeSection === 'transactions' ? (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+              >
+                <div className="mb-8">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    Transaction History
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    View and manage all your wallet transactions
+                  </p>
+                </div>
+                <TransactionHistory transactions={wallet.transactions} />
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+              >
+                <div className="mb-8">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    Referral Program
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Track your referral earnings and manage referrals
+                  </p>
+                </div>
+                <ReferralDashboard referral={referral} />
+              </motion.div>
+            )}
+          </main>
         </div>
-        
-        {/* Floating Action Buttons */}
-        <div className="fixed bottom-8 right-8 flex flex-col space-y-4">
-          <button className="w-14 h-14 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg hover:shadow-cyan-500/30 transition-all duration-300">
-            <Sparkles className="w-6 h-6" />
+      </div>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex justify-around items-center h-16">
+          <button
+            onClick={() => setActiveSection('overview')}
+            className={`flex flex-col items-center p-2 ${
+              activeSection === 'overview'
+                ? 'text-blue-600 dark:text-blue-400'
+                : 'text-gray-600 dark:text-gray-400'
+            }`}
+          >
+            <div className="w-6 h-6 mb-1">📊</div>
+            <span className="text-xs">Overview</span>
           </button>
-          <button className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center shadow-lg hover:shadow-purple-500/30 transition-all duration-300">
-            <Orbit className="w-6 h-6" />
+          <button
+            onClick={() => setActiveSection('transactions')}
+            className={`flex flex-col items-center p-2 ${
+              activeSection === 'transactions'
+                ? 'text-blue-600 dark:text-blue-400'
+                : 'text-gray-600 dark:text-gray-400'
+            }`}
+          >
+            <div className="w-6 h-6 mb-1">💳</div>
+            <span className="text-xs">Transactions</span>
           </button>
-          <button className="w-14 h-14 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center shadow-lg hover:shadow-green-500/30 transition-all duration-300">
-            <Matrix className="w-6 h-6" />
+          <button
+            onClick={() => setActiveSection('referrals')}
+            className={`flex flex-col items-center p-2 ${
+              activeSection === 'referrals'
+                ? 'text-blue-600 dark:text-blue-400'
+                : 'text-gray-600 dark:text-gray-400'
+            }`}
+          >
+            <div className="w-6 h-6 mb-1">👥</div>
+            <span className="text-xs">Referrals</span>
+          </button>
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="flex flex-col items-center p-2 text-gray-600 dark:text-gray-400"
+          >
+            <Menu className="w-6 h-6 mb-1" />
+            <span className="text-xs">Menu</span>
           </button>
         </div>
       </div>
-      
-      {/* Ambient Glow Effects */}
-      <div className="fixed top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-      <div className="fixed bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
     </div>
   );
 };
 
-// Export the main component
-export default NeuroFinanceDashboard;
+export default ConsumerProfile;
