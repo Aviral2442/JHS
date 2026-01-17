@@ -1,6 +1,7 @@
 import { RouteObject, Navigate } from "react-router";
 import { lazy } from "react";
 import WebsiteLayout from "../layout/WebsiteLayout";
+import ConsumerProfilePage from "../views/pages/consumerProfile";
 
 const HomePage = lazy(() => import("../views/pages/Home"));
 const AboutPage = lazy(() => import("../views/pages/about"));
@@ -22,6 +23,7 @@ const ShippingPolicyPage = lazy(() => import("../views/pages/PolicyPages/Shippin
 const TermsOfServicePage = lazy(() => import("../views/pages/PolicyPages/TermsOfServicePage"));
 const OrderPage = lazy(() => import("../views/pages/order"));
 const OrderDetailPage = lazy(() => import("../views/pages/orderDetail"));
+const CleaningServicesPage = lazy(() => import("../views/pages/landingPages/cleaningServices"));
 
 const websiteRoutes: RouteObject[] = [
   {
@@ -48,6 +50,8 @@ const websiteRoutes: RouteObject[] = [
   { path: "/terms", element: <TermsOfServicePage /> },
   { path: "/order", element: <OrderPage /> },
   { path: "/order-detail", element: <OrderDetailPage /> },
+  { path: "/cleaning-services", element: <CleaningServicesPage /> },
+  { path: "/consumer-profile", element: <ConsumerProfilePage /> }
 ];
 
 
