@@ -1,4 +1,3 @@
-// pages/BlogDetailPage.tsx
 import React, { useRef, useState } from "react";
 import { BlogPost, Comment, RelatedPost } from "../../../types/blog";
 import { CommentSection } from "../blogDetail/CommentSection";
@@ -11,11 +10,9 @@ import {
   FaTwitter,
   FaFacebook,
   FaLink,
-  FaHeart,
 } from "react-icons/fa";
 import { HiChevronDoubleUp } from "react-icons/hi";
 
-// Mock data
 const mockBlogPost: BlogPost = {
   id: "1",
   title:
@@ -202,25 +199,6 @@ export const BlogDetailPage: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // const handleFontSizeChange = (size: string) => {
-  //     document.documentElement.classList.remove('text-sm', 'text-base', 'text-lg');
-  //     document.documentElement.classList.add(
-  //         size === 'small' ? 'text-sm' :
-  //             size === 'large' ? 'text-lg' : 'text-base'
-  //     );
-  // };
-
-  // const handleThemeToggle = () => {
-  //     document.documentElement.classList.toggle('dark');
-  // };
-
-  // const handleBookmarkToggle = () => {
-  //     setIsBookmarked(!isBookmarked);
-  // };
-
-  const handleLikeToggle = () => {
-    // Handle like functionality
-  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -233,38 +211,8 @@ export const BlogDetailPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 max-w-[90%] mx-auto">
-      {/* Back Navigation */}
-      {/* <nav className="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <button className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-                            <FaChevronLeft className="w-4 h-4" />
-                            <span className="font-medium">Back to Blog</span>
-                        </button>
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={copyLink}
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                            >
-                                <FaLink className="w-4 h-4" />
-                                <span className="hidden sm:inline font-medium">Copy Link</span>
-                            </button>
-                            <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">
-                                Subscribe
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </nav> */}
-
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12">
-          {/* Table of Contents - Left Sidebar */}
-          {/* <div className="lg:col-span-2">
-                        <TableOfContents contentRef={contentRef} />
-                    </div> */}
-
-          {/* Main Content */}
           <div className="lg:col-span-12">
             {/* Article Header */}
             <article className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -277,38 +225,12 @@ export const BlogDetailPage: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
-                  {/* <div className="flex flex-wrap gap-2 mb-4">
-                                        {mockBlogPost.categories.map((category) => (
-                                            <span
-                                                key={category}
-                                                className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full"
-                                            >
-                                                {category}
-                                            </span>
-                                        ))}
-                                    </div> */}
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
                     {mockBlogPost.title}
                   </h1>
 
                   {/* Meta Information */}
                   <div className="flex flex-wrap items-center gap-6 text-white/90">
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={mockBlogPost.author.avatar}
-                        alt={mockBlogPost.author.name}
-                        className="w-10 h-10 rounded-full border-2 border-white"
-                      />
-                      <div>
-                        <div className="font-semibold">
-                          {mockBlogPost.author.name}
-                        </div>
-                        <div className="text-sm opacity-80">
-                          {mockBlogPost.author.role}
-                        </div>
-                      </div>
-                    </div>
-
                     <div className="flex items-center gap-2">
                       <FaCalendar className="w-4 h-4" />
                       <span>
@@ -333,31 +255,17 @@ export const BlogDetailPage: React.FC = () => {
               {/* Article Content */}
               <div className="p-8">
                 {/* Stats Bar */}
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
-                  <div className="flex items-center gap-6">
-                    {/* <button
-                                            onClick={handleBookmarkToggle}
-                                            className={`flex items-center gap-2 ${isBookmarked
-                                                    ? 'text-yellow-600 dark:text-yellow-400'
-                                                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                                                }`}
-                                        >
-                                            <FaBookmark className="w-5 h-5" />
-                                            <span className="font-medium">{isBookmarked ? 'Saved' : 'Save'}</span>
-                                        </button> */}
-
-                    {/* <button className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                                            <FaEye className="w-5 h-5" />
-                                            <span className="font-medium">{mockBlogPost.views.toLocaleString()}</span>
-                                        </button> */}
-
-                    <button
-                      onClick={handleLikeToggle}
-                      className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400"
-                    >
-                      <FaHeart className="w-5 h-5" />
-                      <span className="font-medium">{mockBlogPost.likes}</span>
-                    </button>
+                <div className="flex flex-wrap  items-center justify-between gap-4 mb-8 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
+                  <div className="flex flex-wrap gap-2">
+                    {mockBlogPost.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm"
+                      >
+                        <FaTag className="w-3 h-3" />
+                        {tag}
+                      </span>
+                    ))}
                   </div>
 
                   <div className="flex items-center gap-4">
@@ -385,17 +293,6 @@ export const BlogDetailPage: React.FC = () => {
                 </div>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {mockBlogPost.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm"
-                    >
-                      <FaTag className="w-3 h-3" />
-                      {tag}
-                    </span>
-                  ))}
-                </div>
 
                 {/* Article Body */}
                 <div
@@ -403,11 +300,6 @@ export const BlogDetailPage: React.FC = () => {
                   className="prose prose-lg dark:prose-invert max-w-none"
                   dangerouslySetInnerHTML={{ __html: mockBlogPost.content }}
                 />
-
-                {/* Author Card */}
-                {/* <div className="mt-12">
-                  <AuthorCard author={mockBlogPost.author} />
-                </div> */}
               </div>
             </article>
 
@@ -421,19 +313,6 @@ export const BlogDetailPage: React.FC = () => {
               <RelatedPosts posts={mockRelatedPosts} />
             </div>
           </div>
-
-          {/* Right Sidebar - Blog Actions */}
-          {/* <div className="lg:col-span-2">
-            <BlogActions
-              onFontSizeChange={handleFontSizeChange}
-              onThemeToggle={handleThemeToggle}
-              isBookmarked={isBookmarked}
-              onBookmarkToggle={handleBookmarkToggle}
-              likes={mockBlogPost.likes}
-              onLikeToggle={handleLikeToggle}
-              views={mockBlogPost.views}
-            />
-          </div> */}
         </div>
       </div>
 
@@ -447,10 +326,6 @@ export const BlogDetailPage: React.FC = () => {
           <HiChevronDoubleUp className="w-6 h-6" />
         </button>
       )}
-
-      {/* Progress Bar */}
-      {/* <div className="fixed top-0 left-0 right-0 h-1 bg-blue-600 origin-left transform scale-x-0 transition-transform duration-200 z-50" 
-           style={{ transform: `scaleX(${typeof window !== 'undefined' ? window.scrollY / (document.body.scrollHeight - window.innerHeight) : 0})` }} /> */}
     </div>
   );
 };

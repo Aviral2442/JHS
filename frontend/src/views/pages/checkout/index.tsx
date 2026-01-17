@@ -46,13 +46,6 @@ interface OrderSummary {
   itemCount: number;
 }
 
-interface PromoCode {
-  code: string;
-  discount: number;
-  type: 'percentage' | 'fixed';
-  minAmount?: number;
-}
-
 // ================ MOCK DATA ================
 const initialAddresses: ShippingAddress[] = [
   {
@@ -123,13 +116,6 @@ const orderItems: OrderItem[] = [
     quantity: 1,
     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop'
   }
-];
-
-const promoCodes: PromoCode[] = [
-  { code: 'SAVE10', discount: 10, type: 'percentage', minAmount: 50 },
-  { code: 'SAVE20', discount: 20, type: 'percentage', minAmount: 100 },
-  { code: 'FREESHIP', discount: 0, type: 'fixed' },
-  { code: 'FLAT15', discount: 15, type: 'fixed' }
 ];
 
 const shippingOptions = [
@@ -460,91 +446,91 @@ const DeliveryOptions: React.FC<{
 };
 
 // Promo Code Component
-const PromoCodeInput: React.FC<{
-  onApplyPromo: (code: string) => void;
-  appliedCode?: PromoCode;
-  onRemovePromo: () => void;
-}> = ({ onApplyPromo, appliedCode, onRemovePromo }) => {
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
+// const PromoCodeInput: React.FC<{
+//   onApplyPromo: (code: string) => void;
+//   appliedCode?: PromoCode;
+//   onRemovePromo: () => void;
+// }> = ({ onApplyPromo, appliedCode, onRemovePromo }) => {
+//   const [code, setCode] = useState('');
+//   const [error, setError] = useState('');
   
-  const handleApply = () => {
-    if (!code.trim()) {
-      setError('Please enter a promo code');
-      return;
-    }
+//   const handleApply = () => {
+//     if (!code.trim()) {
+//       setError('Please enter a promo code');
+//       return;
+//     }
     
-    const foundCode = promoCodes.find(p => p.code === code.toUpperCase());
-    if (foundCode) {
-      onApplyPromo(code.toUpperCase());
-      setError('');
-      setCode('');
-    } else {
-      setError('Invalid promo code');
-    }
-  };
+//     const foundCode = promoCodes.find(p => p.code === code.toUpperCase());
+//     if (foundCode) {
+//       onApplyPromo(code.toUpperCase());
+//       setError('');
+//       setCode('');
+//     } else {
+//       setError('Invalid promo code');
+//     }
+//   };
   
-  return (
-    <div className="bg-white rounded-xl shadow-md p-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Promo Code</h3>
+//   return (
+//     <div className="bg-white rounded-xl shadow-md p-6">
+//       <h3 className="text-lg font-semibold text-gray-800 mb-4">Promo Code</h3>
       
-      {appliedCode ? (
-        <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-4">
-          <div>
-            <div className="flex items-center text-green-700">
-              <Check size={18} className="mr-2" />
-              <span className="font-medium">Code applied: {appliedCode.code}</span>
-            </div>
-            <p className="text-sm text-green-600 mt-1">
-              {appliedCode.type === 'percentage' 
-                ? `${appliedCode.discount}% discount applied` 
-                : `$${appliedCode.discount} discount applied`}
-            </p>
-          </div>
-          <button 
-            onClick={onRemovePromo}
-            className="text-red-500 hover:text-red-700"
-          >
-            <X size={20} />
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <input
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="Enter promo code"
-              className="grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button 
-              onClick={handleApply}
-              className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
-            >
-              Apply
-            </button>
-          </div>
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+//       {appliedCode ? (
+//         <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-4">
+//           <div>
+//             <div className="flex items-center text-green-700">
+//               <Check size={18} className="mr-2" />
+//               <span className="font-medium">Code applied: {appliedCode.code}</span>
+//             </div>
+//             <p className="text-sm text-green-600 mt-1">
+//               {appliedCode.type === 'percentage' 
+//                 ? `${appliedCode.discount}% discount applied` 
+//                 : `$${appliedCode.discount} discount applied`}
+//             </p>
+//           </div>
+//           <button 
+//             onClick={onRemovePromo}
+//             className="text-red-500 hover:text-red-700"
+//           >
+//             <X size={20} />
+//           </button>
+//         </div>
+//       ) : (
+//         <>
+//           <div className="flex flex-col sm:flex-row gap-2">
+//             <input
+//               type="text"
+//               value={code}
+//               onChange={(e) => setCode(e.target.value)}
+//               placeholder="Enter promo code"
+//               className="grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//             />
+//             <button 
+//               onClick={handleApply}
+//               className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
+//             >
+//               Apply
+//             </button>
+//           </div>
+//           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           
-          <div className="mt-4">
-            <p className="text-sm text-gray-600 mb-2">Available promo codes:</p>
-            <div className="flex flex-wrap gap-2">
-              {promoCodes.map(promo => (
-                <span 
-                  key={promo.code}
-                  className="text-xs bg-gray-100 text-gray-800 px-3 py-1 rounded-full border border-gray-200"
-                >
-                  {promo.code}
-                </span>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+//           <div className="mt-4">
+//             <p className="text-sm text-gray-600 mb-2">Available promo codes:</p>
+//             <div className="flex flex-wrap gap-2">
+//               {promoCodes.map(promo => (
+//                 <span 
+//                   key={promo.code}
+//                   className="text-xs bg-gray-100 text-gray-800 px-3 py-1 rounded-full border border-gray-200"
+//                 >
+//                   {promo.code}
+//                 </span>
+//               ))}
+//             </div>
+//           </div>
+//         </>
+//       )}
+//     </div>
+//   );
+// };
 
 // Order Summary Component
 const OrderSummary: React.FC<{
@@ -702,7 +688,6 @@ const CheckoutPage: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [paymentComplete, setPaymentComplete] = useState<boolean>(false);
   const [_orderConfirmed, setOrderConfirmed] = useState<boolean>(false);
-  const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
   
   // Razorpay script loaded state
   const [razorpayLoaded, setRazorpayLoaded] = useState<boolean>(false);
@@ -816,37 +801,6 @@ const CheckoutPage: React.FC = () => {
         isDefault: false
       });
     }
-  };
-
-  // Handle Promo Code Application
-  const handleApplyPromo = (code: string) => {
-    const promo = promoCodes.find(p => p.code === code);
-    if (promo) {
-      setAppliedPromo(promo);
-      
-      // Calculate discount
-      let discount = 0;
-      if (promo.type === 'percentage') {
-        discount = (orderSummary.subtotal * promo.discount) / 100;
-      } else {
-        discount = promo.discount;
-      }
-      
-      setOrderSummary(prev => ({
-        ...prev,
-        discount,
-        total: prev.subtotal + prev.shipping - discount + prev.tax
-      }));
-    }
-  };
-
-  const handleRemovePromo = () => {
-    setAppliedPromo(null);
-    setOrderSummary(prev => ({
-      ...prev,
-      discount: 0,
-      total: prev.subtotal + prev.shipping + prev.tax
-    }));
   };
 
   // Handle Payment with Razorpay
@@ -1165,12 +1119,6 @@ const CheckoutPage: React.FC = () => {
               onSelectOption={setDeliveryOption}
             />
             
-            {/* Promo Code Section */}
-            <PromoCodeInput
-              onApplyPromo={handleApplyPromo}
-              appliedCode={appliedPromo || undefined}
-              onRemovePromo={handleRemovePromo}
-            />
           </div>
         );
 
@@ -1423,7 +1371,7 @@ const CheckoutPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="mb-10">
@@ -1438,38 +1386,6 @@ const CheckoutPage: React.FC = () => {
             </div>
           </div>
           
-          {/* Progress Steps */}
-          <div className="mt-8">
-            <div className="flex items-center justify-between">
-              {['Shipping', 'Payment', 'Review', 'Confirmation'].map((label, index) => (
-                <React.Fragment key={index}>
-                  <div className="flex items-center">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
-                      step > index + 1 
-                        ? 'bg-green-500 text-white' 
-                        : step === index + 1
-                        ? 'bg-blue-600 text-white ring-4 ring-blue-100'
-                        : 'bg-gray-300 text-gray-600'
-                    }`}>
-                      {step > index + 1 ? <Check size={20} /> : index + 1}
-                    </div>
-                    <span className={`ml-2 font-medium hidden sm:inline ${
-                      step >= index + 1 ? 'text-gray-900' : 'text-gray-500'
-                    }`}>
-                      {label}
-                    </span>
-                  </div>
-                  {index < 3 && (
-                    <div className="flex-1 h-1 mx-4">
-                      <div className={`h-full rounded-full transition-all duration-500 ${
-                        step > index + 1 ? 'bg-green-500' : 'bg-gray-300'
-                      }`}></div>
-                    </div>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
         </header>
         
         {/* Main Content */}
@@ -1614,17 +1530,6 @@ const CheckoutPage: React.FC = () => {
           </div>
         )}
         
-        {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
-          <p>© 2023 ShopCart. All rights reserved. | 
-            <a href="#" className="text-blue-600 hover:underline mx-2">Privacy Policy</a> | 
-            <a href="#" className="text-blue-600 hover:underline mx-2">Terms of Service</a>
-          </p>
-          <p className="mt-2">
-            Payment processed securely via 
-            <span className="font-bold text-gray-700 ml-1">Razorpay</span>
-          </p>
-        </footer>
       </div>
     </div>
   );

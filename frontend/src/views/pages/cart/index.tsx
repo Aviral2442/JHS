@@ -135,7 +135,7 @@ const CartItemCard: React.FC<{
     <div className={`bg-white rounded-xl shadow-md p-4 mb-4 border border-gray-100 transition-all duration-300 ${isRemoving ? 'opacity-0 scale-95' : 'opacity-100'}`}>
       <div className="flex flex-col sm:flex-row gap-4">
         {/* Product Image */}
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <div className="relative w-full sm:w-32 h-32 rounded-lg overflow-hidden">
             <img
               src={item.image}
@@ -492,7 +492,7 @@ const index: React.FC = () => {
   }, [subtotal]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="mb-10">
