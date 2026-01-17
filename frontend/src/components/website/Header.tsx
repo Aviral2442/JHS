@@ -490,7 +490,7 @@ const MainHeader: React.FC<{
             <div className="hidden md:flex items-center space-x-2">
               <button
                 onClick={() => navigate("/sign-in")}
-                className="px-4 flex justify-center items-center py-2 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-sm"
+                className="px-4 flex justify-center items-center py-2 bg-linear-to-r from-blue-500 to-cyan-500 rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all shadow-sm"
               >
                 <User size={18} className="mr-1" />
                 Login

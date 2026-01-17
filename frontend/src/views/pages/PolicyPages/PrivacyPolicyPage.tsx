@@ -29,11 +29,11 @@ const PrivacyPolicyPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <PolicyHeader title="Privacy Policy" description="Learn how we collect, use, and protect your personal information." icon={<Shield size={32} />} />
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="lg:w-1/4">
+        <div className="flex flex-col gap-8">
+          {/* <div className="lg:w-1/4">
             <TableOfContents sections={privacySections as any} activeSection={Array.from(expandedSections)[0] || ''} onSectionClick={(id) => { if (!expandedSections.has(id)) toggleSection(id); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }} />
-          </div>
-          <div className="lg:w-3/4">
+          </div> */}
+          <div className="">
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Introduction</h2>
               <p className="text-gray-600">At ShopCart, we are committed to protecting your privacy and ensuring the security of your personal information.</p>
@@ -52,7 +52,7 @@ const PrivacyPolicyPage: React.FC = () => {
               </div>
             </div>
 
-            <FAQSection />
+            {/* <FAQSection /> */}
             <ContactSection />
             <DownloadSection />
           </div>

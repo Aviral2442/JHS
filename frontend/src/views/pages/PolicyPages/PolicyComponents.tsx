@@ -33,7 +33,7 @@ interface PolicyHeaderProps {
 }
 
 export const PolicyHeader: React.FC<PolicyHeaderProps> = ({ title, description, icon }) => (
-  <div className="bg-linear-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 mb-8 shadow-lg">
+  <div className="bg-linear-to-r from-blue-500 to-cyan-500 text-white hover:from-blue-600 hover:to-cyan-600 transition-all rounded-2xl p-8 mb-8 shadow-lg">
     <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
       <div className="flex items-center mb-4 md:mb-0">
         <div className="bg-white/20 p-3 rounded-xl mr-4">{icon}</div>

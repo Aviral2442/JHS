@@ -21,11 +21,11 @@ const CookiePolicyPage: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <PolicyHeader title="Cookie Policy" description="Learn about how we use cookies and similar technologies." icon={<Cookie size={32} />} />
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="lg:w-1/4">
+        <div className="flex flex-col gap-8">
+          {/* <div className="lg:w-1/4">
             <TableOfContents sections={cookieSections as any} activeSection={Array.from(expandedSections)[0] || ''} onSectionClick={(id) => { if (!expandedSections.has(id)) toggleSection(id); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }} />
-          </div>
-          <div className="lg:w-3/4">
+          </div> */}
+          <div className="">
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
               <h4 className="font-semibold">Cookie Controls</h4>
               <p className="text-gray-600">Manage cookie preferences through browser settings or our consent tool.</p>
@@ -35,7 +35,7 @@ const CookiePolicyPage: React.FC = () => {
               <PolicySectionComponent key={s.id} section={s as any} isExpanded={expandedSections.has(s.id)} onToggle={() => toggleSection(s.id)} />
             ))}
 
-            <FAQSection />
+            {/* <FAQSection /> */}
             <ContactSection />
             <DownloadSection />
           </div>

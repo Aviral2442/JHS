@@ -105,12 +105,12 @@ const ContactFooter: React.FC = () => {
                 ["Categories", "/category"],
               ].map((link) => (
                 <li key={link[0]}>
-                  <a
-                    href={link[1]}
+                  <Link
+                    to={link[1]}
                     className="text-gray-400 hover:text-gray-700 transition-colors"
                   >
                     {link[0]}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -161,19 +161,22 @@ const ContactFooter: React.FC = () => {
           <div className="flex flex-col md:flex-row items-center justify-center gap-2 text-sm">
             <span>© 2024 JeevanHomeServices. All rights reserved.</span>
             <div className="flex flex-wrap items-center justify-center gap-2">
-              <Link to="#" className="hover:text-gray-700 mx-2">
+              <Link to="/terms" className="hover:text-gray-700 mx-2">
                 Terms &amp; Conditions
               </Link>
-              <Link to="#" className="hover:text-gray-700 mx-2">
+              <Link to="/privacy" className="hover:text-gray-700 mx-2">
                 Privacy Policy
               </Link>
-              <Link to="#" className="hover:text-gray-700 mx-2">
+              <Link to="/policies/hub" className="hover:text-gray-700 mx-2">
                 Disclaimer
               </Link>
-              <Link to="#" className="hover:text-gray-700 mx-2">
+              <Link
+                to="/returns"
+                className="hover:text-gray-700 mx-2"
+              >
                 Refund Policy
               </Link>
-              <Link to="#" className="hover:text-gray-700 mx-2">
+              <Link to="/cookies" className="hover:text-gray-700 mx-2">
                 Cookies
               </Link>
               <Link to="#" className="hover:text-gray-700 mx-2">
