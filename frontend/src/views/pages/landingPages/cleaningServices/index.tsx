@@ -6,30 +6,16 @@ import {
   CheckCircle, 
   Star, 
   Home, 
-  Bath, 
   Users,
   Droplets,
-  Scissors,
-  Brush,
-  Award,
-  Heart,
   Calendar,
   ChevronRight,
   ChevronLeft,
-  Play,
-  Search,
-  Filter,
   ShoppingCart,
   Phone,
-  Mail,
-  MapPin,
-  ExternalLink,
   ChevronDown,
   Zap,
   Truck,
-  Wind,
-  Thermometer,
-  Layers,
   Target,
   ThumbsUp,
   FileText,
@@ -309,7 +295,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
             {/* Enquiry Form Card */}
             <div className="bg-white rounded-2xl shadow-2xl p-6 md:p-8 transform hover:scale-[1.02] transition-transform duration-300">
               <div className="text-center mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Get Your Free Quote</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Request a Call Back</h2>
               </div>
               
               {isSubmitted ? (

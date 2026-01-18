@@ -12,7 +12,6 @@ import {
   Award,
   Star,
 } from "lucide-react";
-import { motion } from "framer-motion";
 
 interface UserProfileCardProps {
   user: User;
@@ -22,10 +21,9 @@ interface UserProfileCardProps {
 
 const UserProfileCard: React.FC<UserProfileCardProps> = ({
   user,
-  wallet,
   onEditProfile,
 }) => {
-  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
+  const [_isEditingAvatar, setIsEditingAvatar] = useState(false);
 
   const membershipColors = {
     Gold: "bg-gradient-to-r from-yellow-400 to-orange-500",

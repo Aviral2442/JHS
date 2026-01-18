@@ -1,6 +1,6 @@
 // src/components/Wallet/WalletCard.tsx
 import React, { useState } from 'react';
-import { Wallet, Transaction } from '../../../../types/index';
+import { Wallet } from '../../../../types/index';
 import { 
   Wallet as WalletIcon, 
   ArrowUpRight, 
@@ -27,7 +27,6 @@ const WalletCard: React.FC<WalletCardProps> = ({
   onViewTransactions 
 }) => {
   const [showBalance, setShowBalance] = useState(true);
-  const [isBalanceUpdating, setIsBalanceUpdating] = useState(false);
   
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {

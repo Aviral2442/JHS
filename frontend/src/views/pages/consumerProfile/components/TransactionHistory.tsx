@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Transaction } from '../../../../types/index';
 import { 
   Search, 
-  Filter, 
   Download, 
   ChevronRight,
   CheckCircle,

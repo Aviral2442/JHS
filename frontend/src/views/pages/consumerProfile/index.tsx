@@ -2,12 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Bell, 
-  Settings, 
-  HelpCircle,
-  LogOut,
   Menu,
-  X
 } from 'lucide-react';
 import UserProfileCard from './components/UserProfileCard';
 import WalletCard from './components/WalletCard';
@@ -17,11 +12,11 @@ import {
   User, 
   Wallet, 
   Referral, 
-  Transaction 
+   
 } from '../../../types/index';
 
 const ConsumerProfile: React.FC = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [_sidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<'overview' | 'transactions' | 'referrals'>('overview');
   
   // Mock data

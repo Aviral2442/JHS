@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PolicyHeader, TableOfContents, PolicySectionComponent, FAQSection, ContactSection, DownloadSection } from './PolicyComponents';
+import { PolicyHeader, PolicySectionComponent, ContactSection, DownloadSection } from './PolicyComponents';
 import { FileText } from 'react-feather';
 
 const TermsOfServicePage: React.FC = () => {

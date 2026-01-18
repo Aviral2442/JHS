@@ -531,42 +531,42 @@ const index: React.FC = () => {
         </header>
 
         {/* Main Content */}
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Column - Cart Items */}
-          <div className="lg:w-2/3">
-            {/* Cart Header */}
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Cart Items <span className="text-blue-600">({cartItems.length})</span>
-              </h2>
-              {cartItems.length > 0 && (
-                <button
-                  onClick={clearCart}
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-2 rounded-lg transition-colors flex items-center"
-                >
-                  <Trash2 size={18} className="mr-2" />
-                  Clear Cart
-                </button>
-              )}
-            </div>
-
-            {/* Cart Items List */}
-            {cartItems.length === 0 ? (
-              <div className="bg-white rounded-2xl shadow-md p-12 text-center">
-                <ShoppingBag size={80} className="mx-auto text-gray-300 mb-6" />
-                <h3 className="text-2xl font-bold text-gray-700 mb-4">Your cart is empty</h3>
-                <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                  Looks like you haven't added any items to your cart yet. Start shopping to fill it up!
-                </p>
-                <button
-                  onClick={() => setCartItems(initialCartItems)}
-                  className="px-8 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md flex items-center mx-auto"
-                >
-                  <ArrowLeft size={20} className="mr-2" />
-                  Back to Shopping
-                </button>
+        {cartItems.length === 0 ? (
+          <div className="bg-white rounded-2xl shadow-md p-12 text-center">
+            <ShoppingBag size={80} className="mx-auto text-gray-300 mb-6" />
+            <h3 className="text-2xl font-bold text-gray-700 mb-4">Your cart is empty</h3>
+            <p className="text-gray-600 mb-8 max-w-md mx-auto">
+              Looks like you haven't added any items to your cart yet. Start shopping to fill it up!
+            </p>
+            <button
+              onClick={() => setCartItems(initialCartItems)}
+              className="px-8 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md flex items-center mx-auto"
+            >
+              <ArrowLeft size={20} className="mr-2" />
+              Back to Shopping
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Left Column - Cart Items */}
+            <div className="lg:w-2/3">
+              {/* Cart Header */}
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Cart Items <span className="text-blue-600">({cartItems.length})</span>
+                </h2>
+                {cartItems.length > 0 && (
+                  <button
+                    onClick={clearCart}
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-2 rounded-lg transition-colors flex items-center"
+                  >
+                    <Trash2 size={18} className="mr-2" />
+                    Clear Cart
+                  </button>
+                )}
               </div>
-            ) : (
+
+              {/* Cart Items List */}
               <div className="space-y-4">
                 {cartItems.map(item => (
                   <CartItemCard
@@ -578,10 +578,8 @@ const index: React.FC = () => {
                   />
                 ))}
               </div>
-            )}
 
-            {/* Promo Code Section */}
-            {cartItems.length > 0 && (
+              {/* Promo Code Section */}
               <div className="mt-12">
                 <PromoCodeInput
                   onApplyPromo={applyPromoCode}
@@ -589,11 +587,9 @@ const index: React.FC = () => {
                   onRemovePromo={removePromoCode}
                 />
               </div>
-            )}
-          </div>
+            </div>
 
-          {/* Right Column - Order Summary */}
-          {cartItems.length > 0 && (
+            {/* Right Column - Order Summary */}
             <div className="lg:w-1/3">
               <CartSummary
                 subtotal={subtotal}
@@ -621,8 +617,8 @@ const index: React.FC = () => {
                 </div>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Loading Overlay */}
         {isLoading && (

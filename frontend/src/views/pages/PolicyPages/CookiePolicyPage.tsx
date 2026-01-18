@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PolicyHeader, TableOfContents, PolicySectionComponent, FAQSection, ContactSection, DownloadSection, Icons } from './PolicyComponents';
+import { PolicyHeader, PolicySectionComponent, ContactSection, DownloadSection, Icons } from './PolicyComponents';
 const { Cookie } = (Icons as any);
 
 const CookiePolicyPage: React.FC = () => {
