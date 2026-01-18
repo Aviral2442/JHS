@@ -1,18 +1,18 @@
 // src/components/Profile/UserProfileCard.tsx
-import React, { useState } from 'react';
-import { User, Wallet } from '../../../../types/index';
-import { 
-  Edit3, 
-  Camera, 
-  CheckCircle, 
-  Shield, 
+import React, { useState } from "react";
+import { User, Wallet } from "../../../../types/index";
+import {
+  Edit3,
+  Camera,
+  CheckCircle,
+  Shield,
   Calendar,
   Mail,
   Phone,
   Award,
-  Star
-} from 'lucide-react';
-import { motion } from 'framer-motion';
+  Star,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 interface UserProfileCardProps {
   user: User;
@@ -20,13 +20,17 @@ interface UserProfileCardProps {
   onEditProfile: () => void;
 }
 
-const UserProfileCard: React.FC<UserProfileCardProps> = ({ user, wallet, onEditProfile }) => {
+const UserProfileCard: React.FC<UserProfileCardProps> = ({
+  user,
+  wallet,
+  onEditProfile,
+}) => {
   const [isEditingAvatar, setIsEditingAvatar] = useState(false);
-  
+
   const membershipColors = {
-    Gold: 'bg-gradient-to-r from-yellow-400 to-orange-500',
-    Silver: 'bg-gradient-to-r from-gray-300 to-gray-400',
-    Platinum: 'bg-gradient-to-r from-purple-400 to-blue-500'
+    Gold: "bg-gradient-to-r from-yellow-400 to-orange-500",
+    Silver: "bg-gradient-to-r from-gray-300 to-gray-400",
+    Platinum: "bg-gradient-to-r from-purple-400 to-blue-500",
   };
 
   return (
@@ -67,10 +71,13 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({ user, wallet, onEditP
               {user.name}
             </h2>
             {user.verified && (
-              <CheckCircle className="w-6 h-6 text-green-500" fill="currentColor" />
+              <CheckCircle
+                className="w-6 h-6 text-green-500"
+                fill="currentColor"
+              />
             )}
           </div>
-          
+
           <div className="flex items-center justify-center gap-4 text-gray-600 dark:text-gray-400 mb-4">
             <div className="flex items-center gap-1">
               <Mail className="w-4 h-4" />
@@ -83,7 +90,9 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({ user, wallet, onEditP
           </div>
 
           {/* Membership badge */}
-          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${membershipColors[user.membership]} text-white font-semibold mb-4`}>
+          <div
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${membershipColors[user.membership]} text-white font-semibold mb-4`}
+          >
             <Award className="w-5 h-5" />
             {user.membership} Member
           </div>
@@ -94,22 +103,28 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({ user, wallet, onEditP
           <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
             <div className="flex items-center gap-2 mb-2">
               <Calendar className="w-5 h-5 text-blue-500" />
-              <span className="text-sm text-gray-600 dark:text-gray-400">Member Since</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Member Since
+              </span>
             </div>
             <p className="font-semibold text-gray-900 dark:text-white">
-              {new Date(user.joinDate).toLocaleDateString('en-US', { 
-                month: 'long', 
-                year: 'numeric' 
+              {new Date(user.joinDate).toLocaleDateString("en-US", {
+                month: "long",
+                year: "numeric",
               })}
             </p>
           </div>
-          
+
           <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
             <div className="flex items-center gap-2 mb-2">
               <Star className="w-5 h-5 text-yellow-500" />
-              <span className="text-sm text-gray-600 dark:text-gray-400">Trust Score</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Trust Score
+              </span>
             </div>
-            <p className="font-semibold text-gray-900 dark:text-white">4.8/5.0</p>
+            <p className="font-semibold text-gray-900 dark:text-white">
+              4.8/5.0
+            </p>
           </div>
         </div>
 

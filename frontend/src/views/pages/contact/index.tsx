@@ -315,7 +315,7 @@ const ContactFormSection: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-[#101828] text-white rounded-xl transition-all transform hover:-translate-y-1 shadow-xl hover:shadow-2xl disabled:opacity-75 disabled:cursor-not-allowed flex items-center justify-center"
+                  className="w-full py-4 bg-linear-to-r from-blue-500 to-cyan-500 rounded-r-lg hover:from-blue-600 hover:to-cyan-600 transition-all text-white rounded-xl transform hover:-translate-y-1 shadow-xl hover:shadow-2xl disabled:opacity-75 disabled:cursor-not-allowed flex items-center justify-center"
                 >
                   {isSubmitting ? (
                     <>

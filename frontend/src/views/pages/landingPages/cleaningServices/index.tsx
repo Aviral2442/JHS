@@ -252,9 +252,9 @@ const ComprehensiveCleaningLanding: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50/30 to-white">
+    <div className="min-h-screen">
       {/* Hero Section with Enquiry Form */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white">
+      <section className="relative overflow-hidden max-w-[90%] mx-auto">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
@@ -273,29 +273,15 @@ const ComprehensiveCleaningLanding: React.FC = () => {
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                Professional Home Cleaning
-                <span className="block text-blue-200 mt-2">Made Simple & Effective</span>
+                Professional
+                <span className="block text-blue-300 mt-2">Home Cleaning</span>
               </h1>
               
               <p className="text-xl mb-8 max-w-2xl opacity-95">
                 Experience spotless cleaning with our certified professionals. 
                 We use eco-friendly products and advanced techniques to transform your space.
               </p>
-              
-              <div className="space-y-4 mb-10">
-                <div className="flex items-center">
-                  <CheckCircle className="w-5 h-5 text-green-300 mr-3" />
-                  <span className="text-lg">100% Satisfaction Guarantee</span>
-                </div>
-                <div className="flex items-center">
-                  <CheckCircle className="w-5 h-5 text-green-300 mr-3" />
-                  <span className="text-lg">Same-Day Service Available</span>
-                </div>
-                <div className="flex items-center">
-                  <CheckCircle className="w-5 h-5 text-green-300 mr-3" />
-                  <span className="text-lg">Customized Cleaning Plans</span>
-                </div>
-              </div>
+            
               
               <div className="flex items-center space-x-6">
                 <div className="text-center">
@@ -323,11 +309,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
             {/* Enquiry Form Card */}
             <div className="bg-white rounded-2xl shadow-2xl p-6 md:p-8 transform hover:scale-[1.02] transition-transform duration-300">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4">
-                  <Sparkles className="w-8 h-8 text-white" />
-                </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Get Your Free Quote</h2>
-                <p className="text-gray-600 mt-2">Complete cleaning in as little as 24 hours</p>
               </div>
               
               {isSubmitted ? (
@@ -339,55 +321,43 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                   <p className="text-gray-600">We'll contact you within 2 hours with your personalized quote.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Full Name*</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name*</label>
                       <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                         placeholder="John Smith"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number*</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number*</label>
                       <input
-                        type="tel"
+                        type="number"
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        className="w-full px-4 py-2 text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                         placeholder="(123) 456-7890"
                       />
                     </div>
                   </div>
-                  
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address*</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                      placeholder="you@example.com"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Service Type*</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Service Type*</label>
                     <select
                       name="service"
                       value={formData.service}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      className="w-full px-4 py-2 text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                     >
                       <option value="">Select a service</option>
                       {serviceCategories.map(service => (
@@ -398,55 +368,8 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                     </select>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
-                      <select
-                        name="bedrooms"
-                        value={formData.bedrooms}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                      >
-                        <option value="">Select</option>
-                        <option value="1">1 Bedroom</option>
-                        <option value="2">2 Bedrooms</option>
-                        <option value="3">3 Bedrooms</option>
-                        <option value="4">4+ Bedrooms</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Bathrooms</label>
-                      <select
-                        name="bathrooms"
-                        value={formData.bathrooms}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                      >
-                        <option value="">Select</option>
-                        <option value="1">1 Bathroom</option>
-                        <option value="2">2 Bathrooms</option>
-                        <option value="3">3+ Bathrooms</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Frequency*</label>
-                      <select
-                        name="frequency"
-                        value={formData.frequency}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                      >
-                        <option value="one-time">One-time</option>
-                        <option value="weekly">Weekly</option>
-                        <option value="bi-weekly">Bi-weekly</option>
-                        <option value="monthly">Monthly</option>
-                      </select>
-                    </div>
-                  </div>
-                  
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Date*</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Date*</label>
                     <input
                       type="date"
                       name="date"
@@ -454,17 +377,17 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                       onChange={handleInputChange}
                       required
                       min={new Date().toISOString().split('T')[0]}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      className="w-full px-4 py-2 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                     />
                   </div>
-                  
+                  </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Additional Details</label>
                     <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleInputChange}
-                      rows={3}
+                      rows={2}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       placeholder="Special requests, pets, allergies, or specific areas to focus on..."
                     />
@@ -499,8 +422,8 @@ const ComprehensiveCleaningLanding: React.FC = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="py-16 bg-white ">
+        <div className="max-w-[90%] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               Why Homeowners Choose Us
@@ -526,7 +449,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
 
       {/* Services Section */}
       <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
+        <div className="max-w-[90%] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               Our Cleaning Services
@@ -625,7 +548,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
 
       {/* Gallery Section */}
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+        <div className="max-w-[90%] mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -743,7 +666,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
 
       {/* Products Section */}
       <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
+        <div className="max-w-[90%] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               Professional Cleaning Products
@@ -804,7 +727,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
 
       {/* FAQ Section */}
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+        <div className="max-w-[90%] mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
               Frequently Asked Questions
