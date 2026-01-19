@@ -117,7 +117,7 @@ const ContactHeader: React.FC = () => {
                 <div>
                   <p className="text-gray-800 text-sm">Location</p>
                   <p className="text-gray-900 text-lg font-semibold">
-                    Indira Nagar, Lucknow
+                    Munsi Puliya, Indira Nagar, Lucknow
                   </p>
                 </div>
               </div>
