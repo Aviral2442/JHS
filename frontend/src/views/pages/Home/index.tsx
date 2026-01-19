@@ -28,7 +28,8 @@ import {
   Thermometer,
   Sun,
 } from "lucide-react";
-import HeroSection from "./heroSection";
+// import HeroSection from "./heroSection";
+import HeroSkillSection from "../../../components/website/HeroSection";
 
 // Service data
 const services = [
@@ -268,7 +269,8 @@ export default function HomeEaseLanding() {
       /> */}
 
         <section>
-          <HeroSection />
+          {/* <HeroSection /> */}
+          <HeroSkillSection/>
         </section>
 
       {/* Hero Section */}
