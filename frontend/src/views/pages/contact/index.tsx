@@ -117,7 +117,7 @@ const ContactHeader: React.FC = () => {
                 <div>
                   <p className="text-gray-800 text-sm">Location</p>
                   <p className="text-gray-900 text-lg font-semibold">
-                    Munsi Puliya, Indira Nagar, Lucknow
+                    Lucknow Sukh Complex, SN 45, Munshi Pulia, Sector 16, Indira Nagar, Lucknow, Uttar Pradesh 226016
                   </p>
                 </div>
               </div>
