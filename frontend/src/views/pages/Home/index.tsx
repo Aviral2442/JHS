@@ -30,6 +30,11 @@ import {
 } from "lucide-react";
 // import HeroSection from "./heroSection";
 import HeroSkillSection from "../../../components/website/HeroSection";
+import TrustedByFamilies from "./components/feedback";
+import Hero from "./components/Hero";
+import HeroSection from "./heroSection";
+import MostBookedServices from "./components/MostBookedServices";
+import ServicesBentoSection from "./components/Services";
 
 // Service data
 const services = [
@@ -253,7 +258,7 @@ export default function HomeEaseLanding() {
 
   const prevTestimonial = () => {
     setActiveTestimonial(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length,
     );
   };
 
@@ -268,114 +273,18 @@ export default function HomeEaseLanding() {
         align="left"
       /> */}
 
-        <section>
-          {/* <HeroSection /> */}
-          <HeroSkillSection/>
-        </section>
+      <section>
+        {/* <HeroSection /> */}
+        <Hero />
+        {/* <HeroSkillSection /> */}
+      </section>
 
-      {/* Hero Section */}
-      <section className="py-12 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              variants={heroVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Professional Home Services at Your{" "}
-                <span className="text-indigo-600">Doorstep</span>
-              </h1>
-              <p className="mt-6 text-lg text-gray-600">
-                From cleaning to renovation, we connect you with trusted
-                experts. Experience hassle-free home maintenance with just a few
-                clicks.
-              </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
-                >
-                  Book a Service
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-                >
-                  View Services
-                </motion.button>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="relative"
-            >
-              <div className="bg-linear-to-br from-indigo-100 to-blue-100 rounded-2xl p-8 h-96">
-                <div className="grid grid-cols-2 gap-4 h-full">
-                  {services.slice(0, 4).map((service, index) => (
-                    <motion.div
-                      key={service.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 + index * 0.1 }}
-                      className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
-                    >
-                      <service.icon className="h-8 w-8 text-indigo-500 mb-2" />
-                      <h3 className="font-medium text-gray-900">
-                        {service.name}
-                      </h3>
-                    </motion.div>
-                  ))}
-                </div>
-                <div className="absolute -bottom-4 -right-4 bg-white rounded-xl p-4 shadow-lg">
-                  <div className="flex items-center">
-                    <div className="bg-green-100 p-2 rounded-lg">
-                      <CheckCircle className="h-6 w-6 text-green-600" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-semibold">500+</p>
-                      <p className="text-sm text-gray-600">Happy Customers</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        <div className="fixed right-8 top-96 transform -translate-y-1/2 z-50 hidden md:block">
-          <div className="flex flex-col gap-4">
-            {[
-              { icon: <Wrench />, label: "Plumbing" },
-              { icon: <Zap />, label: "Electrical" },
-              { icon: <Thermometer />, label: "HVAC" },
-              { icon: <Droplets />, label: "Water" },
-              { icon: <Wind />, label: "Ventilation" },
-              { icon: <Sun />, label: "Solar" },
-            ].map((service, index) => (
-              <div
-          key={index}
-          className="bg-white w-20 rounded-xl p-3 shadow-2xl transform hover:-translate-x-2 transition-all duration-300 group cursor-pointer"
-              >
-          <div className="bg-linear-to-br from-blue-500 to-cyan-500 w-10 h-10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
-            <div className="text-white text-sm">{service.icon}</div>
-          </div>
-          <p className="text-center font-semibold text-gray-800 text-xs">
-            {service.label}
-          </p>
-              </div>
-            ))}
-          </div>
-        </div>
+      <section>
+        <MostBookedServices />
       </section>
 
       {/* Services Section */}
-      <section className="py-16 bg-gray-50">
+      {/* <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
@@ -411,66 +320,419 @@ export default function HomeEaseLanding() {
             ))}
           </motion.div>
         </div>
+      </section> */}
+      <section>
+        <ServicesBentoSection />
       </section>
 
-      {/* How It Works */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              How It Works
+      <section className="pt-10 px-4 md:px-6 relative overflow-hidden bg-[#f9fafb]">
+        {/* <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
+        <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" /> */}
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header */}
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6">
+              How It{" "}
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6366F1] to-[#8B5CF6]">
+                Works
+              </span>
             </h2>
-            <p className="mt-4 text-gray-600">
-              Simple steps to get your home service booked
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-600">
+              Simple Steps To Get Our Services
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* Desktop Spiral Timeline - Hidden on mobile/tablet */}
+          <div className="hidden xl:block relative w-full min-h-[900px]">
+            {/* SVG Spiral Path */}
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox="0 0 1400 900"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <defs>
+                <linearGradient
+                  id="spiralGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop offset="0%" stopColor="#6366F1" stopOpacity="0.3" />
+                  <stop offset="25%" stopColor="#10B981" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="#F59E0B" stopOpacity="0.3" />
+                  <stop offset="75%" stopColor="#EC4899" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.3" />
+                </linearGradient>
+              </defs>
+
+              {/* Main spiral path */}
+              <path
+                d="M 150 280 Q 250 200, 400 320 Q 520 420, 700 380 Q 850 340, 1050 400 Q 1200 460, 1250 580"
+                fill="none"
+                stroke="url(#spiralGradient)"
+                strokeWidth="12"
+                strokeLinecap="round"
+                className="opacity-50"
+              />
+
+              {/* Connecting dots */}
+              <circle
+                cx="150"
+                cy="280"
+                r="12"
+                fill="#6366F1"
+                className="animate-pulse"
+              />
+              <circle
+                cx="400"
+                cy="320"
+                r="12"
+                fill="#10B981"
+                className="animate-pulse"
+              />
+              <circle
+                cx="700"
+                cy="380"
+                r="12"
+                fill="#F59E0B"
+                className="animate-pulse"
+              />
+              <circle
+                cx="1050"
+                cy="400"
+                r="12"
+                fill="#EC4899"
+                className="animate-pulse"
+              />
+              <circle
+                cx="1250"
+                cy="580"
+                r="12"
+                fill="#8B5CF6"
+                className="animate-pulse"
+              />
+            </svg>
+
+            {/* Step 01 - Left Top */}
+            <div className="absolute" style={{ left: "-2%", top: "-5%" }}>
+              <div
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-b from-transparent via-[#6366F1] to-transparent"
+                style={{ bottom: "-112px" }}
+              />
+              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#6366F1] to-[#6366F1]/70 flex items-center justify-center text-white font-bold text-xl">
+                    01
+                  </div>
+                  <h3 className="ml-4 text-xl font-bold text-[#6366F1]">
+                    I'm lovely Farm
+                  </h3>
+                </div>
+                <p className="text-gray-600">
+                  Enter basic details like name, number, service and message and
+                  admin items.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 02 - Left Bottom */}
+            <div className="absolute" style={{ left: "16%", top: "52%" }}>
+              <div
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-t from-transparent via-[#10B981] to-transparent"
+                style={{ top: "-112px" }}
+              />
+              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+                    02
+                  </div>
+                  <h3 className="ml-4 text-xl font-bold text-[#10B981]">
+                    We Contact You
+                  </h3>
+                </div>
+                <p className="text-gray-600">
+                  Our professional customer support team receives such a social
+                  year as soon as possible.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 03 - Center (Larger) */}
+            <div
+              className="absolute left-1/2 transform -translate-x-1/2"
+              style={{ top: "2%" }}
+            >
+              <div
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-32 bg-linear-to-b from-transparent via-[#F59E0B] to-transparent"
+                style={{ bottom: "-128px" }}
+              />
+              <div className="bg-white rounded-2xl shadow-xl p-8 w-96 relative border-2 border-[#F59E0B]/30">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  Most Important
+                </div>
+                <div className="flex items-center mb-4">
+                  <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                    03
+                  </div>
+                  <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
+                    Custom You Reading
+                  </h3>
+                </div>
+                <p className="text-gray-600 text-lg">
+                  Discuss your family, services, family, professional form,
+                  plans, etc and confirm your booking.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 04 - Right Top */}
+            <div className="absolute" style={{ right: "13%", top: "58%" }}>
+              <div
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-b from-transparent via-[#EC4899] to-transparent"
+                style={{ bottom: "200px" }}
+              />
+              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#EC4899] to-[#EC4899]/70 flex items-center justify-center text-white font-bold text-xl">
+                    04
+                  </div>
+                  <h3 className="ml-4 text-xl font-bold text-[#EC4899]">
+                    Book via App
+                  </h3>
+                </div>
+                <p className="text-gray-600">
+                  Download the Johann home Services mobile app to book our
+                  services directly through our app.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 05 - Right Bottom - Additional Step from UI pattern */}
+            <div className="absolute" style={{ right: "-2%", top: "27%" }}>
+              <div
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-t from-transparent via-[#8B5CF6] to-transparent"
+                style={{ top: "200px" }}
+              />
+              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#8B5CF6] to-[#8B5CF6]/70 flex items-center justify-center text-white font-bold text-xl">
+                    05
+                  </div>
+                  <h3 className="ml-4 text-xl font-bold text-[#8B5CF6]">
+                    Enjoy Service
+                  </h3>
+                </div>
+                <p className="text-gray-600">
+                  Sit back and relax while our professionals take care of all
+                  your home service needs.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Tablet View - 2 Column Grid */}
+        <div className="hidden lg:grid xl:hidden grid-cols-2 gap-8 mb-12 max-w-5xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div className="flex items-center mb-4">
+              <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#6366F1] to-[#6366F1]/70 flex items-center justify-center text-white font-bold text-xl">
+                01
+              </div>
+              <h3 className="ml-4 text-xl font-bold text-[#6366F1]">
+                I'm lovely Farm
+              </h3>
+            </div>
+            <p className="text-gray-600">
+              Enter basic details like name, number, service and message and
+              admin items.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div className="flex items-center mb-4">
+              <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+                02
+              </div>
+              <h3 className="ml-4 text-xl font-bold text-[#10B981]">
+                We Contact You
+              </h3>
+            </div>
+            <p className="text-gray-600">
+              Our professional customer support team receives such a social year
+              as soon as possible.
+            </p>
+          </div>
+
+          <div className="col-span-2">
+            <div className="bg-white rounded-2xl shadow-xl p-8 max-w-2xl mx-auto relative border-2 border-[#F59E0B]/30">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                Most Important
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                  03
+                </div>
+                <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
+                  Custom You Reading
+                </h3>
+              </div>
+              <p className="text-gray-600 text-lg">
+                Discuss your family, services, family, professional form, plans,
+                etc and confirm your booking.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div className="bg-white rounded-2xl shadow-xl p-8">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+                  02
+                </div>
+                <h3 className="ml-4 text-xl font-bold text-[#10B981]">
+                  We Contact You
+                </h3>
+              </div>
+              <p className="text-gray-600">
+                Our professional customer support team receives such a social
+                year as soon as possible.
+              </p>
+            </div>
+
+            <div className="col-span-2">
+              <div className="bg-white rounded-2xl shadow-xl p-8 max-w-2xl mx-auto relative border-2 border-[#F59E0B]/30">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  Most Important
+                </div>
+                <div className="flex items-center mb-4">
+                  <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                    03
+                  </div>
+                  <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
+                    Custom You Reading
+                  </h3>
+                </div>
+                <p className="text-gray-600 text-lg">
+                  Discuss your family, services, family, professional form,
+                  plans, etc and confirm your booking.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-xl p-8">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#EC4899] to-[#EC4899]/70 flex items-center justify-center text-white font-bold text-xl">
+                  04
+                </div>
+                <h3 className="ml-4 text-xl font-bold text-[#EC4899]">
+                  Book via App
+                </h3>
+              </div>
+              <p className="text-gray-600">
+                Download the Johann home Services mobile app to book our
+                services directly through our app.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-xl p-8 col-span-2">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#8B5CF6] to-[#8B5CF6]/70 flex items-center justify-center text-white font-bold text-xl">
+                  05
+                </div>
+                <h3 className="ml-4 text-xl font-bold text-[#8B5CF6]">
+                  Enjoy Service
+                </h3>
+              </div>
+              <p className="text-gray-600">
+                Sit back and relax while our professionals take care of all your
+                home service needs.
+              </p>
+            </div>
+          </div>
+
+          {/* Mobile View - Vertical Timeline */}
+          <div className="lg:hidden block space-y-8 md:space-y-12 mb-12">
             {[
               {
-                step: "1",
-                title: "Choose a Service",
+                number: "01",
+                title: "I'm lovely Farm",
                 description:
-                  "Browse our wide range of home services and select what you need.",
+                  "Enter basic details like name, number, service and message and admin items.",
+                color: "#6366F1",
               },
               {
-                step: "2",
-                title: "Book Online",
+                number: "02",
+                title: "We Contact You",
                 description:
-                  "Pick a time that works for you and book instantly online.",
+                  "Our professional customer support team receives such a social year as soon as possible.",
+                color: "#10B981",
               },
               {
-                step: "3",
-                title: "Get Professional Help",
+                number: "03",
+                title: "Custom You Reading",
                 description:
-                  "Our verified experts arrive on time and deliver quality work.",
+                  "Discuss your family, services, family, professional form, plans, etc and confirm your booking.",
+                color: "#F59E0B",
               },
-            ].map((step) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: parseInt(step.step) * 0.2 }}
-                viewport={{ once: true }}
-                className="relative"
-              >
-                <div className="bg-linear-to-br from-indigo-50 to-white rounded-2xl p-8 shadow-sm border border-gray-100">
-                  <div className="absolute -top-4 left-8 bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
-                    {step.step}
+              {
+                number: "04",
+                title: "Book via App",
+                description:
+                  "Download the Johann home Services mobile app to book our services directly through our app.",
+                color: "#EC4899",
+              },
+              {
+                number: "05",
+                title: "Enjoy Service",
+                description:
+                  "Sit back and relax while our professionals take care of all your home service needs.",
+                color: "#8B5CF6",
+              },
+            ].map((step, index) => (
+              <div key={index} className="relative">
+                {index < 4 && (
+                  <div
+                    className="absolute left-1/2 transform -translate-x-1/2 w-1 h-16 md:h-20 bg-linear-to-b from-current to-transparent"
+                    style={{
+                      color: step.color,
+                      opacity: 0.3,
+                      top: "100%",
+                      marginTop: "0.75rem",
+                    }}
+                  />
+                )}
+                <div
+                  className={`bg-white rounded-2xl shadow-xl p-6 ${
+                    index === 2 ? "border-2 border-[#F59E0B]/30" : ""
+                  }`}
+                >
+                  <div className="flex items-center mb-4">
+                    <div
+                      className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl`}
+                      style={{
+                        background: `linear-gradient(to right, ${step.color}, ${step.color}70)`,
+                      }}
+                    >
+                      {step.number}
+                    </div>
+                    <h3
+                      className="ml-4 text-xl font-bold"
+                      style={{ color: step.color }}
+                    >
+                      {step.title}
+                    </h3>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4 mt-4">
-                    {step.title}
-                  </h3>
                   <p className="text-gray-600">{step.description}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
@@ -508,167 +770,17 @@ export default function HomeEaseLanding() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Simple, Transparent Pricing
-            </h2>
-            <p className="mt-4 text-gray-600">
-              Choose the plan that fits your needs
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {pricingPlans.map((plan) => (
-              <motion.div
-                key={plan.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: plan.id * 0.1 }}
-                viewport={{ once: true }}
-                className={`rounded-2xl p-8 border-2 ${
-                  plan.popular
-                    ? "border-indigo-600 shadow-xl relative bg-white"
-                    : "border-gray-200 shadow-sm bg-white"
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-indigo-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  {plan.name}
-                </h3>
-                <div className="mb-6">
-                  <span className="text-4xl font-bold text-gray-900">
-                    {plan.price}
-                  </span>
-                  <span className="text-gray-600">{plan.period}</span>
-                </div>
-
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`w-full py-3 rounded-lg font-medium ${
-                    plan.popular
-                      ? "bg-indigo-600 text-white hover:bg-indigo-700"
-                      : "bg-gray-100 text-gray-900 hover:bg-gray-200"
-                  }`}
-                >
-                  {plan.buttonText}
-                </motion.button>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+      <section className="bg-white" id="feedback">
+        <TrustedByFamilies />
       </section>
-
-      {/* Testimonials */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              What Our Customers Say
-            </h2>
-            <p className="mt-4 text-gray-600">
-              Join thousands of satisfied homeowners
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <div className="relative">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTestimonial}
-                  initial={{ opacity: 0, x: 100 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -100 }}
-                  className="bg-white rounded-2xl p-8 shadow-lg"
-                >
-                  <div className="flex items-start mb-6">
-                    <div className="bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                      <span className="font-semibold text-indigo-600">
-                        {testimonials[activeTestimonial].avatar}
-                      </span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">
-                        {testimonials[activeTestimonial].name}
-                      </h4>
-                      <p className="text-gray-600 text-sm">
-                        {testimonials[activeTestimonial].role}
-                      </p>
-                    </div>
-                    <div className="ml-auto flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="h-5 w-5 text-yellow-400 fill-current"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-gray-700 text-lg italic">
-                    "{testimonials[activeTestimonial].content}"
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-
-              <div className="flex justify-center mt-8 space-x-4">
-                <button
-                  onClick={prevTestimonial}
-                  className="p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <div className="flex items-center space-x-2">
-                  {testimonials.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setActiveTestimonial(index)}
-                      className={`w-2 h-2 rounded-full transition-colors ${
-                        index === activeTestimonial
-                          ? "bg-indigo-600"
-                          : "bg-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <button
-                  onClick={nextTestimonial}
-                  className="p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Call to Action */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="">
+        <div className="text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-linear-to-r from-indigo-600 to-blue-600 rounded-3xl p-12 text-white"
+            className="bg-linear-to-r from-indigo-600 to-blue-600  p-12 text-white"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to make your home better?
