@@ -29,6 +29,7 @@ const OrderDetailPage = lazy(() => import("../views/pages/orderDetail"));
 const Thankyou = lazy(() => import("../views/pages/other/ThankYou"));
 const CleaningServicesPage = lazy(() => import("../views/pages/landingPages/cleaningServices"));
 const ConsumerProfilePage = lazy(() => import("../views/pages/consumerProfile"));
+const ServiceDetail = lazy(() => import("../views/pages/services/Detail"));
 
 const websiteRoutes: RouteObject[] = [
   {
@@ -56,6 +57,7 @@ const websiteRoutes: RouteObject[] = [
   { path: "/order", element: <OrderPage /> },
   { path: "/order-detail", element: <OrderDetailPage /> },
   { path: "/thank-you", element: <Thankyou /> },
+  { path: "/service-detail", element: <ServiceDetail /> },
 
 
   { path: "*", element: <NotFoundPage /> },

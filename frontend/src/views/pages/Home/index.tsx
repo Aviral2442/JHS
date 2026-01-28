@@ -3,18 +3,13 @@ import {
   motion,
   useAnimation,
   useInView,
-  AnimatePresence,
 } from "framer-motion";
 import {
   Sparkles,
-  CheckCircle,
-  Star,
   Shield,
   Clock,
   DollarSign,
   HeadphonesIcon,
-  ChevronLeft,
-  ChevronRight,
   Home,
   Wrench,
   PaintBucket,
@@ -25,86 +20,14 @@ import {
   Wind,
   Brush,
   Zap,
-  Thermometer,
-  Sun,
 } from "lucide-react";
 // import HeroSection from "./heroSection";
-import HeroSkillSection from "../../../components/website/HeroSection";
-import TrustedByFamilies from "./components/feedback";
+// import HeroSkillSection from "../../../components/website/HeroSection";
+import TrustedByFamilies from "./components/Feedback";
 import Hero from "./components/Hero";
-import HeroSection from "./heroSection";
+// import HeroSection from "./heroSection";
 import MostBookedServices from "./components/MostBookedServices";
 import ServicesBentoSection from "./components/Services";
-
-// Service data
-const services = [
-  {
-    id: 1,
-    name: "Cleaning",
-    icon: Sparkles,
-    description: "Professional home cleaning with eco-friendly products",
-  },
-  {
-    id: 2,
-    name: "Interior Design",
-    icon: Home,
-    description: "Transform your space with expert interior design",
-  },
-  {
-    id: 3,
-    name: "Laundry",
-    icon: Droplets,
-    description: "Professional laundry and dry cleaning services",
-  },
-  {
-    id: 4,
-    name: "Carpenter",
-    icon: Hammer,
-    description: "Custom furniture and woodwork solutions",
-  },
-  {
-    id: 5,
-    name: "Painting",
-    icon: PaintBucket,
-    description: "Interior and exterior painting services",
-  },
-  {
-    id: 6,
-    name: "Plumber",
-    icon: Wrench,
-    description: "24/7 emergency plumbing services",
-  },
-  {
-    id: 7,
-    name: "Electrician",
-    icon: Zap,
-    description: "Electrical repairs and installations",
-  },
-  {
-    id: 8,
-    name: "Civil Contractor",
-    icon: Construction,
-    description: "Construction and renovation projects",
-  },
-  {
-    id: 9,
-    name: "Renovation",
-    icon: Brush,
-    description: "Complete home renovation services",
-  },
-  {
-    id: 10,
-    name: "Pest Control",
-    icon: Bug,
-    description: "Safe and effective pest elimination",
-  },
-  {
-    id: 11,
-    name: "AC Repair",
-    icon: Wind,
-    description: "AC installation and repair services",
-  },
-];
 
 const features = [
   {
@@ -130,46 +53,6 @@ const features = [
     title: "Fast Booking",
     icon: Clock,
     description: "Book services in under 2 minutes",
-  },
-];
-
-const pricingPlans = [
-  {
-    id: 1,
-    name: "Basic",
-    price: "$49",
-    period: "/month",
-    features: ["Basic Cleaning", "Minor Repairs", "Email Support"],
-    buttonText: "Get Started",
-    popular: false,
-  },
-  {
-    id: 2,
-    name: "Standard",
-    price: "$99",
-    period: "/month",
-    features: [
-      "Deep Cleaning",
-      "All Basic Services",
-      "Priority Support",
-      "Monthly Maintenance",
-    ],
-    buttonText: "Most Popular",
-    popular: true,
-  },
-  {
-    id: 3,
-    name: "Premium",
-    price: "$199",
-    period: "/month",
-    features: [
-      "All Services",
-      "24/7 Priority Support",
-      "Dedicated Manager",
-      "Monthly Inspection",
-    ],
-    buttonText: "Go Premium",
-    popular: false,
   },
 ];
 
@@ -213,7 +96,7 @@ const testimonials = [
 ];
 
 export default function HomeEaseLanding() {
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [_activeTestimonial, setActiveTestimonial] = useState(0);
 
   const controls = useAnimation();
   const ref = useRef(null);
@@ -243,24 +126,6 @@ export default function HomeEaseLanding() {
     },
   };
 
-  const heroVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
-  const nextTestimonial = () => {
-    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setActiveTestimonial(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length,
-    );
-  };
 
   return (
     <div className="min-h-screen bg-white">

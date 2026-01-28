@@ -2,6 +2,7 @@
 import React from 'react';
 import { Product } from '../../../../types/service.types';
 import { services } from '../mockData';
+import { useNavigate } from 'react-router-dom';
 
 interface ProductCardProps {
   product: Product;
@@ -11,6 +12,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   const service = services.find(s => s.id === product.serviceId);
   const subCategory = service?.subCategories.find(sc => sc.id === product.subCategoryId);
+  const navigate = useNavigate();
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -106,10 +108,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
 
         {/* Action Button */}
         <button
-          onClick={onAddToCart}
+          onClick={() => navigate(`/service-detail`)}
           className="w-full py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0"
         >
-          Add to Cart
+          Go Detail
         </button>
       </div>
     </div>
