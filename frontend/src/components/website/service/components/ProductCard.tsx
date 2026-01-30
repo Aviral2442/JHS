@@ -9,13 +9,13 @@ interface ProductCardProps {
   onAddToCart: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const service = services.find(s => s.id === product.serviceId);
   const subCategory = service?.subCategories.find(sc => sc.id === product.subCategoryId);
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div className="card-ui overflow-hidden">
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <img
@@ -27,12 +27,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
           {product.popular && (
-            <span className="px-3 py-1 bg-yellow-500 text-white text-xs font-semibold rounded-full">
+            <span className="badge-highlight" style={{ backgroundColor: '#fbbf24' }}>
               Popular
             </span>
           )}
           {product.featured && (
-            <span className="px-3 py-1 bg-purple-500 text-white text-xs font-semibold rounded-full">
+            <span className="badge-highlight">
               Featured
             </span>
           )}
@@ -50,21 +50,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
       <div className="p-5">
         {/* Service & Category */}
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">
+          <span className="text-xs font-medium text-primary px-2 py-1 rounded" style={{ backgroundColor: 'rgba(0, 173, 181, 0.1)' }}>
             {service?.name}
           </span>
           {subCategory && (
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray">
               • {subCategory.name}
             </span>
           )}
         </div>
 
         {/* Title & Description */}
-        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-1">
+        <h3 className="card-title text-lg mb-2 line-clamp-1">
           {product.name}
         </h3>
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+        <p className="card-desc text-sm mb-4 line-clamp-2">
           {product.description}
         </p>
 
@@ -95,13 +95,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
 
         {/* Duration & Price */}
         <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-1 text-gray-600">
+          <div className="flex items-center gap-1 text-gray">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span className="text-sm">{product.duration}</span>
           </div>
-          <div className="text-2xl font-bold text-gray-900">
+          <div className="text-2xl font-bold text-dark">
             ${product.price}
           </div>
         </div>
@@ -109,7 +109,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
         {/* Action Button */}
         <button
           onClick={() => navigate(`/service-detail`)}
-          className="w-full py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0"
+          className="btn-primary w-full transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0"
         >
           Go Detail
         </button>

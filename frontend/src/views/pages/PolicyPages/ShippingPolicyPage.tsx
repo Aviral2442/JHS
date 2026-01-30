@@ -17,7 +17,7 @@ const ShippingPolicyPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <PolicyHeader title="Shipping Policy" description="Information about our shipping methods and delivery times." icon={<Truck size={32} />} />
 
@@ -26,9 +26,9 @@ const ShippingPolicyPage: React.FC = () => {
             <TableOfContents sections={shippingSections as any} activeSection={Array.from(expandedSections)[0] || ''} onSectionClick={(id) => { if (!expandedSections.has(id)) toggleSection(id); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }} />
           </div>
           <div className="lg:w-3/4">
-            <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
-              <h3 className="text-lg font-semibold">Delivery & Options</h3>
-              <p className="text-gray-600">Choose a shipping method based on speed and cost.</p>
+            <div className="rounded-2xl p-8 mb-8" style={{ background: 'linear-gradient(to right, var(--background-alt), var(--white-color))' }}>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>Delivery & Options</h3>
+              <p style={{ color: 'var(--gray-color)' }}>Choose a shipping method based on speed and cost.</p>
             </div>
 
             {shippingSections.map((s) => (

@@ -17,7 +17,7 @@ const TermsOfServicePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <PolicyHeader title="Terms of Service" description="The rules and guidelines for using our services." icon={<FileText size={32} />} />
 
@@ -27,8 +27,8 @@ const TermsOfServicePage: React.FC = () => {
           </div> */}
           <div className="">
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Welcome to ShopCart</h2>
-              <p className="text-gray-600">These Terms of Service govern your use of the ShopCart website and services.</p>
+              <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--black-color)' }}>Welcome to ShopCart</h2>
+              <p style={{ color: 'var(--gray-color)' }}>These Terms of Service govern your use of the ShopCart website and services.</p>
             </div>
 
             {termsSections.map((s) => (
@@ -36,8 +36,8 @@ const TermsOfServicePage: React.FC = () => {
             ))}
 
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Governing Law</h3>
-              <p className="text-gray-600">These Terms shall be governed and construed in accordance with the laws of the State of New York.</p>
+              <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--black-color)' }}>Governing Law</h3>
+              <p style={{ color: 'var(--gray-color)' }}>These Terms shall be governed and construed in accordance with the laws of the State of New York.</p>
             </div>
 
             {/* <FAQSection /> */}

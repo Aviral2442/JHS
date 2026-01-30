@@ -81,10 +81,10 @@ export default function HeroSkillSection() {
     return (
       <div
         onMouseEnter={() => setActiveImage(feature.image)}
-        className={`cursor-pointer rounded-2xl p-6 text-white
+        className={`card-ui cursor-pointer text-white
         bg-gradient-to-r ${feature.gradient}
-        shadow-lg transition-all duration-300
-        ${isActive ? "scale-[1.05] ring-4 ring-white/60" : "hover:scale-[1.03]"}`}
+        ${isActive ? "scale-[1.05] ring-4" : ""}`}
+        style={isActive ? { borderColor: 'var(--sky-blue)' } : {}}
       >
         <h3 className="font-bold text-sm uppercase mb-2">
           {feature.title}
@@ -95,7 +95,7 @@ export default function HeroSkillSection() {
   };
 
   return (
-    <section className="bg-white py-24">
+    <section className="section-wrapper" style={{ backgroundColor: 'var(--background-alt)' }}>
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
 
         {/* LEFT */}

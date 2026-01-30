@@ -104,21 +104,21 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+        <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: 'var(--background-alt)' }}>
           {method === 'email' ? (
-            <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--sky-blue)' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           ) : (
-            <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--sky-blue)' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
           )}
         </div>
-        <p className="text-gray-600">
+        <p style={{ color: 'var(--gray-color)' }}>
           Enter the 6-digit code sent to
           <br />
-          <span className="font-semibold text-gray-800">
+          <span className="font-semibold" style={{ color: 'var(--black-color)' }}>
             {method === 'mobile' && countryCode ? `${countryCode} ` : ''}
             {destination}
           </span>
@@ -141,7 +141,8 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
               value={digit}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="w-12 h-12 md:w-14 md:h-14 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+              className="w-12 h-12 md:w-14 md:h-14 text-center text-2xl font-bold border-2 rounded-lg focus:ring-2 outline-none transition-all"
+              style={{ borderColor: 'var(--gray-color)' }}
             />
           ))}
         </div>
@@ -151,11 +152,12 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
             type="button"
             onClick={handleSubmit}
             disabled={otp.join('').length !== 6}
-            className={`inline-flex items-center px-6 py-3 rounded-lg font-medium transition-all transform hover:-translate-y-0.5
-              ${otp.join('').length === 6
-                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700'
-                : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-              }`}
+            className="inline-flex items-center px-6 py-3 rounded-lg font-medium transition-all transform hover:-translate-y-0.5"
+            style={
+              otp.join('').length === 6
+                ? { backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }
+                : { backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)', cursor: 'not-allowed' }
+            }
           >
             Verify OTP
             <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -168,14 +170,15 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
       {/* Timer and Resend */}
       <div className="text-center">
         {isResendDisabled ? (
-          <p className="text-gray-500">
+          <p style={{ color: 'var(--gray-color)' }}>
             Resend code in <span className="font-semibold">{timer}s</span>
           </p>
         ) : (
           <button
             type="button"
             onClick={handleResend}
-            className="text-blue-600 hover:text-blue-700 font-medium inline-flex items-center"
+            className="font-medium inline-flex items-center"
+            style={{ color: 'var(--sky-blue)' }}
           >
             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -189,7 +192,8 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
       <button
         type="button"
         onClick={onBack}
-        className="w-full flex items-center justify-center text-gray-600 hover:text-gray-800 font-medium"
+        className="w-full flex items-center justify-center font-medium"
+        style={{ color: 'var(--gray-color)' }}
       >
         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

@@ -42,7 +42,7 @@ const relatedServices = [
 
 const ServiceDetail: React.FC = () => {
   return (
-    <section className="bg-gray-50 py-10">
+    <section className="py-10" style={{ backgroundColor: 'var(--background-alt)' }}>
       <div className="max-w-6xl mx-auto px-4">
 
         {/* MAIN DETAIL */}
@@ -72,18 +72,18 @@ const ServiceDetail: React.FC = () => {
           {/* Details */}
           <div className="bg-white rounded-2xl shadow-md p-6">
             <div className="flex items-center gap-2 text-sm mb-2">
-              <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full">
+              <span className="px-3 py-1 rounded-full" style={{ backgroundColor: 'rgba(0,173,181,0.2)', color: 'var(--sky-blue)' }}>
                 Cleaning
               </span>
-              <span className="text-gray-400">•</span>
-              <span className="text-gray-500">Deep Cleaning</span>
+              <span style={{ color: 'var(--gray-color)' }}>•</span>
+              <span style={{ color: 'var(--gray-color)' }}>Deep Cleaning</span>
             </div>
 
             <h1 className="text-2xl font-semibold mb-2">
               Deep Cleaning Package
             </h1>
 
-            <p className="text-gray-600 mb-4">
+            <p style={{ color: 'var(--gray-color)' }} className="mb-4">
               Complete deep cleaning for 2-bedroom apartments
             </p>
 
@@ -92,28 +92,28 @@ const ServiceDetail: React.FC = () => {
                 {[...Array(4)].map((_, i) => (
                   <Star key={i} size={18} fill="currentColor" />
                 ))}
-                <Star size={18} className="text-gray-300" />
+                <Star size={18} style={{ color: 'var(--gray-color)' }} />
               </div>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm" style={{ color: 'var(--gray-color)' }}>
                 <strong>4.9</strong> (256 reviews)
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-gray-600 mb-6">
+            <div className="flex items-center gap-2 mb-6" style={{ color: 'var(--gray-color)' }}>
               <Clock size={18} />
               <span>4 hours</span>
             </div>
 
             <div className="flex items-center justify-between">
               <p className="text-3xl font-bold">$199</p>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl">
+              <button className="text-white px-8 py-3 rounded-xl" style={{ backgroundColor: 'var(--sky-blue)' }}>
                 Add to Cart
               </button>
             </div>
 
             <hr className="my-6" />
 
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed" style={{ color: 'var(--gray-color)' }}>
               Our Deep Cleaning Package covers bedrooms, bathrooms, kitchen,
               living areas, furniture, floors, windows, and hard-to-reach spots.
             </p>
@@ -145,19 +145,19 @@ const ServiceDetail: React.FC = () => {
 
                   <div className="flex items-center gap-1 text-yellow-400 mb-1">
                     <Star size={14} fill="currentColor" />
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm" style={{ color: 'var(--gray-color)' }}>
                       {service.rating}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                  <div className="flex items-center gap-2 text-sm mb-3" style={{ color: 'var(--gray-color)' }}>
                     <Clock size={14} />
                     {service.duration}
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="font-bold">${service.price}</span>
-                    <button className="text-blue-600 text-sm font-medium">
+                    <button className="text-sm font-medium" style={{ color: 'var(--sky-blue)' }}>
                       View
                     </button>
                   </div>

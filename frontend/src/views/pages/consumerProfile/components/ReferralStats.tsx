@@ -49,7 +49,8 @@ const ReferralStats: React.FC<ReferralStatsProps> = ({ referral }) => {
         {stats.map((stat, index) => (
           <div 
             key={index} 
-            className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-200 dark:border-gray-700"
+            className="dark:bg-gray-700/50 p-4 rounded-xl border border-gray-200 dark:border-gray-700"
+            style={{ backgroundColor: 'var(--background-alt)' }}
           >
             <div className="flex items-center justify-between mb-3">
               <div className={`p-2 rounded-lg ${stat.color}`}>
@@ -65,7 +66,7 @@ const ReferralStats: React.FC<ReferralStatsProps> = ({ referral }) => {
             <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
               {stat.value}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">
+            <div className="text-sm dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
               {stat.label}
             </div>
           </div>
@@ -73,14 +74,14 @@ const ReferralStats: React.FC<ReferralStatsProps> = ({ referral }) => {
       </div>
 
       {/* Earnings Chart Placeholder */}
-      <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6">
+      <div className="dark:from-gray-800 dark:to-gray-900 rounded-xl p-6" style={{ background: 'linear-gradient(to right, var(--background-alt), var(--background-alt))' }}>
         <h4 className="font-semibold text-gray-900 dark:text-white mb-4">
           Earnings Over Time
         </h4>
         <div className="h-64 flex items-center justify-center">
           <div className="text-center">
-            <TrendingUp className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-400">
+            <TrendingUp className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--sky-blue)' }} />
+            <p className="dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
               Chart visualization would show earnings growth over months
             </p>
           </div>

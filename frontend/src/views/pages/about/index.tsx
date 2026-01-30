@@ -2,36 +2,36 @@ export default function AboutPage() {
   return (
     <div className="">
       {/* Hero Section */}
-      <section className="relative bg-White overflow-hidden py-32 bg-white">
+      <section className="relative overflow-hidden py-32" style={{ backgroundColor: 'var(--white-color)' }}>
 
         <div className="relative max-w-7xl mx-auto px-6 text-center ">
-          <span className="bg-gray-200 backdrop-blur-md px-5 py-2 rounded-full text-sm">
+          <span className="badge-highlight">
             About Jeevan Cleaning Services
           </span>
 
-          <h1 className="text-5xl md:text-6xl font-bold mt-6">
+          <h1 className="section-title text-5xl md:text-6xl mt-6">
             One Platform For All
-            <span className="inline-block text-transparent bg-linear-to-r from-blue-500 to-cyan-500 bg-clip-text">Your Home Service Needs</span>
+            <span className="inline-block" style={{ color: 'var(--sky-blue)' }}>Your Home Service Needs</span>
           </h1>
 
-          <p className="text-gray-400 mt-6 max-w-3xl mx-auto">
+          <p className="section-subtitle mt-6 max-w-3xl mx-auto">
             We deliver the best cleaning and home services across India with
             trained professionals, transparent pricing and fast booking.
           </p>
         </div>
       </section>
 
-      <section className="bg-[#f9fafb] py-24">
+      <section className="section-wrapper" style={{ backgroundColor: 'var(--background-alt)' }}>
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
-            <span className="text-pink-500 font-semibold">
+            <span className="font-semibold" style={{ color: 'var(--sky-blue)' }}>
               TOP CLEANING & Home Care at Your Doorstep
             </span>
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-xl font-bold text-gray-900">Our Vision:</h3>
-                <p className="text-gray-600 mt-2">
+                <h3 className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>Our Vision:</h3>
+                <p className="mt-2" style={{ color: 'var(--gray-color)' }}>
                   We have a vision of creating a large household, park driving
                   and providing our home care needs. To our point, we can not
                   prepare with various purchases.
@@ -39,10 +39,10 @@ export default function AboutPage() {
               </div>
 
               <div>
-                <h3 className="text-xl font-bold text-gray-900">
+                <h3 className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>
                   Our Mission:
                 </h3>
-                <p className="text-gray-600 mt-2">
+                <p className="mt-2" style={{ color: 'var(--gray-color)' }}>
                   Our mission is to provide free and affordable services, which
                   will offer the strong benefits and benefits we help you to
                   meet and find comfortable.
@@ -50,28 +50,28 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <button className="px-6 py-3 bg-linear-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 transition-all text-white rounded-lg">
+            <button className="btn-primary">
               Discover Services
             </button>
           </div>
 
           <div className="grid grid-cols-2 gap-6">
-            <div className="bg-gray-100 h-64 rounded-xl"></div>
-            <div className="bg-gray-100 h-64 rounded-xl"></div>
-            <div className="bg-gray-100 h-64 rounded-xl"></div>
-            <div className="bg-gray-100 h-64 rounded-xl"></div>
+            <div className="h-64 rounded-xl" style={{ backgroundColor: 'var(--background-alt)' }}></div>
+            <div className="h-64 rounded-xl" style={{ backgroundColor: 'var(--background-alt)' }}></div>
+            <div className="h-64 rounded-xl" style={{ backgroundColor: 'var(--background-alt)' }}></div>
+            <div className="h-64 rounded-xl" style={{ backgroundColor: 'var(--background-alt)' }}></div>
           </div>
         </div>
       </section>
 
-      <section className="relative bg-white overflow-hidden py-24 ">
+      <section className="relative overflow-hidden py-24" style={{ backgroundColor: 'var(--white-color)' }}>
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="text-4xl font-bold mb-6">
+            <h2 className="section-title text-4xl mb-6">
               We deliver the best cleaning and home services across India.
             </h2>
 
-            <div className="space-y-4 text-gray-700">
+            <div className="space-y-4" style={{ color: 'var(--gray-color)' }}>
               <p>
                 Johann Chaining Avenue Solutions is a leading and prominent
                 house and cleaning service provider across India. Our rapid and
@@ -91,16 +91,16 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="bg-[#f2f4f7] backdrop-blur-xl rounded-2xl h-80"></div>
+          <div className="backdrop-blur-xl rounded-2xl h-80" style={{ backgroundColor: 'var(--background-alt)' }}></div>
         </div>
       </section>
 
-      <section className="bg-[#f9fafb] py-24">
+      <section className="section-wrapper" style={{ backgroundColor: 'var(--background-alt)' }}>
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold">
+          <h2 className="section-title text-4xl">
             We provide cleaning and home services at your doorstep.
           </h2>
-          <p className="text-gray-600 mt-4">
+          <p className="section-subtitle mt-4">
             Book services easily at your preferred time. Book home Services and
             bulk services at your preferred time.
           </p>
@@ -122,31 +122,29 @@ export default function AboutPage() {
             ].map((s) => (
               <div
                 key={s.title}
-                className="bg-white rounded-xl shadow-lg p-8 border"
+                className="card-ui"
               >
-                <h3 className="text-xl font-bold">{s.title}</h3>
-                <p className="text-gray-600 mt-4">{s.desc}</p>
-                <button className="mt-6 text-pink-500">Learn More →</button>
+                <h3 className="card-title text-xl">{s.title}</h3>
+                <p className="card-desc mt-4">{s.desc}</p>
+                <button className="mt-6" style={{ color: 'var(--sky-blue)' }}>Learn More →</button>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-10 md:py-10 px-4 md:px-6 relative overflow-hidden bg-white">
-        {/* <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
-        <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" /> */}
+      <section className="py-10 md:py-10 px-4 md:px-6 relative overflow-hidden" style={{ backgroundColor: 'var(--white-color)' }}>
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6">
+            <h2 className="section-title text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6">
               How It{" "}
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6366F1] to-[#8B5CF6]">
+              <span style={{ color: 'var(--sky-blue)' }}>
                 Works
               </span>
             </h2>
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-600">
+            <p className="section-subtitle text-lg md:text-xl lg:text-2xl">
               Simple Steps To Get Our Services
             </p>
           </div>
@@ -167,11 +165,11 @@ export default function AboutPage() {
                   x2="100%"
                   y2="0%"
                 >
-                  <stop offset="0%" stopColor="#6366F1" stopOpacity="0.3" />
-                  <stop offset="25%" stopColor="#10B981" stopOpacity="0.3" />
-                  <stop offset="50%" stopColor="#F59E0B" stopOpacity="0.3" />
-                  <stop offset="75%" stopColor="#EC4899" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.3" />
+                  <stop offset="0%" stopColor="#00ADB5" stopOpacity="0.3" />
+                  <stop offset="25%" stopColor="#393E46" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="#00ADB5" stopOpacity="0.3" />
+                  <stop offset="75%" stopColor="#222831" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#00ADB5" stopOpacity="0.3" />
                 </linearGradient>
               </defs>
 
@@ -190,35 +188,35 @@ export default function AboutPage() {
                 cx="150"
                 cy="280"
                 r="12"
-                fill="#6366F1"
+                fill="#00ADB5"
                 className="animate-pulse"
               />
               <circle
                 cx="400"
                 cy="320"
                 r="12"
-                fill="#10B981"
+                fill="#393E46"
                 className="animate-pulse"
               />
               <circle
                 cx="700"
                 cy="380"
                 r="12"
-                fill="#F59E0B"
+                fill="#00ADB5"
                 className="animate-pulse"
               />
               <circle
                 cx="1050"
                 cy="400"
                 r="12"
-                fill="#EC4899"
+                fill="#222831"
                 className="animate-pulse"
               />
               <circle
                 cx="1250"
                 cy="580"
                 r="12"
-                fill="#8B5CF6"
+                fill="#00ADB5"
                 className="animate-pulse"
               />
             </svg>
@@ -226,19 +224,19 @@ export default function AboutPage() {
             {/* Step 01 - Left Top */}
             <div className="absolute" style={{ left: "-2%", top: "-5%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-b from-transparent via-[#6366F1] to-transparent"
-                style={{ bottom: "-112px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
+                style={{ bottom: "-112px", background: 'linear-gradient(to bottom, transparent, var(--sky-blue), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+              <div className="card-ui rounded-2xl w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#6366F1] to-[#6366F1]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                     01
                   </div>
-                  <h3 className="ml-4 text-xl font-bold text-[#6366F1]">
-                    I'm lovely Farm
+                  <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--sky-blue)' }}>
+                    Fill the Form
                   </h3>
                 </div>
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--gray-color)' }}>
                   Enter basic details like name, number, service and message and
                   admin items.
                 </p>
@@ -248,19 +246,19 @@ export default function AboutPage() {
             {/* Step 02 - Left Bottom */}
             <div className="absolute" style={{ left: "16%", top: "52%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-t from-transparent via-[#10B981] to-transparent"
-                style={{ top: "-112px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
+                style={{ top: "-112px", background: 'linear-gradient(to top, transparent, var(--gray-color), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+              <div className="card-ui rounded-2xl w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--gray-color), rgba(57, 62, 70, 0.7))' }}>
                     02
                   </div>
-                  <h3 className="ml-4 text-xl font-bold text-[#10B981]">
+                  <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--gray-color)' }}>
                     We Contact You
                   </h3>
                 </div>
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--gray-color)' }}>
                   Our professional customer support team receives such a social
                   year as soon as possible.
                 </p>
@@ -273,22 +271,22 @@ export default function AboutPage() {
               style={{ top: "2%" }}
             >
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-32 bg-linear-to-b from-transparent via-[#F59E0B] to-transparent"
-                style={{ bottom: "-128px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-32"
+                style={{ bottom: "-128px", background: 'linear-gradient(to bottom, transparent, var(--sky-blue), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-96 relative border-2 border-[#F59E0B]/30">
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+              <div className="card-ui rounded-2xl w-96 relative" style={{ borderWidth: '2px', borderColor: 'rgba(0, 173, 181, 0.3)' }}>
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 text-white px-4 py-1 rounded-full text-sm font-semibold" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                   Most Important
                 </div>
                 <div className="flex items-center mb-4">
-                  <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-2xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                     03
                   </div>
-                  <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
-                    Custom You Reading
+                  <h3 className="ml-4 text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>
+                    Confirm Booking
                   </h3>
                 </div>
-                <p className="text-gray-600 text-lg">
+                <p className="text-lg" style={{ color: 'var(--gray-color)' }}>
                   Discuss your family, services, family, professional form,
                   plans, etc and confirm your booking.
                 </p>
@@ -298,19 +296,19 @@ export default function AboutPage() {
             {/* Step 04 - Right Top */}
             <div className="absolute" style={{ right: "13%", top: "58%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-b from-transparent via-[#EC4899] to-transparent"
-                style={{ bottom: "200px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
+                style={{ bottom: "200px", background: 'linear-gradient(to bottom, transparent, var(--black-color), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+              <div className="card-ui rounded-2xl w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#EC4899] to-[#EC4899]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--black-color), rgba(34, 40, 49, 0.7))' }}>
                     04
                   </div>
-                  <h3 className="ml-4 text-xl font-bold text-[#EC4899]">
+                  <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--black-color)' }}>
                     Book via App
                   </h3>
                 </div>
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--gray-color)' }}>
                   Download the Johann home Services mobile app to book our
                   services directly through our app.
                 </p>
@@ -320,19 +318,19 @@ export default function AboutPage() {
             {/* Step 05 - Right Bottom - Additional Step from UI pattern */}
             <div className="absolute" style={{ right: "-2%", top: "27%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-t from-transparent via-[#8B5CF6] to-transparent"
-                style={{ top: "200px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
+                style={{ top: "200px", background: 'linear-gradient(to top, transparent, var(--sky-blue), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+              <div className="card-ui rounded-2xl w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#8B5CF6] to-[#8B5CF6]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                     05
                   </div>
-                  <h3 className="ml-4 text-xl font-bold text-[#8B5CF6]">
+                  <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--sky-blue)' }}>
                     Enjoy Service
                   </h3>
                 </div>
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--gray-color)' }}>
                   Sit back and relax while our professionals take care of all
                   your home service needs.
                 </p>
@@ -342,117 +340,117 @@ export default function AboutPage() {
         </div>
         {/* Tablet View - 2 Column Grid */}
         <div className="hidden lg:grid xl:hidden grid-cols-2 gap-8 mb-12 max-w-5xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="card-ui rounded-2xl">
             <div className="flex items-center mb-4">
-              <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#6366F1] to-[#6366F1]/70 flex items-center justify-center text-white font-bold text-xl">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                 01
               </div>
-              <h3 className="ml-4 text-xl font-bold text-[#6366F1]">
-                I'm lovely Farm
+              <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--sky-blue)' }}>
+                Fill the Form
               </h3>
             </div>
-            <p className="text-gray-600">
+            <p style={{ color: 'var(--gray-color)' }}>
               Enter basic details like name, number, service and message and
               admin items.
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="card-ui rounded-2xl">
             <div className="flex items-center mb-4">
-              <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--gray-color), rgba(57, 62, 70, 0.7))' }}>
                 02
               </div>
-              <h3 className="ml-4 text-xl font-bold text-[#10B981]">
+              <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--gray-color)' }}>
                 We Contact You
               </h3>
             </div>
-            <p className="text-gray-600">
+            <p style={{ color: 'var(--gray-color)' }}>
               Our professional customer support team receives such a social year
               as soon as possible.
             </p>
           </div>
 
           <div className="col-span-2">
-            <div className="bg-white rounded-2xl shadow-xl p-8 max-w-2xl mx-auto relative border-2 border-[#F59E0B]/30">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+            <div className="card-ui rounded-2xl max-w-2xl mx-auto relative" style={{ borderWidth: '2px', borderColor: 'rgba(0, 173, 181, 0.3)' }}>
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 text-white px-4 py-1 rounded-full text-sm font-semibold" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                 Most Important
               </div>
               <div className="flex items-center mb-4">
-                <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-2xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                   03
                 </div>
-                <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
-                  Custom You Reading
+                <h3 className="ml-4 text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>
+                  Confirm Booking
                 </h3>
               </div>
-              <p className="text-gray-600 text-lg">
+              <p className="text-lg" style={{ color: 'var(--gray-color)' }}>
                 Discuss your family, services, family, professional form, plans,
                 etc and confirm your booking.
               </p>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl p-8">
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="card-ui rounded-2xl">
+            <div className="card-ui rounded-2xl">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--gray-color), rgba(57, 62, 70, 0.7))' }}>
                   02
                 </div>
-                <h3 className="ml-4 text-xl font-bold text-[#10B981]">
+                <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--gray-color)' }}>
                   We Contact You
                 </h3>
               </div>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--gray-color)' }}>
                 Our professional customer support team receives such a social
                 year as soon as possible.
               </p>
             </div>
 
             <div className="col-span-2">
-              <div className="bg-white rounded-2xl shadow-xl p-8 max-w-2xl mx-auto relative border-2 border-[#F59E0B]/30">
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+              <div className="card-ui rounded-2xl max-w-2xl mx-auto relative" style={{ borderWidth: '2px', borderColor: 'rgba(0, 173, 181, 0.3)' }}>
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 text-white px-4 py-1 rounded-full text-sm font-semibold" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                   Most Important
                 </div>
                 <div className="flex items-center mb-4">
-                  <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-2xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                     03
                   </div>
-                  <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
-                    Custom You Reading
+                  <h3 className="ml-4 text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>
+                    Confirm Booking
                   </h3>
                 </div>
-                <p className="text-gray-600 text-lg">
+                <p className="text-lg" style={{ color: 'var(--gray-color)' }}>
                   Discuss your family, services, family, professional form,
                   plans, etc and confirm your booking.
                 </p>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div className="card-ui rounded-2xl">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#EC4899] to-[#EC4899]/70 flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--black-color), rgba(34, 40, 49, 0.7))' }}>
                   04
                 </div>
-                <h3 className="ml-4 text-xl font-bold text-[#EC4899]">
+                <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--black-color)' }}>
                   Book via App
                 </h3>
               </div>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--gray-color)' }}>
                 Download the Johann home Services mobile app to book our
                 services directly through our app.
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl p-8 col-span-2">
+            <div className="card-ui rounded-2xl col-span-2">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#8B5CF6] to-[#8B5CF6]/70 flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                   05
                 </div>
-                <h3 className="ml-4 text-xl font-bold text-[#8B5CF6]">
+                <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--sky-blue)' }}>
                   Enjoy Service
                 </h3>
               </div>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--gray-color)' }}>
                 Sit back and relax while our professionals take care of all your
                 home service needs.
               </p>
@@ -464,46 +462,46 @@ export default function AboutPage() {
             {[
               {
                 number: "01",
-                title: "I'm lovely Farm",
+                title: "Fill the Form",
                 description:
                   "Enter basic details like name, number, service and message and admin items.",
-                color: "#6366F1",
+                color: "var(--sky-blue)",
               },
               {
                 number: "02",
                 title: "We Contact You",
                 description:
                   "Our professional customer support team receives such a social year as soon as possible.",
-                color: "#10B981",
+                color: "var(--gray-color)",
               },
               {
                 number: "03",
-                title: "Custom You Reading",
+                title: "Confirm Booking",
                 description:
                   "Discuss your family, services, family, professional form, plans, etc and confirm your booking.",
-                color: "#F59E0B",
+                color: "var(--sky-blue)",
               },
               {
                 number: "04",
                 title: "Book via App",
                 description:
                   "Download the Johann home Services mobile app to book our services directly through our app.",
-                color: "#EC4899",
+                color: "var(--black-color)",
               },
               {
                 number: "05",
                 title: "Enjoy Service",
                 description:
                   "Sit back and relax while our professionals take care of all your home service needs.",
-                color: "#8B5CF6",
+                color: "var(--sky-blue)",
               },
             ].map((step, index) => (
               <div key={index} className="relative">
                 {index < 4 && (
                   <div
-                    className="absolute left-1/2 transform -translate-x-1/2 w-1 h-16 md:h-20 bg-linear-to-b from-current to-transparent"
+                    className="absolute left-1/2 transform -translate-x-1/2 w-1 h-16 md:h-20"
                     style={{
-                      color: step.color,
+                      background: `linear-gradient(to bottom, ${step.color}, transparent)`,
                       opacity: 0.3,
                       top: "100%",
                       marginTop: "0.75rem",
@@ -511,13 +509,12 @@ export default function AboutPage() {
                   />
                 )}
                 <div
-                  className={`bg-white rounded-2xl shadow-xl p-6 ${
-                    index === 2 ? "border-2 border-[#F59E0B]/30" : ""
-                  }`}
+                  className="card-ui rounded-2xl"
+                  style={index === 2 ? { borderWidth: '2px', borderColor: 'rgba(0, 173, 181, 0.3)' } : {}}
                 >
                   <div className="flex items-center mb-4">
                     <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl`}
+                      className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl"
                       style={{
                         background: `linear-gradient(to right, ${step.color}, ${step.color}70)`,
                       }}
@@ -531,7 +528,7 @@ export default function AboutPage() {
                       {step.title}
                     </h3>
                   </div>
-                  <p className="text-gray-600">{step.description}</p>
+                  <p style={{ color: 'var(--gray-color)' }}>{step.description}</p>
                 </div>
               </div>
             ))}

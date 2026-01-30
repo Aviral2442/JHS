@@ -20,15 +20,15 @@ const benefits = [
 
 export default function HomeServicesRegister() {
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center px-4 py-12 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--background-alt), var(--white-color), var(--background-alt))' }}>
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-200/20 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2" />
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" style={{ backgroundColor: 'rgba(0, 173, 181, 0.1)' }} />
+      <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2" style={{ backgroundColor: 'rgba(0, 173, 181, 0.1)' }} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-6xl bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/20 relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-6xl backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border relative z-10" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(255, 255, 255, 0.2)' }}>
         
         {/* LEFT – BRAND PANEL */}
-        <div className="hidden lg:flex relative flex-col justify-center bg-linear-to-br from-cyan-600 via-blue-500 to-blue-600 p-12 text-white overflow-hidden">
+        <div className="hidden lg:flex relative flex-col justify-center p-12 text-white overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--sky-blue), var(--gray-color))' }}>
           {/* Animated background patterns */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-20 right-10 w-40 h-40 border-2 border-white rounded-full" />
@@ -46,7 +46,8 @@ export default function HomeServicesRegister() {
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center mb-8"
+              className="w-16 h-16 backdrop-blur rounded-2xl flex items-center justify-center mb-8"
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
             >
               <UserPlus className="w-8 h-8" />
             </motion.div>
@@ -79,14 +80,15 @@ export default function HomeServicesRegister() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 + i * 0.1 }}
-                    className="flex items-start gap-4 bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-colors"
+                    className="flex items-start gap-4 backdrop-blur-md rounded-xl p-4 border hover:opacity-90 transition-colors"
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.2)' }}
                   >
-                    <div className="bg-white/20 p-2 rounded-lg">
+                    <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)' }}>
                       <Icon className="w-5 h-5" />
                     </div>
                     <div>
                       <h4 className="font-semibold mb-1">{benefit.label}</h4>
-                      <p className="text-white/80 text-sm">{benefit.desc}</p>
+                      <p className="text-sm" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>{benefit.desc}</p>
                     </div>
                   </motion.div>
                 );
@@ -118,7 +120,8 @@ export default function HomeServicesRegister() {
                 initial={{ rotate: 180, opacity: 0 }}
                 animate={{ rotate: 0, opacity: 1 }}
                 transition={{ delay: 0.2, type: "spring" }}
-                className="mx-auto w-14 h-14 bg-linear-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg"
+                className="mx-auto w-14 h-14 rounded-2xl flex items-center justify-center mb-4 shadow-lg"
+                style={{ background: 'linear-gradient(to bottom right, var(--sky-blue), var(--gray-color))' }}
               >
                 <UserPlus className="w-7 h-7 text-white" />
               </motion.div>
@@ -127,7 +130,8 @@ export default function HomeServicesRegister() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-3xl font-bold text-gray-900 mb-2"
+                className="text-3xl font-bold mb-2"
+                style={{ color: 'var(--black-color)' }}
               >
                 Create your account
               </motion.h2>
@@ -136,7 +140,7 @@ export default function HomeServicesRegister() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="text-gray-600"
+                style={{ color: 'var(--gray-color)' }}
               >
                 Get started with a few simple steps
               </motion.p>
@@ -149,55 +153,59 @@ export default function HomeServicesRegister() {
               className="space-y-5"
             >
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                  <User className="w-4 h-4 text-gray-500" />
+                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                  <User className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Full Name
                 </label>
                 <input
                   type="text"
                   placeholder="John Doe"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white/50 backdrop-blur-sm"
+                  className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
+                  style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-gray-500" />
+                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                  <Mail className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Email Address
                 </label>
                 <input
                   type="email"
                   placeholder="you@example.com"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white/50 backdrop-blur-sm"
+                  className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
+                  style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-gray-500" />
+                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                  <Lock className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Password
                 </label>
                 <input
                   type="password"
                   placeholder="Create a strong password"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white/50 backdrop-blur-sm"
+                  className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
+                  style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
                 />
-                <p className="mt-1 text-xs text-gray-500">Must be at least 8 characters</p>
+                <p className="mt-1 text-xs" style={{ color: 'var(--gray-color)' }}>Must be at least 8 characters</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-gray-500" />
+                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                  <Lock className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Confirm Password
                 </label>
                 <input
                   type="password"
                   placeholder="Re-enter your password"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white/50 backdrop-blur-sm"
+                  className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
+                  style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
                 />
               </div>
 
@@ -207,15 +215,16 @@ export default function HomeServicesRegister() {
                   name="terms"
                   type="checkbox"
                   required
-                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="mt-1 h-4 w-4 rounded"
+                  style={{ accentColor: 'var(--sky-blue)' }}
                 />
-                <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
+                <label htmlFor="terms" className="ml-2 block text-sm" style={{ color: 'var(--gray-color)' }}>
                   I agree to the{" "}
-                  <a href="#" className="text-blue-600 hover:text-blue-700 font-semibold">
+                  <a href="#" className="font-semibold hover:opacity-80" style={{ color: 'var(--sky-blue)' }}>
                     Terms of Service
                   </a>{" "}
                   and{" "}
-                  <a href="#" className="text-blue-600 hover:text-blue-700 font-semibold">
+                  <a href="#" className="font-semibold hover:opacity-80" style={{ color: 'var(--sky-blue)' }}>
                     Privacy Policy
                   </a>
                 </label>
@@ -225,7 +234,7 @@ export default function HomeServicesRegister() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full flex justify-center items-center gap-2 rounded-xl bg-linear-to-r from-cyan-600 to-blue-600 px-6 py-3.5 font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5"
+                className="btn-primary w-full flex justify-center items-center gap-2 rounded-xl px-6 py-3.5 font-semibold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5"
               >
                 <UserPlus className="w-5 h-5" />
                 Create account
@@ -238,11 +247,12 @@ export default function HomeServicesRegister() {
               transition={{ delay: 0.7 }}
               className="mt-8 text-center"
             >
-              <p className="text-sm text-gray-600">
+              <p className="text-sm" style={{ color: 'var(--gray-color)' }}>
                 Already have an account?{" "}
                 <Link
                   to="/sign-in"
-                  className="font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                  className="font-semibold transition-colors hover:opacity-80"
+                  style={{ color: 'var(--sky-blue)' }}
                 >
                   Sign in
                 </Link>

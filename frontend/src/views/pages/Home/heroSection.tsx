@@ -213,7 +213,7 @@ const HeroSection: React.FC = () => {
                   <ul className="space-y-2">
                     {services[activeService].features.map((feature, idx) => (
                       <li key={idx} className="flex items-center">
-                        <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                        <CheckCircle className="w-5 h-5 mr-3" style={{ color: 'var(--sky-blue)' }} />
                         <span>{feature}</span>
                       </li>
                     ))}

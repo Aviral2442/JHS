@@ -54,7 +54,7 @@ const NotFound: React.FC<NotFoundProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 overflow-hidden relative">
+    <div className="min-h-screen dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 overflow-hidden relative" style={{ background: 'linear-gradient(to bottom right, var(--background-alt), var(--white-color))', color: 'var(--black-color)' }}>
       {/* Interactive background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div 
@@ -127,7 +127,7 @@ const NotFound: React.FC<NotFoundProps> = ({
               className="inline-block relative"
             >
               <div className="relative">
-                <h1 className="text-9xl md:text-[12rem] font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+                <h1 className="text-9xl md:text-[12rem] font-bold text-transparent bg-clip-text dark:from-blue-400 dark:to-purple-400" style={{ backgroundImage: 'linear-gradient(to right, var(--sky-blue), var(--sky-blue))' }}>
                   {errorCode}
                 </h1>
                 <motion.div
@@ -155,7 +155,7 @@ const NotFound: React.FC<NotFoundProps> = ({
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               {errorMessage}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+            <p className="dark:text-gray-400 text-lg max-w-2xl mx-auto" style={{ color: 'var(--gray-color)' }}>
               The page you're looking for doesn't exist or has been moved. 
               Don't worry - let's get you back on track.
             </p>
@@ -170,19 +170,21 @@ const NotFound: React.FC<NotFoundProps> = ({
           >
             <form onSubmit={handleSearch} className="relative">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: 'var(--gray-color)' }} />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="What are you looking for?"
-                  className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-lg"
+                  className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 focus:outline-none focus:ring-2 focus:border-transparent shadow-lg"
+                  style={{ borderColor: 'var(--gray-color)' }}
                 />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   type="submit"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 px-6 py-2 text-white rounded-lg font-medium"
+                  style={{ backgroundColor: 'var(--sky-blue)' }}
                 >
                   Search
                 </motion.button>
@@ -214,17 +216,18 @@ const NotFound: React.FC<NotFoundProps> = ({
                 >
                   <Link
                     to={page.path}
-                    className="block p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300"
+                    className="block p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border dark:border-gray-700 transition-all duration-300"
+                    style={{ borderColor: 'var(--background-alt)' }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                      <span className="font-medium dark:text-gray-100" style={{ color: 'var(--black-color)' }}>
                         {page.name}
                       </span>
-                      <ArrowLeft className="w-4 h-4 text-blue-500 transform rotate-180" />
+                      <ArrowLeft className="w-4 h-4 transform rotate-180" style={{ color: 'var(--sky-blue)' }} />
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
                       {page.description}
                     </p>
                   </Link>
@@ -244,7 +247,8 @@ const NotFound: React.FC<NotFoundProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => window.history.back()}
-              className="flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300 font-medium shadow-lg"
+              className="flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 transition-colors duration-300 font-medium shadow-lg"
+              style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}
             >
               <ArrowLeft className="w-5 h-5" />
               Go Back
@@ -254,7 +258,8 @@ const NotFound: React.FC<NotFoundProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => window.location.reload()}
-              className="flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+              className="flex items-center justify-center gap-2 px-8 py-4 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+              style={{ backgroundColor: 'var(--sky-blue)' }}
             >
               <RefreshCw className="w-5 h-5" />
               Refresh Page
@@ -264,7 +269,8 @@ const NotFound: React.FC<NotFoundProps> = ({
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300 font-medium shadow-lg"
+                className="flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-gray-800 rounded-xl border dark:border-gray-700 transition-colors duration-300 font-medium shadow-lg"
+                style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}
               >
                 <Home className="w-5 h-5" />
                 Homepage
@@ -278,22 +284,24 @@ const NotFound: React.FC<NotFoundProps> = ({
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="text-center p-8 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl backdrop-blur-sm"
+              className="text-center p-8 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl backdrop-blur-sm"
+              style={{ background: 'linear-gradient(to right, var(--background-alt), var(--background-alt))' }}
             >
               <div className="flex items-center justify-center gap-2 mb-4">
-                <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                <Mail className="w-6 h-6" style={{ color: 'var(--sky-blue)' }} />
                 <h3 className="text-xl font-semibold">
                   Need further assistance?
                 </h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
+              <p className="dark:text-gray-400 mb-6 max-w-2xl mx-auto" style={{ color: 'var(--gray-color)' }}>
                 Our support team is here to help you find what you're looking for.
               </p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.location.href = 'mailto:support@example.com'}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-colors duration-300 font-medium"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700 transition-colors duration-300 font-medium"
+                style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}
               >
                 Contact Support
                 <Globe className="w-4 h-4" />
@@ -306,7 +314,8 @@ const NotFound: React.FC<NotFoundProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="mt-16 text-center text-sm text-gray-500 dark:text-gray-400"
+            className="mt-16 text-center text-sm dark:text-gray-400"
+            style={{ color: 'var(--gray-color)' }}
           >
             <p>
               © {new Date().getFullYear()} Your Company. All rights reserved.

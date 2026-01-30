@@ -1,32 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap")
+@import 'tailwindcss';
+
+/* @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap") */
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap')
 layer(base);
 
-@import "tailwindcss";
-
-@custom-variant dark (&:is(.dark *));
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+* {
+  font-family: 'PT Serif', serif !important;
 }
 
-.animate-fadeInUp {
-  animation: fadeInUp 0.8s ease-out forwards;
-}
-.animate-fadeInUp.delay-150 {
-  animation-delay: 0.15s;
-}
-.animate-fadeInUp.delay-300 {
-  animation-delay: 0.3s;
-}
-
-@theme {
+@theme inline {
   --font-*: initial;
   --font-outfit: Outfit, sans-serif;
 
@@ -186,6 +168,31 @@ layer(base);
   --z-index-999999: 999999;
 }
 
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+.animate-fadeInUp.delay-150 {
+  animation-delay: 0.15s;
+}
+.animate-fadeInUp.delay-300 {
+  animation-delay: 0.3s;
+}
+
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
@@ -207,7 +214,7 @@ layer(base);
     cursor: pointer;
   }
   body {
-    @apply relative font-normal font-outfit z-1 bg-gray-50;
+    @apply relative font-outfit z-1 bg-gray-50;
   }
 }
 
@@ -668,7 +675,7 @@ span.flatpickr-weekday,
   @apply rounded-lg py-2.5 pl-4 pr-3;
 }
 .event-fc-color .fc-event-title {
-  @apply p-0 text-sm font-normal text-gray-700;
+  @apply p-0 text-sm text-gray-700;
 }
 .fc-daygrid-event-dot {
   @apply w-1 h-5 ml-0 mr-3 border-none rounded-sm;

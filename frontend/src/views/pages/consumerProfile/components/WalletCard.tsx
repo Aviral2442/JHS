@@ -36,7 +36,7 @@ const WalletCard: React.FC<WalletCardProps> = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl shadow-2xl overflow-hidden">
+    <div className="rounded-2xl shadow-2xl overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--sky-blue), var(--sky-blue))' }}>
       <div className="p-6 text-white">
         {/* Header */}
         <div className="flex justify-between items-start mb-6">

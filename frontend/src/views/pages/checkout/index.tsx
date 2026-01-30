@@ -153,39 +153,45 @@ const AddressCard: React.FC<{
 }> = ({ address, selected, onSelect, onEdit }) => {
   return (
     <div 
-      className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-300 hover:border-blue-500 ${
-        selected ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
-      }`}
+      className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-300`}
+      style={{
+        borderColor: selected ? 'var(--sky-blue)' : 'var(--gray-color)',
+        backgroundColor: selected ? 'var(--background-alt)' : 'transparent'
+      }}
       onClick={() => onSelect(address.id)}
     >
       <div className="flex justify-between items-start">
         <div className="flex items-start">
-          <div className={`w-6 h-6 rounded-full border flex items-center justify-center mr-3 mt-1 ${
-            selected ? 'bg-blue-500 border-blue-500' : 'border-gray-300'
-          }`}>
+          <div className={`w-6 h-6 rounded-full border flex items-center justify-center mr-3 mt-1`}
+            style={{
+              backgroundColor: selected ? 'var(--sky-blue)' : 'transparent',
+              borderColor: selected ? 'var(--sky-blue)' : 'var(--gray-color)'
+            }}
+          >
             {selected && <Check size={14} className="text-white" />}
           </div>
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <h4 className="font-semibold text-gray-800">{address.fullName}</h4>
-              <span className={`inline-flex items-center px-2 py-1 rounded text-xs ${
-                address.type === 'home' 
-                  ? 'bg-green-100 text-green-800' 
-                  : 'bg-blue-100 text-blue-800'
-              }`}>
+              <h4 className="font-semibold" style={{ color: 'var(--black-color)' }}>{address.fullName}</h4>
+              <span className="inline-flex items-center px-2 py-1 rounded text-xs"
+                style={{
+                  backgroundColor: 'var(--background-alt)',
+                  color: 'var(--sky-blue)'
+                }}
+              >
                 {address.type === 'home' ? <Home size={12} /> : <Briefcase size={12} />}
                 <span className="ml-1">{address.type === 'home' ? 'Home' : 'Work'}</span>
               </span>
               {address.isDefault && (
-                <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
+                <span className="text-xs px-2 py-1 rounded" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }}>
                   Default
                 </span>
               )}
             </div>
-            <p className="text-gray-600 text-sm">{address.street}</p>
-            <p className="text-gray-600 text-sm">{address.city}, {address.state} {address.zipCode}</p>
-            <p className="text-gray-600 text-sm">{address.country}</p>
-            <p className="text-gray-600 text-sm mt-2">{address.phone}</p>
+            <p className="text-sm" style={{ color: 'var(--gray-color)' }}>{address.street}</p>
+            <p className="text-sm" style={{ color: 'var(--gray-color)' }}>{address.city}, {address.state} {address.zipCode}</p>
+            <p className="text-sm" style={{ color: 'var(--gray-color)' }}>{address.country}</p>
+            <p className="text-sm mt-2" style={{ color: 'var(--gray-color)' }}>{address.phone}</p>
           </div>
         </div>
         <button 
@@ -193,7 +199,8 @@ const AddressCard: React.FC<{
             e.stopPropagation();
             onEdit(address.id);
           }}
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          className="text-sm font-medium hover:opacity-80"
+          style={{ color: 'var(--sky-blue)' }}
         >
           Edit
         </button>
@@ -210,24 +217,29 @@ const PaymentMethodCard: React.FC<{
 }> = ({ method, selected, onSelect }) => {
   return (
     <div 
-      className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${
-        selected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
-      }`}
+      className="border-2 rounded-xl p-4 cursor-pointer transition-all duration-200"
+      style={{
+        borderColor: selected ? 'var(--sky-blue)' : 'var(--gray-color)',
+        backgroundColor: selected ? 'var(--background-alt)' : 'transparent'
+      }}
       onClick={() => onSelect(method.id)}
     >
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <span className="text-2xl mr-3">{method.icon}</span>
           <div>
-            <h4 className="font-medium text-gray-800">{method.name}</h4>
+            <h4 className="font-medium" style={{ color: 'var(--black-color)' }}>{method.name}</h4>
             {method.lastFour && (
-              <p className="text-sm text-gray-600">Card ending in •••• {method.lastFour}</p>
+              <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Card ending in •••• {method.lastFour}</p>
             )}
           </div>
         </div>
-        <div className={`w-6 h-6 rounded-full border flex items-center justify-center ${
-          selected ? 'bg-blue-500 border-blue-500' : 'border-gray-300'
-        }`}>
+        <div className="w-6 h-6 rounded-full border flex items-center justify-center"
+          style={{
+            backgroundColor: selected ? 'var(--sky-blue)' : 'transparent',
+            borderColor: selected ? 'var(--sky-blue)' : 'var(--gray-color)'
+          }}
+        >
           {selected && <Check size={14} className="text-white" />}
         </div>
       </div>
@@ -283,37 +295,38 @@ const CreditCardForm: React.FC<{
   };
 
   return (
-    <div className="mt-8 p-6 border border-blue-200 rounded-xl bg-blue-50">
+    <div className="mt-8 p-6 border rounded-xl" style={{ borderColor: 'var(--sky-blue)', backgroundColor: 'var(--background-alt)' }}>
       <div className="flex justify-between items-center mb-6">
-        <h4 className="font-medium text-gray-800">Add Credit/Debit Card</h4>
+        <h4 className="font-medium" style={{ color: 'var(--black-color)' }}>Add Credit/Debit Card</h4>
         <button 
           onClick={onCancel}
-          className="text-gray-500 hover:text-gray-700"
+          style={{ color: 'var(--gray-color)' }}
         >
           <X size={20} />
         </button>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
             Card Number
           </label>
           <div className="relative">
-            <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2" size={20} style={{ color: 'var(--gray-color)' }} />
             <input
               type="text"
               value={cardNumber}
               onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
               placeholder="1234 5678 9012 3456"
               maxLength={19}
-              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-12 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2"
+              style={{ borderColor: 'var(--gray-color)' }}
               required
             />
           </div>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
             Cardholder Name
           </label>
           <input
@@ -321,14 +334,15 @@ const CreditCardForm: React.FC<{
             value={cardName}
             onChange={(e) => setCardName(e.target.value)}
             placeholder="John Doe"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2"
+            style={{ borderColor: 'var(--gray-color)' }}
             required
           />
         </div>
         
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
               Expiry Date
             </label>
             <input
@@ -337,13 +351,14 @@ const CreditCardForm: React.FC<{
               onChange={(e) => setExpiry(formatExpiry(e.target.value))}
               placeholder="MM/YY"
               maxLength={5}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2"
+              style={{ borderColor: 'var(--gray-color)' }}
               required
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
               CVV
             </label>
             <div className="relative">
@@ -353,10 +368,11 @@ const CreditCardForm: React.FC<{
                 onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').substring(0, 3))}
                 placeholder="123"
                 maxLength={3}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2"
+                style={{ borderColor: 'var(--gray-color)' }}
                 required
               />
-              <Shield className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <Shield className="absolute right-3 top-1/2 transform -translate-y-1/2" size={18} style={{ color: 'var(--gray-color)' }} />
             </div>
           </div>
         </div>
@@ -367,9 +383,10 @@ const CreditCardForm: React.FC<{
             id="saveCard"
             checked={saveCard}
             onChange={(e) => setSaveCard(e.target.checked)}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="h-4 w-4 rounded"
+            style={{ accentColor: 'var(--sky-blue)' }}
           />
-          <label htmlFor="saveCard" className="ml-2 text-sm text-gray-700">
+          <label htmlFor="saveCard" className="ml-2 text-sm" style={{ color: 'var(--gray-color)' }}>
             Save this card for future purchases
           </label>
         </div>
@@ -378,13 +395,14 @@ const CreditCardForm: React.FC<{
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all"
+            className="flex-1 py-3 border rounded-lg hover:opacity-80 transition-all"
+            style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="flex-1 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
+            className="btn-primary flex-1 py-3 font-medium rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md"
           >
             Add Card
           </button>
@@ -400,40 +418,45 @@ const DeliveryOptions: React.FC<{
   onSelectOption: (option: string) => void;
 }> = ({ selectedOption, onSelectOption }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
-      <h3 className="text-xl font-bold text-gray-800 mb-6">Delivery Options</h3>
+    <div className="card-ui rounded-xl shadow-md p-6">
+      <h3 className="text-xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>Delivery Options</h3>
       <div className="space-y-4">
         {shippingOptions.map((option) => (
           <div 
             key={option.id}
-            className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${
-              selectedOption === option.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
-            }`}
+            className="border-2 rounded-xl p-4 cursor-pointer transition-all duration-200"
+            style={{
+              borderColor: selectedOption === option.id ? 'var(--sky-blue)' : 'var(--gray-color)',
+              backgroundColor: selectedOption === option.id ? 'var(--background-alt)' : 'transparent'
+            }}
             onClick={() => onSelectOption(option.id)}
           >
             <div className="flex justify-between items-center">
               <div>
                 <div className="flex items-center gap-2">
-                  <h4 className="font-medium text-gray-800">{option.name}</h4>
+                  <h4 className="font-medium" style={{ color: 'var(--black-color)' }}>{option.name}</h4>
                   {option.id === 'express' && (
-                    <span className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">
+                    <span className="text-xs px-2 py-1 rounded" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--sky-blue)' }}>
                       Recommended
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-gray-600 mt-1">{option.description}</p>
-                <div className="flex items-center text-sm text-gray-600 mt-2">
+                <p className="text-sm mt-1" style={{ color: 'var(--gray-color)' }}>{option.description}</p>
+                <div className="flex items-center text-sm mt-2" style={{ color: 'var(--gray-color)' }}>
                   <Clock size={14} className="mr-1" />
                   Estimated: {option.estimated}
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xl font-bold text-gray-900">
+                <div className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>
                   ${option.price.toFixed(2)}
                 </div>
-                <div className={`w-6 h-6 rounded-full border flex items-center justify-center ml-4 mt-2 ${
-                  selectedOption === option.id ? 'bg-blue-500 border-blue-500' : 'border-gray-300'
-                }`}>
+                <div className="w-6 h-6 rounded-full border flex items-center justify-center ml-4 mt-2"
+                  style={{
+                    backgroundColor: selectedOption === option.id ? 'var(--sky-blue)' : 'transparent',
+                    borderColor: selectedOption === option.id ? 'var(--sky-blue)' : 'var(--gray-color)'
+                  }}
+                >
                   {selectedOption === option.id && <Check size={14} className="text-white" />}
                 </div>
               </div>
@@ -541,16 +564,17 @@ const OrderSummary: React.FC<{
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 sticky top-6">
-      <h3 className="text-xl font-bold text-gray-800 mb-6 pb-4 border-b">Order Summary</h3>
+    <div className="card-ui rounded-xl shadow-md p-6 sticky top-6">
+      <h3 className="text-xl font-bold mb-6 pb-4 border-b" style={{ color: 'var(--black-color)' }}>Order Summary</h3>
       
       {/* Order Items Preview */}
       <div className="space-y-4 mb-6">
         <div className="flex justify-between items-center mb-2">
-          <h4 className="font-medium text-gray-700">Items ({summary.itemCount})</h4>
+          <h4 className="font-medium" style={{ color: 'var(--gray-color)' }}>Items ({summary.itemCount})</h4>
           <button 
             onClick={onEditCart}
-            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+            className="text-sm font-medium hover:opacity-80"
+            style={{ color: 'var(--sky-blue)' }}
           >
             Edit Cart
           </button>
@@ -559,22 +583,22 @@ const OrderSummary: React.FC<{
         <div className="space-y-3">
           {items.slice(0, isExpanded ? items.length : 2).map((item) => (
             <div key={item.id} className="flex items-center">
-              <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
+              <div className="relative w-16 h-16 rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--background-alt)' }}>
                 <img 
                   src={item.image} 
                   alt={item.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute -top-1 -right-1 bg-gray-800 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center">
+                <div className="absolute -top-1 -right-1 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--black-color)' }}>
                   {item.quantity}
                 </div>
               </div>
               <div className="ml-4 grow">
-                <h5 className="font-medium text-gray-800 text-sm">{item.name}</h5>
-                <p className="text-gray-600 text-sm">${item.price.toFixed(2)} × {item.quantity}</p>
+                <h5 className="font-medium text-sm" style={{ color: 'var(--black-color)' }}>{item.name}</h5>
+                <p className="text-sm" style={{ color: 'var(--gray-color)' }}>${item.price.toFixed(2)} × {item.quantity}</p>
               </div>
               <div className="text-right">
-                <p className="font-medium text-gray-900">${(item.price * item.quantity).toFixed(2)}</p>
+                <p className="font-medium" style={{ color: 'var(--black-color)' }}>${(item.price * item.quantity).toFixed(2)}</p>
               </div>
             </div>
           ))}
@@ -582,7 +606,8 @@ const OrderSummary: React.FC<{
           {items.length > 2 && (
             <button 
               onClick={() => setIsExpanded(!isExpanded)}
-              className="text-blue-600 hover:text-blue-800 text-sm font-medium w-full text-center py-2"
+              className="text-sm font-medium w-full text-center py-2 hover:opacity-80"
+              style={{ color: 'var(--sky-blue)' }}
             >
               {isExpanded ? 'Show Less' : `Show ${items.length - 2} more items`}
             </button>
@@ -591,47 +616,47 @@ const OrderSummary: React.FC<{
       </div>
       
       {/* Price Breakdown */}
-      <div className="space-y-3 border-t border-gray-200 pt-6">
+      <div className="space-y-3 border-t pt-6" style={{ borderColor: 'var(--background-alt)' }}>
         <div className="flex justify-between">
-          <span className="text-gray-600">Subtotal</span>
+          <span style={{ color: 'var(--gray-color)' }}>Subtotal</span>
           <span className="font-medium">${summary.subtotal.toFixed(2)}</span>
         </div>
         
         <div className="flex justify-between">
-          <span className="text-gray-600">Shipping</span>
+          <span style={{ color: 'var(--gray-color)' }}>Shipping</span>
           <span className="font-medium">
             {summary.shipping === 0 ? 'FREE' : `$${summary.shipping.toFixed(2)}`}
           </span>
         </div>
         
         {summary.discount > 0 && (
-          <div className="flex justify-between text-green-600">
+          <div className="flex justify-between" style={{ color: 'var(--sky-blue)' }}>
             <span>Discount</span>
             <span className="font-medium">-${summary.discount.toFixed(2)}</span>
           </div>
         )}
         
         <div className="flex justify-between">
-          <span className="text-gray-600">Tax</span>
+          <span style={{ color: 'var(--gray-color)' }}>Tax</span>
           <span className="font-medium">${summary.tax.toFixed(2)}</span>
         </div>
         
-        <div className="pt-4 mt-4 border-t border-gray-200">
+        <div className="pt-4 mt-4 border-t" style={{ borderColor: 'var(--background-alt)' }}>
           <div className="flex justify-between text-lg font-bold">
             <span>Total</span>
             <span>${summary.total.toFixed(2)}</span>
           </div>
-          <p className="text-sm text-gray-500 mt-1">Including ${summary.tax.toFixed(2)} in taxes</p>
+          <p className="text-sm mt-1" style={{ color: 'var(--gray-color)' }}>Including ${summary.tax.toFixed(2)} in taxes</p>
         </div>
       </div>
       
       {/* Order Protection */}
-      <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+      <div className="mt-8 p-4 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
         <div className="flex items-start">
-          <Shield className="text-blue-600 mt-0.5 mr-3" size={20} />
+          <Shield className="mt-0.5 mr-3" size={20} style={{ color: 'var(--sky-blue)' }} />
           <div>
-            <h5 className="font-medium text-gray-800">Order Protection</h5>
-            <p className="text-sm text-gray-600 mt-1">
+            <h5 className="font-medium" style={{ color: 'var(--black-color)' }}>Order Protection</h5>
+            <p className="text-sm mt-1" style={{ color: 'var(--gray-color)' }}>
               Your purchase is protected by our 30-day return policy and secure payment processing.
             </p>
           </div>
@@ -893,10 +918,11 @@ const CheckoutPage: React.FC = () => {
             {/* Shipping Address Section */}
             <div className="bg-white rounded-xl shadow-md p-6">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-gray-800">Shipping Address</h3>
+                <h3 className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>Shipping Address</h3>
                 <button 
                   onClick={() => setShowNewAddressForm(true)}
-                  className="flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                  className="flex items-center font-medium"
+                  style={{ color: 'var(--sky-blue)' }}
                 >
                   <Plus size={18} className="mr-1" />
                   Add New Address
@@ -905,12 +931,12 @@ const CheckoutPage: React.FC = () => {
               
               {/* New Address Form */}
               {showNewAddressForm && (
-                <div className="mb-6 p-4 border border-blue-200 rounded-xl bg-blue-50">
+                <div className="mb-6 p-4 border rounded-xl" style={{ borderColor: 'var(--sky-blue)', backgroundColor: 'var(--background-alt)' }}>
                   <div className="flex justify-between items-center mb-4">
-                    <h4 className="font-medium text-gray-800">Add New Address</h4>
+                    <h4 className="font-medium" style={{ color: 'var(--black-color)' }}>Add New Address</h4>
                     <button 
                       onClick={() => setShowNewAddressForm(false)}
-                      className="text-gray-500 hover:text-gray-700"
+                      style={{ color: 'var(--gray-color)' }}
                     >
                       <X size={20} />
                     </button>
@@ -918,96 +944,101 @@ const CheckoutPage: React.FC = () => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                         Full Name
                       </label>
                       <input
                         type="text"
                         value={newAddress.fullName}
                         onChange={(e) => setNewAddress({...newAddress, fullName: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                        style={{ borderColor: 'var(--gray-color)' }}
                         placeholder="John Doe"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                         Phone Number
                       </label>
                       <input
                         type="tel"
                         value={newAddress.phone}
                         onChange={(e) => setNewAddress({...newAddress, phone: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                        style={{ borderColor: 'var(--gray-color)' }}
                         placeholder="+1 (555) 123-4567"
                       />
                     </div>
                     
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                         Street Address
                       </label>
                       <input
                         type="text"
                         value={newAddress.street}
                         onChange={(e) => setNewAddress({...newAddress, street: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                        style={{ borderColor: 'var(--gray-color)' }}
                         placeholder="123 Main Street"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                         City
                       </label>
                       <input
                         type="text"
                         value={newAddress.city}
                         onChange={(e) => setNewAddress({...newAddress, city: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                        style={{ borderColor: 'var(--gray-color)' }}
                         placeholder="New York"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                         State
                       </label>
                       <input
                         type="text"
                         value={newAddress.state}
                         onChange={(e) => setNewAddress({...newAddress, state: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                        style={{ borderColor: 'var(--gray-color)' }}
                         placeholder="NY"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                         ZIP Code
                       </label>
                       <input
                         type="text"
                         value={newAddress.zipCode}
                         onChange={(e) => setNewAddress({...newAddress, zipCode: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                        style={{ borderColor: 'var(--gray-color)' }}
                         placeholder="10001"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                         Address Type
                       </label>
                       <div className="flex gap-4">
                         <button
                           type="button"
                           onClick={() => setNewAddress({...newAddress, type: 'home'})}
-                          className={`flex items-center px-4 py-2 rounded-lg border ${
-                            newAddress.type === 'home' 
-                              ? 'bg-green-100 text-green-800 border-green-300' 
-                              : 'bg-gray-100 text-gray-800 border-gray-300'
-                          }`}
+                          className="flex items-center px-4 py-2 rounded-lg border"
+                          style={newAddress.type === 'home' 
+                            ? { backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)', borderColor: 'var(--sky-blue)' }
+                            : { backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)', borderColor: 'var(--gray-color)' }}
                         >
                           <Home size={16} className="mr-2" />
                           Home
@@ -1015,11 +1046,10 @@ const CheckoutPage: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => setNewAddress({...newAddress, type: 'work'})}
-                          className={`flex items-center px-4 py-2 rounded-lg border ${
-                            newAddress.type === 'work' 
-                              ? 'bg-blue-100 text-blue-800 border-blue-300' 
-                              : 'bg-gray-100 text-gray-800 border-gray-300'
-                          }`}
+                          className="flex items-center px-4 py-2 rounded-lg border"
+                          style={newAddress.type === 'work' 
+                            ? { backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)', borderColor: 'var(--sky-blue)' }
+                            : { backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)', borderColor: 'var(--gray-color)' }}
                         >
                           <Briefcase size={16} className="mr-2" />
                           Work
@@ -1033,9 +1063,10 @@ const CheckoutPage: React.FC = () => {
                         id="setDefault"
                         checked={newAddress.isDefault}
                         onChange={(e) => setNewAddress({...newAddress, isDefault: e.target.checked})}
-                        className="h-4 w-4 text-blue-600"
+                        className="h-4 w-4"
+                        style={{ accentColor: 'var(--sky-blue)' }}
                       />
-                      <label htmlFor="setDefault" className="ml-2 text-sm text-gray-700">
+                      <label htmlFor="setDefault" className="ml-2 text-sm" style={{ color: 'var(--gray-color)' }}>
                         Set as default address
                       </label>
                     </div>
@@ -1045,14 +1076,16 @@ const CheckoutPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setShowNewAddressForm(false)}
-                      className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                      className="px-4 py-2 border rounded-lg"
+                      style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}
                     >
                       Cancel
                     </button>
                     <button
                       type="button"
                       onClick={handleAddAddress}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                      className="px-4 py-2 rounded-lg"
+                      style={{ backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }}
                     >
                       Save Address
                     </button>
@@ -1077,35 +1110,37 @@ const CheckoutPage: React.FC = () => {
               </div>
               
               {/* Contact Info */}
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <h4 className="font-medium text-gray-800 mb-4">Contact Information</h4>
+              <div className="mt-8 pt-8 border-t" style={{ borderColor: 'var(--background-alt)' }}>
+                <h4 className="font-medium mb-4" style={{ color: 'var(--black-color)' }}>Contact Information</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                       Email Address
                     </label>
                     <div className="flex items-center">
-                      <Mail size={18} className="text-gray-400 mr-2" />
+                      <Mail size={18} className="mr-2" style={{ color: 'var(--gray-color)' }} />
                       <input
                         type="email"
                         value={userDetails.email}
                         onChange={(e) => setUserDetails({...userDetails, email: e.target.value})}
-                        className="grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                        style={{ borderColor: 'var(--gray-color)' }}
                       />
                     </div>
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                       Phone Number
                     </label>
                     <div className="flex items-center">
-                      <Phone size={18} className="text-gray-400 mr-2" />
+                      <Phone size={18} className="mr-2" style={{ color: 'var(--gray-color)' }} />
                       <input
                         type="tel"
                         value={userDetails.phone}
                         onChange={(e) => setUserDetails({...userDetails, phone: e.target.value})}
-                        className="grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                        style={{ borderColor: 'var(--gray-color)' }}
                       />
                     </div>
                   </div>
@@ -1127,7 +1162,7 @@ const CheckoutPage: React.FC = () => {
           <div className="space-y-8">
             {/* Payment Methods */}
             <div className="bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-6">Payment Method</h3>
+              <h3 className="text-xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>Payment Method</h3>
               
               <div className="space-y-4 mb-8">
                 {paymentMethods.map(method => (
@@ -1145,7 +1180,8 @@ const CheckoutPage: React.FC = () => {
                 <div className="text-center">
                   <button 
                     onClick={() => setShowCardForm(true)}
-                    className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                    className="inline-flex items-center font-medium"
+                    style={{ color: 'var(--sky-blue)' }}
                   >
                     <Plus size={18} className="mr-1" />
                     Add New Card
@@ -1164,9 +1200,9 @@ const CheckoutPage: React.FC = () => {
               )}
               
               {/* Security Info */}
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <div className="flex items-center text-gray-600">
-                  <Lock size={18} className="mr-3 text-green-500" />
+              <div className="mt-8 pt-8 border-t" style={{ borderColor: 'var(--background-alt)' }}>
+                <div className="flex items-center" style={{ color: 'var(--gray-color)' }}>
+                  <Lock size={18} className="mr-3" style={{ color: 'var(--sky-blue)' }} />
                   <span className="text-sm">Your payment details are secured with 256-bit SSL encryption</span>
                 </div>
               </div>
@@ -1174,30 +1210,30 @@ const CheckoutPage: React.FC = () => {
             
             {/* Order Review */}
             <div className="bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-6">Order Review</h3>
+              <h3 className="text-xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>Order Review</h3>
               <div className="space-y-4">
-                <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                  <span className="text-gray-600">Shipping Address</span>
+                <div className="flex justify-between items-center py-3 border-b" style={{ borderColor: 'var(--background-alt)' }}>
+                  <span style={{ color: 'var(--gray-color)' }}>Shipping Address</span>
                   <div className="text-right">
-                    <p className="font-medium text-gray-800">
+                    <p className="font-medium" style={{ color: 'var(--black-color)' }}>
                       {addresses.find(a => a.id === selectedAddress)?.fullName}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm" style={{ color: 'var(--gray-color)' }}>
                       {addresses.find(a => a.id === selectedAddress)?.street}
                     </p>
                   </div>
                 </div>
                 
-                <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                  <span className="text-gray-600">Delivery Method</span>
-                  <span className="font-medium text-gray-800">
+                <div className="flex justify-between items-center py-3 border-b" style={{ borderColor: 'var(--background-alt)' }}>
+                  <span style={{ color: 'var(--gray-color)' }}>Delivery Method</span>
+                  <span className="font-medium" style={{ color: 'var(--black-color)' }}>
                     {shippingOptions.find(o => o.id === deliveryOption)?.name}
                   </span>
                 </div>
                 
-                <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                  <span className="text-gray-600">Payment Method</span>
-                  <span className="font-medium text-gray-800">
+                <div className="flex justify-between items-center py-3 border-b" style={{ borderColor: 'var(--background-alt)' }}>
+                  <span style={{ color: 'var(--gray-color)' }}>Payment Method</span>
+                  <span className="font-medium" style={{ color: 'var(--black-color)' }}>
                     {paymentMethods.find(p => p.id === selectedPayment)?.name}
                   </span>
                 </div>
@@ -1211,19 +1247,19 @@ const CheckoutPage: React.FC = () => {
           <div className="space-y-8">
             {/* Payment Processing */}
             <div className="bg-white rounded-xl shadow-md p-8 text-center">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-blue-100 flex items-center justify-center">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--background-alt)' }}>
                 {paymentComplete ? (
-                  <Check size={40} className="text-green-500" />
+                  <Check size={40} style={{ color: 'var(--sky-blue)' }} />
                 ) : (
-                  <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--sky-blue)', borderTopColor: 'transparent' }}></div>
                 )}
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--black-color)' }}>
                 {paymentComplete ? 'Payment Successful!' : 'Processing Payment...'}
               </h3>
               
-              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+              <p className="mb-8 max-w-md mx-auto" style={{ color: 'var(--gray-color)' }}>
                 {paymentComplete 
                   ? 'Your payment has been processed successfully. Your order is being prepared for shipment.' 
                   : 'Please wait while we process your payment. Do not refresh or close this page.'}
@@ -1231,34 +1267,34 @@ const CheckoutPage: React.FC = () => {
               
               {!paymentComplete && (
                 <div className="space-y-2 max-w-xs mx-auto">
-                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-600 rounded-full animate-pulse" style={{ width: '70%' }}></div>
+                  <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--background-alt)' }}>
+                    <div className="h-full rounded-full animate-pulse" style={{ width: '70%', backgroundColor: 'var(--sky-blue)' }}></div>
                   </div>
-                  <p className="text-sm text-gray-500">Verifying payment details...</p>
+                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Verifying payment details...</p>
                 </div>
               )}
             </div>
             
             {/* Order Details */}
             <div className="bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-6">Order Details</h3>
+              <h3 className="text-xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>Order Details</h3>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-600">Order ID</p>
-                    <p className="font-medium">ORD-{Math.random().toString(36).substr(2, 8).toUpperCase()}</p>
+                    <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Order ID</p>
+                    <p className="font-medium" style={{ color: 'var(--black-color)' }}>ORD-{Math.random().toString(36).substr(2, 8).toUpperCase()}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Order Date</p>
-                    <p className="font-medium">{new Date().toLocaleDateString()}</p>
+                    <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Order Date</p>
+                    <p className="font-medium" style={{ color: 'var(--black-color)' }}>{new Date().toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Estimated Delivery</p>
-                    <p className="font-medium">{new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString()}</p>
+                    <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Estimated Delivery</p>
+                    <p className="font-medium" style={{ color: 'var(--black-color)' }}>{new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Payment Status</p>
-                    <p className="font-medium text-green-600">Paid</p>
+                    <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Payment Status</p>
+                    <p className="font-medium" style={{ color: 'var(--sky-blue)' }}>Paid</p>
                   </div>
                 </div>
               </div>
@@ -1271,28 +1307,28 @@ const CheckoutPage: React.FC = () => {
           <div className="space-y-8">
             {/* Order Confirmation */}
             <div className="bg-white rounded-xl shadow-md p-8 text-center">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-linear-to-r from-green-500 to-emerald-500 flex items-center justify-center">
-                <Check size={40} className="text-white" />
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--sky-blue))' }}>
+                <Check size={40} style={{ color: 'var(--white-color)' }} />
               </div>
               
-              <h3 className="text-3xl font-bold text-gray-800 mb-4">Order Confirmed!</h3>
+              <h3 className="text-3xl font-bold mb-4" style={{ color: 'var(--black-color)' }}>Order Confirmed!</h3>
               
-              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+              <p className="mb-6 max-w-md mx-auto" style={{ color: 'var(--gray-color)' }}>
                 Thank you for your purchase! Your order has been confirmed and will be shipped soon.
               </p>
               
-              <div className="max-w-md mx-auto bg-gray-50 rounded-xl p-6 mb-8">
+              <div className="max-w-md mx-auto rounded-xl p-6 mb-8" style={{ backgroundColor: 'var(--background-alt)' }}>
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-gray-600">Order ID</span>
-                  <span className="font-bold">ORD-{Math.random().toString(36).substr(2, 8).toUpperCase()}</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Order ID</span>
+                  <span className="font-bold" style={{ color: 'var(--black-color)' }}>ORD-{Math.random().toString(36).substr(2, 8).toUpperCase()}</span>
                 </div>
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-gray-600">Total Amount</span>
-                  <span className="font-bold text-green-600">${orderSummary.total.toFixed(2)}</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Total Amount</span>
+                  <span className="font-bold" style={{ color: 'var(--sky-blue)' }}>${orderSummary.total.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Estimated Delivery</span>
-                  <span className="font-bold">{new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString()}</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Estimated Delivery</span>
+                  <span className="font-bold" style={{ color: 'var(--black-color)' }}>{new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString()}</span>
                 </div>
               </div>
               
@@ -1313,20 +1349,23 @@ const CheckoutPage: React.FC = () => {
                     a.download = 'invoice.txt';
                     a.click();
                   }}
-                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all"
+                  className="px-6 py-3 rounded-lg transition-all"
+                  style={{ backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }}
                 >
                   <Download size={18} className="inline mr-2" />
                   Download Invoice
                 </button>
                 <button 
                   onClick={() => window.location.href = '/'}
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all"
+                  className="px-6 py-3 border rounded-lg transition-all"
+                  style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}
                 >
                   Continue Shopping
                 </button>
                 <button 
                   onClick={() => alert('Order tracking would be implemented here')}
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all"
+                  className="px-6 py-3 border rounded-lg transition-all"
+                  style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}
                 >
                   Track Order
                 </button>
@@ -1335,30 +1374,30 @@ const CheckoutPage: React.FC = () => {
             
             {/* Next Steps */}
             <div className="bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-6">What's Next?</h3>
+              <h3 className="text-xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>What's Next?</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center p-4">
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
-                    <Package size={24} className="text-blue-600" />
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--background-alt)' }}>
+                    <Package size={24} style={{ color: 'var(--sky-blue)' }} />
                   </div>
-                  <h4 className="font-medium text-gray-800 mb-2">Order Processing</h4>
-                  <p className="text-sm text-gray-600">We're preparing your items for shipment</p>
+                  <h4 className="font-medium mb-2" style={{ color: 'var(--black-color)' }}>Order Processing</h4>
+                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>We're preparing your items for shipment</p>
                 </div>
                 
                 <div className="text-center p-4">
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
-                    <Truck size={24} className="text-green-600" />
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--background-alt)' }}>
+                    <Truck size={24} style={{ color: 'var(--sky-blue)' }} />
                   </div>
-                  <h4 className="font-medium text-gray-800 mb-2">Shipment</h4>
-                  <p className="text-sm text-gray-600">Your order will be shipped within 24 hours</p>
+                  <h4 className="font-medium mb-2" style={{ color: 'var(--black-color)' }}>Shipment</h4>
+                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Your order will be shipped within 24 hours</p>
                 </div>
                 
                 <div className="text-center p-4">
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
-                    <Home size={24} className="text-purple-600" />
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--background-alt)' }}>
+                    <Home size={24} style={{ color: 'var(--sky-blue)' }} />
                   </div>
-                  <h4 className="font-medium text-gray-800 mb-2">Delivery</h4>
-                  <p className="text-sm text-gray-600">Estimated delivery in 3-5 business days</p>
+                  <h4 className="font-medium mb-2" style={{ color: 'var(--black-color)' }}>Delivery</h4>
+                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Estimated delivery in 3-5 business days</p>
                 </div>
               </div>
             </div>
@@ -1371,18 +1410,18 @@ const CheckoutPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--white-color)' }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="mb-10">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Checkout</h1>
-              <p className="text-gray-600 mt-2">Complete your purchase securely</p>
+              <h1 className="text-3xl md:text-4xl font-bold" style={{ color: 'var(--black-color)' }}>Checkout</h1>
+              <p className="mt-2" style={{ color: 'var(--gray-color)' }}>Complete your purchase securely</p>
             </div>
             <div className="flex items-center">
-              <Lock size={24} className="text-green-500 mr-2" />
-              <span className="text-sm text-gray-600">Secure Checkout</span>
+              <Lock size={24} className="mr-2" style={{ color: 'var(--sky-blue)' }} />
+              <span className="text-sm" style={{ color: 'var(--gray-color)' }}>Secure Checkout</span>
             </div>
           </div>
           
@@ -1402,7 +1441,8 @@ const CheckoutPage: React.FC = () => {
                 {step > 1 && (
                   <button 
                     onClick={prevStep}
-                    className="flex items-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all"
+                    className="flex items-center px-6 py-3 border rounded-lg transition-all"
+                    style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}
                   >
                     <ArrowLeft size={18} className="mr-2" />
                     Back
@@ -1414,7 +1454,8 @@ const CheckoutPage: React.FC = () => {
                 {step === 1 && (
                   <button 
                     onClick={nextStep}
-                    className="flex items-center px-8 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md"
+                    className="flex items-center px-8 py-3 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md"
+                    style={{ backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }}
                   >
                     Continue to Payment
                     <ChevronRight size={18} className="ml-2" />
@@ -1425,9 +1466,10 @@ const CheckoutPage: React.FC = () => {
                   <button 
                     onClick={handlePayment}
                     disabled={isProcessing || !razorpayLoaded}
-                    className={`flex items-center px-8 py-3 bg-linear-to-r from-green-500 to-emerald-600 text-white rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md ${
-                      isProcessing || !razorpayLoaded ? 'opacity-75 cursor-not-allowed' : 'hover:from-green-600 hover:to-emerald-700'
+                    className={`flex items-center px-8 py-3 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md ${
+                      isProcessing || !razorpayLoaded ? 'opacity-75 cursor-not-allowed' : ''
                     }`}
+                    style={{ backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }}
                   >
                     {isProcessing ? (
                       <>
@@ -1449,9 +1491,10 @@ const CheckoutPage: React.FC = () => {
                   <button 
                     onClick={handlePlaceOrder}
                     disabled={isProcessing}
-                    className={`flex items-center px-8 py-3 bg-linear-to-r from-green-500 to-emerald-600 text-white rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md ${
-                      isProcessing ? 'opacity-75 cursor-not-allowed' : 'hover:from-green-600 hover:to-emerald-700'
+                    className={`flex items-center px-8 py-3 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md ${
+                      isProcessing ? 'opacity-75 cursor-not-allowed' : ''
                     }`}
+                    style={{ backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }}
                   >
                     {isProcessing ? (
                       <>
@@ -1482,32 +1525,32 @@ const CheckoutPage: React.FC = () => {
               {/* Security Badges */}
               <div className="mt-8 grid grid-cols-3 gap-4">
                 <div className="bg-white p-4 rounded-xl text-center shadow-sm">
-                  <div className="text-2xl font-bold text-green-600">SSL</div>
-                  <div className="text-xs text-gray-600 mt-1">Secure</div>
+                  <div className="text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>SSL</div>
+                  <div className="text-xs mt-1" style={{ color: 'var(--gray-color)' }}>Secure</div>
                 </div>
                 <div className="bg-white p-4 rounded-xl text-center shadow-sm">
-                  <div className="text-2xl font-bold text-blue-600">256-bit</div>
-                  <div className="text-xs text-gray-600 mt-1">Encryption</div>
+                  <div className="text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>256-bit</div>
+                  <div className="text-xs mt-1" style={{ color: 'var(--gray-color)' }}>Encryption</div>
                 </div>
                 <div className="bg-white p-4 rounded-xl text-center shadow-sm">
-                  <div className="text-2xl font-bold text-purple-600">PCI</div>
-                  <div className="text-xs text-gray-600 mt-1">Compliant</div>
+                  <div className="text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>PCI</div>
+                  <div className="text-xs mt-1" style={{ color: 'var(--gray-color)' }}>Compliant</div>
                 </div>
               </div>
               
               {/* Need Help Section */}
               <div className="mt-8 bg-white rounded-xl shadow-md p-6">
-                <h4 className="font-medium text-gray-800 mb-4">Need Help?</h4>
+                <h4 className="font-medium mb-4" style={{ color: 'var(--black-color)' }}>Need Help?</h4>
                 <div className="space-y-3">
-                  <a href="#" className="flex items-center text-blue-600 hover:text-blue-800 text-sm">
+                  <a href="#" className="flex items-center text-sm" style={{ color: 'var(--sky-blue)' }}>
                     <Globe size={16} className="mr-2" />
                     FAQ & Support
                   </a>
-                  <a href="#" className="flex items-center text-blue-600 hover:text-blue-800 text-sm">
+                  <a href="#" className="flex items-center text-sm" style={{ color: 'var(--sky-blue)' }}>
                     <Phone size={16} className="mr-2" />
                     Contact Customer Service
                   </a>
-                  <a href="#" className="flex items-center text-blue-600 hover:text-blue-800 text-sm">
+                  <a href="#" className="flex items-center text-sm" style={{ color: 'var(--sky-blue)' }}>
                     <Shield size={16} className="mr-2" />
                     Privacy & Security
                   </a>
@@ -1521,11 +1564,11 @@ const CheckoutPage: React.FC = () => {
         {isProcessing && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-8 rounded-2xl shadow-2xl text-center">
-              <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <h3 className="text-xl font-bold text-gray-800">
+              <div className="w-16 h-16 border-4 border-t-transparent rounded-full animate-spin mx-auto mb-4" style={{ borderColor: 'var(--sky-blue)', borderTopColor: 'transparent' }}></div>
+              <h3 className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>
                 {step === 2 ? 'Processing Payment' : 'Placing Order'}
               </h3>
-              <p className="text-gray-600 mt-2">Please wait while we complete your request...</p>
+              <p className="mt-2" style={{ color: 'var(--gray-color)' }}>Please wait while we complete your request...</p>
             </div>
           </div>
         )}

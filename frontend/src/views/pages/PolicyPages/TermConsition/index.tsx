@@ -31,7 +31,7 @@ const PolicyHeader: React.FC<{ title: string; description: string; icon: React.R
   icon 
 }) => {
   return (
-    <div className="bg-linear-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-8 mb-8 shadow-lg">
+    <div className="text-white rounded-2xl p-8 mb-8 shadow-lg" style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}>
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
         <div className="flex items-center mb-4 md:mb-0">
           <div className="bg-white/20 p-3 rounded-xl mr-4">
@@ -39,7 +39,7 @@ const PolicyHeader: React.FC<{ title: string; description: string; icon: React.R
           </div>
           <div>
             <h1 className="text-3xl md:text-4xl font-bold">{title}</h1>
-            <p className="text-blue-100 mt-2 max-w-3xl">{description}</p>
+            <p className="mt-2 max-w-3xl" style={{ color: 'rgba(255,255,255,0.8)' }}>{description}</p>
           </div>
         </div>
         <div className="text-sm bg-white/10 px-4 py-2 rounded-full">
@@ -62,7 +62,7 @@ const TableOfContents: React.FC<{
 }> = ({ sections, activeSection, onSectionClick }) => {
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mb-8 sticky top-6">
-      <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+      <h3 className="text-lg font-bold mb-4 flex items-center" style={{ color: 'var(--black-color)' }}>
         <BookOpen size={20} className="mr-2" />
         Table of Contents
       </h3>
@@ -73,16 +73,16 @@ const TableOfContents: React.FC<{
             onClick={() => onSectionClick(section.id)}
             className={`block w-full text-left px-3 py-2 rounded-lg transition-all ${
               activeSection === section.id
-                ? 'bg-blue-50 text-blue-600 font-medium'
-                : 'text-gray-600 hover:bg-gray-50'
+                ? 'font-medium'
+                : 'hover:bg-gray-50'
             }`}
+            style={activeSection === section.id ? { backgroundColor: 'rgba(0,173,181,0.1)', color: 'var(--sky-blue)' } : { color: 'var(--gray-color)' }}
           >
             <div className="flex items-center">
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center mr-3 ${
-                activeSection === section.id ? 'bg-blue-100' : 'bg-gray-100'
-              }`}>
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center mr-3`}
+                   style={activeSection === section.id ? { backgroundColor: 'rgba(0,173,181,0.2)' } : { backgroundColor: 'var(--background-alt)' }}>
                 {activeSection === section.id ? (
-                  <Check size={12} className="text-blue-600" />
+                  <Check size={12} style={{ color: 'var(--sky-blue)' }} />
                 ) : (
                   <div className="w-2 h-2 rounded-full bg-gray-400" />
                 )}
@@ -94,17 +94,17 @@ const TableOfContents: React.FC<{
       </nav>
       
       <div className="mt-6 pt-6 border-t border-gray-200">
-        <h4 className="font-medium text-gray-800 mb-3">Quick Links</h4>
+        <h4 className="font-medium mb-3" style={{ color: 'var(--black-color)' }}>Quick Links</h4>
         <div className="space-y-2">
-          <a href="#contact" className="flex items-center text-blue-600 hover:text-blue-800 text-sm">
+          <a href="#contact" className="flex items-center text-sm" style={{ color: 'var(--sky-blue)' }}>
             <Mail size={16} className="mr-2" />
             Contact Information
           </a>
-          <a href="#faq" className="flex items-center text-blue-600 hover:text-blue-800 text-sm">
+          <a href="#faq" className="flex items-center text-sm" style={{ color: 'var(--sky-blue)' }}>
             <HelpCircle size={16} className="mr-2" />
             Frequently Asked Questions
           </a>
-          <a href="#download" className="flex items-center text-blue-600 hover:text-blue-800 text-sm">
+          <a href="#download" className="flex items-center text-sm" style={{ color: 'var(--sky-blue)' }}>
             <ExternalLink size={16} className="mr-2" />
             Download PDF Version
           </a>
@@ -126,8 +126,8 @@ const PolicySection: React.FC<{
         onClick={onToggle}
         className="w-full px-6 py-4 flex justify-between items-center hover:bg-gray-50 transition-colors"
       >
-        <h3 className="text-xl font-bold text-gray-800 text-left">{section.title}</h3>
-        <div className="text-gray-400">
+        <h3 className="text-xl font-bold text-left" style={{ color: 'var(--black-color)' }}>{section.title}</h3>
+        <div style={{ color: 'var(--gray-color)' }}>
           {isExpanded ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
         </div>
       </button>
@@ -135,14 +135,14 @@ const PolicySection: React.FC<{
       {isExpanded && (
         <div className="px-6 pb-6">
           <div className="prose prose-blue max-w-none">
-            <p className="text-gray-600 mb-4">{section.content}</p>
+            <p className="mb-4" style={{ color: 'var(--gray-color)' }}>{section.content}</p>
             
             {section.subsections && section.subsections.length > 0 && (
               <div className="mt-6 space-y-4">
                 {section.subsections.map((subsection, index) => (
-                  <div key={index} className="pl-4 border-l-2 border-blue-200">
-                    <h4 className="font-bold text-gray-800 mb-2">{subsection.title}</h4>
-                    <p className="text-gray-600">{subsection.content}</p>
+                  <div key={index} className="pl-4 border-l-2" style={{ borderColor: 'var(--sky-blue)' }}>
+                    <h4 className="font-bold mb-2" style={{ color: 'var(--black-color)' }}>{subsection.title}</h4>
+                    <p style={{ color: 'var(--gray-color)' }}>{subsection.content}</p>
                   </div>
                 ))}
               </div>
@@ -206,8 +206,8 @@ const FAQSection: React.FC = () => {
     <div id="faq" className="bg-white rounded-xl shadow-md p-8 mb-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
         <div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-2">Frequently Asked Questions</h3>
-          <p className="text-gray-600">Find quick answers to common questions</p>
+          <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Frequently Asked Questions</h3>
+          <p style={{ color: 'var(--gray-color)' }}>Find quick answers to common questions</p>
         </div>
         
         <div className="mt-4 md:mt-0">
@@ -218,7 +218,8 @@ const FAQSection: React.FC = () => {
               placeholder="Search FAQs..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-64"
+              className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 w-full md:w-64"
+              style={{ borderColor: 'var(--gray-color)' }}
             />
           </div>
         </div>
@@ -228,11 +229,8 @@ const FAQSection: React.FC = () => {
       <div className="flex flex-wrap gap-2 mb-6">
         <button
           onClick={() => setSearchTerm('')}
-          className={`px-4 py-2 rounded-full text-sm font-medium ${
-            searchTerm === '' 
-              ? 'bg-blue-100 text-blue-700' 
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
+          className={`px-4 py-2 rounded-full text-sm font-medium ${searchTerm === '' ? '' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+          style={searchTerm === '' ? { backgroundColor: 'rgba(0,173,181,0.2)', color: 'var(--sky-blue)' } : {}}
         >
           All Categories
         </button>
@@ -240,11 +238,8 @@ const FAQSection: React.FC = () => {
           <button
             key={category}
             onClick={() => setSearchTerm(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              searchTerm === category
-                ? 'bg-blue-100 text-blue-700'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-full text-sm font-medium ${searchTerm === category ? '' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+            style={searchTerm === category ? { backgroundColor: 'rgba(0,173,181,0.2)', color: 'var(--sky-blue)' } : {}}
           >
             {category}
           </button>
@@ -256,31 +251,31 @@ const FAQSection: React.FC = () => {
         {filteredFAQs.map((item, index) => (
           <div 
             key={index} 
-            className="border border-gray-200 rounded-xl overflow-hidden transition-all hover:border-blue-200"
+            className="border rounded-xl overflow-hidden transition-all" style={{ borderColor: 'var(--background-alt)' }}
           >
             <button
               onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
               className="w-full px-6 py-4 flex justify-between items-center hover:bg-gray-50 transition-colors"
             >
               <div className="flex items-start">
-                <div className="bg-blue-50 p-2 rounded-lg mr-4">
-                  <HelpCircle size={20} className="text-blue-600" />
+                <div className="p-2 rounded-lg mr-4" style={{ backgroundColor: 'rgba(0,173,181,0.1)' }}>
+                  <HelpCircle size={20} style={{ color: 'var(--sky-blue)' }} />
                 </div>
                 <div className="text-left">
-                  <h4 className="font-bold text-gray-800">{item.question}</h4>
-                  <span className="inline-block mt-1 px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                  <h4 className="font-bold" style={{ color: 'var(--black-color)' }}>{item.question}</h4>
+                  <span className="inline-block mt-1 px-3 py-1 text-xs rounded-full" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }}>
                     {item.category}
                   </span>
                 </div>
               </div>
-              <div className="text-gray-400 ml-4">
+              <div className="ml-4" style={{ color: 'var(--gray-color)' }}>
                 {expandedIndex === index ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
               </div>
             </button>
             
             {expandedIndex === index && (
               <div className="px-6 pb-6 pl-16">
-                <p className="text-gray-600">{item.answer}</p>
+                <p style={{ color: 'var(--gray-color)' }}>{item.answer}</p>
               </div>
             )}
           </div>
@@ -289,11 +284,11 @@ const FAQSection: React.FC = () => {
       
       {filteredFAQs.length === 0 && (
         <div className="text-center py-12">
-          <AlertCircle size={48} className="text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600">No FAQs found matching your search.</p>
+          <AlertCircle size={48} className="mx-auto mb-4" style={{ color: 'var(--gray-color)' }} />
+          <p style={{ color: 'var(--gray-color)' }}>No FAQs found matching your search.</p>
           <button 
             onClick={() => setSearchTerm('')}
-            className="mt-4 text-blue-600 hover:text-blue-800 font-medium"
+            className="mt-4 font-medium" style={{ color: 'var(--sky-blue)' }}
           >
             Clear search
           </button>
@@ -306,44 +301,44 @@ const FAQSection: React.FC = () => {
 // Contact Section Component
 const ContactSection: React.FC = () => {
   return (
-    <div id="contact" className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
+    <div id="contact" className="rounded-2xl p-8 mb-8" style={{ background: 'linear-gradient(to right, var(--background-alt), var(--white-color))' }}>
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-2">Need More Help?</h3>
-        <p className="text-gray-600">Contact our support team for assistance</p>
+        <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Need More Help?</h3>
+        <p style={{ color: 'var(--gray-color)' }}>Contact our support team for assistance</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-          <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Mail className="text-blue-600" size={24} />
+          <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: 'rgba(0,173,181,0.2)' }}>
+            <Mail style={{ color: 'var(--sky-blue)' }} size={24} />
           </div>
-          <h4 className="font-bold text-gray-800 mb-2">Email Support</h4>
-          <p className="text-gray-600 text-sm mb-3">For general inquiries</p>
-          <a href="mailto:support@shopcart.com" className="text-blue-600 hover:text-blue-800 font-medium">
+          <h4 className="font-bold mb-2" style={{ color: 'var(--black-color)' }}>Email Support</h4>
+          <p className="text-sm mb-3" style={{ color: 'var(--gray-color)' }}>For general inquiries</p>
+          <a href="mailto:support@shopcart.com" className="font-medium" style={{ color: 'var(--sky-blue)' }}>
             support@shopcart.com
           </a>
-          <p className="text-gray-500 text-xs mt-2">Response time: 24 hours</p>
+          <p className="text-xs mt-2" style={{ color: 'var(--gray-color)' }}>Response time: 24 hours</p>
         </div>
         
         <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-          <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Phone className="text-green-600" size={24} />
+          <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: 'rgba(0,173,181,0.2)' }}>
+            <Phone style={{ color: 'var(--sky-blue)' }} size={24} />
           </div>
-          <h4 className="font-bold text-gray-800 mb-2">Phone Support</h4>
-          <p className="text-gray-600 text-sm mb-3">For urgent matters</p>
-          <a href="tel:+18005551234" className="text-gray-800 hover:text-blue-600 font-medium text-lg">
+          <h4 className="font-bold mb-2" style={{ color: 'var(--black-color)' }}>Phone Support</h4>
+          <p className="text-sm mb-3" style={{ color: 'var(--gray-color)' }}>For urgent matters</p>
+          <a href="tel:+18005551234" className="font-medium text-lg" style={{ color: 'var(--black-color)' }}>
             +1 (800) 555-1234
           </a>
-          <p className="text-gray-500 text-xs mt-2">Mon-Fri, 9AM-6PM EST</p>
+          <p className="text-xs mt-2" style={{ color: 'var(--gray-color)' }}>Mon-Fri, 9AM-6PM EST</p>
         </div>
         
         <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-          <div className="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Home className="text-purple-600" size={24} />
+          <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: 'rgba(0,173,181,0.2)' }}>
+            <Home style={{ color: 'var(--sky-blue)' }} size={24} />
           </div>
-          <h4 className="font-bold text-gray-800 mb-2">Office Address</h4>
-          <p className="text-gray-600 text-sm mb-3">Visit our headquarters</p>
-          <address className="text-gray-700 not-italic">
+          <h4 className="font-bold mb-2" style={{ color: 'var(--black-color)' }}>Office Address</h4>
+          <p className="text-sm mb-3" style={{ color: 'var(--gray-color)' }}>Visit our headquarters</p>
+          <address className="not-italic" style={{ color: 'var(--gray-color)' }}>
             123 Commerce Street<br />
             New York, NY 10001<br />
             United States
@@ -372,17 +367,18 @@ const DownloadSection: React.FC = () => {
       <div className="flex flex-col md:flex-row items-center justify-between">
         <div className="mb-4 md:mb-0">
           <div className="flex items-center mb-2">
-            <FileText size={24} className="text-blue-600 mr-3" />
-            <h3 className="text-xl font-bold text-gray-800">Download Full Policy</h3>
+            <FileText size={24} className="mr-3" style={{ color: 'var(--sky-blue)' }} />
+            <h3 className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>Download Full Policy</h3>
           </div>
-          <p className="text-gray-600">Get a printable PDF version of this policy document</p>
+          <p style={{ color: 'var(--gray-color)' }}>Get a printable PDF version of this policy document</p>
         </div>
         
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleDownload}
             disabled={downloading}
-            className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:-translate-y-0.5 shadow-md flex items-center justify-center"
+            className="px-6 py-3 text-white rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md flex items-center justify-center"
+            style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}
           >
             {downloading ? (
               <>
@@ -397,7 +393,7 @@ const DownloadSection: React.FC = () => {
             )}
           </button>
           
-          <button className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all flex items-center justify-center">
+          <button className="px-6 py-3 border rounded-lg hover:bg-gray-50 transition-all flex items-center justify-center" style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}>
             <ExternalLink size={20} className="mr-2" />
             Print Version
           </button>
@@ -405,23 +401,23 @@ const DownloadSection: React.FC = () => {
       </div>
       
       <div className="mt-6 pt-6 border-t border-gray-200">
-        <h4 className="font-medium text-gray-800 mb-3">Document Details</h4>
+        <h4 className="font-medium mb-3" style={{ color: 'var(--black-color)' }}>Document Details</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="text-center p-3 bg-gray-50 rounded-lg">
-            <div className="text-sm text-gray-600">File Size</div>
-            <div className="font-bold text-gray-800">2.4 MB</div>
+          <div className="text-center p-3 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
+            <div className="text-sm" style={{ color: 'var(--gray-color)' }}>File Size</div>
+            <div className="font-bold" style={{ color: 'var(--black-color)' }}>2.4 MB</div>
           </div>
-          <div className="text-center p-3 bg-gray-50 rounded-lg">
-            <div className="text-sm text-gray-600">Pages</div>
-            <div className="font-bold text-gray-800">12</div>
+          <div className="text-center p-3 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
+            <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Pages</div>
+            <div className="font-bold" style={{ color: 'var(--black-color)' }}>12</div>
           </div>
-          <div className="text-center p-3 bg-gray-50 rounded-lg">
-            <div className="text-sm text-gray-600">Format</div>
-            <div className="font-bold text-gray-800">PDF</div>
+          <div className="text-center p-3 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
+            <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Format</div>
+            <div className="font-bold" style={{ color: 'var(--black-color)' }}>PDF</div>
           </div>
-          <div className="text-center p-3 bg-gray-50 rounded-lg">
-            <div className="text-sm text-gray-600">Version</div>
-            <div className="font-bold text-gray-800">3.2</div>
+          <div className="text-center p-3 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
+            <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Version</div>
+            <div className="font-bold" style={{ color: 'var(--black-color)' }}>3.2</div>
           </div>
         </div>
       </div>
@@ -605,13 +601,13 @@ export const PrivacyPolicyPage: React.FC = () => {
           <div className="lg:w-3/4">
             {/* Introduction */}
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Introduction</h2>
-              <p className="text-gray-600 mb-4">
+              <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--black-color)' }}>Introduction</h2>
+              <p className="mb-4" style={{ color: 'var(--gray-color)' }}>
                 At ShopCart, we are committed to protecting your privacy and ensuring the security of your personal information. 
                 This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website 
                 or use our services.
               </p>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--gray-color)' }}>
                 By accessing or using our services, you acknowledge that you have read and understood this Privacy Policy. 
                 If you do not agree with our policies and practices, please do not use our services.
               </p>
@@ -630,10 +626,10 @@ export const PrivacyPolicyPage: React.FC = () => {
             {/* International Data Transfers */}
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
               <div className="flex items-start mb-4">
-                <Globe className="text-blue-600 mr-3 mt-1" size={24} />
+                <Globe className="mr-3 mt-1" size={24} style={{ color: 'var(--sky-blue)' }} />
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">International Data Transfers</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>International Data Transfers</h3>
+                  <p style={{ color: 'var(--gray-color)' }}>
                     Your information may be transferred to and processed in countries other than your own. 
                     We ensure appropriate safeguards are in place to protect your data in accordance with 
                     applicable data protection laws, including the use of standard contractual clauses approved 
@@ -644,16 +640,16 @@ export const PrivacyPolicyPage: React.FC = () => {
             </div>
             
             {/* Policy Updates */}
-            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
+            <div className="rounded-xl p-6 mb-8" style={{ backgroundColor: 'rgba(0,173,181,0.1)', border: '1px solid var(--sky-blue)' }}>
               <div className="flex items-start">
-                <AlertCircle className="text-yellow-600 mr-3 mt-1" size={24} />
+                <AlertCircle className="mr-3 mt-1" size={24} style={{ color: 'var(--sky-blue)' }} />
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Policy Updates</h3>
-                  <p className="text-gray-700 mb-3">
+                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Policy Updates</h3>
+                  <p className="mb-3" style={{ color: 'var(--gray-color)' }}>
                     We may update this Privacy Policy from time to time. We will notify you of any changes by 
                     posting the new Privacy Policy on this page and updating the "Last Updated" date at the top.
                   </p>
-                  <p className="text-gray-700">
+                  <p style={{ color: 'var(--gray-color)' }}>
                     We encourage you to review this Privacy Policy periodically for any changes. Changes to this 
                     Privacy Policy are effective when they are posted on this page.
                   </p>
@@ -673,14 +669,14 @@ export const PrivacyPolicyPage: React.FC = () => {
         </div>
         
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-sm" style={{ color: 'var(--gray-color)' }}>
           <p>© 2023 ShopCart. All rights reserved. | 
-            <a href="/terms" className="text-blue-600 hover:underline mx-2">Terms of Service</a> | 
-            <a href="/shipping" className="text-blue-600 hover:underline mx-2">Shipping Policy</a> | 
-            <a href="/returns" className="text-blue-600 hover:underline mx-2">Return Policy</a>
+            <a href="/terms" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Terms of Service</a> | 
+            <a href="/shipping" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Shipping Policy</a> | 
+            <a href="/returns" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Return Policy</a>
           </p>
           <p className="mt-2">For questions about this policy, contact: 
-            <a href="mailto:privacy@shopcart.com" className="text-blue-600 hover:underline ml-1">
+            <a href="mailto:privacy@shopcart.com" className="hover:underline ml-1" style={{ color: 'var(--sky-blue)' }}>
               privacy@shopcart.com
             </a>
           </p>
@@ -798,7 +794,7 @@ export const TermsOfServicePage: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <PolicyHeader
           title="Terms of Service"
@@ -825,13 +821,13 @@ export const TermsOfServicePage: React.FC = () => {
           <div className="lg:w-3/4">
             {/* Introduction */}
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Welcome to ShopCart</h2>
-              <p className="text-gray-600 mb-4">
+              <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--black-color)' }}>Welcome to ShopCart</h2>
+              <p className="mb-4" style={{ color: 'var(--gray-color)' }}>
                 These Terms of Service govern your use of the ShopCart website and services. By accessing or using our services, 
                 you agree to be bound by these terms. If you do not agree to these terms, please do not use our services.
               </p>
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="text-blue-700 text-sm">
+              <div className="p-4 rounded-lg" style={{ backgroundColor: 'rgba(0,173,181,0.1)' }}>
+                <p className="text-sm" style={{ color: 'var(--sky-blue)' }}>
                   <strong>Important:</strong> These terms contain important information about your legal rights, 
                   remedies, and obligations. Please read them carefully.
                 </p>
@@ -850,24 +846,24 @@ export const TermsOfServicePage: React.FC = () => {
             
             {/* Governing Law */}
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Governing Law</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--black-color)' }}>Governing Law</h3>
+              <p className="mb-4" style={{ color: 'var(--gray-color)' }}>
                 These Terms shall be governed and construed in accordance with the laws of the State of New York, 
                 United States, without regard to its conflict of law provisions.
               </p>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--gray-color)' }}>
                 Any disputes arising from these Terms or your use of our services shall be resolved in the state 
                 or federal courts located in New York County, New York.
               </p>
             </div>
             
             {/* Changes to Terms */}
-            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
+            <div className="rounded-xl p-6 mb-8" style={{ backgroundColor: 'rgba(0,173,181,0.1)', border: '1px solid var(--sky-blue)' }}>
               <div className="flex items-start">
-                <AlertCircle className="text-yellow-600 mr-3 mt-1" size={24} />
+                <AlertCircle className="mr-3 mt-1" size={24} style={{ color: 'var(--sky-blue)' }} />
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Changes to Terms</h3>
-                  <p className="text-gray-700">
+                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Changes to Terms</h3>
+                  <p style={{ color: 'var(--gray-color)' }}>
                     We reserve the right to modify or replace these Terms at any time. If a revision is material, 
                     we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes 
                     a material change will be determined at our sole discretion.
@@ -888,11 +884,11 @@ export const TermsOfServicePage: React.FC = () => {
         </div>
         
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-sm" style={{ color: 'var(--gray-color)' }}>
           <p>© 2023 ShopCart. All rights reserved. | 
-            <a href="/privacy" className="text-blue-600 hover:underline mx-2">Privacy Policy</a> | 
-            <a href="/shipping" className="text-blue-600 hover:underline mx-2">Shipping Policy</a> | 
-            <a href="/returns" className="text-blue-600 hover:underline mx-2">Return Policy</a>
+            <a href="/privacy" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Privacy Policy</a> | 
+            <a href="/shipping" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Shipping Policy</a> | 
+            <a href="/returns" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Return Policy</a>
           </p>
         </footer>
       </div>
@@ -1035,7 +1031,7 @@ export const ShippingPolicyPage: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <PolicyHeader
           title="Shipping Policy"
@@ -1059,14 +1055,14 @@ export const ShippingPolicyPage: React.FC = () => {
             
             {/* Shipping Partners */}
             <div className="bg-white rounded-xl shadow-md p-6 mt-8">
-              <h3 className="font-bold text-gray-800 mb-4">Our Shipping Partners</h3>
+              <h3 className="font-bold mb-4" style={{ color: 'var(--black-color)' }}>Our Shipping Partners</h3>
               <div className="space-y-3">
                 {shippingMethods.map((carrier, index) => (
-                  <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
+                  <div key={index} className="flex items-center p-3 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
                     <span className="text-2xl mr-3">{carrier.icon}</span>
                     <div>
-                      <div className="font-medium text-gray-800">{carrier.name}</div>
-                      <div className="text-sm text-gray-600">{carrier.coverage}</div>
+                      <div className="font-medium" style={{ color: 'var(--black-color)' }}>{carrier.name}</div>
+                      <div className="text-sm" style={{ color: 'var(--gray-color)' }}>{carrier.coverage}</div>
                     </div>
                   </div>
                 ))}
@@ -1077,13 +1073,13 @@ export const ShippingPolicyPage: React.FC = () => {
           {/* Right Column */}
           <div className="lg:w-3/4">
             {/* Shipping Calculator */}
-            <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
+            <div className="rounded-2xl p-8 mb-8" style={{ background: 'linear-gradient(to right, var(--background-alt), var(--white-color))' }}>
               <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="mb-4 md:mb-0">
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Shipping Calculator</h3>
-                  <p className="text-gray-600">Estimate shipping costs and delivery times</p>
+                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Shipping Calculator</h3>
+                  <p style={{ color: 'var(--gray-color)' }}>Estimate shipping costs and delivery times</p>
                 </div>
-                <button className="px-6 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all">
+                <button className="px-6 py-3 text-white rounded-lg transition-all" style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}>
                   Calculate Shipping
                 </button>
               </div>
@@ -1101,10 +1097,10 @@ export const ShippingPolicyPage: React.FC = () => {
             
             {/* Shipping Timeline */}
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-6">Shipping Timeline</h3>
+              <h3 className="text-xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>Shipping Timeline</h3>
               <div className="relative">
                 {/* Timeline Line */}
-                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-blue-200"></div>
+                <div className="absolute left-4 top-0 bottom-0 w-0.5" style={{ backgroundColor: 'var(--sky-blue)' }}></div>
                 
                 {/* Timeline Items */}
                 {[
@@ -1116,15 +1112,15 @@ export const ShippingPolicyPage: React.FC = () => {
                   { step: 'Delivered', time: 'Day 5-9', icon: '✅' }
                 ].map((item, index) => (
                   <div key={index} className="flex items-center mb-8 relative">
-                    <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center z-10 mr-4">
+                    <div className="w-8 h-8 rounded-full text-white flex items-center justify-center z-10 mr-4" style={{ backgroundColor: 'var(--sky-blue)' }}>
                       {item.icon}
                     </div>
-                    <div className="flex-1 bg-gray-50 p-4 rounded-lg">
+                    <div className="flex-1 p-4 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
                       <div className="flex justify-between items-center">
-                        <h4 className="font-bold text-gray-800">{item.step}</h4>
-                        <span className="text-sm font-medium text-blue-600">{item.time}</span>
+                        <h4 className="font-bold" style={{ color: 'var(--black-color)' }}>{item.step}</h4>
+                        <span className="text-sm font-medium" style={{ color: 'var(--sky-blue)' }}>{item.time}</span>
                       </div>
-                      <p className="text-gray-600 text-sm mt-1">
+                      <p className="text-sm mt-1" style={{ color: 'var(--gray-color)' }}>
                         {index === 0 && 'Your order is received and confirmed'}
                         {index === 1 && 'We prepare your items for shipment'}
                         {index === 2 && 'Package is handed off to carrier'}
@@ -1150,11 +1146,11 @@ export const ShippingPolicyPage: React.FC = () => {
         </div>
         
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-sm" style={{ color: 'var(--gray-color)' }}>
           <p>© 2023 ShopCart. All rights reserved. | 
-            <a href="/privacy" className="text-blue-600 hover:underline mx-2">Privacy Policy</a> | 
-            <a href="/terms" className="text-blue-600 hover:underline mx-2">Terms of Service</a> | 
-            <a href="/returns" className="text-blue-600 hover:underline mx-2">Return Policy</a>
+            <a href="/privacy" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Privacy Policy</a> | 
+            <a href="/terms" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Terms of Service</a> | 
+            <a href="/returns" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Return Policy</a>
           </p>
         </footer>
       </div>
@@ -1306,7 +1302,7 @@ export const ReturnPolicyPage: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <PolicyHeader
           title="Return & Refund Policy"
@@ -1330,14 +1326,14 @@ export const ReturnPolicyPage: React.FC = () => {
             
             {/* Quick Return Guide */}
             <div className="bg-white rounded-xl shadow-md p-6 mt-8">
-              <h3 className="font-bold text-gray-800 mb-4">Common Return Reasons</h3>
+              <h3 className="font-bold mb-4" style={{ color: 'var(--black-color)' }}>Common Return Reasons</h3>
               <div className="space-y-3">
                 {returnReasons.map((item, index) => (
-                  <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
+                  <div key={index} className="flex items-center p-3 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
                     <span className="text-2xl mr-3">{item.icon}</span>
                     <div className="flex-1">
-                      <div className="font-medium text-gray-800">{item.reason}</div>
-                      <div className="text-sm text-gray-600">Return within: {item.timeframe}</div>
+                      <div className="font-medium" style={{ color: 'var(--black-color)' }}>{item.reason}</div>
+                      <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Return within: {item.timeframe}</div>
                     </div>
                   </div>
                 ))}
@@ -1349,21 +1345,21 @@ export const ReturnPolicyPage: React.FC = () => {
           <div className="lg:w-3/4">
             {/* Return Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <div className="bg-blue-50 p-4 rounded-xl text-center">
-                <div className="text-2xl font-bold text-blue-700">30</div>
-                <div className="text-sm text-gray-600">Day Return Window</div>
+              <div className="p-4 rounded-xl text-center" style={{ backgroundColor: 'rgba(0,173,181,0.1)' }}>
+                <div className="text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>30</div>
+                <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Day Return Window</div>
               </div>
-              <div className="bg-green-50 p-4 rounded-xl text-center">
-                <div className="text-2xl font-bold text-green-700">Free</div>
-                <div className="text-sm text-gray-600">Return Shipping</div>
+              <div className="p-4 rounded-xl text-center" style={{ backgroundColor: 'rgba(0,173,181,0.15)' }}>
+                <div className="text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>Free</div>
+                <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Return Shipping</div>
               </div>
-              <div className="bg-purple-50 p-4 rounded-xl text-center">
-                <div className="text-2xl font-bold text-purple-700">5-10</div>
-                <div className="text-sm text-gray-600">Business Day Refund</div>
+              <div className="p-4 rounded-xl text-center" style={{ backgroundColor: 'rgba(0,173,181,0.1)' }}>
+                <div className="text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>5-10</div>
+                <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Business Day Refund</div>
               </div>
-              <div className="bg-orange-50 p-4 rounded-xl text-center">
-                <div className="text-2xl font-bold text-orange-700">24/7</div>
-                <div className="text-sm text-gray-600">Online Returns</div>
+              <div className="p-4 rounded-xl text-center" style={{ backgroundColor: 'rgba(0,173,181,0.15)' }}>
+                <div className="text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>24/7</div>
+                <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Online Returns</div>
               </div>
             </div>
             
@@ -1378,14 +1374,14 @@ export const ReturnPolicyPage: React.FC = () => {
             ))}
             
             {/* Start Return Button */}
-            <div className="bg-linear-to-r from-green-50 to-emerald-50 rounded-2xl p-8 mb-8 text-center">
-              <RefreshCw size={48} className="text-green-600 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Ready to Start a Return?</h3>
-              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            <div className="rounded-2xl p-8 mb-8 text-center" style={{ background: 'linear-gradient(to right, var(--background-alt), var(--white-color))' }}>
+              <RefreshCw size={48} className="mx-auto mb-4" style={{ color: 'var(--sky-blue)' }} />
+              <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Ready to Start a Return?</h3>
+              <p className="mb-6 max-w-2xl mx-auto" style={{ color: 'var(--gray-color)' }}>
                 Use our online return portal for a quick and easy return process. 
                 Generate a prepaid shipping label and track your return every step of the way.
               </p>
-              <button className="px-8 py-3 bg-linear-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all transform hover:-translate-y-0.5 shadow-md">
+              <button className="px-8 py-3 text-white rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md" style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}>
                 Start Return Process
               </button>
             </div>
@@ -1402,11 +1398,11 @@ export const ReturnPolicyPage: React.FC = () => {
         </div>
         
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-sm" style={{ color: 'var(--gray-color)' }}>
           <p>© 2023 ShopCart. All rights reserved. | 
-            <a href="/privacy" className="text-blue-600 hover:underline mx-2">Privacy Policy</a> | 
-            <a href="/terms" className="text-blue-600 hover:underline mx-2">Terms of Service</a> | 
-            <a href="/shipping" className="text-blue-600 hover:underline mx-2">Shipping Policy</a>
+            <a href="/privacy" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Privacy Policy</a> | 
+            <a href="/terms" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Terms of Service</a> | 
+            <a href="/shipping" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Shipping Policy</a>
           </p>
         </footer>
       </div>
@@ -1516,7 +1512,7 @@ export const CookiePolicyPage: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <PolicyHeader
           title="Cookie Policy"
@@ -1540,27 +1536,27 @@ export const CookiePolicyPage: React.FC = () => {
             
             {/* Cookie Settings */}
             <div className="bg-white rounded-xl shadow-md p-6 mt-8">
-              <h3 className="font-bold text-gray-800 mb-4">Cookie Settings</h3>
+              <h3 className="font-bold mb-4" style={{ color: 'var(--black-color)' }}>Cookie Settings</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-700">Essential Cookies</span>
-                  <div className="w-12 h-6 bg-blue-600 rounded-full relative">
+                  <span style={{ color: 'var(--gray-color)' }}>Essential Cookies</span>
+                  <div className="w-12 h-6 rounded-full relative" style={{ backgroundColor: 'var(--sky-blue)' }}>
                     <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-700">Analytics Cookies</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Analytics Cookies</span>
                   <div className="w-12 h-6 bg-gray-300 rounded-full relative">
                     <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-700">Marketing Cookies</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Marketing Cookies</span>
                   <div className="w-12 h-6 bg-gray-300 rounded-full relative">
                     <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
                   </div>
                 </div>
-                <button className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                <button className="w-full mt-4 px-4 py-2 text-white rounded-lg" style={{ backgroundColor: 'var(--sky-blue)' }}>
                   Save Preferences
                 </button>
               </div>
@@ -1570,23 +1566,23 @@ export const CookiePolicyPage: React.FC = () => {
           {/* Right Column */}
           <div className="lg:w-3/4">
             {/* Cookie Consent Banner */}
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
+            <div className="rounded-xl p-6 mb-8" style={{ backgroundColor: 'rgba(0,173,181,0.1)', border: '1px solid var(--sky-blue)' }}>
               <div className="flex items-start">
-                <Cookie className="text-blue-600 mr-3 mt-1" size={24} />
+                <Cookie className="mr-3 mt-1" size={24} style={{ color: 'var(--sky-blue)' }} />
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Your Cookie Preferences</h3>
-                  <p className="text-gray-700 mb-4">
+                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Your Cookie Preferences</h3>
+                  <p className="mb-4" style={{ color: 'var(--gray-color)' }}>
                     We use cookies to enhance your browsing experience. By clicking "Accept All", you consent to 
                     our use of cookies. You can manage your preferences at any time by clicking "Cookie Settings".
                   </p>
                   <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <button className="px-4 py-2 text-white rounded-lg" style={{ backgroundColor: 'var(--sky-blue)' }}>
                       Accept All
                     </button>
-                    <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                    <button className="px-4 py-2 border rounded-lg hover:bg-gray-50" style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}>
                       Cookie Settings
                     </button>
-                    <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                    <button className="px-4 py-2 border rounded-lg hover:bg-gray-50" style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}>
                       Reject All
                     </button>
                   </div>
@@ -1606,31 +1602,25 @@ export const CookiePolicyPage: React.FC = () => {
             
             {/* Cookie Details Table */}
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-6">Detailed Cookie List</h3>
+              <h3 className="text-xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>Detailed Cookie List</h3>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-gray-50">
-                      <th className="text-left p-3 text-gray-700 font-medium">Cookie Name</th>
-                      <th className="text-left p-3 text-gray-700 font-medium">Purpose</th>
-                      <th className="text-left p-3 text-gray-700 font-medium">Duration</th>
-                      <th className="text-left p-3 text-gray-700 font-medium">Type</th>
+                    <tr style={{ backgroundColor: 'var(--background-alt)' }}>
+                      <th className="text-left p-3 font-medium" style={{ color: 'var(--gray-color)' }}>Cookie Name</th>
+                      <th className="text-left p-3 font-medium" style={{ color: 'var(--gray-color)' }}>Purpose</th>
+                      <th className="text-left p-3 font-medium" style={{ color: 'var(--gray-color)' }}>Duration</th>
+                      <th className="text-left p-3 font-medium" style={{ color: 'var(--gray-color)' }}>Type</th>
                     </tr>
                   </thead>
                   <tbody>
                     {cookieList.map((cookie, index) => (
                       <tr key={index} className="border-b border-gray-200 hover:bg-gray-50">
                         <td className="p-3 font-mono text-sm">{cookie.name}</td>
-                        <td className="p-3 text-gray-600">{cookie.purpose}</td>
-                        <td className="p-3 text-gray-600">{cookie.duration}</td>
+                        <td className="p-3" style={{ color: 'var(--gray-color)' }}>{cookie.purpose}</td>
+                        <td className="p-3" style={{ color: 'var(--gray-color)' }}>{cookie.duration}</td>
                         <td className="p-3">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            cookie.type === 'Essential' 
-                              ? 'bg-blue-100 text-blue-800'
-                              : cookie.type === 'Analytics'
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-purple-100 text-purple-800'
-                          }`}>
+                          <span className="px-3 py-1 rounded-full text-xs font-medium" style={{ backgroundColor: 'rgba(0,173,181,0.2)', color: 'var(--sky-blue)' }}>
                             {cookie.type}
                           </span>
                         </td>
@@ -1653,10 +1643,10 @@ export const CookiePolicyPage: React.FC = () => {
         </div>
         
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+        <footer className="mt-12 pt-8 border-t border-gray-200 text-center text-sm" style={{ color: 'var(--gray-color)' }}>
           <p>© 2023 ShopCart. All rights reserved. | 
-            <a href="/privacy" className="text-blue-600 hover:underline mx-2">Privacy Policy</a> | 
-            <a href="/terms" className="text-blue-600 hover:underline mx-2">Terms of Service</a>
+            <a href="/privacy" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Privacy Policy</a> | 
+            <a href="/terms" className="hover:underline mx-2" style={{ color: 'var(--sky-blue)' }}>Terms of Service</a>
           </p>
         </footer>
       </div>
@@ -1731,11 +1721,12 @@ export const PolicyHubPage: React.FC = () => {
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto mb-12">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={24} />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2" size={24} style={{ color: 'var(--gray-color)' }} />
             <input
               type="text"
               placeholder="Search policies and terms..."
-              className="w-full pl-12 pr-4 py-4 text-lg border border-gray-300 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500"
+              className="w-full pl-12 pr-4 py-4 text-lg rounded-2xl focus:outline-none focus:ring-4"
+              style={{ border: '1px solid var(--gray-color)' }}
             />
           </div>
         </div>
@@ -1762,11 +1753,11 @@ export const PolicyHubPage: React.FC = () => {
               
               {/* Card Body */}
               <div className="p-6">
-                <h4 className="font-bold text-gray-800 mb-3">Key Topics:</h4>
+                <h4 className="font-bold mb-3" style={{ color: 'var(--black-color)' }}>Key Topics:</h4>
                 <ul className="space-y-2">
                   {policy.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-gray-600">
-                      <Check size={16} className="text-green-500 mr-2" />
+                    <li key={idx} className="flex items-center" style={{ color: 'var(--gray-color)' }}>
+                      <Check size={16} className="mr-2" style={{ color: 'var(--sky-blue)' }} />
                       {feature}
                     </li>
                   ))}
@@ -1774,8 +1765,8 @@ export const PolicyHubPage: React.FC = () => {
                 
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-500">Last Updated</span>
-                    <span className="text-sm font-medium text-gray-700">
+                    <span className="text-sm" style={{ color: 'var(--gray-color)' }}>Last Updated</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--black-color)' }}>
                       {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </span>
                   </div>
@@ -1786,42 +1777,42 @@ export const PolicyHubPage: React.FC = () => {
         </div>
         
         {/* Additional Resources */}
-        <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-12">
+        <div className="rounded-2xl p-8 mb-12" style={{ background: 'linear-gradient(to right, var(--background-alt), var(--white-color))' }}>
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">Need Help Understanding?</h2>
-            <p className="text-gray-600">We're here to help clarify any questions about our policies</p>
+            <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Need Help Understanding?</h2>
+            <p style={{ color: 'var(--gray-color)' }}>We're here to help clarify any questions about our policies</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-xl p-6 text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <HelpCircle className="text-blue-600" size={32} />
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: 'rgba(0,173,181,0.2)' }}>
+                <HelpCircle style={{ color: 'var(--sky-blue)' }} size={32} />
               </div>
-              <h3 className="font-bold text-gray-800 mb-2">FAQ Section</h3>
-              <p className="text-gray-600 mb-4">Find answers to common questions about our policies</p>
-              <a href="#faq" className="text-blue-600 hover:text-blue-800 font-medium">
+              <h3 className="font-bold mb-2" style={{ color: 'var(--black-color)' }}>FAQ Section</h3>
+              <p className="mb-4" style={{ color: 'var(--gray-color)' }}>Find answers to common questions about our policies</p>
+              <a href="#faq" className="font-medium" style={{ color: 'var(--sky-blue)' }}>
                 Browse FAQs →
               </a>
             </div>
             
             <div className="bg-white rounded-xl p-6 text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Mail className="text-green-600" size={32} />
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: 'rgba(0,173,181,0.2)' }}>
+                <Mail style={{ color: 'var(--sky-blue)' }} size={32} />
               </div>
-              <h3 className="font-bold text-gray-800 mb-2">Contact Legal Team</h3>
-              <p className="text-gray-600 mb-4">Get in touch with our legal department for specific questions</p>
-              <a href="mailto:legal@shopcart.com" className="text-green-600 hover:text-green-800 font-medium">
+              <h3 className="font-bold mb-2" style={{ color: 'var(--black-color)' }}>Contact Legal Team</h3>
+              <p className="mb-4" style={{ color: 'var(--gray-color)' }}>Get in touch with our legal department for specific questions</p>
+              <a href="mailto:legal@shopcart.com" className="font-medium" style={{ color: 'var(--sky-blue)' }}>
                 Email Legal →
               </a>
             </div>
             
             <div className="bg-white rounded-xl p-6 text-center">
-              <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Download className="text-purple-600" size={32} />
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: 'rgba(0,173,181,0.2)' }}>
+                <Download style={{ color: 'var(--sky-blue)' }} size={32} />
               </div>
-              <h3 className="font-bold text-gray-800 mb-2">Download All</h3>
-              <p className="text-gray-600 mb-4">Download all policy documents in a single PDF package</p>
-              <button className="text-purple-600 hover:text-purple-800 font-medium">
+              <h3 className="font-bold mb-2" style={{ color: 'var(--black-color)' }}>Download All</h3>
+              <p className="mb-4" style={{ color: 'var(--gray-color)' }}>Download all policy documents in a single PDF package</p>
+              <button className="font-medium" style={{ color: 'var(--sky-blue)' }}>
                 Download Bundle →
               </button>
             </div>
@@ -1829,16 +1820,16 @@ export const PolicyHubPage: React.FC = () => {
         </div>
         
         {/* Update Alert */}
-        <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 mb-8">
+        <div className="rounded-2xl p-6 mb-8" style={{ backgroundColor: 'rgba(0,173,181,0.1)', border: '1px solid var(--sky-blue)' }}>
           <div className="flex items-start">
-            <AlertCircle className="text-yellow-600 mr-4 mt-1" size={24} />
+            <AlertCircle className="mr-4 mt-1" size={24} style={{ color: 'var(--sky-blue)' }} />
             <div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">Policy Updates</h3>
-              <p className="text-gray-700 mb-3">
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Policy Updates</h3>
+              <p className="mb-3" style={{ color: 'var(--gray-color)' }}>
                 We periodically update our policies to reflect changes in our services, legal requirements, 
                 and industry standards. The "Last Updated" date at the top of each policy indicates when it was last revised.
               </p>
-              <p className="text-gray-700">
+              <p style={{ color: 'var(--gray-color)' }}>
                 Significant changes will be communicated to users via email or through notifications on our website.
               </p>
             </div>
@@ -1850,16 +1841,16 @@ export const PolicyHubPage: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
               <div className="flex items-center">
-                <Shield className="text-blue-600 mr-2" />
-                <span className="text-lg font-bold text-gray-800">ShopCart Policies</span>
+                <Shield className="mr-2" style={{ color: 'var(--sky-blue)' }} />
+                <span className="text-lg font-bold" style={{ color: 'var(--black-color)' }}>ShopCart Policies</span>
               </div>
-              <p className="text-gray-600 text-sm mt-1">Transparent, Fair, and Secure</p>
+              <p className="text-sm mt-1" style={{ color: 'var(--gray-color)' }}>Transparent, Fair, and Secure</p>
             </div>
             
             <div className="text-center md:text-right">
-              <p className="text-gray-500 text-sm">© 2023 ShopCart. All rights reserved.</p>
-              <p className="text-gray-500 text-sm mt-1">
-                For questions: <a href="mailto:policies@shopcart.com" className="text-blue-600 hover:underline">
+              <p className="text-sm" style={{ color: 'var(--gray-color)' }}>© 2023 ShopCart. All rights reserved.</p>
+              <p className="text-sm mt-1" style={{ color: 'var(--gray-color)' }}>
+                For questions: <a href="mailto:policies@shopcart.com" className="hover:underline" style={{ color: 'var(--sky-blue)' }}>
                   policies@shopcart.com
                 </a>
               </p>

@@ -369,7 +369,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
           className="absolute inset-0 md:inset-x-auto md:top-20 md:left-1/2 md:transform md:-translate-x-1/2 md:w-full md:max-w-3xl md:max-h-[80vh]"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="h-full flex flex-col bg-white/95 backdrop-blur-sm md:rounded-2xl md:shadow-2xl md:border md:border-gray-200/50 overflow-hidden">
+          <div className="h-full flex flex-col backdrop-blur-sm md:rounded-2xl md:shadow-2xl overflow-hidden" style={{ backgroundColor: 'var(--white-color)' }}>
             {/* Search Header */}
             <div className="p-4 border-b border-gray-200">
               <div className="relative">
@@ -391,7 +391,8 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
                   value={searchQuery}
                   onChange={handleSearchChange}
                   placeholder="Search for services, products, or articles..."
-                  className="w-full pl-12 pr-24 py-3 text-base bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-12 pr-24 py-3 text-base border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
+                  style={{ backgroundColor: 'var(--white-color)', borderColor: 'var(--gray-color)', '--tw-ring-color': 'var(--sky-blue)' } as any}
                   autoComplete="off"
                   spellCheck="false"
                   aria-label="Search"
@@ -434,16 +435,16 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
               {error ? (
                 // Error State
                 <div className="p-8 text-center">
-                  <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-red-100 rounded-full">
-                    <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)' }}>
+                    <svg className="w-6 h-6" style={{ color: '#ef4444' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Search Error</h3>
-                  <p className="text-gray-600 mb-4">{error}</p>
+                  <h3 className="card-title text-lg mb-2">Search Error</h3>
+                  <p className="card-desc mb-4">{error}</p>
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="btn-primary"
                   >
                     Try Again
                   </button>
@@ -452,9 +453,9 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
                 // Search Results
                 <div>
                   {/* Results Header */}
-                  <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                  <div className="px-6 py-4 border-b" style={{ backgroundColor: 'var(--background-alt)' }}>
                     <div className="flex justify-between items-center">
-                      <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                      <h3 className="text-sm font-semibold text-gray uppercase tracking-wider">
                         {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} found
                       </h3>
                       <span className="text-sm text-gray-500">
@@ -470,19 +471,26 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
                         key={`${result.id}-${index}`}
                         data-search-result
                         onClick={() => handleResultClick(result)}
-                        className="w-full text-left px-6 py-4 hover:bg-gray-50/80 transition-colors group focus:outline-none focus:bg-blue-50"
+                        className="w-full text-left px-6 py-4 transition-colors group focus:outline-none"
+                        style={{
+                          '--hover-bg': 'rgba(0, 173, 181, 0.05)',
+                          '--focus-bg': 'rgba(0, 173, 181, 0.1)'
+                        } as any}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--hover-bg)'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                        onFocus={(e) => e.currentTarget.style.backgroundColor = 'var(--focus-bg)'}
                         tabIndex={0}
                       >
                         <div className="flex items-start gap-4">
                           {/* Icon */}
-                          <div className="w-12 h-12 shrink-0 flex items-center justify-center rounded-lg bg-blue-50">
+                          <div className="w-12 h-12 shrink-0 flex items-center justify-center rounded-lg" style={{ backgroundColor: 'rgba(0, 173, 181, 0.1)' }}>
                             <span className="text-xl">{getResultIcon(result.type)}</span>
                           </div>
 
                           {/* Content */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
-                              <h4 className="text-base font-semibold text-gray-900 group-hover:text-blue-600 truncate">
+                              <h4 className="text-base font-semibold text-dark truncate">
                                 {result.title}
                               </h4>
                               <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded">
@@ -539,13 +547,13 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
               ) : searchQuery && !isLoading ? (
                 // No Results
                 <div className="p-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gray-100 rounded-full">
-                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full" style={{ backgroundColor: 'var(--background-alt)' }}>
+                    <svg className="w-8 h-8 text-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">No results found</h3>
-                  <p className="text-gray-600 mb-4">
+                  <h3 className="card-title text-lg mb-2">No results found</h3>
+                  <p className="card-desc mb-4">
                     Try different keywords or check out our popular searches
                   </p>
                   {popularSearches.length > 0 && (
@@ -569,7 +577,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
                   {searchHistory.length > 0 && (
                     <div className="p-6">
                       <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                        <h3 className="text-sm font-semibold text-gray uppercase tracking-wider">
                           Recent Searches
                         </h3>
                         <button
@@ -611,7 +619,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
                   {/* Popular Searches */}
                   {popularSearches.length > 0 && (
                     <div className="p-6">
-                      <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-4">
+                      <h3 className="text-sm font-semibold text-gray uppercase tracking-wider mb-4">
                         Popular Searches
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -639,7 +647,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
                   {/* Search Suggestions */}
                   {suggestions.length > 0 && (
                     <div className="p-6">
-                      <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-4">
+                      <h3 className="text-sm font-semibold text-gray uppercase tracking-wider mb-4">
                         You might be looking for
                       </h3>
                       <div className="space-y-2">
@@ -665,8 +673,8 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Footer */}
-            <div className="border-t border-gray-200 bg-gray-50 p-4">
-              <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-500">
+            <div className="border-t p-4" style={{ backgroundColor: 'var(--background-alt)' }}>
+              <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray">
                 <div className="flex items-center gap-1">
                   <kbd className="px-1.5 py-0.5 bg-white border border-gray-300 rounded text-xs">↑↓</kbd>
                   <span>Navigate</span>

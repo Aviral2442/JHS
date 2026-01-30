@@ -17,7 +17,7 @@ const ReturnPolicyPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <PolicyHeader title="Return & Refund Policy" description="Our hassle-free return policy ensures you can shop with confidence." icon={<RefreshCw size={32} />} />
 

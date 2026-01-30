@@ -384,7 +384,7 @@ const mainMenuItems = [
 const TopBar: React.FC = () => {
 
   return (
-    <div className="bg-linear-to-r from-blue-900 to-indigo-900 text-white text-sm py-2 hidden md:block">
+    <div className="bg-[#00ADB5] text-white text-sm py-2 hidden md:block" style={{ background: "linear-gradient(to bottom right, var(--sky-blue), var(--gray-color))"}}>
       <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-6">
@@ -491,7 +491,7 @@ const MainHeader: React.FC<{
             <div className="hidden md:flex items-center space-x-2">
               <button
                 onClick={() => navigate("/sign-in")}
-                className="px-4 flex justify-center items-center py-2 bg-linear-to-r from-blue-500 to-cyan-500 rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all shadow-sm"
+                className="px-4 flex justify-center items-center py-2 rounded-lg btn-color transition-all shadow-sm"
               >
                 <User size={18} className="mr-1" />
                 Login

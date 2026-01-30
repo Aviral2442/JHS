@@ -395,9 +395,8 @@ const FeatureCard = ({ item }: { item: Feature }) => {
                     {item.category}
                 </span> */}
         <h3
-          className={`text-3xl font-bold ${
-            item.highlight ? "text-blue-900" : "text-slate-900"
-          }`}
+          className="text-3xl font-bold"
+          style={{ color: item.highlight ? 'var(--sky-blue)' : 'var(--black-color)' }}
         >
           {item.title}
         </h3>
@@ -414,28 +413,22 @@ const FeatureCard = ({ item }: { item: Feature }) => {
                     )}
                 </div> */}
 
-        <p className="text-slate-600 text-base leading-relaxed">{item.desc}</p>
+        <p className="text-base leading-relaxed" style={{ color: 'var(--gray-color)' }}>{item.desc}</p>
       </div>
 
       {/* Tab Navigation */}
-      <div className="border-b border-slate-200 mb-4">
+      <div className="border-b mb-4" style={{ borderColor: 'var(--background-alt)' }}>
         <nav className="flex gap-8 overflow-x-auto scrollbar-hide">
           {item.tabs.map((tab, index) => (
             <button
               key={index}
               onClick={() => setActiveTab(index)}
-              className={`
-                                pb-3 px-2 text-sm font-semibold whitespace-nowrap transition-colors relative
-                                ${
-                                  activeTab === index
-                                    ? "text-blue-600"
-                                    : "text-slate-500 hover:text-slate-700"
-                                }
-                            `}
+              className="pb-3 px-2 text-sm font-semibold whitespace-nowrap transition-colors relative"
+              style={{ color: activeTab === index ? 'var(--sky-blue)' : 'var(--gray-color)' }}
             >
               {tab}
               {activeTab === index && (
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t" />
+                <div className="absolute bottom-0 left-0 right-0 h-1 rounded-t" style={{ backgroundColor: 'var(--sky-blue)' }} />
               )}
             </button>
           ))}
@@ -448,10 +441,10 @@ const FeatureCard = ({ item }: { item: Feature }) => {
         {needsScroll && canScrollLeft && (
           <button
             onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white shadow-xl rounded-full p-3 hover:bg-gray-50 transition-all hover:scale-110"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white shadow-xl rounded-full p-3 transition-all hover:scale-110"
             aria-label="Scroll left"
           >
-            <ChevronLeft className="w-6 h-6 text-gray-700" />
+            <ChevronLeft className="w-6 h-6" style={{ color: 'var(--gray-color)' }} />
           </button>
         )}
 
@@ -459,10 +452,10 @@ const FeatureCard = ({ item }: { item: Feature }) => {
         {needsScroll && canScrollRight && (
           <button
             onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white shadow-xl rounded-full p-3 hover:bg-gray-50 transition-all hover:scale-110"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white shadow-xl rounded-full p-3 transition-all hover:scale-110"
             aria-label="Scroll right"
           >
-            <ChevronRight className="w-6 h-6 text-gray-700" />
+            <ChevronRight className="w-6 h-6" style={{ color: 'var(--gray-color)' }} />
           </button>
         )}
 
@@ -488,22 +481,15 @@ const FeatureCard = ({ item }: { item: Feature }) => {
           }}
         >
           {filteredSubcards.length === 0 ? (
-            <div className="w-full text-center text-sm text-slate-500 py-8">
+            <div className="w-full text-center text-sm py-8" style={{ color: 'var(--gray-color)' }}>
               No items available in this category.
             </div>
           ) : (
             filteredSubcards.map((subcard, index) => (
               <div
                 key={index}
-                className={`
-                                bg-slate-50 rounded-2xl p-4 hover:shadow-lg transition-all cursor-pointer 
-                                border border-slate-100 hover:border-blue-200 relative group max-w-50 shrink-0 snap-start
-                                // ${
-                                  needsScroll
-                                    ? "max-w-50 shrink-0 snap-start"
-                                    : ""
-                                }
-                            `}
+                className="rounded-2xl p-4 hover:shadow-lg transition-all cursor-pointer border relative group max-w-50 shrink-0 snap-start"
+                style={{ backgroundColor: 'var(--background-alt)', borderColor: 'var(--background-alt)' }}
               >
                 <div className="flex flex-col items-center text-center gap-3">
                   <img
@@ -511,7 +497,7 @@ const FeatureCard = ({ item }: { item: Feature }) => {
                     alt={subcard.title}
                     className="w-40 h-40 object-contain"
                   />
-                  <span className="text-sm font-semibold text-slate-700 group-hover:text-blue-600 transition-colors">
+                  <span className="text-sm font-semibold transition-colors" style={{ color: 'var(--gray-color)' }}>
                     {subcard.title}
                   </span>
                 </div>
@@ -572,10 +558,10 @@ export default function RazorpayStackSection() {
       <div className="relative z-10">
         {/* Page Header */}
         <div className="text-center px-4 pt-20 pb-8 flex flex-col items-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-emerald-900 mb-3">
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-3" style={{ color: 'var(--black-color)' }}>
             Plant Haven — Explore Our Collections
           </h2>
-          <p className="max-w-2xl text-slate-600 text-lg">
+          <p className="max-w-2xl text-lg" style={{ color: 'var(--gray-color)' }}>
             Discover indoor and outdoor plants, tools, and care products curated
             for every gardener. Scroll to preview featured categories and top
             picks.

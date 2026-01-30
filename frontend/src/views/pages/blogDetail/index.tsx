@@ -210,12 +210,12 @@ export const BlogDetailPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 max-w-[90%] mx-auto">
+    <div className="min-h-screen dark:bg-gray-900 max-w-[90%] mx-auto" style={{ backgroundColor: 'var(--background-alt)' }}>
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12">
           <div className="lg:col-span-12">
             {/* Article Header */}
-            <article className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <article className="bg-white dark:bg-gray-800 rounded-2xl border dark:border-gray-700 overflow-hidden" style={{ borderColor: 'var(--background-alt)' }}>
               {/* Featured Image */}
               <div className="relative h-100 md:h-125">
                 <img
@@ -255,12 +255,13 @@ export const BlogDetailPage: React.FC = () => {
               {/* Article Content */}
               <div className="p-8">
                 {/* Stats Bar */}
-                <div className="flex flex-wrap  items-center justify-between gap-4 mb-8 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
+                <div className="flex flex-wrap  items-center justify-between gap-4 mb-8 p-4 dark:bg-gray-900/50 rounded-xl" style={{ backgroundColor: 'var(--background-alt)' }}>
                   <div className="flex flex-wrap gap-2">
                     {mockBlogPost.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm"
+                        className="inline-flex items-center gap-2 px-4 py-2 dark:bg-gray-700 rounded-full text-sm"
+                        style={{ backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }}
                       >
                         <FaTag className="w-3 h-3" />
                         {tag}
@@ -269,22 +270,23 @@ export const BlogDetailPage: React.FC = () => {
                   </div>
 
                   <div className="flex items-center gap-4">
-                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                    <span className="text-sm dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
                       Share:
                     </span>
                     <div className="flex items-center gap-2">
-                      <button className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600">
+                      <button className="w-10 h-10 text-white rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--sky-blue)' }}>
                         <FaFacebook className="w-5 h-5" />
                       </button>
-                      <button className="w-10 h-10 bg-sky-500 text-white rounded-full flex items-center justify-center hover:bg-sky-600">
+                      <button className="w-10 h-10 text-white rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--sky-blue)' }}>
                         <FaTwitter className="w-5 h-5" />
                       </button>
-                      <button className="w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center hover:bg-blue-800">
+                      <button className="w-10 h-10 text-white rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--sky-blue)' }}>
                         <FaLinkedin className="w-5 h-5" />
                       </button>
                       <button
                         onClick={copyLink}
-                        className="w-10 h-10 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600"
+                        className="w-10 h-10 dark:bg-gray-700 dark:text-gray-300 rounded-full flex items-center justify-center"
+                        style={{ backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }}
                       >
                         <FaLink className="w-5 h-5" />
                       </button>
@@ -320,7 +322,8 @@ export const BlogDetailPage: React.FC = () => {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition-colors z-50"
+          className="fixed bottom-8 right-8 w-14 h-14 text-white rounded-full flex items-center justify-center shadow-lg transition-colors z-50"
+          style={{ backgroundColor: 'var(--sky-blue)' }}
           aria-label="Back to top"
         >
           <HiChevronDoubleUp className="w-6 h-6" />

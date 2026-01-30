@@ -61,16 +61,16 @@ const ForgotPasswordFlow: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(to bottom right, var(--background-alt), var(--white-color))' }}>
             <div className="w-full max-w-md">
                 <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
                     <div className="mb-8">
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>
                             {currentStep === 'method-selection' && 'Reset Password'}
                             {currentStep === 'otp-verification' && 'Verify OTP'}
                             {currentStep === 'new-password' && 'Set New Password'}
                         </h2>
-                        <p className="text-gray-600">
+                        <p style={{ color: 'var(--gray-color)' }}>
                             {currentStep === 'method-selection' && 'Select how you want to reset your password'}
                             {currentStep === 'otp-verification' && userInfo && `Enter the OTP sent to ${userInfo.method === 'email' ? userInfo.email! : userInfo.countryCode! + userInfo.mobile!}`}
                             {currentStep === 'new-password' && 'Create a strong new password'}
@@ -100,31 +100,32 @@ const ForgotPasswordFlow: React.FC = () => {
                     )}
 
                     {/* Progress Indicator */}
-                    <div className="mt-8 pt-6 border-t border-gray-200">
+                    <div className="mt-8 pt-6 border-t" style={{ borderColor: 'var(--background-alt)' }}>
                         <div className="flex items-center justify-center space-x-4">
                             {['method-selection', 'otp-verification', 'new-password'].map((step, index) => (
                                 <React.Fragment key={step}>
                                     <div className="flex flex-col items-center">
                                         <div
-                                            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
-                      ${currentStep === step
-                                                    ? 'bg-blue-600 text-white'
+                                            className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium"
+                                            style={
+                                                currentStep === step
+                                                    ? { backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }
                                                     : step === 'new-password' && currentStep === 'new-password'
-                                                        ? 'bg-green-500 text-white'
+                                                        ? { backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }
                                                         : ['otp-verification', 'new-password'].includes(currentStep) &&
                                                             ['method-selection', 'otp-verification'].includes(step)
-                                                            ? 'bg-green-500 text-white'
-                                                            : 'bg-gray-200 text-gray-500'
-                                                }`}
+                                                            ? { backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }
+                                                            : { backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }
+                                            }
                                         >
                                             {index + 1}
                                         </div>
-                                        <span className="text-xs mt-2 text-gray-600 capitalize">
+                                        <span className="text-xs mt-2 capitalize" style={{ color: 'var(--gray-color)' }}>
                                             {step.split('-').join(' ')}
                                         </span>
                                     </div>
                                     {index < 2 && (
-                                        <div className={`h-1 w-12 ${index === 0 && currentStep !== 'method-selection' ? 'bg-green-500' : 'bg-gray-200'}`} />
+                                        <div className="h-1 w-12" style={{ backgroundColor: index === 0 && currentStep !== 'method-selection' ? 'var(--sky-blue)' : 'var(--background-alt)' }} />
                                     )}
                                 </React.Fragment>
                             ))}

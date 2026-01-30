@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 
 const services = [
@@ -78,26 +78,31 @@ export default function MostBookedServices() {
   };
 
   return (
-    <section className="py-14 bg-[#f9fafb]">
+    <section className="section-wrapper" style={{ backgroundColor: 'var(--background-alt)' }}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">
-            Most booked services
-          </h2>
+          <div>
+            <div className="section-divider"></div>
+            <h2 className="section-title">
+              Most booked services
+            </h2>
+          </div>
 
           <div className="hidden md:flex gap-2">
             <button
               onClick={() => scroll("left")}
-              className="p-2 rounded-full border hover:bg-gray-100"
+              className="p-2 rounded-full border transition-colors"
+              style={{ borderColor: 'var(--gray-color)' }}
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={18} style={{ color: 'var(--gray-color)' }} />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="p-2 rounded-full border hover:bg-gray-100"
+              className="p-2 rounded-full border transition-colors"
+              style={{ borderColor: 'var(--gray-color)' }}
             >
-              <ChevronRight size={18} />
+              <ChevronRight size={18} style={{ color: 'var(--gray-color)' }} />
             </button>
           </div>
         </div>
@@ -123,20 +128,20 @@ export default function MostBookedServices() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-sm font-medium text-gray-900 mb-1 line-clamp-2">
+                <h3 className="card-title text-sm mb-1 line-clamp-2">
                   {item.title}
                 </h3>
 
                 {/* Rating */}
-                <div className="flex items-center text-xs text-gray-600 gap-1 mb-1">
-                  <Star size={12} className="fill-black text-black" />
+                <div className="flex items-center text-xs gap-1 mb-1" style={{ color: 'var(--gray-color)' }}>
+                  <Star size={12} className="fill-current" style={{ color: 'var(--sky-blue)' }} />
                   <span>
                     {item.rating} ({item.reviews})
                   </span>
                 </div>
 
                 {/* Price */}
-                <p className="text-sm font-semibold text-gray-900">
+                <p className="text-sm font-semibold" style={{ color: 'var(--sky-blue)' }}>
                   {item.price}
                 </p>
               </div>

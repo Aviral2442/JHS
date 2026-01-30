@@ -132,7 +132,7 @@ const ConsumerProfile: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen dark:bg-gray-900" style={{ backgroundColor: 'var(--background-alt)' }}>
 
 
       <div className="max-w-[90%] mx-auto px-4 py-8">
@@ -149,7 +149,7 @@ const ConsumerProfile: React.FC = () => {
                   <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     Welcome back, {user.name}!
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
                     Here's your account overview and recent activities
                   </p>
                 </motion.div>
@@ -187,7 +187,7 @@ const ConsumerProfile: React.FC = () => {
                   <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     Transaction History
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
                     View and manage all your wallet transactions
                   </p>
                 </div>
@@ -202,7 +202,7 @@ const ConsumerProfile: React.FC = () => {
                   <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     Referral Program
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
                     Track your referral earnings and manage referrals
                   </p>
                 </div>
@@ -218,40 +218,32 @@ const ConsumerProfile: React.FC = () => {
         <div className="flex justify-around items-center h-16">
           <button
             onClick={() => setActiveSection('overview')}
-            className={`flex flex-col items-center p-2 ${
-              activeSection === 'overview'
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-gray-600 dark:text-gray-400'
-            }`}
+            className="flex flex-col items-center p-2 dark:text-blue-400"
+            style={{ color: activeSection === 'overview' ? 'var(--sky-blue)' : 'var(--gray-color)' }}
           >
             <div className="w-6 h-6 mb-1">📊</div>
             <span className="text-xs">Overview</span>
           </button>
           <button
             onClick={() => setActiveSection('transactions')}
-            className={`flex flex-col items-center p-2 ${
-              activeSection === 'transactions'
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-gray-600 dark:text-gray-400'
-            }`}
+            className="flex flex-col items-center p-2 dark:text-blue-400"
+            style={{ color: activeSection === 'transactions' ? 'var(--sky-blue)' : 'var(--gray-color)' }}
           >
             <div className="w-6 h-6 mb-1">💳</div>
             <span className="text-xs">Transactions</span>
           </button>
           <button
             onClick={() => setActiveSection('referrals')}
-            className={`flex flex-col items-center p-2 ${
-              activeSection === 'referrals'
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-gray-600 dark:text-gray-400'
-            }`}
+            className="flex flex-col items-center p-2 dark:text-blue-400"
+            style={{ color: activeSection === 'referrals' ? 'var(--sky-blue)' : 'var(--gray-color)' }}
           >
             <div className="w-6 h-6 mb-1">👥</div>
             <span className="text-xs">Referrals</span>
           </button>
           <button
             onClick={() => setSidebarOpen(true)}
-            className="flex flex-col items-center p-2 text-gray-600 dark:text-gray-400"
+            className="flex flex-col items-center p-2 dark:text-gray-400"
+            style={{ color: 'var(--gray-color)' }}
           >
             <Menu className="w-6 h-6 mb-1" />
             <span className="text-xs">Menu</span>

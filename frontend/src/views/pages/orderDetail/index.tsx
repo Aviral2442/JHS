@@ -154,7 +154,7 @@ const OrderDetailPage: React.FC = () => {
   const getStatusColor = (status: Order['status']) => {
     switch (status) {
       case 'upcoming':
-        return 'bg-blue-100 text-blue-800';
+        return 'text-white';
       case 'in-progress':
         return 'bg-yellow-100 text-yellow-800';
       case 'completed':
@@ -162,7 +162,7 @@ const OrderDetailPage: React.FC = () => {
       case 'cancelled':
         return 'bg-red-100 text-red-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'text-gray-800';
     }
   };
 
@@ -174,9 +174,9 @@ const OrderDetailPage: React.FC = () => {
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
       case 'refunded':
-        return 'bg-blue-100 text-blue-800';
+        return 'text-white';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'text-gray-800';
     }
   };
 
@@ -263,7 +263,7 @@ const OrderDetailPage: React.FC = () => {
       case 'upcoming':
         return (
           <div className="flex flex-wrap gap-3">
-            <button className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 flex items-center gap-2">
+            <button className="px-5 py-2.5 text-white font-medium rounded-lg flex items-center gap-2" style={{ backgroundColor: 'var(--sky-blue)' }}>
               <MessageSquare className="h-4 w-4" />
               Message Provider
             </button>
@@ -281,7 +281,7 @@ const OrderDetailPage: React.FC = () => {
       case 'in-progress':
         return (
           <div className="flex flex-wrap gap-3">
-            <button className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 flex items-center gap-2">
+            <button className="px-5 py-2.5 text-white font-medium rounded-lg flex items-center gap-2" style={{ backgroundColor: 'var(--sky-blue)' }}>
               <Phone className="h-4 w-4" />
               Call Provider
             </button>
@@ -295,11 +295,11 @@ const OrderDetailPage: React.FC = () => {
       case 'completed':
         return (
           <div className="flex flex-wrap gap-3">
-            <button className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 flex items-center gap-2">
+            <button className="px-5 py-2.5 text-white font-medium rounded-lg flex items-center gap-2" style={{ backgroundColor: 'var(--sky-blue)' }}>
               <Star className="h-4 w-4" />
               Rate Service
             </button>
-            <button className="px-5 py-2.5 bg-white border border-blue-300 text-blue-700 font-medium rounded-lg hover:bg-blue-50 flex items-center gap-2">
+            <button className="px-5 py-2.5 bg-white border font-medium rounded-lg flex items-center gap-2" style={{ borderColor: 'var(--sky-blue)', color: 'var(--sky-blue)' }}>
               <Wrench className="h-4 w-4" />
               Book Again
             </button>
@@ -312,31 +312,33 @@ const OrderDetailPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+    <div className="min-h-screen p-4 md:p-6" style={{ backgroundColor: 'var(--background-alt)' }}>
       <div className="max-w-7xl mx-auto">
         {/* Header with Back Button */}
         <header className="mb-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div className="flex items-center gap-4">
-              <Link to="/orders" className="flex items-center text-gray-600 hover:text-gray-800">
+              <Link to="/orders" className="flex items-center" style={{ color: 'var(--gray-color)' }}>
                 <ArrowLeft className="h-5 w-5 mr-2" />
                 Back to Orders
               </Link>
               <div className="hidden md:block h-6 w-px bg-gray-300"></div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Order Details</h1>
+              <h1 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--black-color)' }}>Order Details</h1>
             </div>
             
             <div className="flex items-center gap-3">
               <button
                 onClick={shareOrder}
-                className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2"
+                className="px-4 py-2 bg-white border rounded-lg flex items-center gap-2"
+                style={{ borderColor: 'var(--gray-color)', color: 'var(--gray-color)' }}
               >
                 <Share2 className="h-4 w-4" />
                 <span className="hidden sm:inline">Share</span>
               </button>
               <button
                 onClick={downloadInvoice}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+                className="px-4 py-2 text-white rounded-lg flex items-center gap-2"
+                style={{ backgroundColor: 'var(--sky-blue)' }}
               >
                 <Download className="h-4 w-4" />
                 <span className="hidden sm:inline">Download Invoice</span>
@@ -362,13 +364,13 @@ const OrderDetailPage: React.FC = () => {
                     {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
                   </span>
                 </div>
-                <h2 className="text-xl font-bold text-gray-800">{order.serviceName}</h2>
-                <p className="text-gray-600 mt-1">Order ID: {order.id} • Created on {formatDate(order.createdAt)}</p>
+                <h2 className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>{order.serviceName}</h2>
+                <p className="mt-1" style={{ color: 'var(--gray-color)' }}>Order ID: {order.id} • Created on {formatDate(order.createdAt)}</p>
               </div>
               
               <div className="text-right">
-                <p className="text-2xl font-bold text-gray-800">{formatCurrency(order.total)}</p>
-                <p className="text-gray-600 text-sm">Total amount</p>
+                <p className="text-2xl font-bold" style={{ color: 'var(--black-color)' }}>{formatCurrency(order.total)}</p>
+                <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Total amount</p>
               </div>
             </div>
           </div>
@@ -380,8 +382,8 @@ const OrderDetailPage: React.FC = () => {
             {/* Order Tracking */}
             <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-800">Order Tracking</h3>
-                <div className="flex items-center text-gray-600 text-sm">
+                <h3 className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>Order Tracking</h3>
+                <div className="flex items-center text-sm" style={{ color: 'var(--gray-color)' }}>
                   <Clock className="h-4 w-4 mr-1" />
                   Estimated completion: {order.estimatedCompletion}
                 </div>
@@ -398,7 +400,8 @@ const OrderDetailPage: React.FC = () => {
                       {/* Status Indicator */}
                       <div className={`z-10 shrink-0 w-12 h-12 rounded-full flex items-center justify-center
                         ${step.status === 'completed' ? 'bg-green-500' : 
-                          step.status === 'current' ? 'bg-blue-500' : 'bg-gray-300'}`}>
+                          step.status === 'current' ? '' : 'bg-gray-300'}`}
+                        style={step.status === 'current' ? { backgroundColor: 'var(--sky-blue)' } : {}}>
                         {step.status === 'completed' ? (
                           <CheckCircle className="h-6 w-6 text-white" />
                         ) : step.status === 'current' ? (
@@ -412,11 +415,11 @@ const OrderDetailPage: React.FC = () => {
                       <div className="ml-6 flex-1">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
                           <div>
-                            <h4 className="font-medium text-gray-800">{step.title}</h4>
-                            <p className="text-gray-600 text-sm mt-1">{step.description}</p>
+                            <h4 className="font-medium" style={{ color: 'var(--black-color)' }}>{step.title}</h4>
+                            <p className="text-sm mt-1" style={{ color: 'var(--gray-color)' }}>{step.description}</p>
                           </div>
                           {step.date && (
-                            <div className="mt-2 sm:mt-0 text-sm text-gray-500">
+                            <div className="mt-2 sm:mt-0 text-sm" style={{ color: 'var(--gray-color)' }}>
                               {step.date} • {step.time}
                             </div>
                           )}
@@ -424,12 +427,12 @@ const OrderDetailPage: React.FC = () => {
                         
                         {/* Additional info for current step */}
                         {step.status === 'current' && order.status === 'in-progress' && (
-                          <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                          <div className="mt-4 p-4 rounded-lg border" style={{ backgroundColor: 'rgba(0,173,181,0.1)', borderColor: 'rgba(0,173,181,0.2)' }}>
                             <div className="flex items-start">
-                              <AlertCircle className="h-5 w-5 text-blue-600 mr-2 mt-0.5 shrink-0" />
+                              <AlertCircle className="h-5 w-5 mr-2 mt-0.5 shrink-0" style={{ color: 'var(--sky-blue)' }} />
                               <div>
-                                <p className="font-medium text-blue-800">Service in Progress</p>
-                                <p className="text-blue-700 text-sm mt-1">
+                                <p className="font-medium" style={{ color: 'var(--black-color)' }}>Service in Progress</p>
+                                <p className="text-sm mt-1" style={{ color: 'var(--gray-color)' }}>
                                   Your service provider is currently working on the job. 
                                   Estimated completion: <span className="font-medium">{order.estimatedCompletion}</span>
                                 </p>
@@ -446,48 +449,48 @@ const OrderDetailPage: React.FC = () => {
 
             {/* Service Details */}
             <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-6">Service Details</h3>
+              <h3 className="text-lg font-semibold mb-6" style={{ color: 'var(--black-color)' }}>Service Details</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-medium text-gray-700 mb-3">Schedule & Location</h4>
+                  <h4 className="font-medium mb-3" style={{ color: 'var(--gray-color)' }}>Schedule & Location</h4>
                   <div className="space-y-4">
                     <div className="flex items-start">
-                      <Calendar className="h-5 w-5 text-gray-400 mr-3 mt-0.5 shrink-0" />
+                      <Calendar className="h-5 w-5 mr-3 mt-0.5 shrink-0" style={{ color: 'var(--gray-color)' }} />
                       <div>
-                        <p className="font-medium text-gray-800">Service Date</p>
-                        <p className="text-gray-600">{formatDate(order.scheduledDate)}</p>
-                        <p className="text-gray-600">{order.time} • {order.duration}</p>
+                        <p className="font-medium" style={{ color: 'var(--black-color)' }}>Service Date</p>
+                        <p style={{ color: 'var(--gray-color)' }}>{formatDate(order.scheduledDate)}</p>
+                        <p style={{ color: 'var(--gray-color)' }}>{order.time} • {order.duration}</p>
                       </div>
                     </div>
                     
                     <div className="flex items-start">
-                      <MapPin className="h-5 w-5 text-gray-400 mr-3 mt-0.5 shrink-0" />
+                      <MapPin className="h-5 w-5 mr-3 mt-0.5 shrink-0" style={{ color: 'var(--gray-color)' }} />
                       <div>
-                        <p className="font-medium text-gray-800">Service Address</p>
-                        <p className="text-gray-600">{order.address}</p>
+                        <p className="font-medium" style={{ color: 'var(--black-color)' }}>Service Address</p>
+                        <p style={{ color: 'var(--gray-color)' }}>{order.address}</p>
                       </div>
                     </div>
                     
                     <div className="flex items-start">
-                      <Home className="h-5 w-5 text-gray-400 mr-3 mt-0.5 shrink-0" />
+                      <Home className="h-5 w-5 mr-3 mt-0.5 shrink-0" style={{ color: 'var(--gray-color)' }} />
                       <div>
-                        <p className="font-medium text-gray-800">Service Type</p>
-                        <p className="text-gray-600 capitalize">{order.serviceType}</p>
+                        <p className="font-medium" style={{ color: 'var(--black-color)' }}>Service Type</p>
+                        <p className="capitalize" style={{ color: 'var(--gray-color)' }}>{order.serviceType}</p>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 <div>
-                  <h4 className="font-medium text-gray-700 mb-3">Service Description</h4>
-                  <p className="text-gray-600 mb-4">{order.description}</p>
+                  <h4 className="font-medium mb-3" style={{ color: 'var(--gray-color)' }}>Service Description</h4>
+                  <p className="mb-4" style={{ color: 'var(--gray-color)' }}>{order.description}</p>
                   
                   {order.specialInstructions && (
                     <div>
-                      <h5 className="font-medium text-gray-700 mb-2">Special Instructions</h5>
-                      <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                        <p className="text-gray-600 italic">{order.specialInstructions}</p>
+                      <h5 className="font-medium mb-2" style={{ color: 'var(--gray-color)' }}>Special Instructions</h5>
+                      <div className="p-4 rounded-lg border border-gray-200" style={{ backgroundColor: 'var(--background-alt)' }}>
+                        <p className="italic" style={{ color: 'var(--gray-color)' }}>{order.specialInstructions}</p>
                       </div>
                     </div>
                   )}
@@ -497,7 +500,7 @@ const OrderDetailPage: React.FC = () => {
 
             {/* Action Buttons */}
             <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Order Actions</h3>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--black-color)' }}>Order Actions</h3>
               {renderActionButtons()}
             </div>
           </div>
@@ -506,7 +509,7 @@ const OrderDetailPage: React.FC = () => {
           <div className="space-y-6">
             {/* Service Provider Card */}
             <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-6">Service Provider</h3>
+              <h3 className="text-lg font-semibold mb-6" style={{ color: 'var(--black-color)' }}>Service Provider</h3>
               
               <div className="flex flex-col items-center text-center mb-6">
                 <img 
@@ -514,29 +517,29 @@ const OrderDetailPage: React.FC = () => {
                   alt={order.serviceProvider.name}
                   className="h-24 w-24 rounded-full object-cover border-4 border-gray-100 mb-4"
                 />
-                <h4 className="font-bold text-gray-800 text-xl">{order.serviceProvider.name}</h4>
+                <h4 className="font-bold text-xl" style={{ color: 'var(--black-color)' }}>{order.serviceProvider.name}</h4>
                 <div className="flex items-center mt-2">
                   <Star className="h-5 w-5 text-yellow-500 fill-current" />
-                  <span className="ml-1 font-medium text-gray-700">{order.serviceProvider.rating}</span>
-                  <span className="mx-2 text-gray-400">•</span>
-                  <span className="text-gray-600">{order.serviceProvider.completedJobs} jobs</span>
+                  <span className="ml-1 font-medium" style={{ color: 'var(--gray-color)' }}>{order.serviceProvider.rating}</span>
+                  <span className="mx-2" style={{ color: 'var(--gray-color)' }}>•</span>
+                  <span style={{ color: 'var(--gray-color)' }}>{order.serviceProvider.completedJobs} jobs</span>
                 </div>
-                <p className="text-gray-600 mt-2">{order.serviceProvider.experience} experience</p>
+                <p className="mt-2" style={{ color: 'var(--gray-color)' }}>{order.serviceProvider.experience} experience</p>
               </div>
               
               <div className="space-y-3">
                 <div className="flex items-center">
-                  <Phone className="h-4 w-4 text-gray-400 mr-3" />
-                  <span className="text-gray-700">{order.serviceProvider.phone}</span>
+                  <Phone className="h-4 w-4 mr-3" style={{ color: 'var(--gray-color)' }} />
+                  <span style={{ color: 'var(--gray-color)' }}>{order.serviceProvider.phone}</span>
                 </div>
                 <div className="flex items-center">
-                  <Mail className="h-4 w-4 text-gray-400 mr-3" />
-                  <span className="text-gray-700">{order.serviceProvider.email}</span>
+                  <Mail className="h-4 w-4 mr-3" style={{ color: 'var(--gray-color)' }} />
+                  <span style={{ color: 'var(--gray-color)' }}>{order.serviceProvider.email}</span>
                 </div>
               </div>
               
               <div className="mt-6 pt-6 border-t border-gray-200">
-                <button className="w-full py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2">
+                <button className="w-full py-2.5 text-white font-medium rounded-lg flex items-center justify-center gap-2" style={{ backgroundColor: 'var(--sky-blue)' }}>
                   <MessageSquare className="h-4 w-4" />
                   Contact Provider
                 </button>
@@ -546,10 +549,10 @@ const OrderDetailPage: React.FC = () => {
             {/* Invoice Summary */}
             <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-200">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-800">Invoice Summary</h3>
+                <h3 className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>Invoice Summary</h3>
                 <button
                   onClick={downloadInvoice}
-                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                  className="flex items-center gap-2" style={{ color: 'var(--sky-blue)' }}
                 >
                   <FileText className="h-4 w-4" />
                   View Full
@@ -558,33 +561,33 @@ const OrderDetailPage: React.FC = () => {
               
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Subtotal</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Subtotal</span>
                   <span className="font-medium">{formatCurrency(order.subtotal)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Tax</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Tax</span>
                   <span className="font-medium">{formatCurrency(order.tax)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Discount</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Discount</span>
                   <span className="font-medium text-green-600">-{formatCurrency(order.discount)}</span>
                 </div>
                 <div className="pt-3 border-t border-gray-200 flex justify-between">
-                  <span className="font-semibold text-gray-800">Total</span>
-                  <span className="text-xl font-bold text-gray-800">{formatCurrency(order.total)}</span>
+                  <span className="font-semibold" style={{ color: 'var(--black-color)' }}>Total</span>
+                  <span className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>{formatCurrency(order.total)}</span>
                 </div>
               </div>
               
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-gray-700">Payment Method</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Payment Method</span>
                   <div className="flex items-center gap-2">
-                    <CreditCard className="h-4 w-4 text-gray-500" />
+                    <CreditCard className="h-4 w-4" style={{ color: 'var(--gray-color)' }} />
                     <span className="font-medium">{order.paymentMethod}</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-700">Payment Status</span>
+                  <span style={{ color: 'var(--gray-color)' }}>Payment Status</span>
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${getPaymentStatusColor(order.paymentStatus)}`}>
                     {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
                   </span>
@@ -593,17 +596,17 @@ const OrderDetailPage: React.FC = () => {
             </div>
 
             {/* Need Help Section */}
-            <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
-              <h3 className="font-semibold text-gray-800 mb-3">Need Help?</h3>
-              <p className="text-gray-600 text-sm mb-4">
+            <div className="rounded-xl p-5 border" style={{ backgroundColor: 'var(--background-alt)', borderColor: 'var(--gray-color)' }}>
+              <h3 className="font-semibold mb-3" style={{ color: 'var(--black-color)' }}>Need Help?</h3>
+              <p className="text-sm mb-4" style={{ color: 'var(--gray-color)' }}>
                 Our customer support team is available 24/7 to assist you with any questions or concerns.
               </p>
               <div className="space-y-3">
-                <button className="w-full py-2.5 bg-white border border-blue-200 text-blue-700 rounded-lg hover:bg-blue-50 flex items-center justify-center gap-2">
+                <button className="w-full py-2.5 bg-white border rounded-lg flex items-center justify-center gap-2" style={{ borderColor: 'var(--sky-blue)', color: 'var(--sky-blue)' }}>
                   <MessageSquare className="h-4 w-4" />
                   Live Chat Support
                 </button>
-                <button className="w-full py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2">
+                <button className="w-full py-2.5 text-white rounded-lg flex items-center justify-center gap-2" style={{ backgroundColor: 'var(--sky-blue)' }}>
                   <Phone className="h-4 w-4" />
                   Call Support: 1-800-SERVICE
                 </button>

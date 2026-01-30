@@ -1,3 +1,4 @@
+﻿import React from "react";
 import "../../../../app.css"
 
 const testimonials = Array.from({ length: 6 }).map((_, i) => ({
@@ -23,10 +24,10 @@ const StarRating = () => (
 const Card = () => (
   <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
     <div className="flex justify-between mb-4">
-      <span className="text-emerald-400 text-3xl">“</span>
+      <span className="text-emerald-400 text-3xl">â€œ</span>
       <StarRating />
     </div>
-    <p className="text-sm mb-6" style={{ color: 'var(--gray-color)' }}>
+    <p className="text-sm text-gray-600 mb-6">
       The ambulance arrived quickly, and the staff handled everything calmly during the emergency.
     </p>
     <div className="flex items-center gap-3">
@@ -36,7 +37,7 @@ const Card = () => (
       />
       <div>
         <p className="text-sm font-semibold">Ritwik Sinha</p>
-        <p className="text-xs" style={{ color: 'var(--gray-color)' }}>Kanpur</p>
+        <p className="text-xs text-gray-500">Kanpur</p>
       </div>
     </div>
   </div>
@@ -86,3 +87,4 @@ export default function TrustedByFamilies() {
     </section>
   );
 }
+

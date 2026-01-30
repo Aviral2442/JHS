@@ -1,25 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { motion, useAnimation, useInView } from "framer-motion";
 import {
-  motion,
-  useAnimation,
-  useInView,
-} from "framer-motion";
-import {
-  Sparkles,
   Shield,
   Clock,
   DollarSign,
-  HeadphonesIcon,
-  Home,
-  Wrench,
-  PaintBucket,
-  Droplets,
-  Hammer,
-  Construction,
-  Bug,
-  Wind,
-  Brush,
-  Zap,
+  HeadphonesIcon
 } from "lucide-react";
 // import HeroSection from "./heroSection";
 // import HeroSkillSection from "../../../components/website/HeroSection";
@@ -56,47 +41,7 @@ const features = [
   },
 ];
 
-const testimonials = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    role: "Homeowner",
-    content:
-      "HomeEase made my kitchen renovation stress-free. The professionals were punctual and did an excellent job!",
-    rating: 5,
-    avatar: "SJ",
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    role: "Business Owner",
-    content:
-      "The AC repair service was quick and efficient. Saved me from a hot weekend!",
-    rating: 5,
-    avatar: "MC",
-  },
-  {
-    id: 3,
-    name: "Emma Wilson",
-    role: "Interior Designer",
-    content:
-      "I recommend HomeEase to all my clients. Reliable, professional, and affordable.",
-    rating: 5,
-    avatar: "EW",
-  },
-  {
-    id: 4,
-    name: "David Brown",
-    role: "Property Manager",
-    content:
-      "Perfect for regular maintenance across multiple properties. Excellent service every time.",
-    rating: 5,
-    avatar: "DB",
-  },
-];
-
 export default function HomeEaseLanding() {
-  const [_activeTestimonial, setActiveTestimonial] = useState(0);
 
   const controls = useAnimation();
   const ref = useRef(null);
@@ -125,7 +70,6 @@ export default function HomeEaseLanding() {
       opacity: 1,
     },
   };
-
 
   return (
     <div className="min-h-screen bg-white">
@@ -190,20 +134,21 @@ export default function HomeEaseLanding() {
         <ServicesBentoSection />
       </section>
 
-      <section className="pt-10 px-4 md:px-6 relative overflow-hidden bg-[#f9fafb]">
+      <section className="pt-10 px-4 md:px-6 relative overflow-hidden" style={{ backgroundColor: 'var(--background-alt)' }}>
         {/* <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
         <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" /> */}
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6">
+            <div className="section-divider mx-auto"></div>
+            <h2 className="section-title mb-4 md:mb-6">
               How It{" "}
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6366F1] to-[#8B5CF6]">
+              <span style={{ color: 'var(--sky-blue)' }}>
                 Works
               </span>
             </h2>
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-600">
+            <p className="section-subtitle mx-auto text-center">
               Simple Steps To Get Our Services
             </p>
           </div>
@@ -224,11 +169,11 @@ export default function HomeEaseLanding() {
                   x2="100%"
                   y2="0%"
                 >
-                  <stop offset="0%" stopColor="#6366F1" stopOpacity="0.3" />
-                  <stop offset="25%" stopColor="#10B981" stopOpacity="0.3" />
-                  <stop offset="50%" stopColor="#F59E0B" stopOpacity="0.3" />
-                  <stop offset="75%" stopColor="#EC4899" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.3" />
+                  <stop offset="0%" stopColor="#00ADB5" stopOpacity="0.3" />
+                  <stop offset="25%" stopColor="#393E46" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="#00ADB5" stopOpacity="0.3" />
+                  <stop offset="75%" stopColor="#222831" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#00ADB5" stopOpacity="0.3" />
                 </linearGradient>
               </defs>
 
@@ -247,35 +192,35 @@ export default function HomeEaseLanding() {
                 cx="150"
                 cy="280"
                 r="12"
-                fill="#6366F1"
+                fill="#00ADB5"
                 className="animate-pulse"
               />
               <circle
                 cx="400"
                 cy="320"
                 r="12"
-                fill="#10B981"
+                fill="#393E46"
                 className="animate-pulse"
               />
               <circle
                 cx="700"
                 cy="380"
                 r="12"
-                fill="#F59E0B"
+                fill="#00ADB5"
                 className="animate-pulse"
               />
               <circle
                 cx="1050"
                 cy="400"
                 r="12"
-                fill="#EC4899"
+                fill="#222831"
                 className="animate-pulse"
               />
               <circle
                 cx="1250"
                 cy="580"
                 r="12"
-                fill="#8B5CF6"
+                fill="#00ADB5"
                 className="animate-pulse"
               />
             </svg>
@@ -283,19 +228,19 @@ export default function HomeEaseLanding() {
             {/* Step 01 - Left Top */}
             <div className="absolute" style={{ left: "-2%", top: "-5%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-b from-transparent via-[#6366F1] to-transparent"
-                style={{ bottom: "-112px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
+                style={{ bottom: "-112px", background: 'linear-gradient(to bottom, transparent, var(--sky-blue), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+              <div className="card-ui rounded-2xl w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#6366F1] to-[#6366F1]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                     01
                   </div>
-                  <h3 className="ml-4 text-xl font-bold text-[#6366F1]">
-                    I'm lovely Farm
+                  <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--sky-blue)' }}>
+                    Fill the Form
                   </h3>
                 </div>
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--gray-color)' }}>
                   Enter basic details like name, number, service and message and
                   admin items.
                 </p>
@@ -305,19 +250,19 @@ export default function HomeEaseLanding() {
             {/* Step 02 - Left Bottom */}
             <div className="absolute" style={{ left: "16%", top: "52%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-t from-transparent via-[#10B981] to-transparent"
-                style={{ top: "-112px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
+                style={{ top: "-112px", background: 'linear-gradient(to top, transparent, var(--gray-color), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+              <div className="card-ui rounded-2xl w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#10B981] to-[#10B981]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--gray-color), rgba(57, 62, 70, 0.7))' }}>
                     02
                   </div>
-                  <h3 className="ml-4 text-xl font-bold text-[#10B981]">
+                  <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--gray-color)' }}>
                     We Contact You
                   </h3>
                 </div>
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--gray-color)' }}>
                   Our professional customer support team receives such a social
                   year as soon as possible.
                 </p>
@@ -330,22 +275,22 @@ export default function HomeEaseLanding() {
               style={{ top: "2%" }}
             >
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-32 bg-linear-to-b from-transparent via-[#F59E0B] to-transparent"
-                style={{ bottom: "-128px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-32"
+                style={{ bottom: "-128px", background: 'linear-gradient(to bottom, transparent, var(--sky-blue), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-96 relative border-2 border-[#F59E0B]/30">
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 text-white px-4 py-1 rounded-full text-sm font-semibold">
+              <div className="card-ui rounded-2xl w-96 relative" style={{ borderWidth: '2px', borderColor: 'rgba(0, 173, 181, 0.3)' }}>
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 text-white px-4 py-1 rounded-full text-sm font-semibold" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                   Most Important
                 </div>
                 <div className="flex items-center mb-4">
-                  <div className="w-14 h-14 rounded-full bg-linear-to-r from-[#F59E0B] to-[#F59E0B]/70 flex items-center justify-center text-white font-bold text-2xl">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-2xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                     03
                   </div>
-                  <h3 className="ml-4 text-2xl font-bold text-[#F59E0B]">
-                    Custom You Reading
+                  <h3 className="ml-4 text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>
+                    Confirm Booking
                   </h3>
                 </div>
-                <p className="text-gray-600 text-lg">
+                <p className="text-lg" style={{ color: 'var(--gray-color)' }}>
                   Discuss your family, services, family, professional form,
                   plans, etc and confirm your booking.
                 </p>
@@ -355,19 +300,19 @@ export default function HomeEaseLanding() {
             {/* Step 04 - Right Top */}
             <div className="absolute" style={{ right: "13%", top: "58%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-b from-transparent via-[#EC4899] to-transparent"
-                style={{ bottom: "200px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
+                style={{ bottom: "200px", background: 'linear-gradient(to bottom, transparent, var(--black-color), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+              <div className="card-ui rounded-2xl w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#EC4899] to-[#EC4899]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--black-color), rgba(34, 40, 49, 0.7))' }}>
                     04
                   </div>
-                  <h3 className="ml-4 text-xl font-bold text-[#EC4899]">
+                  <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--black-color)' }}>
                     Book via App
                   </h3>
                 </div>
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--gray-color)' }}>
                   Download the Johann home Services mobile app to book our
                   services directly through our app.
                 </p>
@@ -377,19 +322,19 @@ export default function HomeEaseLanding() {
             {/* Step 05 - Right Bottom - Additional Step from UI pattern */}
             <div className="absolute" style={{ right: "-2%", top: "27%" }}>
               <div
-                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28 bg-linear-to-t from-transparent via-[#8B5CF6] to-transparent"
-                style={{ top: "200px" }}
+                className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
+                style={{ top: "200px", background: 'linear-gradient(to top, transparent, var(--sky-blue), transparent)' }}
               />
-              <div className="bg-white rounded-2xl shadow-xl p-8 w-80">
+              <div className="card-ui rounded-2xl w-80">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-linear-to-r from-[#8B5CF6] to-[#8B5CF6]/70 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style={{ background: 'linear-gradient(to right, var(--sky-blue), rgba(0, 173, 181, 0.7))' }}>
                     05
                   </div>
-                  <h3 className="ml-4 text-xl font-bold text-[#8B5CF6]">
+                  <h3 className="ml-4 text-xl font-bold" style={{ color: 'var(--sky-blue)' }}>
                     Enjoy Service
                   </h3>
                 </div>
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--gray-color)' }}>
                   Sit back and relax while our professionals take care of all
                   your home service needs.
                 </p>
@@ -408,7 +353,7 @@ export default function HomeEaseLanding() {
                 I'm lovely Farm
               </h3>
             </div>
-            <p className="text-gray-600">
+            <p style={{ color: 'var(--gray-color)' }}>
               Enter basic details like name, number, service and message and
               admin items.
             </p>
@@ -423,7 +368,7 @@ export default function HomeEaseLanding() {
                 We Contact You
               </h3>
             </div>
-            <p className="text-gray-600">
+            <p style={{ color: 'var(--gray-color)' }}>
               Our professional customer support team receives such a social year
               as soon as possible.
             </p>
@@ -442,7 +387,7 @@ export default function HomeEaseLanding() {
                   Custom You Reading
                 </h3>
               </div>
-              <p className="text-gray-600 text-lg">
+              <p className="text-lg" style={{ color: 'var(--gray-color)' }}>
                 Discuss your family, services, family, professional form, plans,
                 etc and confirm your booking.
               </p>
@@ -459,7 +404,7 @@ export default function HomeEaseLanding() {
                   We Contact You
                 </h3>
               </div>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--gray-color)' }}>
                 Our professional customer support team receives such a social
                 year as soon as possible.
               </p>
@@ -478,7 +423,7 @@ export default function HomeEaseLanding() {
                     Custom You Reading
                   </h3>
                 </div>
-                <p className="text-gray-600 text-lg">
+                <p className="text-lg" style={{ color: 'var(--gray-color)' }}>
                   Discuss your family, services, family, professional form,
                   plans, etc and confirm your booking.
                 </p>
@@ -494,7 +439,7 @@ export default function HomeEaseLanding() {
                   Book via App
                 </h3>
               </div>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--gray-color)' }}>
                 Download the Johann home Services mobile app to book our
                 services directly through our app.
               </p>
@@ -509,7 +454,7 @@ export default function HomeEaseLanding() {
                   Enjoy Service
                 </h3>
               </div>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--gray-color)' }}>
                 Sit back and relax while our professionals take care of all your
                 home service needs.
               </p>
@@ -588,7 +533,7 @@ export default function HomeEaseLanding() {
                       {step.title}
                     </h3>
                   </div>
-                  <p className="text-gray-600">{step.description}</p>
+                  <p style={{ color: 'var(--gray-color)' }}>{step.description}</p>
                 </div>
               </div>
             ))}
@@ -597,38 +542,100 @@ export default function HomeEaseLanding() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Why Choose HomeEase
-            </h2>
-            <p className="mt-4 text-gray-600">
-              We're committed to making home services simple and reliable
-            </p>
+      <section className="py-20 relative overflow-hidden" style={{ backgroundColor: 'var(--white-color)' }}>
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute top-20 right-10 w-72 h-72 rounded-full mix-blend-multiply filter blur-3xl animate-blob" style={{ backgroundColor: 'rgba(0, 173, 181, 0.2)' }}></div>
+          <div className="absolute bottom-20 left-10 w-72 h-72 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" style={{ backgroundColor: 'rgba(57, 62, 70, 0.2)' }}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="badge-highlight mb-4">
+                Why Choose Us
+              </span>
+              <h2 className="section-title mb-4">
+                Experience the <span style={{ color: 'var(--sky-blue)' }}>HomeEase</span>{" "}
+                Difference
+              </h2>
+              <p className="section-subtitle mx-auto text-center">
+                We're redefining home services with trust, quality, and
+                convenience at every step
+              </p>
+            </motion.div>
           </div>
 
+          {/* Features Grid */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
-            {features.map((feature) => (
+            {features.map((feature, index) => (
               <motion.div
                 key={feature.id}
                 variants={itemVariants}
-                whileHover={{ y: -5 }}
-                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all"
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="group relative"
               >
-                <div className="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <feature.icon className="h-6 w-6 text-indigo-600" />
+                {/* Card */}
+                <div className="card-ui relative rounded-2xl h-full">
+                  {/* Gradient overlay on hover */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(to bottom right, rgba(0, 173, 181, 0.1), rgba(57, 62, 70, 0.05))' }}></div>
+
+                  {/* Content */}
+                  <div className="relative z-10">
+                    {/* Icon container with animated gradient */}
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 rounded-xl blur opacity-50 group-hover:opacity-75 transition-opacity" style={{ background: 'linear-gradient(to bottom right, var(--sky-blue), var(--gray-color))' }}></div>
+                      <div className="relative w-14 h-14 rounded-xl flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300" style={{ background: 'linear-gradient(to bottom right, var(--sky-blue), var(--gray-color))' }}>
+                        <feature.icon className="h-7 w-7 text-white" />
+                      </div>
+                    </div>
+
+                    {/* Text content */}
+                    <h3 className="card-title text-xl mb-3 group-hover:text-primary transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p className="card-desc leading-relaxed">
+                      {feature.description}
+                    </p>
+
+                    {/* Decorative element */}
+                    <div className="mt-6 pt-6 border-t" style={{ borderColor: 'var(--background-alt)' }}>
+                      <div className="flex items-center font-medium text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: 'var(--sky-blue)' }}>
+                        <span>Learn more</span>
+                        <svg
+                          className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Number badge */}
+                  <div className="absolute top-6 right-6 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold opacity-40 group-hover:opacity-100 transition-opacity" style={{ backgroundColor: 'rgba(0, 173, 181, 0.1)', color: 'var(--sky-blue)' }}>
+                    {index + 1}
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 text-sm">{feature.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -645,18 +652,19 @@ export default function HomeEaseLanding() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-linear-to-r from-indigo-600 to-blue-600  p-12 text-white"
+            className="p-12 text-white"
+            style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to make your home better?
             </h2>
-            <p className="text-blue-100 mb-8 text-lg">
+            <p className="mb-8 text-lg" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
               Join thousands of happy homeowners who trust HomeEase
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-white text-indigo-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              className="btn-secondary px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               Book a Service Now
             </motion.button>

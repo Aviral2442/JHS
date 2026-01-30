@@ -13,17 +13,17 @@ const PolicyHubPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Policy Hub</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">All our legal policies and terms in one place.</p>
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--gray-color)' }}>All our legal policies and terms in one place.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {policies.map((p, i) => (
             <a key={i} href={p.link} className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all">
-              <div className="flex items-center mb-4">{p.icon}<div className="ml-4"><h3 className="font-bold">{p.title}</h3><p className="text-sm text-gray-600">{p.description}</p></div></div>
+              <div className="flex items-center mb-4">{p.icon}<div className="ml-4"><h3 className="font-bold">{p.title}</h3><p className="text-sm" style={{ color: 'var(--gray-color)' }}>{p.description}</p></div></div>
             </a>
           ))}
         </div>

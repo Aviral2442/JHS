@@ -14,15 +14,15 @@ const ServiceTabs: React.FC<ServiceTabsProps> = ({
   onSelectService,
 }) => {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4">
+    <div className="card-ui">
       <div className="flex flex-wrap gap-2">
         {/* All Services Tab */}
         <button
           onClick={() => onSelectService(null)}
           className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all ${
             !selectedService
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              ? 'btn-primary'
+              : 'btn-secondary'
           }`}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,8 +38,8 @@ const ServiceTabs: React.FC<ServiceTabsProps> = ({
             onClick={() => onSelectService(service.id)}
             className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all ${
               selectedService === service.id
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'btn-primary'
+                : 'btn-secondary'
             }`}
           >
             {/* Service Icon - You can add actual icons based on service */}

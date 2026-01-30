@@ -22,14 +22,14 @@ const CartSidebar: React.FC<CartSidebarProps> = ({
       {/* Cart Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed right-4 bottom-4 lg:right-8 lg:bottom-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all z-50"
+        className="btn-primary fixed right-4 bottom-4 lg:right-8 lg:bottom-8 p-4 rounded-full shadow-lg z-50"
       >
         <div className="relative">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
           {cart.length > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center" style={{ backgroundColor: '#ef4444' }}>
               {cart.length}
             </span>
           )}
@@ -42,14 +42,14 @@ const CartSidebar: React.FC<CartSidebarProps> = ({
       )}
 
       {/* Cart Sidebar */}
-      <div className={`fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-2xl transform transition-transform duration-300 z-50 ${
+      <div className={`fixed top-0 right-0 h-full w-full sm:w-96 shadow-2xl transform transition-transform duration-300 z-50 ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
-      }`}>
+      }`} style={{ backgroundColor: 'var(--white-color)' }}>
         <div className="h-full flex flex-col">
           {/* Header */}
           <div className="p-6 border-b">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-900">Your Cart</h2>
+              <h2 className="text-2xl font-bold text-dark">Your Cart</h2>
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg"
@@ -68,10 +68,10 @@ const CartSidebar: React.FC<CartSidebarProps> = ({
           <div className="flex-1 overflow-y-auto p-6">
             {cart.length === 0 ? (
               <div className="text-center py-12">
-                <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-16 h-16 text-gray mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ opacity: 0.5 }}>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <p className="text-gray-500">Your cart is empty</p>
+                <p className="card-desc">Your cart is empty</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -128,17 +128,17 @@ const CartSidebar: React.FC<CartSidebarProps> = ({
           {cart.length > 0 && (
             <div className="border-t p-6">
               <div className="flex justify-between items-center mb-4">
-                <span className="text-gray-600">Total:</span>
-                <span className="text-2xl font-bold text-gray-900">
+                <span className="text-gray">Total:</span>
+                <span className="text-2xl font-bold text-dark">
                   ${total.toFixed(2)}
                 </span>
               </div>
-              <button className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
+              <button className="btn-primary w-full" style={{ backgroundColor: '#10b981' }}>
                 Proceed to Checkout
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-full py-3 mt-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                className="btn-outline w-full mt-3"
               >
                 Continue Shopping
               </button>

@@ -20,7 +20,7 @@ import {
 // Animated Header Component
 const ContactHeader: React.FC = () => {
   return (
-    <section className="relative bg-white overflow-hidden">
+    <section className="relative overflow-hidden" style={{ backgroundColor: 'var(--white-color)' }}>
 
       <div className="relative max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-center">
 
@@ -31,13 +31,13 @@ const ContactHeader: React.FC = () => {
             Trusted Home Service Professionals
           </div> */}
 
-          <h2 className="text-4xl md:text-6xl font-bold leading-tight">
+          <h2 className="section-title text-4xl md:text-6xl leading-tight">
             Fast & Reliable  
-            <span className="block text-blue-400">Home Services</span>
+            <span className="block" style={{ color: 'var(--sky-blue)' }}>Home Services</span>
             When You Need Them
           </h2>
 
-          <p className="text-lg text-gray-700 mt-6 max-w-xl">
+          <p className="text-lg mt-6 max-w-xl" style={{ color: 'var(--gray-color)' }}>
             Book expert plumbers, electricians, cleaners & technicians in minutes. 
             We serve Lucknow with 24/7 emergency support and verified professionals.
           </p>
@@ -46,14 +46,14 @@ const ContactHeader: React.FC = () => {
           <div className="flex flex-wrap gap-4 mt-10">
             <a
               href="tel:8960628965"
-              className="px-8 py-4 bg-linear-to-r from-blue-500 to-cyan-500 rounded-xl text-white text-lg font-semibold shadow-xl hover:scale-105 transition flex items-center gap-2"
+              className="btn-primary px-8 py-4 rounded-xl text-lg flex items-center gap-2"
             >
               <Phone /> Call Now
             </a>
 
             <a
               href="#contact"
-              className="px-8 py-4 border border-black/20 rounded-xl hover:bg-white/10 transition"
+              className="btn-outline px-8 py-4 rounded-xl"
             >
               Book Service Online
             </a>
@@ -62,16 +62,17 @@ const ContactHeader: React.FC = () => {
           {/* TRUST BADGES */}
           <div className="grid grid-cols-3 gap-6 mt-14">
             {[
-              { icon: <Star className="text-yellow-400" />, label: "4.9 Rated" },
-              { icon: <Truck className="text-blue-400" />, label: "Same Day Service" },
-              { icon: <Shield className="text-green-400" />, label: "Verified Staff" },
+              { icon: <Star style={{ color: 'var(--sky-blue)' }} />, label: "4.9 Rated" },
+              { icon: <Truck style={{ color: 'var(--sky-blue)' }} />, label: "Same Day Service" },
+              { icon: <Shield style={{ color: 'var(--sky-blue)' }} />, label: "Verified Staff" },
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-gray-200 backdrop-blur-md rounded-xl p-4 text-center"
+                className="backdrop-blur-md rounded-xl p-4 text-center"
+                style={{ backgroundColor: 'var(--background-alt)' }}
               >
                 <div className="flex justify-center mb-2">{item.icon}</div>
-                <p className="text-sm">{item.label}</p>
+                <p className="text-sm" style={{ color: 'var(--gray-color)' }}>{item.label}</p>
               </div>
             ))}
           </div>
@@ -79,44 +80,44 @@ const ContactHeader: React.FC = () => {
 
         {/* RIGHT SIDE – GLASS CONTACT CARD */}
         <div className="relative">
-          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl">
+          <div className="card-ui rounded-3xl p-10">
 
-            <h3 className="text-2xl font-bold mb-6">
+            <h3 className="card-title text-2xl mb-6">
               Need Immediate Help?
             </h3>
 
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="bg-blue-500/20 p-3 rounded-xl">
-                  <Phone className="text-blue-800" />
+                <div className="p-3 rounded-xl" style={{ backgroundColor: 'rgba(0, 173, 181, 0.2)' }}>
+                  <Phone style={{ color: 'var(--sky-blue)' }} />
                 </div>
                 <div>
-                  <p className="text-gray-800 text-sm">Call Us</p>
-                  <p className="text-gray-900 text-lg font-semibold">
+                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Call Us</p>
+                  <p className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>
                     +91 8960628965
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-green-500/20 p-3 rounded-xl">
-                  <Mail className="text-green-400" />
+                <div className="p-3 rounded-xl" style={{ backgroundColor: 'rgba(0, 173, 181, 0.2)' }}>
+                  <Mail style={{ color: 'var(--sky-blue)' }} />
                 </div>
                 <div>
-                  <p className="text-gray-800 text-sm">Email</p>
-                  <p className="text-gray-900 text-lg font-semibold">
+                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Email</p>
+                  <p className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>
                     jeevancleaningservices@gmail.com
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-purple-500/20 p-3 rounded-xl">
-                  <MapPin className="text-purple-400" />
+                <div className="p-3 rounded-xl" style={{ backgroundColor: 'rgba(0, 173, 181, 0.2)' }}>
+                  <MapPin style={{ color: 'var(--sky-blue)' }} />
                 </div>
                 <div>
-                  <p className="text-gray-800 text-sm">Location</p>
-                  <p className="text-gray-900 text-lg font-semibold">
+                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Location</p>
+                  <p className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>
                     Lucknow Sukh Complex, SN 45, Munshi Pulia, Sector 16, Indira Nagar, Lucknow, Uttar Pradesh 226016
                   </p>
                 </div>
@@ -125,7 +126,7 @@ const ContactHeader: React.FC = () => {
 
             <a
               href="#contact"
-              className="block mt-10 text-center py-4 bg-linear-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold hover:scale-105 transition"
+              className="btn-primary block mt-10 text-center py-4 rounded-xl"
             >
               Request a Service
             </a>
@@ -184,36 +185,36 @@ const ContactFormSection: React.FC = () => {
   };
 
   return (
-    <div className="py-20 bg-[#f9fafb]">
+    <div className="section-wrapper" style={{ backgroundColor: 'var(--background-alt)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Left Column - Form */}
           <div>
             <div className="mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="section-title text-3xl md:text-4xl mb-4">
                 Here for You, Anytime, Anywhere
               </h2>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--gray-color)' }}>
                 Reach out to us through the contact form. Our team will respond
                 quickly to assist you with your service needs.
               </p>
             </div>
 
             {isSubmitted ? (
-              <div className="bg-linear-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8 text-center">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Check size={40} className="text-green-600" />
+              <div className="card-ui rounded-2xl p-8 text-center" style={{ borderWidth: '1px', borderColor: 'rgba(0, 173, 181, 0.3)' }}>
+                <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'rgba(0, 173, 181, 0.2)' }}>
+                  <Check size={40} style={{ color: 'var(--sky-blue)' }} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                <h3 className="card-title text-2xl mb-3">
                   Request Submitted!
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="mb-6" style={{ color: 'var(--gray-color)' }}>
                   Thank you for your request. Our team will contact you within
                   30 minutes to confirm your service appointment.
                 </p>
                 <button
                   onClick={() => setIsSubmitted(false)}
-                  className="text-blue-600 hover:text-blue-800 font-semibold"
+                  className="font-semibold" style={{ color: 'var(--sky-blue)' }}
                 >
                   Submit another request
                 </button>
@@ -222,7 +223,7 @@ const ContactFormSection: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                       <User size={16} className="inline mr-2" />
                       Full Name
                     </label>
@@ -233,13 +234,14 @@ const ContactFormSection: React.FC = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
+                      style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
                       placeholder="John Smith"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                       <Mail size={16} className="inline mr-2" />
                       Email Address
                     </label>
@@ -250,7 +252,8 @@ const ContactFormSection: React.FC = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
+                      style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
                       placeholder="john@example.com"
                     />
                   </div>
@@ -258,7 +261,7 @@ const ContactFormSection: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                       <Phone size={16} className="inline mr-2" />
                       Phone Number
                     </label>
@@ -269,12 +272,13 @@ const ContactFormSection: React.FC = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
+                      style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
                       placeholder="(555) 123-4567"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                       <Wrench size={16} className="inline mr-2" />
                       Service Needed
                     </label>
@@ -284,7 +288,8 @@ const ContactFormSection: React.FC = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, service: e.target.value })
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
+                      style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
                     >
                       <option value="">Select a service</option>
                       {serviceOptions.map((service) => (
@@ -297,7 +302,7 @@ const ContactFormSection: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
                     <FileText size={16} className="inline mr-2" />
                     Additional Details
                   </label>
@@ -307,7 +312,8 @@ const ContactFormSection: React.FC = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
+                    style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
                     placeholder="Please describe your service needs..."
                   />
                 </div>
@@ -315,7 +321,7 @@ const ContactFormSection: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-linear-to-r from-blue-500 to-cyan-500 rounded-r-lg hover:from-blue-600 hover:to-cyan-600 transition-all text-white rounded-xl transform hover:-translate-y-1 shadow-xl hover:shadow-2xl disabled:opacity-75 disabled:cursor-not-allowed flex items-center justify-center"
+                  className="btn-primary w-full py-4 rounded-xl transform hover:-translate-y-1 shadow-xl hover:shadow-2xl disabled:opacity-75 disabled:cursor-not-allowed flex items-center justify-center"
                 >
                   {isSubmitting ? (
                     <>
@@ -330,7 +336,7 @@ const ContactFormSection: React.FC = () => {
                   )}
                 </button>
 
-                <p className="text-center text-gray-500 text-sm">
+                <p className="text-center text-sm" style={{ color: 'var(--gray-color)' }}>
                   By submitting, you agree to our terms and privacy policy.
                   We'll contact you shortly.
                 </p>
@@ -341,24 +347,25 @@ const ContactFormSection: React.FC = () => {
           {/* Right Column - Contact Info */}
           <div>
             <div className="sticky top-24">
-              <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+              <div className="card-ui rounded-2xl p-8 mb-8">
+                <h3 className="card-title text-2xl mb-6">
                   Contact Information
                 </h3>
 
                 <div className="space-y-6">
                   <div className="flex items-start">
-                    <div className="bg-blue-100 p-3 rounded-xl mr-4">
-                      <Phone className="text-blue-600" size={24} />
+                    <div className="p-3 rounded-xl mr-4" style={{ backgroundColor: 'var(--background-alt)' }}>
+                      <Phone style={{ color: 'var(--sky-blue)' }} size={24} />
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900">Phone Support</h4>
-                      <p className="text-gray-600 mt-1">
+                      <h4 className="font-bold" style={{ color: 'var(--black-color)' }}>Phone Support</h4>
+                      <p className="mt-1" style={{ color: 'var(--gray-color)' }}>
                         Available 24/7 for emergencies
                       </p>
                       <a
                         href="tel:8885551234"
-                        className="text-2xl font-bold text-gray-900 hover:text-blue-600 mt-2 block"
+                        className="text-2xl font-bold mt-2 block hover:opacity-80"
+                        style={{ color: 'var(--black-color)' }}
                       >
                         +91 8960628965
                       </a>
@@ -366,17 +373,18 @@ const ContactFormSection: React.FC = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="bg-green-100 p-3 rounded-xl mr-4">
-                      <Mail className="text-green-600" size={24} />
+                    <div className="p-3 rounded-xl mr-4" style={{ backgroundColor: 'var(--background-alt)' }}>
+                      <Mail style={{ color: 'var(--sky-blue)' }} size={24} />
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900">Email Us</h4>
-                      <p className="text-gray-600 mt-1">
+                      <h4 className="font-bold" style={{ color: 'var(--black-color)' }}>Email Us</h4>
+                      <p className="mt-1" style={{ color: 'var(--gray-color)' }}>
                         General inquiries and quotes
                       </p>
                       <a
                         href="mailto:contact@homeservice.com"
-                        className="text-lg font-medium text-gray-900 hover:text-blue-600 mt-2 block"
+                        className="text-lg font-medium mt-2 block hover:opacity-80"
+                        style={{ color: 'var(--black-color)' }}
                       >
                         jeevancleaningservices@gmail.com
                       </a>
@@ -384,21 +392,21 @@ const ContactFormSection: React.FC = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="bg-purple-100 p-3 rounded-xl mr-4">
-                      <Building className="text-purple-600" size={24} />
+                    <div className="p-3 rounded-xl mr-4" style={{ backgroundColor: 'var(--background-alt)' }}>
+                      <Building style={{ color: 'var(--sky-blue)' }} size={24} />
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900">
+                      <h4 className="font-bold" style={{ color: 'var(--black-color)' }}>
                         Head Office
                       </h4>
                       <div className="mt-2 space-y-1">
-                        <p className="text-gray-700">
+                        <p style={{ color: 'var(--gray-color)' }}>
                           Lucknow Sukh Complex, SN 45,
                         </p>
-                        <p className="text-gray-700">
+                        <p style={{ color: 'var(--gray-color)' }}>
                           Munshi Pulia, Sector 16, Indira Nagar,
                         </p>
-                        <p className="text-gray-700">
+                        <p style={{ color: 'var(--gray-color)' }}>
                           Lucknow, Uttar Pradesh 226016
                         </p>
                       </div>
@@ -443,21 +451,21 @@ const ContactFormSection: React.FC = () => {
 // Interactive Map Component
 const LocationMap: React.FC = () => {
   return (
-    <section className="relative bg-white overflow-hidden py-24">
+    <section className="section-wrapper relative overflow-hidden py-24">
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold">
+          <h2 className="section-title text-4xl font-bold">
             Our Service Coverage
           </h2>
-          <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+          <p className="section-subtitle mt-4 max-w-2xl mx-auto">
             We provide fast, reliable home services across Lucknow and nearby areas
           </p>
         </div>
 
         {/* Glass Card */}
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 md:p-6 shadow-2xl">
+        <div className="card-ui rounded-3xl p-4 md:p-6 shadow-2xl">
           <div className="rounded-2xl overflow-hidden">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6764.947135035159!2d80.995199!3d26.886113!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39995938108ae189%3A0x5e9d35bc7ae00695!2sJeevan%20Cleaning%20Services%20-%20Quality%20Cleaning%20Service%2C%20House%20Cleaning%20Services%20%26%20Cleaning%20Services%20in%20Lucknow!5e1!3m2!1sen!2sin!4v1768152993441!5m2!1sen!2sin"
@@ -478,7 +486,7 @@ const LocationMap: React.FC = () => {
 // ================ MAIN CONTACT PAGE ================
 const ContactPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--white-color)' }}>
       {/* Header */}
       <ContactHeader />
 

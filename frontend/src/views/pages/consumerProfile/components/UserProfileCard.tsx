@@ -55,7 +55,8 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
             />
             <button
               onClick={() => setIsEditingAvatar(true)}
-              className="absolute bottom-2 right-2 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors"
+              className="absolute bottom-2 right-2 text-white p-2 rounded-full transition-colors"
+              style={{ backgroundColor: 'var(--sky-blue)' }}
             >
               <Camera className="w-4 h-4" />
             </button>
@@ -76,7 +77,7 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
             )}
           </div>
 
-          <div className="flex items-center justify-center gap-4 text-gray-600 dark:text-gray-400 mb-4">
+          <div className="flex items-center justify-center gap-4 dark:text-gray-400 mb-4" style={{ color: 'var(--gray-color)' }}>
             <div className="flex items-center gap-1">
               <Mail className="w-4 h-4" />
               <span>{user.email}</span>
@@ -98,10 +99,10 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+          <div className="dark:bg-gray-700/50 p-4 rounded-xl" style={{ backgroundColor: 'var(--background-alt)' }}>
             <div className="flex items-center gap-2 mb-2">
-              <Calendar className="w-5 h-5 text-blue-500" />
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <Calendar className="w-5 h-5" style={{ color: 'var(--sky-blue)' }} />
+              <span className="text-sm dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
                 Member Since
               </span>
             </div>
@@ -113,10 +114,10 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
             </p>
           </div>
 
-          <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+          <div className="dark:bg-gray-700/50 p-4 rounded-xl" style={{ backgroundColor: 'var(--background-alt)' }}>
             <div className="flex items-center gap-2 mb-2">
               <Star className="w-5 h-5 text-yellow-500" />
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-sm dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
                 Trust Score
               </span>
             </div>
@@ -127,14 +128,14 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
         </div>
 
         {/* Security status */}
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-xl border border-green-100 dark:border-green-800">
+        <div className="dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-xl border border-green-100 dark:border-green-800" style={{ background: 'linear-gradient(to right, var(--background-alt), var(--background-alt))' }}>
           <div className="flex items-center gap-3">
-            <Shield className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <Shield className="w-6 h-6" style={{ color: 'var(--sky-blue)' }} />
             <div>
               <h4 className="font-semibold text-gray-900 dark:text-white">
                 Account Security
               </h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
                 All security features are enabled
               </p>
             </div>

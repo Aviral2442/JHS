@@ -24,10 +24,10 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   onSearch,
 }) => {
   return (
-    <div className="filter-sidebar bg-white rounded-xl shadow-lg p-6 sticky top-6">
+    <div className="filter-sidebar card-ui sticky top-6">
       {/* Search */}
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-dark mb-2">
           Search Services
         </label>
         <div className="relative">
@@ -36,10 +36,11 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             value={filters.search}
             onChange={(e) => onSearch(e.target.value)}
             placeholder="Search services..."
-            className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 pl-10 border rounded-lg focus:ring-2 focus:border-transparent"
+            style={{ borderColor: 'var(--gray-color)', '--tw-ring-color': 'var(--sky-blue)' } as any}
           />
           <svg
-            className="w-5 h-5 text-gray-400 absolute left-3 top-2.5"
+            className="w-5 h-5 text-gray absolute left-3 top-2.5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -51,15 +52,16 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
       {/* Services */}
       <div className="mb-6">
-        <h3 className="font-semibold text-gray-900 mb-3">Services</h3>
+        <h3 className="font-semibold text-dark mb-3">Services</h3>
         <div className="space-y-2">
           <button
             onClick={() => onServiceSelect(null)}
-            className={`w-full text-left px-3 py-2 rounded-lg ${
+            className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
               !filters.service
-                ? 'bg-blue-50 text-blue-600'
-                : 'hover:bg-gray-50'
+                ? 'text-primary'
+                : ''
             }`}
+            style={!filters.service ? { backgroundColor: 'rgba(0, 173, 181, 0.1)' } : {}}
           >
             All Services
           </button>
@@ -67,11 +69,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             <button
               key={service.id}
               onClick={() => onServiceSelect(service.id)}
-              className={`w-full text-left px-3 py-2 rounded-lg ${
+              className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
                 filters.service === service.id
-                  ? 'bg-blue-50 text-blue-600'
-                  : 'hover:bg-gray-50'
+                  ? 'text-primary'
+                  : ''
               }`}
+              style={filters.service === service.id ? { backgroundColor: 'rgba(0, 173, 181, 0.1)' } : {}}
             >
               {service.name}
             </button>
@@ -82,7 +85,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       {/* Subcategories */}
       {selectedService && (
         <div className="mb-6">
-          <h3 className="font-semibold text-gray-900 mb-3">
+          <h3 className="font-semibold text-dark mb-3">
             {selectedService.name} Categories
           </h3>
           <div className="space-y-2">
@@ -115,11 +118,11 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
       {/* Price Range */}
       <div className="mb-6">
-        <h3 className="font-semibold text-gray-900 mb-3">Price Range</h3>
+        <h3 className="font-semibold text-dark mb-3">Price Range</h3>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">Min: ${filters.minPrice}</span>
-            <span className="text-sm text-gray-600">Max: ${filters.maxPrice}</span>
+            <span className="text-sm text-gray">Min: ${filters.minPrice}</span>
+            <span className="text-sm text-gray">Max: ${filters.maxPrice}</span>
           </div>
           <div className="flex gap-4">
             <input
@@ -153,7 +156,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
       {/* Sort By */}
       <div className="mb-6">
-        <h3 className="font-semibold text-gray-900 mb-3">Sort By</h3>
+        <h3 className="font-semibold text-dark mb-3">Sort By</h3>
         <div className="space-y-2">
           {[
             { value: 'popular', label: 'Most Popular' },
@@ -185,7 +188,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           onSort('popular');
           onSearch('');
         }}
-        className="w-full py-2 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+        className="btn-outline w-full"
       >
         Clear All Filters
       </button>

@@ -260,7 +260,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                 Professional
-                <span className="block text-blue-300 mt-2">Home Cleaning</span>
+                <span className="block mt-2" style={{ color: 'rgba(255,255,255,0.8)' }}>Home Cleaning</span>
               </h1>
               
               <p className="text-xl mb-8 max-w-2xl opacity-95">
@@ -295,22 +295,22 @@ const ComprehensiveCleaningLanding: React.FC = () => {
             {/* Enquiry Form Card */}
             <div className="bg-white rounded-2xl shadow-2xl p-6 md:p-8 transform hover:scale-[1.02] transition-transform duration-300">
               <div className="text-center mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Request a Call Back</h2>
+                <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--black-color)' }}>Request a Call Back</h2>
               </div>
               
               {isSubmitted ? (
                 <div className="text-center py-8">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle className="w-10 h-10 text-green-600" />
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'rgba(0,173,181,0.2)' }}>
+                    <CheckCircle className="w-10 h-10" style={{ color: 'var(--sky-blue)' }} />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h3>
-                  <p className="text-gray-600">We'll contact you within 2 hours with your personalized quote.</p>
+                  <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>Thank You!</h3>
+                  <p style={{ color: 'var(--gray-color)' }}>We'll contact you within 2 hours with your personalized quote.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name*</label>
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--gray-color)' }}>Full Name*</label>
                       <input
                         type="text"
                         name="name"
@@ -322,7 +322,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number*</label>
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--gray-color)' }}>Phone Number*</label>
                       <input
                         type="number"
                         name="phone"
@@ -337,7 +337,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Service Type*</label>
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--gray-color)' }}>Service Type*</label>
                     <select
                       name="service"
                       value={formData.service}
@@ -355,7 +355,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Date*</label>
+                    <label className="block text-sm font-medium mb-1" style={{ color: 'var(--gray-color)' }}>Preferred Date*</label>
                     <input
                       type="date"
                       name="date"
@@ -368,7 +368,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                   </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Additional Details</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>Additional Details</label>
                     <textarea
                       name="message"
                       value={formData.message}
@@ -382,7 +382,8 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg disabled:opacity-70 flex items-center justify-center"
+                    className="w-full text-white py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg disabled:opacity-70 flex items-center justify-center"
+                    style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}
                   >
                     {loading ? (
                       <>
@@ -397,7 +398,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                     )}
                   </button>
                   
-                  <p className="text-center text-sm text-gray-500">
+                  <p className="text-center text-sm" style={{ color: 'var(--gray-color)' }}>
                     By submitting, you agree to our terms. We respect your privacy.
                   </p>
                 </form>
@@ -411,10 +412,10 @@ const ComprehensiveCleaningLanding: React.FC = () => {
       <section className="py-16 bg-white ">
         <div className="max-w-[90%] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>
               Why Homeowners Choose Us
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl" style={{ color: 'var(--gray-color)' }}>
               Experience the difference with our professional cleaning approach
             </p>
           </div>
@@ -422,11 +423,11 @@ const ComprehensiveCleaningLanding: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {whyChooseUs.map((item, index) => (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-6">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'rgba(0,173,181,0.2)', color: 'var(--sky-blue)' }}>
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--black-color)' }}>{item.title}</h3>
+                <p style={{ color: 'var(--gray-color)' }}>{item.description}</p>
               </div>
             ))}
           </div>
@@ -434,13 +435,13 @@ const ComprehensiveCleaningLanding: React.FC = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16" style={{ backgroundColor: 'var(--background-alt)' }}>
         <div className="max-w-[90%] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>
               Our Cleaning Services
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl" style={{ color: 'var(--gray-color)' }}>
               Comprehensive cleaning solutions for every need
             </p>
           </div>
@@ -452,23 +453,18 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                 className={`bg-white rounded-2xl shadow-lg overflow-hidden border-2 ${service.popular ? 'border-blue-500' : 'border-transparent'} transition-all duration-300 hover:shadow-xl`}
               >
                 {service.popular && (
-                  <div className="bg-blue-600 text-white text-center py-2 px-4 text-sm font-semibold">
+                  <div className="text-white text-center py-2 px-4 text-sm font-semibold" style={{ backgroundColor: 'var(--sky-blue)' }}>
                     MOST POPULAR
                   </div>
                 )}
                 <div className="p-8">
                   <div className="flex items-center mb-6">
-                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center mr-4
-                      ${service.color === 'blue' ? 'bg-blue-100 text-blue-600' : ''}
-                      ${service.color === 'green' ? 'bg-green-100 text-green-600' : ''}
-                      ${service.color === 'purple' ? 'bg-purple-100 text-purple-600' : ''}
-                      ${service.color === 'teal' ? 'bg-teal-100 text-teal-600' : ''}
-                    `}>
+                    <div className="w-14 h-14 rounded-xl flex items-center justify-center mr-4" style={{ backgroundColor: 'rgba(0,173,181,0.2)', color: 'var(--sky-blue)' }}>
                       {service.icon}
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">{service.title}</h3>
-                      <p className="text-gray-600">{service.description}</p>
+                      <h3 className="text-2xl font-bold" style={{ color: 'var(--black-color)' }}>{service.title}</h3>
+                      <p style={{ color: 'var(--gray-color)' }}>{service.description}</p>
                     </div>
                   </div>
                   
@@ -476,8 +472,8 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                     <div className="grid grid-cols-2 gap-2">
                       {service.features.map((feature, idx) => (
                         <div key={idx} className="flex items-center">
-                          <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                          <span className="text-gray-700">{feature}</span>
+                          <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" style={{ color: 'var(--sky-blue)' }} />
+                          <span style={{ color: 'var(--gray-color)' }}>{feature}</span>
                         </div>
                       ))}
                     </div>
@@ -485,19 +481,20 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                   
                   <div className="flex justify-between items-center pt-6 border-t border-gray-100">
                     <div>
-                      <div className="text-sm text-gray-600">Starting from</div>
-                      <div className="text-2xl font-bold text-gray-900">{service.priceRange}</div>
+                      <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Starting from</div>
+                      <div className="text-2xl font-bold" style={{ color: 'var(--black-color)' }}>{service.priceRange}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm text-gray-600">Duration</div>
-                      <div className="text-lg font-semibold text-gray-900">{service.duration}</div>
+                      <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Duration</div>
+                      <div className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>{service.duration}</div>
                     </div>
                   </div>
                 </div>
                 
-                <div className="bg-gray-50 px-8 py-4">
+                <div className="px-8 py-4" style={{ backgroundColor: 'var(--background-alt)' }}>
                   <button 
-                    className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 flex items-center justify-center"
+                    className="w-full text-white py-3 rounded-lg font-semibold transition duration-300 flex items-center justify-center"
+                    style={{ backgroundColor: 'var(--sky-blue)' }}
                     onClick={() => {
                       setFormData(prev => ({ ...prev, service: service.id }));
                       document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth' });
@@ -514,7 +511,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
       </section>
 
       {/* Statistics */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+      <section className="py-16 text-white" style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {statistics.map((stat, index) => (
@@ -537,16 +534,17 @@ const ComprehensiveCleaningLanding: React.FC = () => {
         <div className="max-w-[90%] mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--black-color)' }}>
                 Our Cleaning Gallery
               </h2>
-              <p className="text-gray-600">See the transformation in action</p>
+              <p style={{ color: 'var(--gray-color)' }}>See the transformation in action</p>
             </div>
             
             <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
               <button
                 onClick={() => setActiveCategory('all')}
-                className={`px-4 py-2 rounded-full ${activeCategory === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                className={`px-4 py-2 rounded-full ${activeCategory === 'all' ? 'text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                style={activeCategory === 'all' ? { backgroundColor: 'var(--sky-blue)' } : {}}
               >
                 All
               </button>
@@ -554,7 +552,8 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                 <button
                   key={service.id}
                   onClick={() => setActiveCategory(service.id)}
-                  className={`px-4 py-2 rounded-full capitalize ${activeCategory === service.id ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                  className={`px-4 py-2 rounded-full capitalize ${activeCategory === service.id ? 'text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                  style={activeCategory === service.id ? { backgroundColor: 'var(--sky-blue)' } : {}}
                 >
                   {service.title.split(' ')[0]}
                 </button>
@@ -566,11 +565,12 @@ const ComprehensiveCleaningLanding: React.FC = () => {
             {filteredGallery.map((image, index) => (
               <div 
                 key={image.id} 
-                className={`rounded-2xl overflow-hidden shadow-lg group cursor-pointer transition-all duration-300 hover:scale-105
-                  ${index % 3 === 0 ? 'bg-blue-50' : ''}
-                  ${index % 3 === 1 ? 'bg-green-50' : ''}
-                  ${index % 3 === 2 ? 'bg-purple-50' : ''}
-                `}
+                className={`rounded-2xl overflow-hidden shadow-lg group cursor-pointer transition-all duration-300 hover:scale-105`}
+                style={{ 
+                  backgroundColor: index % 3 === 0 ? 'rgba(0,173,181,0.1)' : 
+                                   index % 3 === 1 ? 'rgba(16,185,129,0.1)' : 
+                                   'rgba(139,92,246,0.1)'
+                }}
                 onClick={() => setCurrentImageIndex(index)}
               >
                 <div className="aspect-video relative">
@@ -597,7 +597,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-gray-900">
+                <h3 className="text-2xl font-bold" style={{ color: 'var(--black-color)' }}>
                   Featured: {filteredGallery[currentImageIndex]?.title}
                 </h3>
                 <div className="flex space-x-2">
@@ -617,30 +617,30 @@ const ComprehensiveCleaningLanding: React.FC = () => {
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="aspect-video rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                <div className="aspect-video rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(to bottom right, rgba(0,173,181,0.2), rgba(0,173,181,0.4))' }}>
                   <div className="text-center">
-                    <Sparkles className="w-16 h-16 text-blue-600 mx-auto mb-4" />
-                    <div className="text-2xl font-bold text-blue-900">
+                    <Sparkles className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--sky-blue)' }} />
+                    <div className="text-2xl font-bold" style={{ color: 'var(--black-color)' }}>
                       Professional Results
                     </div>
                   </div>
                 </div>
                 
                 <div>
-                  <h4 className="font-bold text-gray-900 mb-4">Service Details</h4>
-                  <p className="text-gray-700 mb-6">
+                  <h4 className="font-bold mb-4" style={{ color: 'var(--black-color)' }}>Service Details</h4>
+                  <p className="mb-6" style={{ color: 'var(--gray-color)' }}>
                     Our certified professionals follow a detailed 72-point checklist to ensure every 
                     surface is thoroughly cleaned, disinfected, and polished to perfection.
                   </p>
                   
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <div className="text-sm text-gray-600">Time Required</div>
-                      <div className="text-xl font-bold text-gray-900">3-5 hours</div>
+                    <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--background-alt)' }}>
+                      <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Time Required</div>
+                      <div className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>3-5 hours</div>
                     </div>
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <div className="text-sm text-gray-600">Team Size</div>
-                      <div className="text-xl font-bold text-gray-900">2 professionals</div>
+                    <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--background-alt)' }}>
+                      <div className="text-sm" style={{ color: 'var(--gray-color)' }}>Team Size</div>
+                      <div className="text-xl font-bold" style={{ color: 'var(--black-color)' }}>2 professionals</div>
                     </div>
                   </div>
                 </div>
@@ -651,13 +651,13 @@ const ComprehensiveCleaningLanding: React.FC = () => {
       </section>
 
       {/* Products Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16" style={{ backgroundColor: 'var(--background-alt)' }}>
         <div className="max-w-[90%] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ color: 'var(--black-color)' }}>
               Professional Cleaning Products
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl" style={{ color: 'var(--gray-color)' }}>
               Shop our curated selection of cleaning supplies
             </p>
           </div>
@@ -665,19 +665,19 @@ const ComprehensiveCleaningLanding: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {cleaningProducts.map((product) => (
               <div key={product.id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                <div className={`p-8 ${product.bestSeller ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-gray-50'}`}>
+                <div className={`p-8`} style={{ background: product.bestSeller ? 'linear-gradient(to right, rgba(0,173,181,0.1), rgba(0,173,181,0.2))' : 'var(--background-alt)' }}>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-gray-900 mb-2">
+                    <div className="text-3xl font-bold mb-2" style={{ color: 'var(--black-color)' }}>
                       {product.name.split(' ')[0]}
                     </div>
-                    <div className="text-gray-600">{product.category}</div>
+                    <div style={{ color: 'var(--gray-color)' }}>{product.category}</div>
                   </div>
                 </div>
                 
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-1">{product.name}</h3>
+                      <h3 className="text-xl font-bold mb-1" style={{ color: 'var(--black-color)' }}>{product.name}</h3>
                       <div className="flex items-center">
                         {[...Array(5)].map((_, i) => (
                           <Star 
@@ -685,22 +685,22 @@ const ComprehensiveCleaningLanding: React.FC = () => {
                             className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
                           />
                         ))}
-                        <span className="ml-2 text-sm text-gray-600">{product.rating}</span>
+                        <span className="ml-2 text-sm" style={{ color: 'var(--gray-color)' }}>{product.rating}</span>
                       </div>
                     </div>
-                    <div className="text-2xl font-bold text-blue-600">{product.price}</div>
+                    <div className="text-2xl font-bold" style={{ color: 'var(--sky-blue)' }}>{product.price}</div>
                   </div>
                   
                   <ul className="space-y-2 mb-6">
                     {product.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-sm text-gray-700">
-                        <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                      <li key={idx} className="flex items-center text-sm" style={{ color: 'var(--gray-color)' }}>
+                        <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" style={{ color: 'var(--sky-blue)' }} />
                         {feature}
                       </li>
                     ))}
                   </ul>
                   
-                  <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 flex items-center justify-center">
+                  <button className="w-full text-white py-3 rounded-lg font-semibold transition duration-300 flex items-center justify-center" style={{ backgroundColor: 'var(--sky-blue)' }}>
                     <ShoppingCart className="w-5 h-5 mr-2" />
                     Add to Cart
                   </button>
@@ -715,7 +715,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="max-w-[90%] mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12" style={{ color: 'var(--black-color)' }}>
               Frequently Asked Questions
             </h2>
             
@@ -723,16 +723,17 @@ const ComprehensiveCleaningLanding: React.FC = () => {
               {faqItems.map((faq, index) => (
                 <div key={index} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                   <button
-                    className="w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition duration-300"
+                    className="w-full p-6 text-left flex justify-between items-center transition duration-300"
+                    style={{ backgroundColor: 'transparent' }}
                     onClick={() => setActiveFAQ(activeFAQ === index ? null : index)}
                   >
-                    <span className="text-lg font-semibold text-gray-900">{faq.question}</span>
-                    <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${activeFAQ === index ? 'rotate-180' : ''}`} />
+                    <span className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>{faq.question}</span>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${activeFAQ === index ? 'rotate-180' : ''}`} style={{ color: 'var(--gray-color)' }} />
                   </button>
                   
                   {activeFAQ === index && (
                     <div className="px-6 pb-6">
-                      <p className="text-gray-700">{faq.answer}</p>
+                      <p style={{ color: 'var(--gray-color)' }}>{faq.answer}</p>
                     </div>
                   )}
                 </div>
@@ -743,7 +744,7 @@ const ComprehensiveCleaningLanding: React.FC = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+      <section className="py-16 text-white" style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}>
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -756,7 +757,8 @@ const ComprehensiveCleaningLanding: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
                 onClick={() => document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-all duration-300 flex items-center justify-center"
+                className="px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 flex items-center justify-center"
+                style={{ backgroundColor: 'var(--white-color)', color: 'var(--sky-blue)' }}
               >
                 <Calendar className="w-5 h-5 mr-2" />
                 Book Your Cleaning Now

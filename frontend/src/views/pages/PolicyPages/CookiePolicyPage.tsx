@@ -17,7 +17,7 @@ const CookiePolicyPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <PolicyHeader title="Cookie Policy" description="Learn about how we use cookies and similar technologies." icon={<Cookie size={32} />} />
 
@@ -26,9 +26,9 @@ const CookiePolicyPage: React.FC = () => {
             <TableOfContents sections={cookieSections as any} activeSection={Array.from(expandedSections)[0] || ''} onSectionClick={(id) => { if (!expandedSections.has(id)) toggleSection(id); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }} />
           </div> */}
           <div className="">
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
-              <h4 className="font-semibold">Cookie Controls</h4>
-              <p className="text-gray-600">Manage cookie preferences through browser settings or our consent tool.</p>
+            <div className="rounded-xl p-6 mb-8" style={{ backgroundColor: 'var(--background-alt)', border: '1px solid var(--sky-blue)' }}>
+              <h4 className="font-semibold" style={{ color: 'var(--black-color)' }}>Cookie Controls</h4>
+              <p style={{ color: 'var(--gray-color)' }}>Manage cookie preferences through browser settings or our consent tool.</p>
             </div>
 
             {cookieSections.map((s) => (

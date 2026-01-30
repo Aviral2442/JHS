@@ -62,13 +62,13 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ transactions })
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">
               Transaction History
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
               {transactions.length} total transactions
             </p>
           </div>
           
           <div className="flex items-center gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-colors" style={{ backgroundColor: 'var(--sky-blue)' }}>
               <Download className="w-4 h-4" />
               Export CSV
             </button>
@@ -97,9 +97,10 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ transactions })
               onClick={() => setFilter('all')}
               className={`px-4 py-2 rounded-lg transition-colors ${
                 filter === 'all'
-                  ? 'bg-blue-600 text-white'
+                  ? 'text-white'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
+              style={filter === 'all' ? { backgroundColor: 'var(--sky-blue)' } : {}}
             >
               All
             </button>
@@ -277,7 +278,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({ transactions })
                 >
                   Close
                 </button>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                <button className="px-4 py-2 text-white rounded-lg" style={{ backgroundColor: 'var(--sky-blue)' }}>
                   Download Receipt
                 </button>
               </div>

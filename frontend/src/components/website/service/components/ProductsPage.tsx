@@ -167,14 +167,14 @@ const ProductsPage: React.FC = () => {
     : null;
 
   return (
-    <div className="min-h-screen bg-gray-50  max-w-[90%] mx-auto">
+    <div className="min-h-screen max-w-[90%] mx-auto" style={{ backgroundColor: 'var(--background-alt)' }}>
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">
+          <h1 className="section-title text-4xl mb-3">
             Professional Services Marketplace
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="section-subtitle mx-auto">
             Browse and book professional services for your home or office needs
           </p>
         </div>
@@ -208,10 +208,10 @@ const ProductsPage: React.FC = () => {
             {/* Results Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
               <div>
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-2xl font-semibold text-dark">
                   Available Services
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-gray">
                   {filteredProducts.length} services found
                   {filters.subCategory && ' in this category'}
                 </p>
@@ -219,7 +219,7 @@ const ProductsPage: React.FC = () => {
               
               {/* Mobile Filter Toggle (Optional) */}
               <button
-                className="lg:hidden px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="btn-primary lg:hidden"
                 onClick={() => {
                   // Implement mobile filter drawer
                   const sidebar = document.querySelector('.filter-sidebar');
@@ -243,15 +243,15 @@ const ProductsPage: React.FC = () => {
               </div>
             ) : (
               <div className="text-center py-12">
-                <div className="text-gray-400 mb-4">
+                <div className="text-gray mb-4" style={{ opacity: 0.6 }}>
                   <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                <h3 className="card-title text-xl mb-2">
                   No services found
                 </h3>
-                <p className="text-gray-500">
+                <p className="card-desc">
                   Try adjusting your filters or search terms
                 </p>
               </div>

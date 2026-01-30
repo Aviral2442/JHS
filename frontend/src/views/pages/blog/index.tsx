@@ -69,7 +69,7 @@ export default function BlogPage() {
       id: 2,
       name: "Cleaning",
       icon: Sparkles,
-      color: "text-blue-500",
+      color: "text-teal-500",
       blogCount: 8,
     },
     {
@@ -104,7 +104,7 @@ export default function BlogPage() {
       id: 7,
       name: "Plumber",
       icon: Wrench,
-      color: "text-blue-600",
+      color: "text-teal-600",
       blogCount: 6,
     },
     {
@@ -407,23 +407,23 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--white-color)' }}>
       {/* Hero Section */}
-      <div className="bg-[#f9fafb]">
+      <div className="section-wrapper">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center"
           >
-            <div className="inline-flex items-center bg-white backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <div className="badge-highlight inline-flex items-center px-4 py-2 rounded-full text-sm font-medium mb-6">
               <BookOpen className="h-4 w-4 mr-2" />
               Jeevan Home Services Blog
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="section-title text-4xl md:text-5xl font-bold mb-6">
               Expert Insights & Home Care Tips
             </h1>
-            <p className="text-xl text-gray-500 max-w-3xl mx-auto">
+            <p className="section-subtitle text-xl max-w-3xl mx-auto">
               Discover professional advice, maintenance guides, and industry
               trends for all your home service needs.
             </p>
@@ -440,23 +440,24 @@ export default function BlogPage() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-xl shadow-lg p-6"
+              className="card-ui rounded-xl shadow-lg p-6"
             >
               <div className="relative mb-6">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{ color: 'var(--gray-color)' }} />
                 <input
                   type="text"
                   placeholder="Search blog posts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
+                  className="w-full pl-12 pr-4 py-3 rounded-lg border focus:ring-2 outline-none"
+                  style={{ borderColor: 'var(--gray-color)' }}
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery("")}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2"
                   >
-                    <X className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <X className="h-5 w-5" style={{ color: 'var(--gray-color)' }} />
                   </button>
                 )}
               </div>
@@ -464,8 +465,8 @@ export default function BlogPage() {
               {/* Filter by Service */}
               <div className="mb-6">
                 <div className="flex items-center mb-4">
-                  <Filter className="h-5 w-5 text-gray-600 mr-2" />
-                  <h3 className="font-semibold text-gray-900">
+                  <Filter className="h-5 w-5 mr-2" style={{ color: 'var(--gray-color)' }} />
+                  <h3 className="font-semibold" style={{ color: 'var(--black-color)' }}>
                     Filter by Service
                   </h3>
                 </div>
@@ -476,9 +477,13 @@ export default function BlogPage() {
                       onClick={() => setSelectedService(service.name)}
                       className={`w-full flex items-center justify-between p-3 rounded-lg transition-all ${
                         selectedService === service.name
-                          ? "bg-indigo-50 text-indigo-700"
-                          : "hover:bg-gray-50 text-gray-700"
+                          ? "text-white"
+                          : "hover:bg-gray-50"
                       }`}
+                      style={{
+                        backgroundColor: selectedService === service.name ? 'var(--sky-blue)' : 'transparent',
+                        color: selectedService === service.name ? 'var(--white-color)' : 'var(--gray-color)'
+                      }}
                     >
                       <div className="flex items-center">
                         <service.icon
@@ -486,7 +491,7 @@ export default function BlogPage() {
                         />
                         <span>{service.name}</span>
                       </div>
-                      <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-1 rounded-full">
+                      <span className="text-xs font-medium px-2 py-1 rounded-full" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }}>
                         {service.blogCount}
                       </span>
                     </button>
@@ -498,44 +503,45 @@ export default function BlogPage() {
               {(searchQuery || selectedService !== "all" || selectedTag) && (
                 <div className="border-t pt-6">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium" style={{ color: 'var(--black-color)' }}>
                       Active Filters
                     </span>
                     <button
                       onClick={clearFilters}
-                      className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                      className="text-sm font-medium hover:opacity-80"
+                      style={{ color: 'var(--sky-blue)' }}
                     >
                       Clear All
                     </button>
                   </div>
                   <div className="space-y-2">
                     {searchQuery && (
-                      <div className="flex items-center justify-between bg-blue-50 px-3 py-2 rounded-lg">
-                        <span className="text-sm text-blue-700">
+                      <div className="flex items-center justify-between px-3 py-2 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
+                        <span className="text-sm" style={{ color: 'var(--gray-color)' }}>
                           Search: "{searchQuery}"
                         </span>
                         <button onClick={() => setSearchQuery("")}>
-                          <X className="h-4 w-4 text-blue-500" />
+                          <X className="h-4 w-4" style={{ color: 'var(--sky-blue)' }} />
                         </button>
                       </div>
                     )}
                     {selectedService !== "all" && (
-                      <div className="flex items-center justify-between bg-indigo-50 px-3 py-2 rounded-lg">
-                        <span className="text-sm text-indigo-700">
+                      <div className="flex items-center justify-between px-3 py-2 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
+                        <span className="text-sm" style={{ color: 'var(--gray-color)' }}>
                           Service: {selectedService}
                         </span>
                         <button onClick={() => setSelectedService("all")}>
-                          <X className="h-4 w-4 text-indigo-500" />
+                          <X className="h-4 w-4" style={{ color: 'var(--sky-blue)' }} />
                         </button>
                       </div>
                     )}
                     {selectedTag && (
-                      <div className="flex items-center justify-between bg-purple-50 px-3 py-2 rounded-lg">
-                        <span className="text-sm text-purple-700">
+                      <div className="flex items-center justify-between px-3 py-2 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
+                        <span className="text-sm" style={{ color: 'var(--gray-color)' }}>
                           Tag: #{selectedTag}
                         </span>
                         <button onClick={() => setSelectedTag("")}>
-                          <X className="h-4 w-4 text-purple-500" />
+                          <X className="h-4 w-4" style={{ color: 'var(--sky-blue)' }} />
                         </button>
                       </div>
                     )}
@@ -555,15 +561,15 @@ export default function BlogPage() {
               className="mb-12"
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold" style={{ color: 'var(--black-color)' }}>
                   Trending Articles
                 </h2>
                 <div className="flex items-center space-x-2">
                   <button className="p-2 rounded-lg hover:bg-gray-100">
-                    <ChevronLeft className="h-5 w-5 text-gray-600" />
+                    <ChevronLeft className="h-5 w-5" style={{ color: 'var(--gray-color)' }} />
                   </button>
                   <button className="p-2 rounded-lg hover:bg-gray-100">
-                    <ChevronRight className="h-5 w-5 text-gray-600" />
+                    <ChevronRight className="h-5 w-5" style={{ color: 'var(--gray-color)' }} />
                   </button>
                 </div>
               </div>
@@ -574,13 +580,13 @@ export default function BlogPage() {
                     key={post.id}
                     variants={itemVariants}
                     whileHover={{ y: -5 }}
-                    className="bg-white rounded-xl shadow-lg overflow-hidden group cursor-pointer"
+                    className="card-ui rounded-xl shadow-lg overflow-hidden group cursor-pointer"
                   >
-                    <div className="relative h-48 bg-linear-to-r from-indigo-400 to-blue-400">
+                    <div className="relative h-48" style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-white text-center p-6">
                           <Tag className="h-8 w-8 mx-auto mb-3" />
-                          <span className="text-sm font-medium bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+                          <span className="text-sm font-medium backdrop-blur-sm px-3 py-1 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
                             {post.service}
                           </span>
                         </div>
@@ -588,22 +594,22 @@ export default function BlogPage() {
                     </div>
                     <div className="p-6">
                       <div className="flex items-center space-x-4 mb-3">
-                        <span className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-1 rounded">
+                        <span className="text-xs font-medium px-2 py-1 rounded" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--sky-blue)' }}>
                           {post.category}
                         </span>
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors">
+                      <h3 className="card-title text-xl mb-3 group-hover:opacity-80 transition-colors">
                         {post.title}
                       </h3>
-                      <p className="text-gray-600 mb-4">{post.excerpt}</p>
+                      <p className="card-desc mb-4">{post.excerpt}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
-                          <div className="flex items-center text-sm text-gray-500">
+                          <div className="flex items-center text-sm" style={{ color: 'var(--gray-color)' }}>
                             <Clock className="h-4 w-4 mr-1" />
                             {post.readTime}
                           </div>
                         </div>
-                        <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-indigo-600 transition-colors" />
+                        <ArrowRight className="h-5 w-5 group-hover:opacity-80 transition-colors" style={{ color: 'var(--gray-color)' }} />
                       </div>
                     </div>
                   </motion.div>
@@ -614,13 +620,13 @@ export default function BlogPage() {
             {/* Filter Results Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold" style={{ color: 'var(--black-color)' }}>
                   All Articles
                 </h2>
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--gray-color)' }}>
                   Showing {filteredPosts.length} of {blogPosts.length} posts
                   {(selectedService !== "all" || selectedTag) && (
-                    <span className="text-indigo-600 ml-2">
+                    <span className="ml-2" style={{ color: 'var(--sky-blue)' }}>
                       • Filtered by{" "}
                       {selectedService !== "all" && `${selectedService} `}
                       {selectedTag && `#${selectedTag}`}
@@ -629,7 +635,7 @@ export default function BlogPage() {
                 </p>
               </div>
               <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-                <div className="text-sm text-gray-600">
+                <div className="text-sm" style={{ color: 'var(--gray-color)' }}>
                   Page {currentPage} of {totalPages}
                 </div>
                 <div className="flex space-x-2">
@@ -638,7 +644,8 @@ export default function BlogPage() {
                       setCurrentPage((prev) => Math.max(prev - 1, 1))
                     }
                     disabled={currentPage === 1}
-                    className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-2 rounded-lg border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ borderColor: 'var(--gray-color)' }}
                   >
                     <ChevronLeft className="h-5 w-5" />
                   </button>
@@ -647,7 +654,8 @@ export default function BlogPage() {
                       setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                     }
                     disabled={currentPage === totalPages}
-                    className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-2 rounded-lg border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ borderColor: 'var(--gray-color)' }}
                   >
                     <ChevronRight className="h-5 w-5" />
                   </button>
@@ -671,33 +679,33 @@ export default function BlogPage() {
                       key={post.id}
                       variants={itemVariants}
                       whileHover={{ y: -5 }}
-                      className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition-all group cursor-pointer"
+                      className="card-ui rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all group cursor-pointer"
                     >
                       <div className="p-6">
                         <div className="flex items-center justify-between mb-4">
-                          <span className="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">
+                          <span className="text-xs font-medium px-3 py-1 rounded-full" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }}>
                             {post.service}
                           </span>
-                          <button className="text-indigo-600 hover:text-indigo-800">
+                          <button className="hover:opacity-80" style={{ color: 'var(--sky-blue)' }}>
                             <Share2 className="h-5 w-5" />
                           </button>
                         </div>
 
-                        <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors line-clamp-2">
+                        <h3 className="card-title text-lg mb-3 group-hover:opacity-80 transition-colors line-clamp-2">
                           {post.title}
                         </h3>
 
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                        <p className="card-desc text-sm mb-4 line-clamp-3">
                           {post.excerpt}
                         </p>
 
                         <div className="border-t pt-4">
-                          <div className="flex items-center justify-between text-sm text-gray-500">
+                          <div className="flex items-center justify-between text-sm" style={{ color: 'var(--gray-color)' }}>
                             <div className="flex items-center">
                               <Calendar className="h-4 w-4 mr-1" />
                               {post.date}
                             </div>
-                            <div className="flex items-center text-gray-600">
+                            <div className="flex items-center">
                               <Clock className="h-4 w-4 mr-1" />
                               <span className="text-sm">{post.readTime}</span>
                             </div>
@@ -711,21 +719,21 @@ export default function BlogPage() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-white rounded-2xl shadow-lg p-12 text-center"
+                  className="card-ui rounded-2xl shadow-lg p-12 text-center"
                 >
-                  <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Search className="h-10 w-10 text-gray-400" />
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'var(--background-alt)' }}>
+                    <Search className="h-10 w-10" style={{ color: 'var(--gray-color)' }} />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--black-color)' }}>
                     No Posts Found
                   </h3>
-                  <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                  <p className="mb-6 max-w-md mx-auto" style={{ color: 'var(--gray-color)' }}>
                     We couldn't find any blog posts matching your search
                     criteria. Try different filters or search terms.
                   </p>
                   <button
                     onClick={clearFilters}
-                    className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors"
+                    className="btn-primary px-6 py-3 rounded-lg font-medium"
                   >
                     Clear All Filters
                   </button>
@@ -743,7 +751,8 @@ export default function BlogPage() {
                 <button
                   onClick={() => setCurrentPage(1)}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 rounded-lg border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ borderColor: 'var(--gray-color)' }}
                 >
                   First
                 </button>
@@ -763,11 +772,12 @@ export default function BlogPage() {
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`px-4 py-2 rounded-lg border ${
-                        currentPage === pageNum
-                          ? "bg-indigo-600 text-white border-indigo-600"
-                          : "border-gray-300 hover:bg-gray-50"
-                      }`}
+                      className={`px-4 py-2 rounded-lg border`}
+                      style={{
+                        backgroundColor: currentPage === pageNum ? 'var(--sky-blue)' : 'transparent',
+                        color: currentPage === pageNum ? 'var(--white-color)' : 'var(--black-color)',
+                        borderColor: currentPage === pageNum ? 'var(--sky-blue)' : 'var(--gray-color)'
+                      }}
                     >
                       {pageNum}
                     </button>
@@ -776,7 +786,8 @@ export default function BlogPage() {
                 <button
                   onClick={() => setCurrentPage(totalPages)}
                   disabled={currentPage === totalPages}
-                  className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 rounded-lg border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ borderColor: 'var(--gray-color)' }}
                 >
                   Last
                 </button>

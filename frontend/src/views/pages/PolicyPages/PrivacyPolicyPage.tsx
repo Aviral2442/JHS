@@ -26,7 +26,7 @@ const PrivacyPolicyPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to bottom, var(--background-alt), var(--white-color))' }}>
       <div className="max-w-6xl mx-auto">
         <PolicyHeader title="Privacy Policy" description="Learn how we collect, use, and protect your personal information." icon={<Shield size={32} />} />
         <div className="flex flex-col gap-8">
@@ -35,8 +35,8 @@ const PrivacyPolicyPage: React.FC = () => {
           </div> */}
           <div className="">
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Introduction</h2>
-              <p className="text-gray-600">At ShopCart, we are committed to protecting your privacy and ensuring the security of your personal information.</p>
+              <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--black-color)' }}>Introduction</h2>
+              <p style={{ color: 'var(--gray-color)' }}>At ShopCart, we are committed to protecting your privacy and ensuring the security of your personal information.</p>
             </div>
             {privacySections.map((s) => (
               <PolicySectionComponent key={s.id} section={s as any} isExpanded={expandedSections.has(s.id)} onToggle={() => toggleSection(s.id)} />
@@ -44,10 +44,10 @@ const PrivacyPolicyPage: React.FC = () => {
 
             <div className="bg-white rounded-xl shadow-md p-8 mb-8">
               <div className="flex items-start mb-4">
-                <Globe className="text-blue-600 mr-3 mt-1" size={24} />
+                <Globe className="mr-3 mt-1" size={24} style={{ color: 'var(--sky-blue)' }} />
                 <div>
                   <h4 className="font-semibold">International Data Transfers</h4>
-                  <p className="text-gray-600">We may transfer your information across borders as necessary to operate our services.</p>
+                  <p style={{ color: 'var(--gray-color)' }}>We may transfer your information across borders as necessary to operate our services.</p>
                 </div>
               </div>
             </div>

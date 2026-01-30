@@ -42,9 +42,9 @@ const ContactFooter: React.FC = () => {
               <div className=" w-10 h-10 rounded-lg flex items-center justify-center mr-3">
                 <img src="/images/logo.png" alt="" />
               </div>
-              <span className="text-2xl font-bold">G.ONE Home</span>
+              <span className="text-2xl font-bold text-dark">G.ONE Home</span>
             </div>
-            <p className="text-gray-400 mb-8">
+            <p className="text-gray mb-8">
               A one stop platform which provide hassle-free services at
               effective cost with the help of our experts. A promise of world
               class customer service solution where everyone can earn even
@@ -67,7 +67,7 @@ const ContactFooter: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-bold mb-6">Services</h3>
+            <h3 className="text-xl font-bold mb-6 text-dark">Services</h3>
             <ul className="space-y-3">
               {[
                 ["Cleaning", "/services"],
@@ -83,7 +83,7 @@ const ContactFooter: React.FC = () => {
                 <li key={link[0]}>
                   <Link
                     to={link[1]}
-                    className="text-gray-400 hover:text-gray-700 transition-colors"
+                    className="text-gray hover:text-primary transition-colors"
                   >
                     {link[0]}
                   </Link>
@@ -93,7 +93,7 @@ const ContactFooter: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold mb-6">Quick Links</h3>
+            <h3 className="text-xl font-bold mb-6 text-dark">Quick Links</h3>
             <ul className="space-y-3">
               {[
                 ["About Us", "/about"],
@@ -118,17 +118,17 @@ const ContactFooter: React.FC = () => {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-xl font-bold mb-6">Stay Updated</h3>
-            <p className="text-gray-400 mb-4">
+            <h3 className="text-xl font-bold mb-6 text-dark">Stay Updated</h3>
+            <p className="text-gray mb-4">
               Subscribe for maintenance tips and exclusive offers
             </p>
             <div className="flex">
               <input
                 type="email"
                 placeholder="Your email"
-                className="grow px-4 py-3 border-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="grow px-4 py-3 border-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[var(--sky-blue)]"
               />
-              <button className="px-6 py-3 bg-linear-to-r from-blue-500 to-cyan-500 rounded-r-lg hover:from-blue-600 hover:to-cyan-600 transition-all">
+              <button className="btn-primary px-6 py-3 rounded-r-lg rounded-l-none">
                 <Send size={20} />
               </button>
             </div>

@@ -22,14 +22,14 @@ const Unauthorized = () => {
 //   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex items-center justify-center min-h-screen dark:bg-gray-900" style={{ backgroundColor: 'var(--background-alt)' }}>
       <div className="max-w-md w-full p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg text-center">
         <div className="mb-6">
-          <div className="text-6xl font-bold text-red-500 mb-4">403</div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <div className="text-6xl font-bold mb-4" style={{ color: 'var(--sky-blue)' }}>403</div>
+          <h1 className="text-3xl font-bold dark:text-white mb-2" style={{ color: 'var(--black-color)' }}>
             Access Denied
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="dark:text-gray-400 mb-6" style={{ color: 'var(--gray-color)' }}>
             You don't have permission to access this page. Please contact your administrator
             if you believe this is an error.
           </p>
@@ -38,14 +38,16 @@ const Unauthorized = () => {
         <div className="space-y-3">
           <button
             onClick={handleGoBack}
-            className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            className="w-full px-6 py-3 text-white font-medium rounded-lg transition-colors"
+            style={{ backgroundColor: 'var(--sky-blue)' }}
           >
             Go Back
           </button>
           
           <button
             onClick={handleGoHome}
-            className="w-full px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium rounded-lg transition-colors"
+            className="w-full px-6 py-3 dark:bg-gray-700 dark:text-white font-medium rounded-lg transition-colors"
+            style={{ backgroundColor: 'var(--background-alt)', color: 'var(--black-color)' }}
           >
             Go to Homepage
           </button>
@@ -58,8 +60,8 @@ const Unauthorized = () => {
           </button> */}
         </div>
 
-        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+        <div className="mt-8 pt-6 border-t dark:border-gray-700" style={{ borderColor: 'var(--background-alt)' }}>
+          <p className="text-sm dark:text-gray-400" style={{ color: 'var(--gray-color)' }}>
             If you need access to admin features, please contact support.
           </p>
         </div>

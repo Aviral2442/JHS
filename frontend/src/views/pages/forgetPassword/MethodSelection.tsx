@@ -52,14 +52,13 @@ const MethodSelection: React.FC<MethodSelectionProps> = ({ onMethodSelect }) => 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Method Selection Tabs */}
-      <div className="flex border-b border-gray-200">
+      <div className="flex border-b" style={{ borderColor: 'var(--background-alt)' }}>
         <button
           type="button"
-          className={`flex-1 py-3 px-4 text-center font-medium text-sm md:text-base transition-colors
-            ${selectedMethod === 'email'
-              ? 'text-blue-600 border-b-2 border-blue-600'
-              : 'text-gray-500 hover:text-gray-700'
-            }`}
+          className="flex-1 py-3 px-4 text-center font-medium text-sm md:text-base transition-colors"
+          style={selectedMethod === 'email'
+            ? { color: 'var(--sky-blue)', borderBottom: '2px solid var(--sky-blue)' }
+            : { color: 'var(--gray-color)' }}
           onClick={() => setSelectedMethod('email')}
         >
           <div className="flex items-center justify-center space-x-2">
@@ -71,11 +70,10 @@ const MethodSelection: React.FC<MethodSelectionProps> = ({ onMethodSelect }) => 
         </button>
         <button
           type="button"
-          className={`flex-1 py-3 px-4 text-center font-medium text-sm md:text-base transition-colors
-            ${selectedMethod === 'mobile'
-              ? 'text-blue-600 border-b-2 border-blue-600'
-              : 'text-gray-500 hover:text-gray-700'
-            }`}
+          className="flex-1 py-3 px-4 text-center font-medium text-sm md:text-base transition-colors"
+          style={selectedMethod === 'mobile'
+            ? { color: 'var(--sky-blue)', borderBottom: '2px solid var(--sky-blue)' }
+            : { color: 'var(--gray-color)' }}
           onClick={() => setSelectedMethod('mobile')}
         >
           <div className="flex items-center justify-center space-x-2">
@@ -90,12 +88,12 @@ const MethodSelection: React.FC<MethodSelectionProps> = ({ onMethodSelect }) => 
       {/* Email Input */}
       {selectedMethod === 'email' && (
         <div className="space-y-2 animate-fadeIn">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium" style={{ color: 'var(--gray-color)' }}>
             Email Address
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gray-color)' }}>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
@@ -106,8 +104,8 @@ const MethodSelection: React.FC<MethodSelectionProps> = ({ onMethodSelect }) => 
                 setEmail(e.target.value);
                 if (errors.email) setErrors({});
               }}
-              className={`block w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors
-                ${errors.email ? 'border-red-300' : 'border-gray-300'}`}
+              className="block w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-colors"
+              style={{ borderColor: errors.email ? '#ef4444' : 'var(--gray-color)' }}
               placeholder="you@example.com"
               required
             />
@@ -121,7 +119,7 @@ const MethodSelection: React.FC<MethodSelectionProps> = ({ onMethodSelect }) => 
       {/* Mobile Input */}
       {selectedMethod === 'mobile' && (
         <div className="space-y-2 animate-fadeIn">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium" style={{ color: 'var(--gray-color)' }}>
             Mobile Number
           </label>
           <div className="flex space-x-3">
@@ -129,7 +127,8 @@ const MethodSelection: React.FC<MethodSelectionProps> = ({ onMethodSelect }) => 
               <select
                 value={countryCode}
                 onChange={(e) => setCountryCode(e.target.value)}
-                className="block w-full py-3 pl-3 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white"
+                className="block w-full py-3 pl-3 pr-8 border rounded-lg focus:ring-2 focus:border-transparent appearance-none bg-white"
+                style={{ borderColor: 'var(--gray-color)' }}
               >
                 {countryCodes.map((country) => (
                   <option key={country.code} value={country.code}>
@@ -138,7 +137,7 @@ const MethodSelection: React.FC<MethodSelectionProps> = ({ onMethodSelect }) => 
                 ))}
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--gray-color)' }}>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
@@ -152,8 +151,8 @@ const MethodSelection: React.FC<MethodSelectionProps> = ({ onMethodSelect }) => 
                   setMobile(value);
                   if (errors.mobile) setErrors({});
                 }}
-                className={`block w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors
-                  ${errors.mobile ? 'border-red-300' : 'border-gray-300'}`}
+                className="block w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-colors"
+                style={{ borderColor: errors.mobile ? '#ef4444' : 'var(--gray-color)' }}
                 placeholder="123 456 7890"
                 required
               />
@@ -167,12 +166,13 @@ const MethodSelection: React.FC<MethodSelectionProps> = ({ onMethodSelect }) => 
 
       <button
         type="submit"
-        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all transform hover:-translate-y-0.5"
+        className="w-full font-medium py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all transform hover:-translate-y-0.5"
+        style={{ backgroundColor: 'var(--sky-blue)', color: 'var(--white-color)' }}
       >
         Send Verification Code
       </button>
 
-      <p className="text-sm text-gray-500 text-center">
+      <p className="text-sm text-center" style={{ color: 'var(--gray-color)' }}>
         We'll send a verification code to {selectedMethod === 'email' ? 'your email' : 'your mobile number'}
       </p>
     </form>
