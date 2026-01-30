@@ -135,8 +135,6 @@ export default function HomeEaseLanding() {
       </section>
 
       <section className="pt-10 px-4 md:px-6 relative overflow-hidden" style={{ backgroundColor: 'var(--background-alt)' }}>
-        {/* <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-3xl" />
-        <div className="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-3xl" /> */}
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
@@ -154,7 +152,7 @@ export default function HomeEaseLanding() {
           </div>
 
           {/* Desktop Spiral Timeline - Hidden on mobile/tablet */}
-          <div className="hidden xl:block relative w-full min-h-[900px]">
+          <div className="hidden xl:block relative w-full min-h-[800px]">
             {/* SVG Spiral Path */}
             <svg
               className="absolute inset-0 w-full h-full"
@@ -226,7 +224,7 @@ export default function HomeEaseLanding() {
             </svg>
 
             {/* Step 01 - Left Top */}
-            <div className="absolute" style={{ left: "-2%", top: "-5%" }}>
+            <div className="absolute" style={{ left: "-1%", top: "-10%" }}>
               <div
                 className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
                 style={{ bottom: "-112px", background: 'linear-gradient(to bottom, transparent, var(--sky-blue), transparent)' }}
@@ -248,7 +246,7 @@ export default function HomeEaseLanding() {
             </div>
 
             {/* Step 02 - Left Bottom */}
-            <div className="absolute" style={{ left: "16%", top: "52%" }}>
+            <div className="absolute" style={{ left: "17%", top: "52%" }}>
               <div
                 className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
                 style={{ top: "-112px", background: 'linear-gradient(to top, transparent, var(--gray-color), transparent)' }}
@@ -272,7 +270,7 @@ export default function HomeEaseLanding() {
             {/* Step 03 - Center (Larger) */}
             <div
               className="absolute left-1/2 transform -translate-x-1/2"
-              style={{ top: "2%" }}
+              style={{ top: "-3%" }}
             >
               <div
                 className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-32"
@@ -298,7 +296,7 @@ export default function HomeEaseLanding() {
             </div>
 
             {/* Step 04 - Right Top */}
-            <div className="absolute" style={{ right: "13%", top: "58%" }}>
+            <div className="absolute" style={{ right: "13%", top: "60%" }}>
               <div
                 className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
                 style={{ bottom: "200px", background: 'linear-gradient(to bottom, transparent, var(--black-color), transparent)' }}
@@ -320,7 +318,7 @@ export default function HomeEaseLanding() {
             </div>
 
             {/* Step 05 - Right Bottom - Additional Step from UI pattern */}
-            <div className="absolute" style={{ right: "-2%", top: "27%" }}>
+            <div className="absolute" style={{ right: "-1%", top: "23%" }}>
               <div
                 className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-28"
                 style={{ top: "200px", background: 'linear-gradient(to top, transparent, var(--sky-blue), transparent)' }}

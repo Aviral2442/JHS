@@ -64,7 +64,7 @@ const Column = ({
 
 export default function TrustedByFamilies() {
   return (
-    <section className="py-20" style={{ backgroundColor: 'var(--background-alt)' }}>
+    <section className="pt-20" style={{ backgroundColor: 'var(--background-alt)' }}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="section-divider mx-auto"></div>
