@@ -70,12 +70,12 @@ const ContactFooter: React.FC = () => {
             <h3 className="text-xl font-bold mb-6 text-dark">Services</h3>
             <ul className="space-y-3">
               {[
-                ["Cleaning", "/services"],
+                ["Cleaning", "/cleaning-services"],
                 // ["Laundary", "/pricing"],
-                ["Interior", "/about"],
-                ["Furniture", "/blog"],
-                ["Carpenter", "/blog"],
-                ["Painting", "/blog"],
+                ["Interior", "/interior-services"],
+                ["Furniture", "/furniture-services"],
+                ["Carpenter", "/carpenter-services"],
+                ["Painting", "/painting-services"],
                 // ["Pest Control", "/blog"],
                 ["Plumber", "/blog"],
                 ["Electrician", "/blog"],

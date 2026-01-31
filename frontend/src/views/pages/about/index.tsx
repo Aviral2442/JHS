@@ -283,7 +283,7 @@ export default function AboutPage() {
             <h2 className="section-title text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6">
               How It <span style={{ color: "var(--sky-blue)" }}>Works</span>
             </h2>
-            <p className="section-subtitle text-lg md:text-xl lg:text-2xl">
+            <p className="section-subtitle text-center text-lg md:text-xl lg:text-2xl">
               Simple Steps To Get Our Services
             </p>
           </div>

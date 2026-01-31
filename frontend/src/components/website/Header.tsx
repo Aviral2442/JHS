@@ -382,9 +382,14 @@ const mainMenuItems = [
 
 // Top Bar Component
 const TopBar: React.FC = () => {
-
   return (
-    <div className="bg-[#00ADB5] text-white text-sm py-2 hidden md:block" style={{ background: "linear-gradient(to bottom right, var(--sky-blue), var(--gray-color))"}}>
+    <div
+      className="bg-[#00ADB5] text-white text-sm py-2 hidden md:block"
+      style={{
+        background:
+          "linear-gradient(to bottom right, var(--sky-blue), var(--gray-color))",
+      }}
+    >
       <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-6">
@@ -443,9 +448,7 @@ const MainHeader: React.FC<{
                 <img src="/images/logo.png" alt="" />
               </div>
               <div className="ml-3">
-                <div className="text-xl font-bold text-gray-900">
-                  G.ONE Home
-                </div>
+                <div className="text-xl font-bold text-dark">G.ONE Home</div>
                 {/* <div className="text-xs text-gray-500 -mt-1">Professional Services</div> */}
               </div>
             </div>
@@ -491,7 +494,7 @@ const MainHeader: React.FC<{
             <div className="hidden md:flex items-center space-x-2">
               <button
                 onClick={() => navigate("/sign-in")}
-                className="px-4 flex justify-center items-center py-2 rounded-lg btn-color transition-all shadow-sm"
+                className="btn-primary flex justify-center items-center"
               >
                 <User size={18} className="mr-1" />
                 Login
@@ -503,126 +506,6 @@ const MainHeader: React.FC<{
     </div>
   );
 };
-
-
-// Service Slider Component
-// const ServiceSlider: React.FC<{
-//   services: Service[];
-//   activeService: Service | null;
-//   onServiceHover: (service: Service) => void;
-//   onServiceLeave: () => void;
-// }> = ({ services, activeService, onServiceHover, onServiceLeave }) => {
-//   const sliderRef = useRef<HTMLDivElement>(null);
-//   const [scrollPosition, setScrollPosition] = useState(0);
-//   const [showLeftArrow, setShowLeftArrow] = useState(false);
-//   const [showRightArrow, setShowRightArrow] = useState(true);
-
-//   const scroll = (direction: "left" | "right") => {
-//     if (sliderRef.current) {
-//       const scrollAmount = 200;
-//       const newPosition =
-//         direction === "left"
-//           ? scrollPosition - scrollAmount
-//           : scrollPosition + scrollAmount;
-
-//       sliderRef.current.scrollTo({ left: newPosition, behavior: "smooth" });
-//       setScrollPosition(newPosition);
-//     }
-//   };
-
-//   const checkScrollButtons = () => {
-//     if (sliderRef.current) {
-//       const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
-//       setShowLeftArrow(scrollLeft > 0);
-//       setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
-//     }
-//   };
-
-//   useEffect(() => {
-//     const slider = sliderRef.current;
-//     if (slider) {
-//       slider.addEventListener("scroll", checkScrollButtons);
-//       return () => slider.removeEventListener("scroll", checkScrollButtons);
-//     }
-//   }, []);
-
-//   return (
-//     <div className="relative bg-linear-to-r from-gray-50 to-white border-t border-gray-200">
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="relative py-3">
-//           {/* Left Arrow */}
-//           {showLeftArrow && (
-//             <button
-//               onClick={() => scroll("left")}
-//               className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-50"
-//             >
-//               <ChevronRight className="rotate-180" size={20} />
-//             </button>
-//           )}
-
-//           {/* Service Slider */}
-//           <div
-//             ref={sliderRef}
-//             className="flex space-x-1 overflow-x-auto scrollbar-hide"
-//             style={{ scrollBehavior: "smooth" }}
-//             onScroll={checkScrollButtons}
-//           >
-//             {services.map((service) => (
-//               <button
-//                 key={service.id}
-//                 onMouseEnter={() => onServiceHover(service)}
-//                 onMouseLeave={onServiceLeave}
-//                 className={`flex-shrink-0 px-4 py-2 rounded-lg flex items-center space-x-2 transition-all ${
-//                   activeService?.id === service.id
-//                     ? "bg-blue-50 text-blue-600 border border-blue-200"
-//                     : "hover:bg-gray-100 text-gray-700"
-//                 }`}
-//               >
-//                 <div
-//                   className={`p-1.5 rounded-md ${
-//                     activeService?.id === service.id
-//                       ? "bg-blue-100"
-//                       : "bg-gray-100"
-//                   }`}
-//                 >
-//                   <div
-//                     className={`${
-//                       activeService?.id === service.id
-//                         ? "text-blue-600"
-//                         : "text-gray-600"
-//                     }`}
-//                   >
-//                     {service.icon}
-//                   </div>
-//                 </div>
-//                 <span className="font-medium text-sm whitespace-nowrap">
-//                   {service.name}
-//                 </span>
-//                 <ChevronDown
-//                   size={14}
-//                   className={`transition-transform ${
-//                     activeService?.id === service.id ? "rotate-180" : ""
-//                   }`}
-//                 />
-//               </button>
-//             ))}
-//           </div>
-
-//           {/* Right Arrow */}
-//           {showRightArrow && (
-//             <button
-//               onClick={() => scroll("right")}
-//               className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10 hover:bg-gray-50"
-//             >
-//               <ChevronRight size={20} />
-//             </button>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
 // Mega Menu Component
 const MegaMenu: React.FC<{
   service: Service | null;
@@ -645,13 +528,13 @@ const MegaMenu: React.FC<{
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-3 mb-6">
               <div className="p-2 bg-blue-50 rounded-lg">
-                <div className="text-blue-600">{service.icon}</div>
+                <div className="text-primary">{service.icon}</div>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900">
+                <h3 className="text-xl font-bold text-dark">
                   {service.name} Services
                 </h3>
-                <p className="text-gray-600 text-sm mt-1">
+                <p className="text-gray text-sm mt-1">
                   Professional {service.name.toLowerCase()} solutions
                 </p>
               </div>
@@ -660,14 +543,14 @@ const MegaMenu: React.FC<{
             <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <div className="text-sm text-gray-600">Starting from</div>
-                  <div className="text-2xl font-bold text-gray-900">$79</div>
+                  <div className="text-sm text-gray">Starting from</div>
+                  <div className="text-2xl font-bold text-dark">$79</div>
                 </div>
                 <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
                   Popular
                 </div>
               </div>
-              <button className="w-full py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all font-medium flex items-center justify-center">
+              <button className="w-full btn-primary flex items-center justify-center">
                 Book Now
                 <ArrowRight size={16} className="ml-2" />
               </button>
@@ -687,12 +570,10 @@ const MegaMenu: React.FC<{
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 mb-1">
+                    <h4 className="font-bold text-dark mb-1">
                       {category.name}
                     </h4>
-                    <p className="text-gray-600 text-sm">
-                      {category.description}
-                    </p>
+                    <p className="text-gray text-sm">{category.description}</p>
                   </div>
                   {category.popular && (
                     <span className="ml-auto px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded">
@@ -721,7 +602,7 @@ const MegaMenu: React.FC<{
           {/* Right Column - Featured Services */}
           <div className="lg:col-span-1">
             <div className="bg-gray-50 rounded-xl p-6">
-              <h4 className="font-bold text-gray-900 mb-4">
+              <h4 className="font-bold text-dark mb-4">
                 Most Popular Services
               </h4>
               <div className="space-y-4">
@@ -743,14 +624,14 @@ const MegaMenu: React.FC<{
                         </div>
                       </div>
                       <div className="flex-1">
-                        <div className="font-medium text-gray-900 text-sm">
+                        <div className="font-medium text-dark text-sm">
                           {category.name}
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-gray">
                           Starting from $99
                         </div>
                       </div>
-                      <button className="text-blue-600 hover:text-blue-800">
+                      <button className="text-primary hover:opacity-80">
                         <ChevronRight size={16} />
                       </button>
                     </div>
@@ -827,7 +708,7 @@ const MobileMenu: React.FC<{
 
         {/* Services in Mobile */}
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="font-bold text-gray-900 mb-4 px-4">All Services</h3>
+          <h3 className="font-bold text-dark mb-4 px-4">All Services</h3>
           <div className="space-y-2">
             {services.map((service) => (
               <div
@@ -837,7 +718,7 @@ const MobileMenu: React.FC<{
                 <button
                   onClick={() =>
                     setExpandedService(
-                      expandedService === service.id ? null : service.id
+                      expandedService === service.id ? null : service.id,
                     )
                   }
                   className="w-full p-4 flex items-center justify-between hover:bg-gray-50"
@@ -846,7 +727,7 @@ const MobileMenu: React.FC<{
                     <div className="p-2 bg-gray-100 rounded-md mr-3">
                       {service.icon}
                     </div>
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-dark">
                       {service.name}
                     </span>
                   </div>
@@ -896,12 +777,8 @@ const MobileMenu: React.FC<{
         {/* Auth Buttons in Mobile */}
         <div className="border-t border-gray-200 pt-6 mt-6">
           <div className="grid grid-cols-2 gap-3">
-            <button className="py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium">
-              Login
-            </button>
-            <button className="py-3 px-4 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 font-medium">
-              Register
-            </button>
+            <button className="btn-outline">Login</button>
+            <button className="btn-primary">Register</button>
           </div>
         </div>
       </div>

@@ -30,6 +30,9 @@ const Thankyou = lazy(() => import("../views/pages/other/ThankYou"));
 const CleaningServicesPage = lazy(() => import("../views/pages/landingPages/cleaningServices"));
 const ConsumerProfilePage = lazy(() => import("../views/pages/consumerProfile"));
 const ServiceDetail = lazy(() => import("../views/pages/services/Detail"));
+const InteriorPage = lazy(() => import("../views/pages/landingPages/interior"));
+const FurniturePage = lazy(() => import("../views/pages/landingPages/furniture"));
+const CarpenterPage = lazy(() => import("../views/pages/landingPages/carpenter"));
 
 const websiteRoutes: RouteObject[] = [
   {
@@ -62,6 +65,9 @@ const websiteRoutes: RouteObject[] = [
 
   { path: "*", element: <NotFoundPage /> },
   { path: "/cleaning-services", element: <CleaningServicesPage /> },
+  { path: "/interior-services", element: <InteriorPage /> },
+  { path: "/furniture-services", element: <FurniturePage /> },
+  { path: "/carpenter-services", element: <CarpenterPage /> },
   { path: "/consumer-profile", element: <ConsumerProfilePage /> },
   { path: "/forgot-password", element: <ForgotPasswordFlow /> }
 ];
