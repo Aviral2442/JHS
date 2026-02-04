@@ -34,17 +34,13 @@ export const adminRegisterService = async (data: AdminRegisterData) => {
         }
 
         const result = await dbConfig.execute(
-            "INSERT INTO adminUser SET ?",
-            [insertData]
+            "INSERT INTO adminUser (name, profilePic, adminEmail, adminPassword, adminStatus, adminCreatedAt) VALUES (?, ?, ?, ?, ?, ?)",
+            [insertData.name, insertData.profilePic, insertData.adminEmail, insertData.adminPassword, insertData.adminStatus, insertData.adminCreatedAt]
         );
-        if (!result.insertId) {
-            throw new ApiError(400, "Failed to register admin");
-        }
 
         return {
             status: 200,
             message: "Admin registered successfully",
-            data: result,
         };
     } catch (error) {
         console.error("Admin registration error:", error);
