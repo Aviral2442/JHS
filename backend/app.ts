@@ -17,6 +17,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use('/api/auth', authRoutes);
 
 // website routes
+app.use('/api/auth', require('./src/routes/website/auth.routes'));
 app.use('/api/products', productRoutes);
 
 export default app;

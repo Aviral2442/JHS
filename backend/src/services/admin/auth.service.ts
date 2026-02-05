@@ -54,24 +54,31 @@ export const adminLoginService = async (
   admin_password: string
 ) => {
   try {
+    // Input validation
+    if (!admin_email || !admin_password) {
+      throw new ApiError(400, "Email and password are required");
+    }
+
     const [rows]: any = await dbConfig.query(
-      `SELECT * FROM adminUser WHERE adminEmail = ? LIMIT 1`,
+      `SELECT admin_id, name, adminEmail, adminPassword, profilePic 
+       FROM adminUser 
+       WHERE adminEmail = ? LIMIT 1`,
       [admin_email]
     );
 
-    const admin = rows[0];
-
-    if (!admin) {
+    if (rows.length === 0) {
       throw new ApiError(401, "Invalid email or password");
     }
+
+    const admin = rows[0];
 
     if (admin.adminPassword !== admin_password) {
       throw new ApiError(401, "Invalid email or password");
     }
 
-    // JWT Payload
     const payload = {
-      adminId: admin.adminId,
+      adminId: admin.admin_id,
+      name: admin.name,
       email: admin.adminEmail,
       role: "admin",
     };
@@ -82,7 +89,7 @@ export const adminLoginService = async (
       status: 200,
       message: "Login successful",
       data: {
-        adminId: admin.adminId,
+        adminId: admin.admin_id,
         adminName: admin.name,
         adminEmail: admin.adminEmail,
         profilePic: admin.profilePic,
