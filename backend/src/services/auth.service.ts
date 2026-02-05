@@ -2,6 +2,7 @@ import dbConfig from "../config/db_Config";
 import bcrypt from "bcryptjs";
 import { ApiError } from "../utils/ApiError";
 import { saveBase64File } from "../middleware/base64FileUpload";
+import { generateToken } from "../utils/jwt";
 
 interface AdminRegisterData {
     admin_name: string;
@@ -18,7 +19,7 @@ export const adminRegisterService = async (data: AdminRegisterData) => {
             name: data.admin_name,
             profilePic: "",
             adminEmail: data.admin_email,
-            adminPassword: await bcrypt.hash(data.admin_password, 10),
+            adminPassword: data.admin_password,
             adminStatus: 0,
             adminCreatedAt: new Date(),
         };
@@ -33,9 +34,9 @@ export const adminRegisterService = async (data: AdminRegisterData) => {
             insertData.profilePic = imagePath;
         }
 
-        const result = await dbConfig.execute(
-            "INSERT INTO adminUser (name, profilePic, adminEmail, adminPassword, adminStatus, adminCreatedAt) VALUES (?, ?, ?, ?, ?, ?)",
-            [insertData.name, insertData.profilePic, insertData.adminEmail, insertData.adminPassword, insertData.adminStatus, insertData.adminCreatedAt]
+        const result = await dbConfig.query(
+            `INSERT INTO adminUser SET ?`,
+            [insertData]
         );
 
         return {
@@ -47,4 +48,57 @@ export const adminRegisterService = async (data: AdminRegisterData) => {
         throw new ApiError(500, "Internal Server Error");
     }
 };
+
+// ADMIN LOGIN SERVICE
+export const adminLoginService = async (
+  admin_email: string,
+  admin_password: string
+) => {
+  try {
+    const [rows]: any = await dbConfig.query(
+      `SELECT * FROM adminUser WHERE adminEmail = ? LIMIT 1`,
+      [admin_email]
+    );
+
+    const admin = rows[0];
+
+    if (!admin) {
+      throw new ApiError(401, "Invalid email or password");
+    }
+
+    if (admin.adminPassword !== admin_password) {
+      throw new ApiError(401, "Invalid email or password");
+    }
+
+    // JWT Payload
+    const payload = {
+      adminId: admin.adminId,
+      email: admin.adminEmail,
+      role: "admin",
+    };
+
+    const token = generateToken(payload);
+
+    return {
+      status: 200,
+      message: "Login successful",
+      data: {
+        adminId: admin.adminId,
+        adminName: admin.name,
+        adminEmail: admin.adminEmail,
+        profilePic: admin.profilePic,
+      },
+      token,
+    };
+  } catch (error: any) {
+    console.error("Admin login error:", error);
+
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(500, "Internal Server Error");
+  }
+};
+
 
