@@ -10,6 +10,10 @@ import {
   Phone,
 } from "lucide-react";
 import { Link } from "react-router";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const benefits = [
   { icon: Shield, label: "Secure Account", desc: "Your data is protected" },
@@ -18,7 +22,45 @@ const benefits = [
   { icon: Sparkles, label: "Exclusive Deals", desc: "Get special offers" },
 ];
 
-export default function HomeServicesRegister() {
+
+const userRegisterSchema = Yup.object().shape({
+  users_name: Yup.string().required("Full name is required"),
+  users_email: Yup.string().email("Invalid email").required("Email is required"),
+  users_password: Yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
+  confirm_password: Yup.string()
+    .oneOf([Yup.ref('users_password')], 'Passwords must match')
+    .required('Confirm Password is required'),
+});
+
+
+const HomeServicesRegister = () => {
+  const navigate = useNavigate();
+
+  const userRegister = useFormik({
+    initialValues: {
+      users_name: '',
+      users_email: '',
+      users_password: '',
+      confirm_password: '',
+    },
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/user-registration`, values);
+        console.log(res.data);
+        setSubmitting(false);
+        if (res.data.status === 200) {
+          console.log(res.data);
+          navigate('/login');
+        }
+    } catch (error) {      
+      setSubmitting(false);
+      console.error("Registration error:", error);
+    }
+  },
+    validationSchema: userRegisterSchema,
+});
+
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--background-alt), var(--white-color), var(--background-alt))' }}>
       {/* Background decorative elements */}
@@ -151,62 +193,82 @@ export default function HomeServicesRegister() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
               className="space-y-5"
+              onSubmit={userRegister.handleSubmit}
             >
               <div>
-                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="users_name" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                   <User className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Full Name
                 </label>
                 <input
                   type="text"
                   placeholder="John Doe"
-                  required
+                  name="users_name"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
+                  onChange={userRegister.handleChange}
+                  value={userRegister.values.users_name}
                 />
+                {userRegister.errors.users_name && userRegister.touched.users_name && (
+                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.users_name}</p>
+                )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="users_email" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                   <Mail className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Email Address
                 </label>
                 <input
                   type="email"
                   placeholder="you@example.com"
-                  required
+                  name="users_email"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
+                  onChange={userRegister.handleChange}
+                  value={userRegister.values.users_email}
                 />
+                {userRegister.errors.users_email && userRegister.touched.users_email && (
+                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.users_email}</p>
+                )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="users_password" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                   <Lock className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Password
                 </label>
                 <input
                   type="password"
                   placeholder="Create a strong password"
-                  required
+                  name="users_password"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
+                  onChange={userRegister.handleChange}
+                  value={userRegister.values.users_password}
                 />
-                <p className="mt-1 text-xs" style={{ color: 'var(--gray-color)' }}>Must be at least 8 characters</p>
+                {userRegister.errors.users_password && userRegister.touched.users_password && (
+                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.users_password}</p>
+                )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="confirm_password" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                   <Lock className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Confirm Password
                 </label>
                 <input
                   type="password"
+                  name="confirm_password"
                   placeholder="Re-enter your password"
-                  required
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
+                  onChange={userRegister.handleChange}
+                  value={userRegister.values.confirm_password}
                 />
+                {userRegister.errors.confirm_password && userRegister.touched.confirm_password && (
+                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.confirm_password}</p>
+                )}
               </div>
 
               <div className="flex items-start">
@@ -235,9 +297,10 @@ export default function HomeServicesRegister() {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 className="btn-primary w-full flex justify-center items-center gap-2 rounded-xl px-6 py-3.5 font-semibold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5"
+                
               >
                 <UserPlus className="w-5 h-5" />
-                Create account
+                {userRegister.isSubmitting ? "Creating Account..." : "Sign Up"}
               </motion.button>
             </motion.form>
 
@@ -264,3 +327,6 @@ export default function HomeServicesRegister() {
     </div>
   );
 }
+
+
+export default HomeServicesRegister;
