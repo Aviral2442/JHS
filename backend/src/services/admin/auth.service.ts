@@ -1,8 +1,8 @@
-import dbConfig from "../config/db_Config";
+import dbConfig from "../../config/db_Config";
 import bcrypt from "bcryptjs";
-import { ApiError } from "../utils/ApiError";
-import { saveBase64File } from "../middleware/base64FileUpload";
-import { generateToken } from "../utils/jwt";
+import { ApiError } from "../../utils/ApiError";
+import { saveBase64File } from "../../middleware/base64FileUpload";
+import { generateToken } from "../../utils/jwt";
 
 interface AdminRegisterData {
     admin_name: string;

@@ -1,7 +1,7 @@
-import dbConfig from '../config/db_Config';
-import { currentUnixTimeStamp } from '../utils/CurrentUnixTimeStamp';
-import  { saveBase64File } from '../middleware/base64FileUpload';
-import { ApiError } from '../utils/ApiError';
+import dbConfig from '../../config/db_Config';
+import { currentUnixTimeStamp } from '../../utils/CurrentUnixTimeStamp';
+import  { saveBase64File } from '../../middleware/base64FileUpload';
+import { ApiError } from '../../utils/ApiError';
 
 interface CategoryLavel3 {
   cl3_name: string;

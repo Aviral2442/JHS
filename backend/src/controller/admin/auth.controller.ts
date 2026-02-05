@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { adminLoginService, adminRegisterService } from "../services/auth.service";
-import { asyncHandler } from "../utils/AsyncHandler";
+import { adminLoginService, adminRegisterService } from "../../services/admin/auth.service";
+import { asyncHandler } from "../../utils/AsyncHandler";
 
 // ADMIN REGISTRATION CONTROLLER
 export const adminRegisterController = async (req: Request, res: Response, next: NextFunction) => {
