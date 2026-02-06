@@ -50,7 +50,7 @@ const HomeServicesRegister = () => {
         setSubmitting(false);
         if (res.data.status === 200) {
           console.log(res.data);
-          navigate('/login');
+          navigate('/sign-in');
         }
     } catch (error) {      
       setSubmitting(false);
@@ -282,13 +282,13 @@ const HomeServicesRegister = () => {
                 />
                 <label htmlFor="terms" className="ml-2 block text-sm" style={{ color: 'var(--gray-color)' }}>
                   I agree to the{" "}
-                  <a href="#" className="font-semibold hover:opacity-80" style={{ color: 'var(--sky-blue)' }}>
+                  <Link to="/terms" className="font-semibold hover:opacity-80" style={{ color: 'var(--sky-blue)' }}>
                     Terms of Service
-                  </a>{" "}
+                  </Link>{" "}
                   and{" "}
-                  <a href="#" className="font-semibold hover:opacity-80" style={{ color: 'var(--sky-blue)' }}>
+                  <Link to="/privacy" className="font-semibold hover:opacity-80" style={{ color: 'var(--sky-blue)' }}>
                     Privacy Policy
-                  </a>
+                  </Link>
                 </label>
               </div>
 
