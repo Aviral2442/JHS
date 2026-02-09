@@ -1,8 +1,7 @@
 @import 'tailwindcss';
 
 /* @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap") */
-@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap')
-layer(base);
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 * {
   font-family: 'PT Serif', serif !important;
@@ -167,8 +166,6 @@ layer(base);
   --z-index-99999: 99999;
   --z-index-999999: 999999;
 }
-
-@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 

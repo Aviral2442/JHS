@@ -105,6 +105,28 @@ body {
 }
 
 /* =========================
+   FORM INPUT FOCUS
+========================= */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  border: 1px solid var(--gray-color);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--sky-blue) !important;
+  box-shadow: 0 0 0 6px rgba(0, 173, 181, 0.08);
+}
+
+/* =========================
    CARD SYSTEM
 ========================= */
 .card-ui {
