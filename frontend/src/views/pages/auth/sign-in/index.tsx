@@ -10,7 +10,10 @@ import {
   Wrench,
   Home
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
 
 const features = [
   { icon: Star, label: "4.9 Rated", color: "text-yellow-500" },
@@ -19,7 +22,39 @@ const features = [
   { icon: Wrench, label: "Expert Service", color: "text-purple-500" },
 ];
 
+const loginSchema = Yup.object().shape({
+  users_email: Yup.string().email("Invalid email").required("Email is required"),
+  users_password: Yup.string().required("Password is required"),
+});
+
 export default function HomeServicesLogin() {
+
+  const navigate = useNavigate();
+
+  const loginForm = useFormik({
+    initialValues: {
+      users_email: "",
+      users_password: "",
+    },
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        console.log("Submitting login form with values:", values);
+        const response = await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/user-login`, values);
+        console.log("Login successful:", response.data);
+        // Handle successful login (e.g., store token, redirect)
+        if (response.data?.status === 200) {
+          localStorage.setItem("token", response.data?.jsonData?.token);
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+      } finally {
+        setSubmitting(false);
+      }
+    },
+    validationSchema: loginSchema,
+  })
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--background-alt), var(--white-color), var(--background-alt))' }}>
       {/* Background decorative elements */}
@@ -147,24 +182,31 @@ export default function HomeServicesLogin() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
               className="space-y-6"
+              onSubmit={loginForm.handleSubmit}
             >
               <div>
-                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="users_email" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                   <Mail className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Email address
                 </label>
                 <input
                   type="email"
-                  required
                   placeholder="you@example.com"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
+                  name="users_email"
+                  value={loginForm.values.users_email}
+                  onChange={loginForm.handleChange}
+                  onBlur={loginForm.handleBlur}
                 />
+                {loginForm.errors.users_email && loginForm.touched.users_email && (
+                  <div className="text-red-500 text-sm mt-1">{loginForm.errors.users_email}</div>
+                )}
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                  <label htmlFor="users_password" className="block text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                     <Lock className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                     Password
                   </label>
@@ -178,11 +220,17 @@ export default function HomeServicesLogin() {
                 </div>
                 <input
                   type="password"
-                  required
                   placeholder="Enter your password"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
+                  name="users_password"
+                  value={loginForm.values.users_password}
+                  onChange={loginForm.handleChange}
+                  onBlur={loginForm.handleBlur}
                 />
+                {loginForm.errors.users_password && loginForm.touched.users_password && (
+                  <div className="text-red-500 text-sm mt-1">{loginForm.errors.users_password}</div>
+                )}
               </div>
 
               <div className="flex items-center">
@@ -205,7 +253,7 @@ export default function HomeServicesLogin() {
                 className="btn-primary w-full flex justify-center items-center gap-2 rounded-xl px-6 py-3.5 font-semibold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5"
               >
                 <LogIn className="w-5 h-5" />
-                Sign in
+                {loginForm.isSubmitting ? "Signing in..." : "Sign In"}
               </motion.button>
             </motion.form>
 

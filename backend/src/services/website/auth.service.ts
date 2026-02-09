@@ -1,6 +1,5 @@
 import dbConfig from "../../config/db_Config";
 import { ApiError } from "../../utils/ApiError";
-import { saveBase64File } from "../../middleware/base64FileUpload";
 import { generateToken } from "../../utils/jwt";
 import { currentUnixTimeStamp } from "../../utils/CurrentUnixTimeStamp";
 
@@ -69,7 +68,7 @@ export const UserLoginService = async (data: any) => {
     return {
       status: 200,
       message: "User logged in successfully",
-      data: {
+      jsonData: {
         token,
         user: {
           id: user.consumerusers_id,

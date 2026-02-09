@@ -1,7 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import authRoutes from './src/routes/admin/auth.routes';
+import websiteAuthRoutes from './src/routes/website/auth.routes';
 import productRoutes from './src/routes/website/product.routes';
+import mailerRoutes from './src/routes/mailer.routes';
 import path from 'path/win32';
 
 const app = express();
@@ -15,9 +17,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //admin routes
 app.use('/api/auth', authRoutes);
-
+app.use('/api/mailer', mailerRoutes);
 // website routes
-app.use('/api/auth', require('./src/routes/website/auth.routes'));
+app.use('/api/auth', websiteAuthRoutes);
 app.use('/api/products', productRoutes);
 
 export default app;

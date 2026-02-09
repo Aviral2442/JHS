@@ -48,7 +48,7 @@ const HomeServicesRegister = () => {
         const res = await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/user-registration`, values);
         console.log(res.data);
         setSubmitting(false);
-        if (res.data.status === 200) {
+        if (res.data?.jsonData?.status === 200) {
           console.log(res.data);
           navigate('/sign-in');
         }
