@@ -29,6 +29,7 @@ const BasicTables = lazy(() => import("../views/admin/Tables/BasicTables"));
 const FormElements = lazy(() => import("../views/admin/Forms/FormElements"));
 const Blank = lazy(() => import("../views/admin/Blank"));
 const NotFound = lazy(() => import("../views/admin/OtherPage/NotFound"));
+const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
 /**
  * Public authentication routes (no protection needed)
@@ -71,13 +72,13 @@ const protectedAdminRoutes: RouteObject[] = [
   
   // Form Routes
   { 
-    path: "forms/form-elements", 
+    path: "/admin/form-elements", 
     element: <FormElements /> 
   },
   
   // Table Routes
   { 
-    path: "tables/basic-tables", 
+    path: "/admin/basic-tables", 
     element: <BasicTables /> 
   },
   

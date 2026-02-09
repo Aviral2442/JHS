@@ -16,7 +16,7 @@ import {
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import SidebarWidget from "./SidebarWidget";
+// import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
   name: string;
@@ -49,7 +49,9 @@ const navItems: NavItem[] = [
   {
     name: "Tables",
     icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/admin/basic-tables", pro: false }],
+    subItems: [{ name: "Basic Tables", path: "/admin/basic-tables", pro: false },
+      { name: "Partners", path: "/admin/partner", pro: false },
+    ],
   },
   {
     name: "Pages",
@@ -305,29 +307,24 @@ const AppSidebar: React.FC = () => {
       >
         <Link to="/admin">
           {isExpanded || isHovered || isMobileOpen ? (
-            <>
+            <div className="bg-transparent">
               <img
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
+                className=""
+                src="/images/logo/jsh_logo.png"
                 alt="Logo"
-                width={150}
+                width={50}
                 height={40}
               />
-              <img
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-            </>
+            </div>
           ) : (
-            <img
+            <div className="bg-none">
+              <img
               src="/images/logo/logo-icon.svg"
               alt="Logo"
               width={32}
               height={32}
             />
+            </div>
           )}
         </Link>
       </div>
@@ -368,7 +365,7 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
+        {/* {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null} */}
       </div>
     </aside>
   );
