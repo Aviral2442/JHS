@@ -1,5 +1,5 @@
 import dbConfig from '../../config/db_Config';
-import { currentUnixTimeStamp } from '../../utils/CurrentUnixTimeStamp';
+import { currentUnixTimeStamp } from '../../utils/currentUnixTimeStamp';
 import  { saveBase64File } from '../../middleware/base64FileUpload';
 import { ApiError } from '../../utils/ApiError';
 
