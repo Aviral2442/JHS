@@ -8,17 +8,18 @@ import path from 'path/win32';
 
 const app = express();
 
-
 app.use(cors());
-app.use(express.json({ limit: "50mb" })); // parse JSON
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }))
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
-//admin routes
+// ADMIN ROUTES
 app.use('/api/auth', authRoutes);
 app.use('/api/mailer', mailerRoutes);
-// website routes
+
+
+// WEBSITE ROUTES
 app.use('/api/auth', websiteAuthRoutes);
 app.use('/api/products', productRoutes);
 
