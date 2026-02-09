@@ -29,7 +29,7 @@ const BasicTables = lazy(() => import("../views/admin/Tables/BasicTables"));
 const FormElements = lazy(() => import("../views/admin/Forms/FormElements"));
 const Blank = lazy(() => import("../views/admin/Blank"));
 const NotFound = lazy(() => import("../views/admin/OtherPage/NotFound"));
-const partnerList = lazy(() => import("../views/admin/Tables/partner"));
+// const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
 /**
  * Public authentication routes (no protection needed)

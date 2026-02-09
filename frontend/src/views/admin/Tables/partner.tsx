@@ -156,7 +156,7 @@ export default function BasicTableOne() {
 
           {/* Table Body */}
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-            {partnerData.map((partner, index) => (
+            {partnerData.map((partner) => (
               <TableRow key={partner.partner_id}>
                 <TableCell className="px-5 py-4 sm:px-6 text-start">
                   <div className="flex items-center gap-3">
