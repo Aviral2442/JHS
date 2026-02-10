@@ -4,6 +4,7 @@ import authRoutes from './src/routes/admin/auth.routes';
 import websiteAuthRoutes from './src/routes/website/auth.routes';
 import productRoutes from './src/routes/website/product.routes';
 import mailerRoutes from './src/routes/mailer.routes';
+import homeRoutes from './src/routes/website/home.routes';
 import path from 'path/win32';
 
 const app = express();
@@ -21,5 +22,6 @@ app.use('/api/mailer', mailerRoutes);
 // website routes
 app.use('/api/auth', websiteAuthRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/web', homeRoutes);
 
 export default app;
