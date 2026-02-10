@@ -13,12 +13,12 @@ export const adminRegisterController = async (req: Request, res: Response, next:
 };
 
 // ADMIN LOGIN CONTROLLER
-export const adminLoginController = async (req: Request, res: Response, next: NextFunction) => {
+export const adminLoginController = async (req: Request, res: Response, next: NextFunction) =>{
     try {
-        const { admin_email, admin_password } = req.body;
-        const result = await adminLoginService(admin_email, admin_password);
-        res.status(200).json(result);
-    } catch (error) {
-        next(error);
-    }
+            const { admin_email, admin_password } = req.body;
+            const result = await adminLoginService(admin_email, admin_password);
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
 };

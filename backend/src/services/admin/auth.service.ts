@@ -4,48 +4,48 @@ import { saveBase64File } from "../../middleware/base64FileUpload";
 import { generateToken } from "../../utils/jwt";
 
 interface AdminRegisterData {
-    admin_name: string;
-    admin_email: string;
-    admin_password: string;
-    profilePic?: string;
-    extension?: string;
+  admin_name: string;
+  admin_email: string;
+  admin_password: string;
+  profilePic?: string;
+  extension?: string;
 }
 
 // ADMIN REGISTRATION SERVICE
 export const adminRegisterService = async (data: AdminRegisterData) => {
-    try {
-        const insertData = {
-            name: data.admin_name,
-            profilePic: "",
-            adminEmail: data.admin_email,
-            adminPassword: data.admin_password,
-            adminStatus: 0,
-            adminCreatedAt: new Date(),
-        };
+  try {
+    const insertData = {
+      name: data.admin_name,
+      profilePic: "",
+      adminEmail: data.admin_email,
+      adminPassword: data.admin_password,
+      adminStatus: 0,
+      adminCreatedAt: new Date(),
+    };
 
-        if (data.profilePic?.trim()) {
-            const imagePath = saveBase64File(
-                data.profilePic,
-                "admin",
-                "admin_profile",
-                data.extension || ""
-            );
-            insertData.profilePic = imagePath;
-        }
-
-        const result = await dbConfig.query(
-            `INSERT INTO adminUser SET ?`,
-            [insertData]
-        );
-
-        return {
-            status: 200,
-            message: "Admin registered successfully",
-        };
-    } catch (error) {
-        console.error("Admin registration error:", error);
-        throw new ApiError(500, "Internal Server Error");
+    if (data.profilePic?.trim()) {
+      const imagePath = saveBase64File(
+        data.profilePic,
+        "admin",
+        "admin_profile",
+        data.extension || ""
+      );
+      insertData.profilePic = imagePath;
     }
+
+    const result = await dbConfig.query(
+      `INSERT INTO adminUser SET ?`,
+      [insertData]
+    );
+
+    return {
+      status: 200,
+      message: "Admin registered successfully",
+      jsonData: {}
+    };
+  } catch (error) {
+    throw new ApiError(500, "Internal Server Error" + error);
+  }
 };
 
 // ADMIN LOGIN SERVICE
