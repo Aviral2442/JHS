@@ -20,7 +20,7 @@ export const createCategoryLavel3Service = async (data: CategoryLavel3) => {
       cl3_image,
       'category_level3',
       'cl3_image',
-      extension
+      // extension
     );
 
     const [result] = await dbConfig.execute(

@@ -28,7 +28,7 @@ export const adminRegisterService = async (data: AdminRegisterData) => {
         data.profilePic,
         "admin",
         "admin_profile",
-        data.extension || ""
+        // data.extension || ""
       );
       insertData.profilePic = imagePath;
     }

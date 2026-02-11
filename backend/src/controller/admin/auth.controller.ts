@@ -6,7 +6,7 @@ export const adminRegisterController = async (req: Request, res: Response, next:
     try {
         const data = req.body;
         const result = await adminRegisterService(data);
-        res.status(200).json(result);
+        res.status(result.status).json(result);
     } catch (error) {
         next(error);
     }
@@ -17,7 +17,7 @@ export const adminLoginController = async (req: Request, res: Response, next: Ne
     try {
             const { admin_email, admin_password } = req.body;
             const result = await adminLoginService(admin_email, admin_password);
-            res.status(200).json(result);
+            res.status(result.status).json(result);
         } catch (error) {
             next(error);
         }

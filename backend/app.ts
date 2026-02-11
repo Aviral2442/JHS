@@ -5,6 +5,7 @@ import websiteAuthRoutes from './src/routes/website/auth.routes';
 import productRoutes from './src/routes/website/product.routes';
 import mailerRoutes from './src/routes/mailer.routes';
 import homeRoutes from './src/routes/website/home.routes';
+import categoryRoutes from './src/routes/admin/category.routes';
 import path from 'path/win32';
 
 const app = express();
@@ -18,7 +19,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // ADMIN ROUTES
 app.use('/api/auth', authRoutes);
 app.use('/api/mailer', mailerRoutes);
-
+app.use('/api/category', categoryRoutes);
 
 // WEBSITE ROUTES
 app.use('/api/auth', websiteAuthRoutes);
