@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController } from "../../controller/admin/category.controller";
+import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, getBlogDetailsController, getBlogListController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController } from "../../controller/admin/category.controller";
 const router = Router();
 
 //------------------------------- CATEGORY LEVEL ONE ROUTES -----------------------------
@@ -26,5 +26,14 @@ router.post("/add_category_level_three", addCategoryLevelThreeController);
 router.get("/get_category_level_three/:catLvl3Id", getCategoryLevelThreeDetailsController);
 router.put("/update_category_level_three/:catLvl3Id", updateCategoryLevelThreeController);
 router.patch("/update_category_level_three_status/:catLvl3Id", updateCategoryLevelThreeStatusController);
+
+
+
+//------------------------------- BLOG ROUTES -----------------------------
+router.get("/get_blog_list", getBlogListController);
+router.post("/add_blog", addBlogController);
+router.get("/get_blog_details/:blogId", getBlogDetailsController);
+router.put("/update_blog/:blogId", updateBlogController);
+router.patch("/update_blog_status/:blogId", updateBlogStatusController);
 
 export default router;

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService } from "../../services/admin/category.service";
+import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, updateBlogService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService } from "../../services/admin/category.service";
 
 
 //---------------------------------- CATEGORY LEVEL ONE CONTROLLERS -----------------------------
@@ -201,6 +201,74 @@ export const updateCategoryLevelThreeStatusController = async (req: Request, res
     try {
         const category_level3_id = parseInt(req.params.catLvl3Id);
         const result = await updateCategoryLevelThreeStatusService(category_level3_id, req.body.category_level3_status);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+
+//------------------------------- BLOG CONTROLLERS -----------------------------
+
+export const getBlogListController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const filters = {
+            date: req.query.date as string,
+            status: req.query.status as string,
+            fromDate: req.query.fromDate as string,
+            toDate: req.query.toDate as string,
+            page: req.query.page ? parseInt(req.query.page as string, 10) : undefined,
+            limit: req.query.limit ? parseInt(req.query.limit as string, 10) : undefined,
+            search: req.query.search as string,
+        };
+        const result = await getBlogListService(filters);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// ADD BLOG CONTROLLER
+export const addBlogController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const data = req.body;
+        const result = await addBlogService(data);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// FETCH BLOG DETAILS CONTROLLER
+export const getBlogDetailsController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const blog_id = parseInt(req.params.blogId);
+        const result = await getBlogDetailsService(blog_id);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// UPDATE BLOG CONTROLLER
+export const updateBlogController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const blog_id = parseInt(req.params.blogId);
+        const data = req.body;
+        const result = await updateBlogService(blog_id, data);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// UPDATE BLOG STATUS CONTROLLER
+export const updateBlogStatusController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const blog_id = parseInt(req.params.blogId);
+        const result = await updateBlogService(blog_id, { blog_status: req.body.blog_status });
         res.status(result.status).json(result);
     } catch (error) {
         next(error);
