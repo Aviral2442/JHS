@@ -29,19 +29,22 @@ const BasicTables = lazy(() => import("../views/admin/Tables/BasicTables"));
 const FormElements = lazy(() => import("../views/admin/Forms/FormElements"));
 const Blank = lazy(() => import("../views/admin/Blank"));
 const NotFound = lazy(() => import("../views/admin/OtherPage/NotFound"));
+
+const BlogList = lazy(() => import("../views/admin/blog"));
+
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
 /**
  * Public authentication routes (no protection needed)
  */
 const authRoutes: RouteObject[] = [
-  { 
-    path: "auth/sign-in", 
-    element: <SignIn /> 
+  {
+    path: "auth/sign-in",
+    element: <SignIn />,
   },
-  { 
-    path: "auth/sign-up", 
-    element: <SignUp /> 
+  {
+    path: "auth/sign-up",
+    element: <SignUp />,
   },
 ];
 
@@ -49,73 +52,77 @@ const authRoutes: RouteObject[] = [
  * Protected admin routes (require ADMIN role)
  */
 const protectedAdminRoutes: RouteObject[] = [
-  { 
+  {
     index: true,
-    element: <AdminHome />
+    element: <AdminHome />,
   },
-  { 
-    path: "dashboard", 
-    element: <AdminHome /> 
+  {
+    path: "dashboard",
+    element: <AdminHome />,
   },
-  { 
-    path: "profile", 
-    element: <UserProfiles /> 
+  {
+    path: "profile",
+    element: <UserProfiles />,
   },
-  { 
-    path: "calendar", 
-    element: <Calendar /> 
+  {
+    path: "calendar",
+    element: <Calendar />,
   },
-  { 
-    path: "blank", 
-    element: <Blank /> 
+  {
+    path: "blank",
+    element: <Blank />,
   },
-  
+
   // Form Routes
-  { 
-    path: "/admin/form-elements", 
-    element: <FormElements /> 
+  {
+    path: "/admin/form-elements",
+    element: <FormElements />,
   },
-  
+
   // Table Routes
-  { 
-    path: "/admin/basic-tables", 
-    element: <BasicTables /> 
+  {
+    path: "/admin/basic-tables",
+    element: <BasicTables />,
   },
-  
+
   // UI Elements Routes
-  { 
-    path: "ui/alerts", 
-    element: <Alerts /> 
+  {
+    path: "ui/alerts",
+    element: <Alerts />,
   },
-  { 
-    path: "ui/avatars", 
-    element: <Avatars /> 
+  {
+    path: "ui/avatars",
+    element: <Avatars />,
   },
-  { 
-    path: "ui/badges", 
-    element: <Badges /> 
+  {
+    path: "ui/badges",
+    element: <Badges />,
   },
-  { 
-    path: "ui/buttons", 
-    element: <Buttons /> 
+  {
+    path: "ui/buttons",
+    element: <Buttons />,
   },
-  { 
-    path: "ui/images", 
-    element: <Images /> 
+  {
+    path: "ui/images",
+    element: <Images />,
   },
-  { 
-    path: "ui/videos", 
-    element: <Videos /> 
+  {
+    path: "ui/videos",
+    element: <Videos />,
   },
-  
+
   // Chart Routes
-  { 
-    path: "charts/line-chart", 
-    element: <LineChart /> 
+  {
+    path: "charts/line-chart",
+    element: <LineChart />,
   },
-  { 
-    path: "charts/bar-chart", 
-    element: <BarChart /> 
+  {
+    path: "charts/bar-chart",
+    element: <BarChart />,
+  },
+  {
+    path: "/admin/blog",
+    element: <BlogList />,
   },
 ];
 
@@ -127,13 +134,13 @@ export const adminRoutesConfig: RouteObject = {
   children: [
     // Public auth routes (no layout)
     ...authRoutes,
-    
+
     // Protected admin routes with layout
     {
       element: (
-        <ProtectedRoute 
-        //   requireAuth={true} 
-        //   requiredRole={UserRole.ADMIN}
+        <ProtectedRoute
+          //   requireAuth={true}
+          //   requiredRole={UserRole.ADMIN}
           redirectTo="/admin/auth/sign-in"
         >
           <AppLayout />
@@ -142,10 +149,10 @@ export const adminRoutesConfig: RouteObject = {
       children: [
         ...protectedAdminRoutes,
         // Catch-all for undefined admin routes
-        { 
-          path: "*", 
-          element: <NotFound /> 
-        }
+        {
+          path: "*",
+          element: <NotFound />,
+        },
       ],
     },
   ],

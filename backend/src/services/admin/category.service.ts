@@ -1044,8 +1044,9 @@ export const updateBlogService = async (blog_id: number, data: any) => {
 };
 
 // UPDATE BLOG STATUS SERVICE
-export const updateBlogStatusService = async (blog_id: number, status: string) => {
+export const updateBlogStatusService = async (blog_id: number, status: number) => {
     try {
+        console.log("Updating blog status - blog_id:", blog_id, "status:", status);
         const [result]: any = await dbConfig.query(
             `UPDATE blog SET blog_status = ? WHERE blog_id = ?`,
             [status, blog_id]

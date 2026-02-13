@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, updateBlogService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService } from "../../services/admin/category.service";
+import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService } from "../../services/admin/category.service";
 
 
 //---------------------------------- CATEGORY LEVEL ONE CONTROLLERS -----------------------------
@@ -234,6 +234,7 @@ export const getBlogListController = async (req: Request, res: Response, next: N
 export const addBlogController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const data = req.body;
+        console.log("Received data in addBlogController:", data); // Debug log to check incoming data
         const result = await addBlogService(data);
         res.status(result.status).json(result);
     } catch (error) {
@@ -268,7 +269,7 @@ export const updateBlogController = async (req: Request, res: Response, next: Ne
 export const updateBlogStatusController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const blog_id = parseInt(req.params.blogId);
-        const result = await updateBlogService(blog_id, { blog_status: req.body.blog_status });
+        const result = await updateBlogStatusService(blog_id, parseInt(req.body.blog_status));
         res.status(result.status).json(result);
     } catch (error) {
         next(error);
