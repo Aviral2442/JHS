@@ -269,7 +269,9 @@ export const updateBlogController = async (req: Request, res: Response, next: Ne
 export const updateBlogStatusController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const blog_id = parseInt(req.params.blogId);
-        const result = await updateBlogStatusService(blog_id, parseInt(req.body.blog_status));
+        const status = req.body.blog_status;
+        console.log(`Updating blog ID ${blog_id} to status ${status}`); // Debug log to check incoming data
+        const result = await updateBlogStatusService(blog_id, status);
         res.status(result.status).json(result);
     } catch (error) {
         next(error);

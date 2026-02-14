@@ -20,7 +20,6 @@ const DataTableFilters: React.FC<Props> = ({ onFilterChange, onAddNew, title }) 
   const [status, setStatus] = useState<StatusOption>("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [search, setSearch] = useState("");
 
   const emitFilters = (overrides: Partial<{
     date: QuickFilterOption;
@@ -34,7 +33,7 @@ const DataTableFilters: React.FC<Props> = ({ onFilterChange, onAddNew, title }) 
       status: overrides.status ?? status,
       fromDate: overrides.fromDate ?? fromDate,
       toDate: overrides.toDate ?? toDate,
-      search: overrides.search ?? search,
+      search: "",
     });
   };
 
@@ -64,14 +63,9 @@ const DataTableFilters: React.FC<Props> = ({ onFilterChange, onAddNew, title }) 
     }
   };
 
-  const handleSearch = (val: string) => {
-    setSearch(val);
-    emitFilters({ search: val });
-  };
-
   return (
-    <div className="space-y-4">
-      {/* Top Row: Title + Filter Controls + Add New */}
+    <div>
+      {/* Title + Filter Controls + Add New */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
           {title}
@@ -140,22 +134,6 @@ const DataTableFilters: React.FC<Props> = ({ onFilterChange, onAddNew, title }) 
               </svg>
             </button>
           )}
-        </div>
-      </div>
-
-      {/* Second Row: Export Buttons + Search */}
-      <div className="flex justify-end items-end gap-3">
-        {/* Search */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Search:</span>
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Search..."
-            className="rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700
-              dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none w-48"
-          />
         </div>
       </div>
     </div>

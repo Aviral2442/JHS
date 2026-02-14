@@ -860,7 +860,8 @@ export const getBlogListService = async (filters?: {
                 blog.blog_title,
                 blog.blog_short_desc,
                 blog.blog_thumbnail,
-                blog.blog_createdAt
+                blog.blog_createdAt,
+                blog.blog_status
             FROM blog
             ${finalWhereSQL}
             ORDER BY blog.blog_id DESC

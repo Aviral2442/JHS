@@ -1,33 +1,35 @@
 import axios from "axios";
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-
-(pdfMake as any).vfs = pdfFonts;
 
 type Props = {
   endpoint: string;
   dataAccess: string;
 };
 
-const DatatableActionButton: React.FC<Props> = ({ endpoint, dataAccess }) => {
-  const baseURL = (import.meta as any).env.VITE_PATH || "";
+const DatatableActionButton: React.FC<Props> = ({
+  endpoint,
+  dataAccess,
+}) => {
+  const baseURL = import.meta.env.VITE_PATH ?? "";
   const [loading, setLoading] = useState(false);
 
-  // 🔹 Fetch full export data
-  const fetchActionData = async () => {
+  // 🔹 Fetch data
+  const fetchActionData = async (): Promise<any[]> => {
     try {
       setLoading(true);
+
       const res = await axios.get(`${baseURL}${endpoint}`, {
         params: {
           page: 1,
-          limit: 100,
+          limit: 1000, // increase if needed
         },
       });
-      console.log('Data table data', res.data?.jsonData?.[dataAccess]);
-      
-      return res.data?.jsonData?.[dataAccess] || [];
+
+      const result =
+        res.data?.jsonData?.[dataAccess] ?? [];
+
+      return Array.isArray(result) ? result : [];
     } catch (error) {
       console.error("Export error:", error);
       return [];
@@ -41,13 +43,24 @@ const DatatableActionButton: React.FC<Props> = ({ endpoint, dataAccess }) => {
     const data = await fetchActionData();
     if (!data.length) return;
 
-    const headers = Object.keys(data[0]);
-    const rows = data.map((row: any) =>
-      headers.map((h) => row[h]).join("\t")
-    );
+    try {
+      const headers = Object.keys(data[0]);
 
-    const text = [headers.join("\t"), ...rows].join("\n");
-    await navigator.clipboard.writeText(text);
+      const rows = data.map((row: any) =>
+        headers.map((h) => row[h] ?? "").join("\t")
+      );
+
+      const text = [
+        headers.join("\t"),
+        ...rows,
+      ].join("\n");
+
+      await navigator.clipboard.writeText(text);
+
+      alert("Copied to clipboard!");
+    } catch (err) {
+      console.error("Copy failed:", err);
+    }
   };
 
   // 🔹 CSV
@@ -67,8 +80,16 @@ const DatatableActionButton: React.FC<Props> = ({ endpoint, dataAccess }) => {
       headers.map((h) => escapeCSV(row[h])).join(",")
     );
 
-    const csvContent = [headers.join(","), ...rows].join("\n");
-    downloadFile(csvContent, "export.csv", "text/csv;charset=utf-8;");
+    const csvContent = [
+      headers.join(","),
+      ...rows,
+    ].join("\n");
+
+    downloadFile(
+      csvContent,
+      "export.csv",
+      "text/csv;charset=utf-8;"
+    );
   };
 
   // 🔹 EXCEL
@@ -76,10 +97,17 @@ const DatatableActionButton: React.FC<Props> = ({ endpoint, dataAccess }) => {
     const data = await fetchActionData();
     if (!data.length) return;
 
-    const worksheet = XLSX.utils.json_to_sheet(data);
+    const worksheet =
+      XLSX.utils.json_to_sheet(data);
+
     const workbook = XLSX.utils.book_new();
 
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      "Data"
+    );
+
     XLSX.writeFile(workbook, "export.xlsx");
   };
 
@@ -89,34 +117,63 @@ const DatatableActionButton: React.FC<Props> = ({ endpoint, dataAccess }) => {
     if (!data.length) return;
 
     const headers = Object.keys(data[0]);
+
     const body = [
-      headers.map((h) => ({ text: h, bold: true })),
-      ...data.map((row: any) => headers.map((h) => row[h] ?? "")),
+      headers.map((h) => ({
+        text: h,
+        bold: true,
+      })),
+
+      ...data.map((row: any) =>
+        headers.map((h) => row[h] ?? "")
+      ),
     ];
 
-    pdfMake.createPdf({
-      pageOrientation: "landscape",
-      content: [
-        { text: "Exported Data", style: "header" },
-        {
-          table: {
-            headerRows: 1,
-            body,
+    // Dynamic import (Vite-safe)
+    const pdfMakeModule = await import(
+      "pdfmake/build/pdfmake"
+    );
+
+    const pdfFonts = await import(
+      "pdfmake/build/vfs_fonts"
+    );
+
+    const pdfMake =
+      (pdfMakeModule as any).default ||
+      pdfMakeModule;
+
+    pdfMake.vfs = (pdfFonts as any).pdfMake.vfs;
+
+    pdfMake
+      .createPdf({
+        pageOrientation: "landscape",
+
+        content: [
+          {
+            text: "Exported Data",
+            style: "header",
           },
-          layout: "lightHorizontalLines",
+          {
+            table: {
+              headerRows: 1,
+              body,
+            },
+            layout: "lightHorizontalLines",
+          },
+        ],
+
+        styles: {
+          header: {
+            fontSize: 16,
+            bold: true,
+            marginBottom: 12,
+          },
         },
-      ],
-      styles: {
-        header: {
-          fontSize: 16,
-          bold: true,
-          marginBottom: 10,
-        },
-      },
-    }).download("export.pdf");
+      })
+      .download("export.pdf");
   };
 
-  // 🔹 Download helpers
+  // 🔹 Download helper
   const downloadFile = (
     content: string,
     filename: string,
@@ -128,15 +185,18 @@ const DatatableActionButton: React.FC<Props> = ({ endpoint, dataAccess }) => {
     const a = document.createElement("a");
     a.href = url;
     a.download = filename;
+
+    document.body.appendChild(a);
     a.click();
 
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
   return (
     <div className="flex">
       <button
-        className="px-2 py-1 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-1 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={loading}
         onClick={handleCopy}
       >
@@ -152,7 +212,7 @@ const DatatableActionButton: React.FC<Props> = ({ endpoint, dataAccess }) => {
       </button>
 
       <button
-        className="px-2 py-1 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-1 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={loading}
         onClick={handleCSV}
       >
@@ -160,7 +220,7 @@ const DatatableActionButton: React.FC<Props> = ({ endpoint, dataAccess }) => {
       </button>
 
       <button
-        className="px-2 py-1 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={loading}
         onClick={handlePDF}
       >

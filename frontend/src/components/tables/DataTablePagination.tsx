@@ -7,7 +7,7 @@ interface Props {
 }
 
 const DataTablePagination: React.FC<Props> = ({ currentPage, totalPages, onPageChange }) => {
-  if (totalPages <= 1) return null;
+  if (totalPages < 1) return null;
 
   const getPageNumbers = (): (number | "...")[] => {
     const pages: (number | "...")[] = [];

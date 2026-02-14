@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import DataTableFilters from "../../../../components/tables/DataTableFilters";
 import DataTablePagination from "../../../../components/tables/DataTablePagination";
-import DatatableActionButton from "../../../../components/DatatableActionButton";
+// import DatatableActionButton from "../../../../components/DatatableActionButton";
 import { useNavigate } from "react-router";
+import DatatableActionButton from "../../../../components/DatatableActionButton";
+import { formatDate } from "../../../../components/DateFormat";
 
 const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
 const ENDPOINT = "/api/category/get_blog_list";
@@ -14,7 +16,7 @@ interface BlogItem {
   blog_short_desc: string;
   blog_thumbnail: string;
   blog_createdAt: string | number;
-  blog_status?: number;
+  blog_status: number;
 }
 
 interface Pagination {
@@ -73,7 +75,7 @@ const BlogList: React.FC = () => {
       console.log("Fetched blog list data:", data);
       setBlogs(data?.jsonData?.blog_list || []);
       setPagination(
-        data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 }
+        data?.jsonData?.pagination || data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 }
       );
     } catch (error) {
       console.error("Failed to fetch blog list:", error);
@@ -86,15 +88,22 @@ const BlogList: React.FC = () => {
     fetchBlogs(1);
   }, [fetchBlogs]);
 
+  // Search state
+  const [search, setSearch] = useState("");
+
   // Debounce timer ref for search
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleFilterChange = (filters: Filters) => {
-    filtersRef.current = filters;
+    filtersRef.current = { ...filters, search: filtersRef.current.search };
+    fetchBlogs(1);
+  };
 
-    // Debounce search, instant for other filters
+  const handleSearchChange = (val: string) => {
+    setSearch(val);
+    filtersRef.current.search = val;
+
     if (searchTimer.current) clearTimeout(searchTimer.current);
-
     searchTimer.current = setTimeout(() => {
       fetchBlogs(1);
     }, 400);
@@ -106,6 +115,7 @@ const BlogList: React.FC = () => {
 
   const handleStatusToggle = async (blogId: number, currentStatus: number) => {
     const newStatus = currentStatus == 0 ? 1 : 0;
+    console.log(`Toggling status for blog ID ${blogId} from ${currentStatus} to ${newStatus}`); // Debug log to check values before API call
     try {
       await axios.patch(`${baseURL}/api/category/update_blog_status/${blogId}`, {
         blog_status: newStatus,
@@ -115,22 +125,6 @@ const BlogList: React.FC = () => {
     } catch (error) {
       console.error("Failed to update blog status:", error);
     }
-  };
-
-  const formatDate = (value: string | number): string => {
-    if (!value) return "—";
-    const date =
-      typeof value === "number"
-        ? new Date(value * 1000) // UNIX timestamp
-        : new Date(value);
-    return date.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
   };
 
   return (
@@ -143,9 +137,20 @@ const BlogList: React.FC = () => {
           onAddNew={() => navigate("/admin/blog/add")}
         />
 
-        {/* Export Buttons */}
+        {/* Export Buttons + Search */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <DatatableActionButton endpoint={ENDPOINT} dataAccess="blog_list" />
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Search:</span>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              placeholder="Search..."
+              className="rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700
+                dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none w-48"
+            />
+          </div>
         </div>
 
         {/* Table */}
@@ -227,7 +232,7 @@ const BlogList: React.FC = () => {
                       {/* Status Badge */}
                       <td className="px-4 py-3">
                         <span
-                          className={`inline-flex rounded-full px-3 py-0.5 text-xs font-medium
+                          className={`inline-flex px-3 py-0.5 text-xs font-medium
                             ${
                               isActive
                                 ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
@@ -243,7 +248,7 @@ const BlogList: React.FC = () => {
                         <div className="flex items-center justify-center gap-2">
                           {/* Toggle Status */}
                           <button
-                            onClick={() => handleStatusToggle(blog.blog_id, blog.blog_status || 0)}
+                            onClick={() => handleStatusToggle(blog.blog_id, blog.blog_status)}
                             title={isActive ? "Deactivate" : "Activate"}
                             className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors
                               ${
@@ -291,11 +296,13 @@ const BlogList: React.FC = () => {
         </div>
 
         {/* Pagination */}
-        <DataTablePagination
-          currentPage={pagination.page}
-          totalPages={pagination.totalPages}
-          onPageChange={handlePageChange}
-        />
+        {blogs.length > 0 && (
+          <DataTablePagination
+            currentPage={pagination.page}
+            totalPages={pagination.totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </div>
   );
