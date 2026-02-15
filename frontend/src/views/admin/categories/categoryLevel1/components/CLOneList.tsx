@@ -1,22 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import DataTableFilters from "../../../../components/tables/DataTableFilters";
-import DataTablePagination from "../../../../components/tables/DataTablePagination";
-// import DatatableActionButton from "../../../../components/DatatableActionButton";
+import DataTableFilters from "../../../../../components/tables/DataTableFilters";
+import DataTablePagination from "../../../../../components/tables/DataTablePagination";
 import { useNavigate } from "react-router";
-import DatatableActionButton from "../../../../components/DatatableActionButton";
-import { formatDate } from "../../../../components/DateFormat";
+import DatatableActionButton from "../../../../../components/DatatableActionButton";
+import { formatDate } from "../../../../../components/DateFormat";
 
 const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
-const ENDPOINT = "/api/category/get_blog_list";
+const ENDPOINT = "/api/category/get_category_level_one_list";
 
-interface BlogItem {
-  blog_id: number;
-  blog_title: string;
-  blog_short_desc: string;
-  blog_thumbnail: string;
-  blog_createdAt: string | number;
-  blog_status: number;
+interface CategoryLevelOneItem {
+  category_level1_id: number;
+  category_level1_name: string;
+  category_level1_img: string;
+  category_level1_status: number;
+  category_level1_createdAt: string;
 }
 
 interface Pagination {
@@ -34,9 +32,9 @@ interface Filters {
   search: string;
 }
 
-const BlogList: React.FC = () => {
+const CLOneList: React.FC = () => {
   const navigate = useNavigate();
-  const [blogs, setBlogs] = useState<BlogItem[]>([]);
+  const [categories, setCategories] = useState<CategoryLevelOneItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
     limit: 10,
@@ -44,6 +42,7 @@ const BlogList: React.FC = () => {
     totalPages: 1,
   });
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
 
   // Store the latest filters in a ref so the fetch function always uses the latest values
   const filtersRef = useRef<Filters>({
@@ -72,13 +71,13 @@ const BlogList: React.FC = () => {
 
       const res = await axios.get(`${baseURL}${ENDPOINT}`, { params });
       const data = res.data;
-      console.log("Fetched blog list data:", data);
-      setBlogs(data?.jsonData?.blog_list || []);
+      console.log("Fetched category level one list data:", data);
+      setCategories(data?.jsonData?.category_level_one_list || []);
       setPagination(
         data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 }
       );
     } catch (error) {
-      console.error("Failed to fetch blog list:", error);
+      console.error("Failed to fetch category level one list:", error);
     } finally {
       setLoading(false);
     }
@@ -92,11 +91,15 @@ const BlogList: React.FC = () => {
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleFilterChange = (filters: Filters) => {
-    filtersRef.current = filters;
+    filtersRef.current = { ...filters, search: filtersRef.current.search };
+    fetchBlogs(1);
+  };
 
-    // Debounce search, instant for other filters
+  const handleSearchChange = (val: string) => {
+    setSearch(val);
+    filtersRef.current.search = val;
+
     if (searchTimer.current) clearTimeout(searchTimer.current);
-
     searchTimer.current = setTimeout(() => {
       fetchBlogs(1);
     }, 400);
@@ -106,17 +109,17 @@ const BlogList: React.FC = () => {
     fetchBlogs(page);
   };
 
-  const handleStatusToggle = async (blogId: number, currentStatus: number) => {
+  const handleStatusToggle = async (categoryId: number, currentStatus: number) => {
     const newStatus = currentStatus == 0 ? 1 : 0;
-    console.log(`Toggling status for blog ID ${blogId} from ${currentStatus} to ${newStatus}`); // Debug log to check values before API call
+    console.log(`Toggling status for category level one ID ${categoryId} from ${currentStatus} to ${newStatus}`);
     try {
-      await axios.patch(`${baseURL}/api/category/update_blog_status/${blogId}`, {
-        blog_status: newStatus,
+      await axios.patch(`${baseURL}/api/category/update_category_level_one_status/${categoryId}`, {
+        category_level1_status: newStatus,
       });
-      console.log(`Blog ID ${blogId} status updated to ${newStatus}`);  
+      console.log(`Category level one ID ${categoryId} status updated to ${newStatus}`);
       fetchBlogs(pagination.page);
     } catch (error) {
-      console.error("Failed to update blog status:", error);
+      console.error("Failed to update category level one status:", error);
     }
   };
 
@@ -125,14 +128,25 @@ const BlogList: React.FC = () => {
       <div className="p-5 lg:p-6 space-y-5">
         {/* Filters Row */}
         <DataTableFilters
-          title="Blog List"
+          title="Category Level One List"
           onFilterChange={handleFilterChange}
-          onAddNew={() => navigate("/admin/blog/add")}
+          onAddNew={() => navigate("/admin/category-level-one/add")}
         />
 
-        {/* Export Buttons */}
+        {/* Export Buttons + Search */}
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <DatatableActionButton endpoint={ENDPOINT} dataAccess="blog_list" />
+          <DatatableActionButton endpoint={ENDPOINT} dataAccess="category_level_one_list" />
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Search:</span>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              placeholder="Search..."
+              className="rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700
+                dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none w-48"
+            />
+          </div>
         </div>
 
         {/* Table */}
@@ -147,10 +161,10 @@ const BlogList: React.FC = () => {
                   ID
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
-                  Blog Title
+                  Image
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
-                  Short Description
+                  Name
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
                   Date
@@ -170,20 +184,20 @@ const BlogList: React.FC = () => {
                     Loading...
                   </td>
                 </tr>
-              ) : blogs.length === 0 ? (
+              ) : categories.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-4 py-10 text-center text-gray-400 dark:text-gray-500">
-                    No blogs found.
+                    No categories found.
                   </td>
                 </tr>
               ) : (
-                blogs.map((blog, idx) => {
+                categories.map((category, idx) => {
                   const sNo = (pagination.page - 1) * pagination.limit + idx + 1;
-                  const isActive = blog.blog_status == 0;
+                  const isActive = category.category_level1_status == 0;
 
                   return (
                     <tr
-                      key={blog.blog_id}
+                      key={category.category_level1_id}
                       className="border-b border-gray-100 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700/40 transition-colors"
                     >
                       {/* S.No. */}
@@ -193,22 +207,31 @@ const BlogList: React.FC = () => {
 
                       {/* ID */}
                       <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
-                        {blog.blog_id}
+                        {category.category_level1_id}
+                      </td>
+                        {/* Image */}
+                      <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+                        {category.category_level1_img ? (
+                          <img
+                            src={`${baseURL}${category.category_level1_img}`}
+                            alt={category.category_level1_name}
+                            className="h-7 w-7 rounded object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-10 w-10 items-center justify-center rounded bg-gray-200 dark:bg-gray-700">
+                            <span className="text-xs text-gray-500 dark:text-gray-400">No Image</span>
+                          </div>
+                        )}
                       </td>
 
-                      {/* Blog Title */}
+                      {/* Category Level One Title */}
                       <td className="px-4 py-2 text-sm text-gray-800 dark:text-gray-200 max-w-xs truncate">
-                        {blog.blog_title}
-                      </td>
-
-                      {/* Short Description */}
-                      <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 max-w-sm truncate">
-                        {blog.blog_short_desc || "—"}
+                        {category.category_level1_name}
                       </td>
 
                       {/* Date */}
                       <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                        {formatDate(blog.blog_createdAt)}
+                        {formatDate(category.category_level1_createdAt)}
                       </td>
 
                       {/* Status Badge */}
@@ -230,7 +253,7 @@ const BlogList: React.FC = () => {
                         <div className="flex items-center justify-center gap-2">
                           {/* Toggle Status */}
                           <button
-                            onClick={() => handleStatusToggle(blog.blog_id, blog.blog_status)}
+                            onClick={() => handleStatusToggle(category.category_level1_id, category.category_level1_status)}
                             title={isActive ? "Deactivate" : "Activate"}
                             className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors
                               ${
@@ -252,8 +275,8 @@ const BlogList: React.FC = () => {
 
                           {/* Edit */}
                           <button
-                            onClick={() => navigate(`/admin/blog/edit/${blog.blog_id}`)}
-                            title="Edit Blog"
+                            onClick={() => navigate(`/admin/category-level-one/edit/${category.category_level1_id}`)}
+                            title="Edit Category Level One"
                             className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-600
                               hover:bg-brand-200 dark:bg-brand-900/30 dark:text-brand-400 dark:hover:bg-brand-900/50 transition-colors"
                           >
@@ -278,14 +301,16 @@ const BlogList: React.FC = () => {
         </div>
 
         {/* Pagination */}
-        <DataTablePagination
-          currentPage={pagination.page}
-          totalPages={pagination.totalPages}
-          onPageChange={handlePageChange}
-        />
+        {categories.length > 0 && (
+          <DataTablePagination
+            currentPage={pagination.page}
+            totalPages={pagination.totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </div>
   );
 };
 
-export default BlogList;
+export default CLOneList;

@@ -33,6 +33,12 @@ const NotFound = lazy(() => import("../views/admin/OtherPage/NotFound"));
 const BlogList = lazy(() => import("../views/admin/blog"));
 const AddBlog = lazy(() => import("../views/admin/blog/components/AddBlog"));
 
+// categories 
+const CLOneList = lazy(() => import("../views/admin/categories/categoryLevel1/components/CLOneList"));
+const AddCLOne = lazy(() => import("../views/admin/categories/categoryLevel1/components/AddCLOne"));
+const CLTwoList = lazy(() => import("../views/admin/categories/categoryLevel2/components/CLTwoList"));
+const CLThreeList = lazy(() => import("../views/admin/categories/categoryLevel3/components/CLThreeList"));
+
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
 /**
@@ -133,6 +139,18 @@ const protectedAdminRoutes: RouteObject[] = [
     path: "/admin/blog/edit/:blogId",
     element: <AddBlog />,
   },
+  {
+    path: "/admin/category-level-one",
+    element: <CLOneList />,
+  },
+  {
+    path: "/admin/category-level-one/add",
+    element: <AddCLOne />,
+  },
+  {
+    path: "/admin/category-level-one/edit/:catLvl1Id",
+    element: <AddCLOne />,
+  }
 ];
 
 /**
