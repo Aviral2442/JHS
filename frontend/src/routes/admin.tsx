@@ -34,11 +34,11 @@ const BlogList = lazy(() => import("../views/admin/blog"));
 const AddBlog = lazy(() => import("../views/admin/blog/components/AddBlog"));
 
 // categories 
-const CLOneList = lazy(() => import("../views/admin/categories/categoryLevel1/components/CLOneList"));
+const CLOneList = lazy(() => import("../views/admin/categories/categoryLevel1"));
 const AddCLOne = lazy(() => import("../views/admin/categories/categoryLevel1/components/AddCLOne"));
-const CLTwoList = lazy(() => import("../views/admin/categories/categoryLevel2/components/CLTwoList"));
+const CLTwoList = lazy(() => import("../views/admin/categories/categoryLevel2"));
 const AddCLTwo = lazy(() => import("../views/admin/categories/categoryLevel2/components/AddCLTwo"));
-const CLThreeList = lazy(() => import("../views/admin/categories/categoryLevel3/components/CLThreeList"));
+const CLThreeList = lazy(() => import("../views/admin/categories/categoryLevel3"));
 const AddCLThree = lazy(() => import("../views/admin/categories/categoryLevel3/components/AddCLThree"));
 
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));

@@ -17,7 +17,6 @@ import {
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import { CatIcon } from "lucide-react";
 // import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
