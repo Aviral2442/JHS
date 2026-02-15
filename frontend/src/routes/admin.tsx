@@ -31,6 +31,7 @@ const Blank = lazy(() => import("../views/admin/Blank"));
 const NotFound = lazy(() => import("../views/admin/OtherPage/NotFound"));
 
 const BlogList = lazy(() => import("../views/admin/blog"));
+const AddBlog = lazy(() => import("../views/admin/blog/components/AddBlog"));
 
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
@@ -123,6 +124,14 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/blog",
     element: <BlogList />,
+  },
+  {
+    path: "/admin/blog/add",
+    element: <AddBlog />,
+  },
+  {
+    path: "/admin/blog/edit/:blogId",
+    element: <AddBlog />,
   },
 ];
 

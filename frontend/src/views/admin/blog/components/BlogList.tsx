@@ -75,7 +75,7 @@ const BlogList: React.FC = () => {
       console.log("Fetched blog list data:", data);
       setBlogs(data?.jsonData?.blog_list || []);
       setPagination(
-        data?.jsonData?.pagination || data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 }
+        data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 }
       );
     } catch (error) {
       console.error("Failed to fetch blog list:", error);
@@ -88,22 +88,15 @@ const BlogList: React.FC = () => {
     fetchBlogs(1);
   }, [fetchBlogs]);
 
-  // Search state
-  const [search, setSearch] = useState("");
-
   // Debounce timer ref for search
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleFilterChange = (filters: Filters) => {
-    filtersRef.current = { ...filters, search: filtersRef.current.search };
-    fetchBlogs(1);
-  };
+    filtersRef.current = filters;
 
-  const handleSearchChange = (val: string) => {
-    setSearch(val);
-    filtersRef.current.search = val;
-
+    // Debounce search, instant for other filters
     if (searchTimer.current) clearTimeout(searchTimer.current);
+
     searchTimer.current = setTimeout(() => {
       fetchBlogs(1);
     }, 400);
@@ -137,20 +130,9 @@ const BlogList: React.FC = () => {
           onAddNew={() => navigate("/admin/blog/add")}
         />
 
-        {/* Export Buttons + Search */}
+        {/* Export Buttons */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <DatatableActionButton endpoint={ENDPOINT} dataAccess="blog_list" />
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Search:</span>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="Search..."
-              className="rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700
-                dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none w-48"
-            />
-          </div>
         </div>
 
         {/* Table */}
@@ -296,13 +278,11 @@ const BlogList: React.FC = () => {
         </div>
 
         {/* Pagination */}
-        {blogs.length > 0 && (
-          <DataTablePagination
-            currentPage={pagination.page}
-            totalPages={pagination.totalPages}
-            onPageChange={handlePageChange}
-          />
-        )}
+        <DataTablePagination
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

@@ -924,6 +924,7 @@ export const addBlogService = async (data: any) => {
             blog_category_id: data.blog_category_id,
             blog_title: data.blog_title,
             blog_short_desc: data.blog_short_desc,
+            blog_title_sku: data.blog_title_sku,
             blog_long_desc: data.blog_long_desc,
             blog_thumbnail: "",
             blog_tags: data.blog_tags,
@@ -1004,6 +1005,7 @@ export const updateBlogService = async (blog_id: number, data: any) => {
 
         if (data.blog_category_id) updateData.blog_category_id = data.blog_category_id;
         if (data.blog_title) updateData.blog_title = data.blog_title;
+        if (data.blog_title_sku) updateData.blog_title_sku = data.blog_title_sku;
         if (data.blog_short_desc) updateData.blog_short_desc = data.blog_short_desc;
         if (data.blog_long_desc) updateData.blog_long_desc = data.blog_long_desc;
         if (data.blog_tags) updateData.blog_tags = data.blog_tags;

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
+import { BiCategory } from "react-icons/bi";
 
 // Assume these icons are imported from an icon library
 import {
@@ -16,6 +17,7 @@ import {
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
+import { CatIcon } from "lucide-react";
 // import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
@@ -34,6 +36,15 @@ const navItems: NavItem[] = [
     icon: <BoxCubeIcon />,
     name: "Blogs",
     path: "/admin/blog",
+  },
+  {
+    icon: <BiCategory />,
+    name: "Categories",
+    subItems: [
+      { name: "Category Level One", path: "/admin/category-level-one", pro: false },
+      { name: "Category Level Two", path: "/admin/category-level-two", pro: false },
+      { name: "Category Level Three", path: "/admin/category-level-three", pro: false },
+    ]
   },
   {
     icon: <CalenderIcon />,
