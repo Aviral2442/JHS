@@ -41,9 +41,9 @@ const navItems: NavItem[] = [
     icon: <BiCategory />,
     name: "Categories",
     subItems: [
-      { name: "Category Level One", path: "/admin/category-level-one", pro: false },
-      { name: "Category Level Two", path: "/admin/category-level-two", pro: false },
-      { name: "Category Level Three", path: "/admin/category-level-three", pro: false },
+      { name: "Level One", path: "/admin/category/level-one", pro: false },
+      { name: "Level Two", path: "/admin/category/level-two", pro: false },
+      { name: "Level Three", path: "/admin/category/level-three", pro: false },
     ]
   },
   {

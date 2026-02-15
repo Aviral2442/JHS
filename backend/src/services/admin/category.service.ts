@@ -336,9 +336,11 @@ export const getCategoryLevelTwoListService = async (filters?: {
 
         const query = `
             SELECT 
-                category_level_2.*
+                category_level_2.*,
+                category_level_1.category_level1_name
             FROM category_level_2
             ${finalWhereSQL}
+            LEFT JOIN category_level_1 ON category_level_2.category_level2_level1_id = category_level_1.category_level1_id
             ORDER BY category_level_2.category_level2_id DESC
             LIMIT ? OFFSET ?
         `;
@@ -597,9 +599,11 @@ export const getCategoryLevelThreeListService = async (filters?: {
 
         const query = `
             SELECT 
-                category_level_3.*
+                category_level_3.*,
+                category_level_2.category_level2_name
             FROM category_level_3
             ${finalWhereSQL}
+            LEFT JOIN category_level_2 ON category_level_3.category_level3_level2_id = category_level_2.category_level2_id
             ORDER BY category_level_3.category_level3_id DESC
             LIMIT ? OFFSET ?
         `;

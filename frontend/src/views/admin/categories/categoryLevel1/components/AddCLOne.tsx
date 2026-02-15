@@ -270,7 +270,7 @@ const AddCLOne: React.FC = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigate("/admin/category-level-one")}
+                onClick={() => navigate("/admin/category/level-one")}
                 className="rounded-lg border border-gray-300 px-6 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
               >
                 Cancel

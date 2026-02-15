@@ -130,7 +130,7 @@ const CLOneList: React.FC = () => {
         <DataTableFilters
           title="Category Level One List"
           onFilterChange={handleFilterChange}
-          onAddNew={() => navigate("/admin/category-level-one/add")}
+          onAddNew={() => navigate("/admin/category/level-one/add")}
         />
 
         {/* Export Buttons + Search */}
@@ -275,7 +275,7 @@ const CLOneList: React.FC = () => {
 
                           {/* Edit */}
                           <button
-                            onClick={() => navigate(`/admin/category-level-one/edit/${category.category_level1_id}`)}
+                            onClick={() => navigate(`/admin/category/level-one/edit/${category.category_level1_id}`)}
                             title="Edit Category Level One"
                             className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-600
                               hover:bg-brand-200 dark:bg-brand-900/30 dark:text-brand-400 dark:hover:bg-brand-900/50 transition-colors"
