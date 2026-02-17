@@ -33,6 +33,8 @@ const NotFound = lazy(() => import("../views/admin/OtherPage/NotFound"));
 const BlogList = lazy(() => import("../views/admin/blog"));
 const AddBlog = lazy(() => import("../views/admin/blog/components/AddBlog"));
 
+const ConsumerList = lazy(() => import("../views/admin/consumer"));
+
 // categories 
 const CLOneList = lazy(() => import("../views/admin/categories/categoryLevel1"));
 const AddCLOne = lazy(() => import("../views/admin/categories/categoryLevel1/components/AddCLOne"));
@@ -176,6 +178,10 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/category/level-three/edit/:catLvl3Id",
     element: <AddCLThree />,
+  },
+  {
+    path: "/admin/consumer",
+    element: <ConsumerList />,
   }
 ];
 

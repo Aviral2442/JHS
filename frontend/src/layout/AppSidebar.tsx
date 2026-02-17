@@ -17,6 +17,7 @@ import {
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
+import { User } from "lucide-react";
 // import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
@@ -31,7 +32,13 @@ const navItems: NavItem[] = [
     icon: <GridIcon />,
     name: "Dashboard",
     subItems: [{ name: "Ecommerce", path: "/admin", pro: false }],
-  },{
+  },
+  {
+    icon: <User/>,
+    name: "Consumers",
+    path: "/admin/consumer",
+  },
+  {
     icon: <BoxCubeIcon />,
     name: "Blogs",
     path: "/admin/blog",
@@ -43,7 +50,7 @@ const navItems: NavItem[] = [
       { name: "Level One", path: "/admin/category/level-one", pro: false },
       { name: "Level Two", path: "/admin/category/level-two", pro: false },
       { name: "Level Three", path: "/admin/category/level-three", pro: false },
-    ]
+    ],
   },
   {
     icon: <CalenderIcon />,
@@ -58,12 +65,15 @@ const navItems: NavItem[] = [
   {
     name: "Forms",
     icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/admin/form-elements", pro: false }],
+    subItems: [
+      { name: "Form Elements", path: "/admin/form-elements", pro: false },
+    ],
   },
   {
     name: "Tables",
     icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/admin/basic-tables", pro: false },
+    subItems: [
+      { name: "Basic Tables", path: "/admin/basic-tables", pro: false },
       { name: "Partners", path: "/admin/partner", pro: false },
     ],
   },
@@ -117,14 +127,14 @@ const AppSidebar: React.FC = () => {
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
-    {}
+    {},
   );
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // const isActive = (path: string) => location.pathname === path;
   const isActive = useCallback(
     (path: string) => location.pathname === path,
-    [location.pathname]
+    [location.pathname],
   );
 
   useEffect(() => {
@@ -306,8 +316,8 @@ const AppSidebar: React.FC = () => {
           isExpanded || isMobileOpen
             ? "w-[290px]"
             : isHovered
-            ? "w-[290px]"
-            : "w-[90px]"
+              ? "w-[290px]"
+              : "w-[90px]"
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0`}
@@ -333,11 +343,11 @@ const AppSidebar: React.FC = () => {
           ) : (
             <div className="bg-none">
               <img
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+                src="/images/logo/logo-icon.svg"
+                alt="Logo"
+                width={32}
+                height={32}
+              />
             </div>
           )}
         </Link>

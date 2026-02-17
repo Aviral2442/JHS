@@ -145,6 +145,7 @@ export const addConsumerService = async (data: any) => {
             consumer_email: data.consumer_email,
             consumer_password: data.consumer_password,
             consumer_source: data.consumer_source,
+            consumer_policy_agree_status: data.consumer_policy_agree_status,
             consumer_createdAt: currentUnixTimeStamp(),
         }
 

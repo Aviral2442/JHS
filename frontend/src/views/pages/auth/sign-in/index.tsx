@@ -23,8 +23,8 @@ const features = [
 ];
 
 const loginSchema = Yup.object().shape({
-  users_email: Yup.string().email("Invalid email").required("Email is required"),
-  users_password: Yup.string().required("Password is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string().required("Password is required"),
 });
 
 export default function HomeServicesLogin() {
@@ -33,17 +33,17 @@ export default function HomeServicesLogin() {
 
   const loginForm = useFormik({
     initialValues: {
-      users_email: "",
-      users_password: "",
+      email: "",
+      password: "",
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
         console.log("Submitting login form with values:", values);
-        const response = await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/user-login`, values);
+        const response = await axios.post(`${import.meta.env.VITE_BACK_URL}/api/consumer/consumer_login`, values);
         console.log("Login successful:", response.data);
         // Handle successful login (e.g., store token, redirect)
-        if (response.data?.status === 200) {
-          localStorage.setItem("token", response.data?.jsonData?.token);
+        if (response.data?.status == 200) {
+          localStorage.setItem("token", response.data?.token);
           navigate("/");
         }
       } catch (error) {
@@ -185,7 +185,7 @@ export default function HomeServicesLogin() {
               onSubmit={loginForm.handleSubmit}
             >
               <div>
-                <label htmlFor="users_email" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="email" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                   <Mail className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Email address
                 </label>
@@ -194,19 +194,19 @@ export default function HomeServicesLogin() {
                   placeholder="you@example.com"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
-                  name="users_email"
-                  value={loginForm.values.users_email}
+                  name="email"
+                  value={loginForm.values.email}
                   onChange={loginForm.handleChange}
                   onBlur={loginForm.handleBlur}
                 />
-                {loginForm.errors.users_email && loginForm.touched.users_email && (
-                  <div className="text-red-500 text-sm mt-1">{loginForm.errors.users_email}</div>
+                {loginForm.errors.email && loginForm.touched.email && (
+                  <div className="text-red-500 text-sm mt-1">{loginForm.errors.email}</div>
                 )}
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label htmlFor="users_password" className="block text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                  <label htmlFor="password" className="block text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                     <Lock className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                     Password
                   </label>
@@ -223,13 +223,13 @@ export default function HomeServicesLogin() {
                   placeholder="Enter your password"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
-                  name="users_password"
-                  value={loginForm.values.users_password}
+                  name="password"
+                  value={loginForm.values.password}
                   onChange={loginForm.handleChange}
                   onBlur={loginForm.handleBlur}
                 />
-                {loginForm.errors.users_password && loginForm.touched.users_password && (
-                  <div className="text-red-500 text-sm mt-1">{loginForm.errors.users_password}</div>
+                {loginForm.errors.password && loginForm.touched.password && (
+                  <div className="text-red-500 text-sm mt-1">{loginForm.errors.password}</div>
                 )}
               </div>
 

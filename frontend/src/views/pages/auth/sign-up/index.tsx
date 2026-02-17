@@ -24,12 +24,13 @@ const benefits = [
 
 
 const userRegisterSchema = Yup.object().shape({
-  users_name: Yup.string().required("Full name is required"),
-  users_email: Yup.string().email("Invalid email").required("Email is required"),
-  users_password: Yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
+  consumer_full_name: Yup.string().required("Full name is required"),
+  consumer_email: Yup.string().email("Invalid email").required("Email is required"),
+  consumer_password: Yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
   confirm_password: Yup.string()
-    .oneOf([Yup.ref('users_password')], 'Passwords must match')
+    .oneOf([Yup.ref('consumer_password')], 'Passwords must match')
     .required('Confirm Password is required'),
+  consumer_policy_agree_status: Yup.number().oneOf([0], 'You must agree to the terms and conditions'),
 });
 
 
@@ -38,17 +39,19 @@ const HomeServicesRegister = () => {
 
   const userRegister = useFormik({
     initialValues: {
-      users_name: '',
-      users_email: '',
-      users_password: '',
+      consumer_full_name: '',
+      consumer_email: '',
+      consumer_password: '',
+      consumer_source: 'WEBSITE',
+      consumer_policy_agree_status: 1,
       confirm_password: '',
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const res = await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/user-registration`, values);
+        const res = await axios.post(`${import.meta.env.VITE_BACK_URL}/api/consumer/consumer_signup`, values);
         console.log(res.data);
         setSubmitting(false);
-        if (res.data?.jsonData?.status === 200) {
+        if (res.data?.jsonData?.status == 200) {
           console.log(res.data);
           navigate('/sign-in');
         }
@@ -196,59 +199,59 @@ const HomeServicesRegister = () => {
               onSubmit={userRegister.handleSubmit}
             >
               <div>
-                <label htmlFor="users_name" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="consumer_full_name" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                   <User className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Full Name
                 </label>
                 <input
                   type="text"
                   placeholder="John Doe"
-                  name="users_name"
+                  name="consumer_full_name"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
                   onChange={userRegister.handleChange}
-                  value={userRegister.values.users_name}
+                  value={userRegister.values.consumer_full_name}
                 />
-                {userRegister.errors.users_name && userRegister.touched.users_name && (
-                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.users_name}</p>
+                {userRegister.errors.consumer_full_name && userRegister.touched.consumer_full_name && (
+                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.consumer_full_name}</p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="users_email" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="consumer_email" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                   <Mail className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Email Address
                 </label>
                 <input
                   type="email"
                   placeholder="you@example.com"
-                  name="users_email"
+                  name="consumer_email"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
                   onChange={userRegister.handleChange}
-                  value={userRegister.values.users_email}
+                  value={userRegister.values.consumer_email}
                 />
-                {userRegister.errors.users_email && userRegister.touched.users_email && (
-                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.users_email}</p>
+                {userRegister.errors.consumer_email && userRegister.touched.consumer_email && (
+                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.consumer_email}</p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="users_password" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="consumer_password" className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'var(--gray-color)' }}>
                   <Lock className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                   Password
                 </label>
                 <input
                   type="password"
                   placeholder="Create a strong password"
-                  name="users_password"
+                  name="consumer_password"
                   className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 transition-all backdrop-blur-sm"
                   style={{ borderColor: 'var(--gray-color)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
                   onChange={userRegister.handleChange}
-                  value={userRegister.values.users_password}
+                  value={userRegister.values.consumer_password}
                 />
-                {userRegister.errors.users_password && userRegister.touched.users_password && (
-                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.users_password}</p>
+                {userRegister.errors.consumer_password && userRegister.touched.consumer_password && (
+                  <p className="mt-1 text-xs text-red-500">{userRegister.errors.consumer_password}</p>
                 )}
               </div>
 
@@ -273,14 +276,15 @@ const HomeServicesRegister = () => {
 
               <div className="flex items-start">
                 <input
-                  id="terms"
-                  name="terms"
+                  id="consumer_policy_agree_status"
+                  name="consumer_policy_agree_status"
                   type="checkbox"
-                  required
+                  checked={userRegister.values.consumer_policy_agree_status === 0}
+                  onChange={(e) => userRegister.setFieldValue('consumer_policy_agree_status', e.target.checked ? 0 : 1)}
                   className="mt-1 h-4 w-4 rounded"
                   style={{ accentColor: 'var(--sky-blue)' }}
                 />
-                <label htmlFor="terms" className="ml-2 block text-sm" style={{ color: 'var(--gray-color)' }}>
+                <label htmlFor="consumer_policy_agree_status" className="ml-2 block text-sm" style={{ color: 'var(--gray-color)' }}>
                   I agree to the{" "}
                   <Link to="/terms" className="font-semibold hover:opacity-80" style={{ color: 'var(--sky-blue)' }}>
                     Terms of Service
@@ -297,7 +301,6 @@ const HomeServicesRegister = () => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 className="btn-primary w-full flex justify-center items-center gap-2 rounded-xl px-6 py-3.5 font-semibold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5"
-                
               >
                 <UserPlus className="w-5 h-5" />
                 {userRegister.isSubmitting ? "Creating Account..." : "Sign Up"}
@@ -327,6 +330,5 @@ const HomeServicesRegister = () => {
     </div>
   );
 }
-
 
 export default HomeServicesRegister;
