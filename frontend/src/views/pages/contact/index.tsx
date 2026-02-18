@@ -13,17 +13,18 @@ import {
   FileText,
   Building,
 } from "lucide-react";
-
+import axios from "axios";
 
 // ================ COMPONENTS ================
 
 // Animated Header Component
 const ContactHeader: React.FC = () => {
   return (
-    <section className="relative overflow-hidden" style={{ backgroundColor: 'var(--white-color)' }}>
-
+    <section
+      className="relative overflow-hidden"
+      style={{ backgroundColor: "var(--white-color)" }}
+    >
       <div className="relative max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-center">
-
         {/* LEFT CONTENT */}
         <div>
           {/* <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-sm text-white mb-6">
@@ -32,14 +33,20 @@ const ContactHeader: React.FC = () => {
           </div> */}
 
           <h2 className="section-title text-4xl md:text-6xl leading-tight">
-            Fast & Reliable  
-            <span className="block" style={{ color: 'var(--sky-blue)' }}>Home Services</span>
+            Fast & Reliable
+            <span className="block" style={{ color: "var(--sky-blue)" }}>
+              Home Services
+            </span>
             When You Need Them
           </h2>
 
-          <p className="text-lg mt-6 max-w-xl" style={{ color: 'var(--gray-color)' }}>
-            Book expert plumbers, electricians, cleaners & technicians in minutes. 
-            We serve Lucknow with 24/7 emergency support and verified professionals.
+          <p
+            className="text-lg mt-6 max-w-xl"
+            style={{ color: "var(--gray-color)" }}
+          >
+            Book expert plumbers, electricians, cleaners & technicians in
+            minutes. We serve Lucknow with 24/7 emergency support and verified
+            professionals.
           </p>
 
           {/* CTA Buttons */}
@@ -51,10 +58,7 @@ const ContactHeader: React.FC = () => {
               <Phone /> Call Now
             </a>
 
-            <a
-              href="#contact"
-              className="btn-outline px-8 py-4 rounded-xl"
-            >
+            <a href="#contact" className="btn-outline px-8 py-4 rounded-xl">
               Book Service Online
             </a>
           </div>
@@ -62,17 +66,28 @@ const ContactHeader: React.FC = () => {
           {/* TRUST BADGES */}
           <div className="grid grid-cols-3 gap-6 mt-14">
             {[
-              { icon: <Star style={{ color: 'var(--sky-blue)' }} />, label: "4.9 Rated" },
-              { icon: <Truck style={{ color: 'var(--sky-blue)' }} />, label: "Same Day Service" },
-              { icon: <Shield style={{ color: 'var(--sky-blue)' }} />, label: "Verified Staff" },
+              {
+                icon: <Star style={{ color: "var(--sky-blue)" }} />,
+                label: "4.9 Rated",
+              },
+              {
+                icon: <Truck style={{ color: "var(--sky-blue)" }} />,
+                label: "Same Day Service",
+              },
+              {
+                icon: <Shield style={{ color: "var(--sky-blue)" }} />,
+                label: "Verified Staff",
+              },
             ].map((item, i) => (
               <div
                 key={i}
                 className="backdrop-blur-md rounded-xl p-4 text-center"
-                style={{ backgroundColor: 'var(--background-alt)' }}
+                style={{ backgroundColor: "var(--background-alt)" }}
               >
                 <div className="flex justify-center mb-2">{item.icon}</div>
-                <p className="text-sm" style={{ color: 'var(--gray-color)' }}>{item.label}</p>
+                <p className="text-sm" style={{ color: "var(--gray-color)" }}>
+                  {item.label}
+                </p>
               </div>
             ))}
           </div>
@@ -81,44 +96,66 @@ const ContactHeader: React.FC = () => {
         {/* RIGHT SIDE – GLASS CONTACT CARD */}
         <div className="relative">
           <div className="card-ui rounded-3xl p-10">
-
-            <h3 className="card-title text-2xl mb-6">
-              Need Immediate Help?
-            </h3>
+            <h3 className="card-title text-2xl mb-6">Need Immediate Help?</h3>
 
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl" style={{ backgroundColor: 'rgba(0, 173, 181, 0.2)' }}>
-                  <Phone style={{ color: 'var(--sky-blue)' }} />
+                <div
+                  className="p-3 rounded-xl"
+                  style={{ backgroundColor: "rgba(0, 173, 181, 0.2)" }}
+                >
+                  <Phone style={{ color: "var(--sky-blue)" }} />
                 </div>
                 <div>
-                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Call Us</p>
-                  <p className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>
+                  <p className="text-sm" style={{ color: "var(--gray-color)" }}>
+                    Call Us
+                  </p>
+                  <p
+                    className="text-lg font-semibold"
+                    style={{ color: "var(--black-color)" }}
+                  >
                     +91 8960628965
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl" style={{ backgroundColor: 'rgba(0, 173, 181, 0.2)' }}>
-                  <Mail style={{ color: 'var(--sky-blue)' }} />
+                <div
+                  className="p-3 rounded-xl"
+                  style={{ backgroundColor: "rgba(0, 173, 181, 0.2)" }}
+                >
+                  <Mail style={{ color: "var(--sky-blue)" }} />
                 </div>
                 <div>
-                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Email</p>
-                  <p className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>
+                  <p className="text-sm" style={{ color: "var(--gray-color)" }}>
+                    Email
+                  </p>
+                  <p
+                    className="text-lg font-semibold"
+                    style={{ color: "var(--black-color)" }}
+                  >
                     jeevancleaningservices@gmail.com
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl" style={{ backgroundColor: 'rgba(0, 173, 181, 0.2)' }}>
-                  <MapPin style={{ color: 'var(--sky-blue)' }} />
+                <div
+                  className="p-3 rounded-xl"
+                  style={{ backgroundColor: "rgba(0, 173, 181, 0.2)" }}
+                >
+                  <MapPin style={{ color: "var(--sky-blue)" }} />
                 </div>
                 <div>
-                  <p className="text-sm" style={{ color: 'var(--gray-color)' }}>Location</p>
-                  <p className="text-lg font-semibold" style={{ color: 'var(--black-color)' }}>
-                    Lucknow Sukh Complex, SN 45, Munshi Pulia, Sector 16, Indira Nagar, Lucknow, Uttar Pradesh 226016
+                  <p className="text-sm" style={{ color: "var(--gray-color)" }}>
+                    Location
+                  </p>
+                  <p
+                    className="text-lg font-semibold"
+                    style={{ color: "var(--black-color)" }}
+                  >
+                    Lucknow Sukh Complex, SN 45, Munshi Pulia, Sector 16, Indira
+                    Nagar, Lucknow, Uttar Pradesh 226016
                   </p>
                 </div>
               </div>
@@ -130,14 +167,12 @@ const ContactHeader: React.FC = () => {
             >
               Request a Service
             </a>
-
           </div>
         </div>
       </div>
     </section>
   );
 };
-
 
 // Interactive Contact Form
 const ContactFormSection: React.FC = () => {
@@ -151,6 +186,7 @@ const ContactFormSection: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const baseURL = import.meta.env.VITE_BACK_URL || "http://localhost:5000";
 
   const serviceOptions = [
     "Plumbing Repair",
@@ -167,25 +203,44 @@ const ContactFormSection: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        service: "",
-        message: "",
-      });
+    const payload = {
+      wcf_name: formData.name,
+      wcf_email: formData.email,
+      wcf_phone: formData.phone,
+      wcf_subject: formData.service,
+      wcf_message: formData.message,
+    };
 
-      // Reset success message after 5 seconds
-      setTimeout(() => setIsSubmitted(false), 5000);
-    }, 2000);
+    await axios
+      .post(`${baseURL}/api/home/add_contact_us`, payload)
+      .then((result) => {
+        if (result.data.status === 200) {
+          console.log("Contact form submitted successfully");
+          setTimeout(() => {
+            setIsSubmitting(false);
+            setIsSubmitted(true);
+            setFormData({
+              name: "",
+              email: "",
+              phone: "",
+              service: "",
+              message: "",
+            });
+            // Reset success message after 5 seconds
+            setTimeout(() => setIsSubmitted(false), 5000);
+          }, 2000);
+        }
+      })
+      .catch((err) => {
+        console.error("Error submitting contact form:", err);
+      });
   };
 
   return (
-    <div className="section-wrapper" style={{ backgroundColor: 'var(--background-alt)' }}>
+    <div
+      className="section-wrapper"
+      style={{ backgroundColor: "var(--background-alt)" }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Left Column - Form */}
@@ -194,27 +249,35 @@ const ContactFormSection: React.FC = () => {
               <h2 className="section-title text-3xl md:text-4xl mb-4">
                 Here for You, Anytime, Anywhere
               </h2>
-              <p style={{ color: 'var(--gray-color)' }}>
+              <p style={{ color: "var(--gray-color)" }}>
                 Reach out to us through the contact form. Our team will respond
                 quickly to assist you with your service needs.
               </p>
             </div>
 
             {isSubmitted ? (
-              <div className="card-ui rounded-2xl p-8 text-center" style={{ borderWidth: '1px', borderColor: 'rgba(0, 173, 181, 0.3)' }}>
-                <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'rgba(0, 173, 181, 0.2)' }}>
-                  <Check size={40} style={{ color: 'var(--sky-blue)' }} />
+              <div
+                className="card-ui rounded-2xl p-8 text-center"
+                style={{
+                  borderWidth: "1px",
+                  borderColor: "rgba(0, 173, 181, 0.3)",
+                }}
+              >
+                <div
+                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+                  style={{ backgroundColor: "rgba(0, 173, 181, 0.2)" }}
+                >
+                  <Check size={40} style={{ color: "var(--sky-blue)" }} />
                 </div>
-                <h3 className="card-title text-2xl mb-3">
-                  Request Submitted!
-                </h3>
-                <p className="mb-6" style={{ color: 'var(--gray-color)' }}>
+                <h3 className="card-title text-2xl mb-3">Request Submitted!</h3>
+                <p className="mb-6" style={{ color: "var(--gray-color)" }}>
                   Thank you for your request. Our team will contact you within
                   30 minutes to confirm your service appointment.
                 </p>
                 <button
                   onClick={() => setIsSubmitted(false)}
-                  className="font-semibold" style={{ color: 'var(--sky-blue)' }}
+                  className="font-semibold"
+                  style={{ color: "var(--sky-blue)" }}
                 >
                   Submit another request
                 </button>
@@ -223,7 +286,10 @@ const ContactFormSection: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
+                    <label
+                      className="block text-sm font-medium mb-2"
+                      style={{ color: "var(--gray-color)" }}
+                    >
                       <User size={16} className="inline mr-2" />
                       Full Name
                     </label>
@@ -235,13 +301,19 @@ const ContactFormSection: React.FC = () => {
                         setFormData({ ...formData, name: e.target.value })
                       }
                       className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
-                      style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
+                      style={{
+                        borderColor: "var(--gray-color)",
+                        backgroundColor: "var(--white-color)",
+                      }}
                       placeholder="John Smith"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
+                    <label
+                      className="block text-sm font-medium mb-2"
+                      style={{ color: "var(--gray-color)" }}
+                    >
                       <Mail size={16} className="inline mr-2" />
                       Email Address
                     </label>
@@ -253,7 +325,10 @@ const ContactFormSection: React.FC = () => {
                         setFormData({ ...formData, email: e.target.value })
                       }
                       className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
-                      style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
+                      style={{
+                        borderColor: "var(--gray-color)",
+                        backgroundColor: "var(--white-color)",
+                      }}
                       placeholder="john@example.com"
                     />
                   </div>
@@ -261,7 +336,10 @@ const ContactFormSection: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
+                    <label
+                      className="block text-sm font-medium mb-2"
+                      style={{ color: "var(--gray-color)" }}
+                    >
                       <Phone size={16} className="inline mr-2" />
                       Phone Number
                     </label>
@@ -273,12 +351,18 @@ const ContactFormSection: React.FC = () => {
                         setFormData({ ...formData, phone: e.target.value })
                       }
                       className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
-                      style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
+                      style={{
+                        borderColor: "var(--gray-color)",
+                        backgroundColor: "var(--white-color)",
+                      }}
                       placeholder="(555) 123-4567"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
+                    <label
+                      className="block text-sm font-medium mb-2"
+                      style={{ color: "var(--gray-color)" }}
+                    >
                       <Wrench size={16} className="inline mr-2" />
                       Service Needed
                     </label>
@@ -289,7 +373,10 @@ const ContactFormSection: React.FC = () => {
                         setFormData({ ...formData, service: e.target.value })
                       }
                       className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
-                      style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
+                      style={{
+                        borderColor: "var(--gray-color)",
+                        backgroundColor: "var(--white-color)",
+                      }}
                     >
                       <option value="">Select a service</option>
                       {serviceOptions.map((service) => (
@@ -302,7 +389,10 @@ const ContactFormSection: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-color)' }}>
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: "var(--gray-color)" }}
+                  >
                     <FileText size={16} className="inline mr-2" />
                     Additional Details
                   </label>
@@ -313,7 +403,10 @@ const ContactFormSection: React.FC = () => {
                       setFormData({ ...formData, message: e.target.value })
                     }
                     className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
-                    style={{ borderColor: 'var(--gray-color)', backgroundColor: 'var(--white-color)' }}
+                    style={{
+                      borderColor: "var(--gray-color)",
+                      backgroundColor: "var(--white-color)",
+                    }}
                     placeholder="Please describe your service needs..."
                   />
                 </div>
@@ -331,12 +424,15 @@ const ContactFormSection: React.FC = () => {
                   ) : (
                     <>
                       <Send size={20} className="mr-3" />
-                      Submit 
+                      Submit
                     </>
                   )}
                 </button>
 
-                <p className="text-center text-sm" style={{ color: 'var(--gray-color)' }}>
+                <p
+                  className="text-center text-sm"
+                  style={{ color: "var(--gray-color)" }}
+                >
                   By submitting, you agree to our terms and privacy policy.
                   We'll contact you shortly.
                 </p>
@@ -354,18 +450,29 @@ const ContactFormSection: React.FC = () => {
 
                 <div className="space-y-6">
                   <div className="flex items-start">
-                    <div className="p-3 rounded-xl mr-4" style={{ backgroundColor: 'var(--background-alt)' }}>
-                      <Phone style={{ color: 'var(--sky-blue)' }} size={24} />
+                    <div
+                      className="p-3 rounded-xl mr-4"
+                      style={{ backgroundColor: "var(--background-alt)" }}
+                    >
+                      <Phone style={{ color: "var(--sky-blue)" }} size={24} />
                     </div>
                     <div>
-                      <h4 className="font-bold" style={{ color: 'var(--black-color)' }}>Phone Support</h4>
-                      <p className="mt-1" style={{ color: 'var(--gray-color)' }}>
+                      <h4
+                        className="font-bold"
+                        style={{ color: "var(--black-color)" }}
+                      >
+                        Phone Support
+                      </h4>
+                      <p
+                        className="mt-1"
+                        style={{ color: "var(--gray-color)" }}
+                      >
                         Available 24/7 for emergencies
                       </p>
                       <a
                         href="tel:8885551234"
                         className="text-2xl font-bold mt-2 block hover:opacity-80"
-                        style={{ color: 'var(--black-color)' }}
+                        style={{ color: "var(--black-color)" }}
                       >
                         +91 8960628965
                       </a>
@@ -373,18 +480,29 @@ const ContactFormSection: React.FC = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="p-3 rounded-xl mr-4" style={{ backgroundColor: 'var(--background-alt)' }}>
-                      <Mail style={{ color: 'var(--sky-blue)' }} size={24} />
+                    <div
+                      className="p-3 rounded-xl mr-4"
+                      style={{ backgroundColor: "var(--background-alt)" }}
+                    >
+                      <Mail style={{ color: "var(--sky-blue)" }} size={24} />
                     </div>
                     <div>
-                      <h4 className="font-bold" style={{ color: 'var(--black-color)' }}>Email Us</h4>
-                      <p className="mt-1" style={{ color: 'var(--gray-color)' }}>
+                      <h4
+                        className="font-bold"
+                        style={{ color: "var(--black-color)" }}
+                      >
+                        Email Us
+                      </h4>
+                      <p
+                        className="mt-1"
+                        style={{ color: "var(--gray-color)" }}
+                      >
                         General inquiries and quotes
                       </p>
                       <a
                         href="mailto:contact@homeservice.com"
                         className="text-lg font-medium mt-2 block hover:opacity-80"
-                        style={{ color: 'var(--black-color)' }}
+                        style={{ color: "var(--black-color)" }}
                       >
                         jeevancleaningservices@gmail.com
                       </a>
@@ -392,21 +510,30 @@ const ContactFormSection: React.FC = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="p-3 rounded-xl mr-4" style={{ backgroundColor: 'var(--background-alt)' }}>
-                      <Building style={{ color: 'var(--sky-blue)' }} size={24} />
+                    <div
+                      className="p-3 rounded-xl mr-4"
+                      style={{ backgroundColor: "var(--background-alt)" }}
+                    >
+                      <Building
+                        style={{ color: "var(--sky-blue)" }}
+                        size={24}
+                      />
                     </div>
                     <div>
-                      <h4 className="font-bold" style={{ color: 'var(--black-color)' }}>
+                      <h4
+                        className="font-bold"
+                        style={{ color: "var(--black-color)" }}
+                      >
                         Head Office
                       </h4>
                       <div className="mt-2 space-y-1">
-                        <p style={{ color: 'var(--gray-color)' }}>
+                        <p style={{ color: "var(--gray-color)" }}>
                           Lucknow Sukh Complex, SN 45,
                         </p>
-                        <p style={{ color: 'var(--gray-color)' }}>
+                        <p style={{ color: "var(--gray-color)" }}>
                           Munshi Pulia, Sector 16, Indira Nagar,
                         </p>
-                        <p style={{ color: 'var(--gray-color)' }}>
+                        <p style={{ color: "var(--gray-color)" }}>
                           Lucknow, Uttar Pradesh 226016
                         </p>
                       </div>
@@ -452,7 +579,6 @@ const ContactFormSection: React.FC = () => {
 const LocationMap: React.FC = () => {
   return (
     <section className="section-wrapper relative overflow-hidden py-24">
-
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -460,7 +586,8 @@ const LocationMap: React.FC = () => {
             Our Service Coverage
           </h2>
           <p className="section-subtitle mt-4 max-w-2xl mx-auto">
-            We provide fast, reliable home services across Lucknow and nearby areas
+            We provide fast, reliable home services across Lucknow and nearby
+            areas
           </p>
         </div>
 
@@ -475,18 +602,19 @@ const LocationMap: React.FC = () => {
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
-
         </div>
       </div>
     </section>
   );
 };
 
-
 // ================ MAIN CONTACT PAGE ================
 const ContactPage: React.FC = () => {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white-color)' }}>
+    <div
+      className="min-h-screen"
+      style={{ backgroundColor: "var(--white-color)" }}
+    >
       {/* Header */}
       <ContactHeader />
 

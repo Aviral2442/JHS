@@ -6,16 +6,16 @@ import { currentUnixTimeStamp } from "../../utils/CurrentUnixTimeStamp";
 export const contactUsService = async (data: any) => {
     try {
         const insertData = {
-            wcf_name: data.wcf_name,
-            wcf_phone: data.wcf_phone,
-            wcf_email: data.wcf_email,
-            wcf_subject: data.wcf_subject,
-            wcf_message: data.wcf_message,
-            wcf_created_at: currentUnixTimeStamp(),
+            contactForm_name: data.wcf_name,
+            contactForm_mobile: data.wcf_phone,
+            contactForm_email: data.wcf_email,
+            contactForm_subject: data.wcf_subject,
+            contactForm_message: data.wcf_message,
+            contactForm_createdAt: currentUnixTimeStamp(),
         }
 
         const [result]: any = await dbConfig.query(
-            `INSERT INTO websiteContactForm SE ?`,
+            `INSERT INTO contact_form SET ?`,
             [insertData]
         );
 
