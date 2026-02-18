@@ -8,6 +8,7 @@ import UserProfileCard from './components/UserProfileCard';
 import WalletCard from './components/WalletCard';
 import ReferralDashboard from './components/ReferralDashboard';
 import TransactionHistory from './components/TransactionHistory';
+import UpdateProfileForm from './components/UpdateProfileForm';
 import { 
   User, 
   Wallet, 
@@ -18,6 +19,7 @@ import {
 const ConsumerProfile: React.FC = () => {
   const [_sidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<'overview' | 'transactions' | 'referrals'>('overview');
+  const [showEditProfile, setShowEditProfile] = useState(false);
   
   // Mock data
   const user: User = {
@@ -127,13 +129,21 @@ const ConsumerProfile: React.FC = () => {
   };
 
   const handleEditProfile = () => {
-    // Implement edit profile logic
-    console.log('Edit profile clicked');
+    setShowEditProfile(true);
   };
 
   return (
     <div className="min-h-screen dark:bg-gray-900" style={{ backgroundColor: 'var(--background-alt)' }}>
 
+      {/* Update Profile Modal */}
+      {showEditProfile && (
+        <UpdateProfileForm
+          onClose={() => setShowEditProfile(false)}
+          onSuccess={() => {
+            // Optionally refresh profile data here
+          }}
+        />
+      )}
 
       <div className="max-w-[90%] mx-auto px-4 py-8">
         <div className="gap-8">

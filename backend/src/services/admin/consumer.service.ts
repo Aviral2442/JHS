@@ -184,8 +184,12 @@ export const fetchConsumerDetailsService = async (consumerId: string) => {
     try {
         const [rows]: any = await dbConfig.query(
             `SELECT 
-                consumer.*
+                consumer.*,
+                state.state_name,
+                city.city_name
             FROM consumer
+            LEFT JOIN state ON state.state_id = consumer.consumer_state_id
+            LEFT JOIN city ON city.city_id = consumer.consumer_city_id
             WHERE consumer.consumer_id = ?`,
             [consumerId]
         );
@@ -219,7 +223,6 @@ export const updateConsumerDetailsService = async (consumerId: string, data: any
         if (data.consumer_state_id) updateData.consumer_state_id = data.consumer_state_id;
         if (data.consumer_city_id) updateData.consumer_city_id = data.consumer_city_id;
         if (data.consumer_zipcode) updateData.consumer_zipcode = data.consumer_zipcode;
-        if (data.consumer_referral_code) updateData.consumer_referral_code = data.consumer_referral_code;
 
         data.consumer_profile_pic = await saveBase64File(
             data.consumer_profile_pic,

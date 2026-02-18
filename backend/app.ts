@@ -26,6 +26,6 @@ app.use('/api/consumer', consumerRoutes);
 // WEBSITE ROUTES
 app.use('/api/auth', websiteAuthRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/web', homeRoutes);
+app.use('/api/home', homeRoutes);
 
 export default app;
