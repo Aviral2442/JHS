@@ -149,9 +149,18 @@ export const addConsumerService = async (data: any) => {
             consumer_createdAt: currentUnixTimeStamp(),
         }
 
+        // create referral code by combining name and random strin
+
         const [result]: any = await dbConfig.query(
             `INSERT INTO consumer SET ?`,
             [insertData]
+        );
+
+        const randomString = "JHS" + insertData.consumer_full_name.replace(/\s/g, '').substring(0, 3).toUpperCase() + result.insertId;
+
+        await dbConfig.query(
+            `UPDATE consumer SET consumer_referral_code = ? WHERE consumer_id = ?`,
+            [randomString, result.insertId]
         );
 
         return {
@@ -159,6 +168,7 @@ export const addConsumerService = async (data: any) => {
             message: "Consumer added successfully",
             jsonData: {}
         };
+
     } catch (error) {
         console.log(error);
         return {

@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import PageMeta from "../../../components/common/PageMeta";
+import ConsumerList from "./components/ConsumerList";
 
-const index = () => {
+const ConsumerPage: React.FC = () => {
   return (
-    <div>index</div>
-  )
-}
+    <>
+      <PageMeta title="Consumer List | Admin" description="Manage your consumer posts" />
+      {/* <PageBreadcrumb pageTitle="Consumer List" /> */}
+      <ConsumerList />
+    </>
+  );
+};
 
-export default index
+export default ConsumerPage;
