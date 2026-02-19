@@ -279,7 +279,7 @@ const ConsumerList: React.FC = () => {
                           </button> */}
 
                           {/* Edit */}
-                          <button
+                          {/* <button
                             onClick={() => navigate(`/admin/consumer/edit/${consumer.consumer_id}`)}
                             title="Edit Consumer"
                             className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-600
@@ -294,7 +294,18 @@ const ConsumerList: React.FC = () => {
                                 strokeLinejoin="round"
                               />
                             </svg>
-                          </button>
+                          </button> */}
+                        {/* View Details */}
+                        <button
+                          onClick={() => navigate(`/admin/consumer/detail/${consumer.consumer_id}`)}
+                          title="View Details"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600
+                            hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50 transition-colors"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 3C4.5 3 1.73 5.61 1 9c.73 3.39 3.5 6 7 6s6.27-2.61 7-6c-.73-3.39-3.5-6-7-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="currentColor" />
+                          </svg>
+                        </button>
                         </div>
                       </td>
                     </tr>
