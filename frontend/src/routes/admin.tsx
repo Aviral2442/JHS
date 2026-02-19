@@ -34,6 +34,7 @@ const BlogList = lazy(() => import("../views/admin/blog"));
 const AddBlog = lazy(() => import("../views/admin/blog/components/AddBlog"));
 
 const ConsumerList = lazy(() => import("../views/admin/consumer"));
+const ConsumerDetail = lazy(() => import("../views/admin/consumer/components/ConsumerDetail"));
 
 // categories 
 const CLOneList = lazy(() => import("../views/admin/categories/categoryLevel1"));
@@ -183,6 +184,10 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/consumer",
     element: <ConsumerList />,
+  },
+  {
+    path: "/admin/consumer/detail/:consumerId",
+    element: <ConsumerDetail />,
   }
 ];
 

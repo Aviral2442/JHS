@@ -9,7 +9,7 @@ import { formatDate } from "../../../../components/DateFormat";
 
 const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
 const ENDPOINT = "/api/consumer/get_consumers_list";
-    
+
 interface ConsumerItem {
   consumer_id: number;
   consumer_profile_pic: string;
@@ -38,6 +38,7 @@ interface Filters {
 
 const ConsumerList: React.FC = () => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
   const [consumers, setConsumers] = useState<ConsumerItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
@@ -77,7 +78,7 @@ const ConsumerList: React.FC = () => {
       console.log("Fetched consumer list data:", data);
       setConsumers(data?.jsonData?.consumer_list || []);
       setPagination(
-        data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 }
+        data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 },
       );
     } catch (error) {
       console.error("Failed to fetch consumer list:", error);
@@ -104,23 +105,33 @@ const ConsumerList: React.FC = () => {
     }, 400);
   };
 
+  const handleSearchChange = (val: string) => {
+    setSearch(val);
+    filtersRef.current.search = val;
+
+    if (searchTimer.current) clearTimeout(searchTimer.current);
+    searchTimer.current = setTimeout(() => {
+      fetchConsumers(1);
+    }, 400);
+  };
+
   const handlePageChange = (page: number) => {
     fetchConsumers(page);
   };
 
-//   const handleStatusToggle = async (consumerId: number, currentStatus: number) => {
-//     const newStatus = currentStatus == 0 ? 1 : 0;
-//     console.log(`Toggling status for consumer ID ${consumerId} from ${currentStatus} to ${newStatus}`); // Debug log to check values before API call
-//     try {
-//       await axios.patch(`${baseURL}/api/consumer/update_consumer_status/${consumerId}`, {
-//         consumer_status: newStatus,
-//       });
-//       console.log(`Consumer ID ${consumerId} status updated to ${newStatus}`);  
-//       fetchConsumers(pagination.page);
-//     } catch (error) {
-//       console.error("Failed to update consumer status:", error);
-//     }
-//   };
+  //   const handleStatusToggle = async (consumerId: number, currentStatus: number) => {
+  //     const newStatus = currentStatus == 0 ? 1 : 0;
+  //     console.log(`Toggling status for consumer ID ${consumerId} from ${currentStatus} to ${newStatus}`); // Debug log to check values before API call
+  //     try {
+  //       await axios.patch(`${baseURL}/api/consumer/update_consumer_status/${consumerId}`, {
+  //         consumer_status: newStatus,
+  //       });
+  //       console.log(`Consumer ID ${consumerId} status updated to ${newStatus}`);
+  //       fetchConsumers(pagination.page);
+  //     } catch (error) {
+  //       console.error("Failed to update consumer status:", error);
+  //     }
+  //   };
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -129,12 +140,28 @@ const ConsumerList: React.FC = () => {
         <DataTableFilters
           title="Consumer List"
           onFilterChange={handleFilterChange}
-        //   onAddNew={() => navigate("/admin/consumer/add")}
+          //   onAddNew={() => navigate("/admin/consumer/add")}
         />
 
         {/* Export Buttons */}
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <DatatableActionButton endpoint={ENDPOINT} dataAccess="consumer_list" />
+          <DatatableActionButton
+            endpoint={ENDPOINT}
+            dataAccess="category_level_one_list"
+          />
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Search:
+            </span>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              placeholder="Search..."
+              className="rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700
+                dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none w-48"
+            />
+          </div>
         </div>
 
         {/* Table */}
@@ -174,19 +201,26 @@ const ConsumerList: React.FC = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-gray-400 dark:text-gray-500">
+                  <td
+                    colSpan={7}
+                    className="px-4 py-10 text-center text-gray-400 dark:text-gray-500"
+                  >
                     Loading...
                   </td>
                 </tr>
               ) : consumers.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-gray-400 dark:text-gray-500">
+                  <td
+                    colSpan={7}
+                    className="px-4 py-10 text-center text-gray-400 dark:text-gray-500"
+                  >
                     No consumers found.
                   </td>
                 </tr>
               ) : (
                 consumers.map((consumer, idx) => {
-                  const sNo = (pagination.page - 1) * pagination.limit + idx + 1;
+                  const sNo =
+                    (pagination.page - 1) * pagination.limit + idx + 1;
                   const isActive = consumer.consumer_status == 0;
 
                   return (
@@ -213,9 +247,11 @@ const ConsumerList: React.FC = () => {
                             className="h-8 w-8 rounded-full object-cover"
                           />
                         ) : (
-                          <img 
-                            src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_user_personalization&w=740&q=80" 
-                            alt="Default Profile" className="h-8 w-8 rounded-full object-cover" />
+                          <img
+                            src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_user_personalization&w=740&q=80"
+                            alt="Default Profile"
+                            className="h-8 w-8 rounded-full object-cover"
+                          />
                         )}
                       </td>
 
@@ -295,17 +331,29 @@ const ConsumerList: React.FC = () => {
                               />
                             </svg>
                           </button> */}
-                        {/* View Details */}
-                        <button
-                          onClick={() => navigate(`/admin/consumer/detail/${consumer.consumer_id}`)}
-                          title="View Details"
-                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600
+                          {/* View Details */}
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/admin/consumer/detail/${consumer.consumer_id}`,
+                              )
+                            }
+                            title="View Details"
+                            className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600
                             hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50 transition-colors"
-                        >
-                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M8 3C4.5 3 1.73 5.61 1 9c.73 3.39 3.5 6 7 6s6.27-2.61 7-6c-.73-3.39-3.5-6-7-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="currentColor" />
-                          </svg>
-                        </button>
+                          >
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
+                              <path
+                                d="M8 3C4.5 3 1.73 5.61 1 9c.73 3.39 3.5 6 7 6s6.27-2.61 7-6c-.73-3.39-3.5-6-7-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          </button>
                         </div>
                       </td>
                     </tr>
