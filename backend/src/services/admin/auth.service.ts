@@ -7,7 +7,7 @@ interface AdminRegisterData {
   admin_name: string;
   admin_email: string;
   admin_password: string;
-  profilePic?: string;
+  admin_profile?: string;
   extension?: string;
 }
 
@@ -15,26 +15,26 @@ interface AdminRegisterData {
 export const adminRegisterService = async (data: AdminRegisterData) => {
   try {
     const insertData = {
-      name: data.admin_name,
-      profilePic: "",
-      adminEmail: data.admin_email,
-      adminPassword: data.admin_password,
-      adminStatus: 0,
-      adminCreatedAt: new Date(),
+      admin_name: data.admin_name,
+      admin_profile: "",
+      admin_email: data.admin_email,
+      admin_password: data.admin_password,
+      admin_status: 0,
+      admin_createdAt: new Date(),
     };
 
-    if (data.profilePic?.trim()) {
+    if (data.admin_profile?.trim()) {
       const imagePath = saveBase64File(
-        data.profilePic,
+        data.admin_profile,
         "admin",
         "admin_profile",
         // data.extension || ""
       );
-      insertData.profilePic = imagePath;
+      insertData.admin_profile = imagePath;
     }
 
     const result = await dbConfig.query(
-      `INSERT INTO adminUser SET ?`,
+      `INSERT INTO admin SET ?`,
       [insertData]
     );
 
@@ -60,9 +60,9 @@ export const adminLoginService = async (
     }
 
     const [rows]: any = await dbConfig.query(
-      `SELECT admin_id, name, adminEmail, adminPassword, profilePic 
-       FROM adminUser 
-       WHERE adminEmail = ? LIMIT 1`,
+      `SELECT admin_id, admin_name, admin_email, admin_password, admin_profile
+       FROM admin 
+       WHERE admin_email = ? LIMIT 1`,
       [admin_email]
     );
 
@@ -72,14 +72,14 @@ export const adminLoginService = async (
 
     const admin = rows[0];
 
-    if (admin.adminPassword !== admin_password) {
+    if (admin.admin_password !== admin_password) {
       throw new ApiError(401, "Invalid email or password");
     }
 
     const payload = {
       adminId: admin.admin_id,
-      name: admin.name,
-      email: admin.adminEmail,
+      name: admin.admin_name,
+      email: admin.admin_email,
       role: "admin",
     };
 
@@ -90,8 +90,8 @@ export const adminLoginService = async (
       message: "Login successful",
       data: {
         adminId: admin.admin_id,
-        adminName: admin.name,
-        adminEmail: admin.adminEmail,
+        adminName: admin.admin_name,
+        adminEmail: admin.admin_email,
         profilePic: admin.profilePic,
       },
       token,

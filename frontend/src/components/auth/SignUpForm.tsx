@@ -4,10 +4,41 @@ import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+
+const singUPvalidationSchema = Yup.object().shape({
+  admin_name: Yup.string().required("Name is required"),
+  admin_email: Yup.string().email("Invalid email").required("Email is required"),
+  admin_password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+
+  const signInForm = useFormik({
+    initialValues: {
+      admin_name: "",
+      admin_email: "",
+      admin_password: "",
+    },
+    onSubmit: async (values) => {
+      console.log(values);
+        await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/admin/register`, values)
+        .then((result) => {
+          console.log("Admin registration successfully!!")
+          // console.log(result.data);
+        }).catch((err) => {
+          console.error("Admin registration failed:", err.response?.data || err.message);
+        });
+    },
+    validationSchema: singUPvalidationSchema,
+  })
+
   return (
     <div className="flex flex-col flex-1 w-full overflow-y-auto lg:w-1/2 no-scrollbar">
       <div className="w-full max-w-md mx-auto mb-5 sm:pt-10">
@@ -82,56 +113,64 @@ export default function SignUpForm() {
                 </span>
               </div>
             </div>
-            <form>
+            <form onSubmit={signInForm.handleSubmit}>
               <div className="space-y-5">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   {/* <!-- First Name --> */}
                   <div className="sm:col-span-1">
-                    <Label>
+                    <Label htmlFor="admin_name">
                       First Name<span className="text-error-500">*</span>
                     </Label>
                     <Input
                       type="text"
-                      id="fname"
-                      name="fname"
+                      id="admin_name"
+                      name="admin_name"
                       placeholder="Enter your first name"
+                      onChange={signInForm.handleChange}
+                      value={signInForm.values.admin_name}
                     />
+                    {signInForm.touched.admin_name && signInForm.errors.admin_name && (
+                      <p className="mt-1 text-xs text-error-500">
+                        {signInForm.errors.admin_name}
+                      </p>
+                    )}
                   </div>
-                  {/* <!-- Last Name --> */}
-                  <div className="sm:col-span-1">
-                    <Label>
-                      Last Name<span className="text-error-500">*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="lname"
-                      name="lname"
-                      placeholder="Enter your last name"
-                    />
-                  </div>
-                </div>
                 {/* <!-- Email --> */}
                 <div>
-                  <Label>
+                  <Label htmlFor="admin_email">
                     Email<span className="text-error-500">*</span>
                   </Label>
                   <Input
                     type="email"
-                    id="email"
-                    name="email"
+                    id="admin_email"
+                    name="admin_email"
                     placeholder="Enter your email"
+                    onChange={signInForm.handleChange}
+                    value={signInForm.values.admin_email}
                   />
+                  {signInForm.touched.admin_email && signInForm.errors.admin_email && (
+                    <p className="mt-1 text-xs text-error-500">
+                      {signInForm.errors.admin_email}
+                    </p>
+                  )}
                 </div>
                 {/* <!-- Password --> */}
                 <div>
-                  <Label>
+                  <Label htmlFor="admin_password">
                     Password<span className="text-error-500">*</span>
                   </Label>
                   <div className="relative">
                     <Input
                       placeholder="Enter your password"
                       type={showPassword ? "text" : "password"}
+                      onChange={signInForm.handleChange}
+                      name="admin_password"
+                      value={signInForm.values.admin_password}
                     />
+                    {signInForm.touched.admin_password && signInForm.errors.admin_password && (
+                      <p className="mt-1 text-xs text-error-500">
+                        {signInForm.errors.admin_password}
+                      </p>
+                    )}
                     <span
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
@@ -164,7 +203,7 @@ export default function SignUpForm() {
                 </div>
                 {/* <!-- Button --> */}
                 <div>
-                  <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
+                  <button type="submit" className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
                     Sign Up
                   </button>
                 </div>

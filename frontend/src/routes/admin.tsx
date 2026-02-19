@@ -49,14 +49,7 @@ const AddCLThree = lazy(() => import("../views/admin/categories/categoryLevel3/c
  * Public authentication routes (no protection needed)
  */
 const authRoutes: RouteObject[] = [
-  {
-    path: "auth/sign-in",
-    element: <SignIn />,
-  },
-  {
-    path: "auth/sign-up",
-    element: <SignUp />,
-  },
+
 ];
 
 /**
@@ -66,6 +59,14 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     index: true,
     element: <AdminHome />,
+  },
+    {
+    path: "/admin/auth/sign-in",
+    element: <SignIn />,
+  },
+  {
+    path: "/admin/auth/sign-up",
+    element: <SignUp />,
   },
   {
     path: "dashboard",

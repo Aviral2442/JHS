@@ -2,6 +2,7 @@ import React from "react";
 import GridShape from "../../../components/common/GridShape";
 import { Link } from "react-router";
 import ThemeTogglerTwo from "../../../components/common/ThemeTogglerTwo";
+import { ThemeProvider } from "../../../context/ThemeContext";
 
 export default function AuthLayout({
   children,
@@ -32,7 +33,9 @@ export default function AuthLayout({
           </div>
         </div>
         <div className="fixed z-50 hidden bottom-6 right-6 sm:block">
-          <ThemeTogglerTwo />
+          <ThemeProvider>
+            <ThemeTogglerTwo />
+          </ThemeProvider>
         </div>
       </div>
     </div>

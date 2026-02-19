@@ -5,8 +5,38 @@ import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
 import Button from "../ui/button/Button";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+
+const singUPvalidationSchema = Yup.object().shape({
+  admin_email: Yup.string().email("Invalid email").required("Email is required"),
+  admin_password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
 
 export default function SignInForm() {
+
+  const signInForm = useFormik({
+    initialValues: {
+      admin_email: "",
+      admin_password: "",
+    },
+    onSubmit: async (values) => {
+        console.log(values);
+        await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/admin/login`, values)
+        .then((result) => {
+          console.log("Admin login successfully!!")
+          localStorage.setItem("admin_token", result.data.token);
+        }).catch((err) => {
+          console.error("Admin login failed:", err.response?.data || err.message);
+        });
+    },
+    validationSchema: singUPvalidationSchema,
+
+  })
+
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   return (
@@ -83,23 +113,37 @@ export default function SignInForm() {
                 </span>
               </div>
             </div>
-            <form>
+            <form onSubmit={signInForm.handleSubmit}>
               <div className="space-y-6">
                 <div>
-                  <Label>
+                  <Label htmlFor="admin_email">
                     Email <span className="text-error-500">*</span>{" "}
                   </Label>
-                  <Input placeholder="info@gmail.com" />
+                  <Input 
+                    placeholder="info@gmail.com" 
+                    name="admin_email" 
+                    onChange={signInForm.handleChange}
+                    value={signInForm.values.admin_email}
+                    />
+                    {signInForm.touched.admin_email && signInForm.errors.admin_email && (
+                      <div className="mt-1 text-xs text-error-500">{signInForm.errors.admin_email}</div>
+                    )}
                 </div>
                 <div>
-                  <Label>
+                  <Label htmlFor="admin_password">
                     Password <span className="text-error-500">*</span>{" "}
                   </Label>
                   <div className="relative">
                     <Input
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
+                      name="admin_password"
+                      onChange={signInForm.handleChange}
+                      value={signInForm.values.admin_password}
                     />
+                    {signInForm.touched.admin_password && signInForm.errors.admin_password && (
+                      <div className="mt-1 text-xs text-error-500">{signInForm.errors.admin_password}</div>
+                    )}
                     <span
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
@@ -127,7 +171,7 @@ export default function SignInForm() {
                   </Link>
                 </div>
                 <div>
-                  <Button className="w-full" size="sm">
+                  <Button className="w-full" size="sm" type="submit">
                     Sign in
                   </Button>
                 </div>
