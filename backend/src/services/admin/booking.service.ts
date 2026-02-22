@@ -78,7 +78,7 @@ export const getBookingListService = async (filters?: {
                 booking.booking_city_name,
                 consumer.consumer_full_name,
                 booking.booking_consumer_id,
-                consumer.mobile_number,
+                consumer.consumer_mobile,
                 booking.booking_address,
                 booking.booking_city_name,
                 booking.booking_state_name,
@@ -144,7 +144,7 @@ export const fetchBookingDetailsService = async (bookingId: number) => {
             SELECT 
                 booking.*, 
                 consumer.consumer_full_name,
-                consumer.mobile_number,
+                consumer.consumer_mobile,
                 category_level_1.category_level1_name,
                 category_level_3.category_level3_name
             FROM booking
@@ -198,12 +198,17 @@ export const addBookingDetailsService = async (data: any) => {
             booking_lat: data.booking_lat,
             booking_long: data.booking_long,
             booking_otp: data.booking_otp,
-            booking_otp_status: data.booking_otp_status,
+            booking_otp_status: 1,
             booking_assigned_vendor_id: data.booking_assigned_vendor_id,
             booking_schedule_time: data.booking_schedule_time,
             booking_status: 0,
             booking_createdAt: currentUnixTimeStamp(),
         };
+
+
+        const generateOtp = Math.floor(1000 + Math.random() * 9000);
+
+        insertData.booking_otp = generateOtp;
 
         const [result]: any = await dbConfig.query(
             `INSERT INTO booking SET ?`,
@@ -211,7 +216,7 @@ export const addBookingDetailsService = async (data: any) => {
         )
 
         return {
-            status: 201,
+            status: 200,
             message: "Booking details added successfully.",
             jsonData: {
                 booking_id: result.insertId,
@@ -231,21 +236,19 @@ export const addBookingDetailsService = async (data: any) => {
 // UPDATE BOOKING DETAILS SERVICE
 export const updateBookingDetailsService = async (bookingId: number, data: any) => {
     try {
-        const updateData = {
-            booking_service_type: data.booking_service_type,
-            booking_category_l3: data.booking_category_l3,
-            booking_consumer_id: data.booking_consumer_id,
-            booking_address: data.booking_address,
-            booking_city_name: data.booking_city_name,
-            booking_state_name: data.booking_state_name,
-            booking_pincode: data.booking_pincode,
-            booking_lat: data.booking_lat,
-            booking_long: data.booking_long,
-            booking_otp: data.booking_otp,
-            booking_otp_status: data.booking_otp_status,
-            booking_assigned_vendor_id: data.booking_assigned_vendor_id,
-            booking_schedule_time: data.booking_schedule_time,
-        };
+        const updateData: any = {};
+
+        if (data.booking_service_type) updateData.booking_service_type = data.booking_service_type;
+        if (data.booking_category_l3) updateData.booking_category_l3 = data.booking_category_l3;
+        if (data.booking_consumer_id) updateData.booking_consumer_id = data.booking_consumer_id;
+        if (data.booking_address) updateData.booking_address = data.booking_address;
+        if (data.booking_city_name) updateData.booking_city_name = data.booking_city_name;
+        if (data.booking_state_name) updateData.booking_state_name = data.booking_state_name;
+        if (data.booking_pincode) updateData.booking_pincode = data.booking_pincode;
+        if (data.booking_lat) updateData.booking_lat = data.booking_lat;
+        if (data.booking_long) updateData.booking_long = data.booking_long;
+        if (data.booking_assigned_vendor_id) updateData.booking_assigned_vendor_id = data.booking_assigned_vendor_id;
+        if (data.bookings_schedule_time) updateData.bookings_schedule_time = data.bookings_schedule_time;
 
         const [result]: any = await dbConfig.query(
             `UPDATE booking SET ? WHERE booking_id = ?`,
