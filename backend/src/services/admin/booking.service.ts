@@ -280,3 +280,4 @@ export const updateBookingDetailsService = async (bookingId: number, data: any) 
         };
     }
 };
+

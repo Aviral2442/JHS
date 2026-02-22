@@ -7,17 +7,21 @@ import { useNavigate } from "react-router";
 import { formatDate } from "../../../../components/DateFormat";
 
 const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
-const ENDPOINT = "/api/vendor/get_vendor_list";
+const ENDPOINT = "/api/booking/get_booking_list";
 
-interface VendorItem {
-  vendor_id: number;
-  vendor_name: string;
-  vendor_email: string;
-  vendor_mobile: string;
-  vendor_status: number;
-  vendor_createdAt: string | number;
+interface BookingItem {
+  booking_id: number;
   category_level1_name: string;
-  city_name: string;
+  category_level3_name: string;
+  booking_city_name: string;
+  consumer_full_name: string;
+  booking_consumer_id: number;
+  consumer_mobile: string;
+  booking_address: string;
+  booking_state_name: string;
+  booking_status: number;
+  booking_schedule_time: string | number;
+  booking_createdAt: string | number;
 }
 
 interface Pagination {
@@ -35,10 +39,19 @@ interface Filters {
   search: string;
 }
 
-const VendorList: React.FC = () => {
+const statusMap: Record<number, { label: string; className: string }> = {
+  0: { label: "Enquiry", className: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" },
+  1: { label: "Confirm", className: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400" },
+  2: { label: "Vendor Assigned", className: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400" },
+  3: { label: "Ongoing", className: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400" },
+  4: { label: "Complete", className: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" },
+  5: { label: "Cancelled", className: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" },
+};
+
+const BookingList: React.FC = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [vendors, setVendors] = useState<VendorItem[]>([]);
+  const [bookings, setBookings] = useState<BookingItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
     limit: 10,
@@ -55,7 +68,7 @@ const VendorList: React.FC = () => {
     search: "",
   });
 
-  const fetchVendors = useCallback(async (page = 1) => {
+  const fetchBookings = useCallback(async (page = 1) => {
     try {
       setLoading(true);
       const f = filtersRef.current;
@@ -73,20 +86,20 @@ const VendorList: React.FC = () => {
 
       const res = await axios.get(`${baseURL}${ENDPOINT}`, { params });
       const data = res.data;
-      setVendors(data?.jsonData?.vendor_list || []);
+      setBookings(data?.jsonData?.booking_list || []);
       setPagination(
         data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 },
       );
     } catch (error) {
-      console.error("Failed to fetch vendor list:", error);
+      console.error("Failed to fetch booking list:", error);
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchVendors(1);
-  }, [fetchVendors]);
+    fetchBookings(1);
+  }, [fetchBookings]);
 
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -94,7 +107,7 @@ const VendorList: React.FC = () => {
     filtersRef.current = filters;
     if (searchTimer.current) clearTimeout(searchTimer.current);
     searchTimer.current = setTimeout(() => {
-      fetchVendors(1);
+      fetchBookings(1);
     }, 400);
   };
 
@@ -103,23 +116,16 @@ const VendorList: React.FC = () => {
     filtersRef.current.search = val;
     if (searchTimer.current) clearTimeout(searchTimer.current);
     searchTimer.current = setTimeout(() => {
-      fetchVendors(1);
+      fetchBookings(1);
     }, 400);
   };
 
   const handlePageChange = (page: number) => {
-    fetchVendors(page);
+    fetchBookings(page);
   };
 
   const getStatusBadge = (status: number) => {
-    switch (status) {
-      case 0:
-        return { label: "Active", className: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" };
-      case 2:
-        return { label: "Blocked", className: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" };
-      default:
-        return { label: "Inactive", className: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400" };
-    }
+    return statusMap[status] || { label: "Unknown", className: "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400" };
   };
 
   return (
@@ -127,16 +133,16 @@ const VendorList: React.FC = () => {
       <div className="p-5 lg:p-6 space-y-5">
         {/* Filters Row */}
         <DataTableFilters
-          title="Vendor List"
+          title="Booking List"
           onFilterChange={handleFilterChange}
-          onAddNew={() => navigate("/admin/vendor/add")}
+          onAddNew={() => navigate("/admin/booking/add")}
         />
 
         {/* Export & Search */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <DatatableActionButton
             endpoint={ENDPOINT}
-            dataAccess="vendor_list"
+            dataAccess="booking_list"
           />
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -160,11 +166,12 @@ const VendorList: React.FC = () => {
               <tr className="border-b border-gray-200 dark:border-gray-700">
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">S.No.</th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">ID</th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Name</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Consumer</th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Mobile</th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Email</th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Service Type</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Category</th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">City</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Schedule</th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Date</th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Status</th>
                 <th className="px-4 py-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-300">Actions</th>
@@ -173,58 +180,60 @@ const VendorList: React.FC = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={10} className="px-4 py-10 text-center text-gray-400 dark:text-gray-500">
+                  <td colSpan={11} className="px-4 py-10 text-center text-gray-400 dark:text-gray-500">
                     Loading...
                   </td>
                 </tr>
-              ) : vendors.length === 0 ? (
+              ) : bookings.length === 0 ? (
                 <tr>
-                  <td colSpan={10} className="px-4 py-10 text-center text-gray-400 dark:text-gray-500">
-                    No vendors found.
+                  <td colSpan={11} className="px-4 py-10 text-center text-gray-400 dark:text-gray-500">
+                    No bookings found.
                   </td>
                 </tr>
               ) : (
-                vendors.map((vendor, idx) => {
+                bookings.map((booking, idx) => {
                   const sNo = (pagination.page - 1) * pagination.limit + idx + 1;
-                  const statusBadge = getStatusBadge(vendor.vendor_status);
+                  const badge = getStatusBadge(booking.booking_status);
 
                   return (
                     <tr
-                      key={vendor.vendor_id}
+                      key={booking.booking_id}
                       className="border-b border-gray-100 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700/40 transition-colors"
                     >
                       <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{sNo}</td>
-                      <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{vendor.vendor_id}</td>
+                      <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{booking.booking_id}</td>
                       <td className="px-4 py-2 text-sm text-gray-800 dark:text-gray-200 max-w-xs truncate">
-                        {vendor.vendor_name || ""}
+                        {booking.consumer_full_name || "—"}
                       </td>
                       <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400">
-                        {vendor.vendor_mobile || ""}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 max-w-sm truncate">
-                        {vendor.vendor_email || ""}
+                        {booking.consumer_mobile || "—"}
                       </td>
                       <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400">
-                        {vendor.category_level1_name || "—"}
+                        {booking.category_level1_name || "—"}
                       </td>
                       <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400">
-                        {vendor.city_name || "—"}
+                        {booking.category_level3_name || "—"}
+                      </td>
+                      <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400">
+                        {booking.booking_city_name || "—"}
                       </td>
                       <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                        {formatDate(vendor.vendor_createdAt)}
+                        {booking.booking_schedule_time ? formatDate(booking.booking_schedule_time) : "—"}
+                      </td>
+                      <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                        {formatDate(booking.booking_createdAt)}
                       </td>
                       <td className="px-4 py-2">
-                        <span className={`inline-flex px-3 py-0.5 text-xs font-medium ${statusBadge.className}`}>
-                          {statusBadge.label}
+                        <span className={`inline-flex px-3 py-0.5 text-xs font-medium ${badge.className}`}>
+                          {badge.label}
                         </span>
                       </td>
                       <td className="px-4 py-2">
                         <div className="flex items-center justify-center gap-2">
-
                           {/* Edit */}
                           <button
-                            onClick={() => navigate(`/admin/vendor/edit/${vendor.vendor_id}`)}
-                            title="Edit Vendor"
+                            onClick={() => navigate(`/admin/booking/edit/${booking.booking_id}`)}
+                            title="Edit Booking"
                             className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-600
                               hover:bg-brand-200 dark:bg-brand-900/30 dark:text-brand-400 dark:hover:bg-brand-900/50 transition-colors"
                           >
@@ -241,7 +250,7 @@ const VendorList: React.FC = () => {
 
                           {/* View Details */}
                           <button
-                            onClick={() => navigate(`/admin/vendor/detail/${vendor.vendor_id}`)}
+                            onClick={() => navigate(`/admin/booking/detail/${booking.booking_id}`)}
                             title="View Details"
                             className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600
                               hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50 transition-colors"
@@ -274,4 +283,4 @@ const VendorList: React.FC = () => {
   );
 };
 
-export default VendorList;
+export default BookingList;

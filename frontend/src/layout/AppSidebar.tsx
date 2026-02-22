@@ -17,7 +17,7 @@ import {
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import { User, UserCheck } from "lucide-react";
+import { BookAIcon, User, UserCheck } from "lucide-react";
 // import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
@@ -42,6 +42,11 @@ const navItems: NavItem[] = [
     icon: <UserCheck />,
     name: "Vendor",
     path: "/admin/vendor",
+  },
+  {
+    icon: <BookAIcon />,
+    name: "Booking",
+    path: "/admin/booking",
   },
   {
     icon: <BoxCubeIcon />,

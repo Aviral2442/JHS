@@ -40,6 +40,10 @@ const VendorList = lazy(() => import("../views/admin/vendor"));
 const AddVendor = lazy(() => import("../views/admin/vendor/components/AddVendor"));
 const VendorDetail = lazy(() => import("../views/admin/vendor/components/VendorDetail"));
 
+const BookingListPage = lazy(() => import("../views/admin/booking"));
+const AddBooking = lazy(() => import("../views/admin/booking/components/AddBooking"));
+const BookingDetail = lazy(() => import("../views/admin/booking/components/BookingDetail"));
+
 // categories 
 const CLOneList = lazy(() => import("../views/admin/categories/categoryLevel1"));
 const AddCLOne = lazy(() => import("../views/admin/categories/categoryLevel1/components/AddCLOne"));
@@ -208,6 +212,22 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/vendor/detail/:vendorId",
     element: <VendorDetail />,
+  },
+  {
+    path: "/admin/booking",
+    element: <BookingListPage />,
+  },
+  {
+    path: "/admin/booking/add",
+    element: <AddBooking />,
+  },
+  {
+    path: "/admin/booking/edit/:bookingId",
+    element: <AddBooking />,
+  },
+  {
+    path: "/admin/booking/detail/:bookingId",
+    element: <BookingDetail />,
   }
 ];
 
