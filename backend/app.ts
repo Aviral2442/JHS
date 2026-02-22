@@ -7,6 +7,8 @@ import mailerRoutes from './src/routes/mailer.routes';
 import homeRoutes from './src/routes/website/home.routes';
 import categoryRoutes from './src/routes/admin/category.routes';
 import consumerRoutes from './src/routes/admin/consumer.routes';
+import vendorRoutes from './src/routes/admin/vendor.routes';
+import bookingRoutes from './src/routes/admin/booking.routes';
 import path from 'path/win32';
 
 const app = express();
@@ -22,6 +24,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/mailer', mailerRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/consumer', consumerRoutes);
+app.use('/api/vendor', vendorRoutes);
+app.use('/api/booking', bookingRoutes);
 
 // WEBSITE ROUTES
 app.use('/api/auth', websiteAuthRoutes);
