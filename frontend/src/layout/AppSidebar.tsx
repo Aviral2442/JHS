@@ -17,7 +17,7 @@ import {
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import { User } from "lucide-react";
+import { User, UserCheck } from "lucide-react";
 // import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
@@ -34,9 +34,14 @@ const navItems: NavItem[] = [
     subItems: [{ name: "Ecommerce", path: "/admin", pro: false }],
   },
   {
-    icon: <User/>,
+    icon: <User />,
     name: "Consumers",
     path: "/admin/consumer",
+  },
+  {
+    icon: <UserCheck />,
+    name: "Vendor",
+    path: "/admin/vendor",
   },
   {
     icon: <BoxCubeIcon />,
@@ -52,39 +57,39 @@ const navItems: NavItem[] = [
       { name: "Level Three", path: "/admin/category/level-three", pro: false },
     ],
   },
-  {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/admin/calendar",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/admin/profile",
-  },
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [
-      { name: "Form Elements", path: "/admin/form-elements", pro: false },
-    ],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [
-      { name: "Basic Tables", path: "/admin/basic-tables", pro: false },
-      { name: "Partners", path: "/admin/partner", pro: false },
-    ],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/admin/blank", pro: false },
-      { name: "404 Error", path: "/admin/error-404", pro: false },
-    ],
-  },
+//   {
+//     icon: <CalenderIcon />,
+//     name: "Calendar",
+//     path: "/admin/calendar",
+//   },
+//   {
+//     icon: <UserCircleIcon />,
+//     name: "User Profile",
+//     path: "/admin/profile",
+//   },
+//   {
+//     name: "Forms",
+//     icon: <ListIcon />,
+//     subItems: [
+//       { name: "Form Elements", path: "/admin/form-elements", pro: false },
+//     ],
+//   },
+//   {
+//     name: "Tables",
+//     icon: <TableIcon />,
+//     subItems: [
+//       { name: "Basic Tables", path: "/admin/basic-tables", pro: false },
+//       { name: "Partners", path: "/admin/partner", pro: false },
+//     ],
+//   },
+//   {
+//     name: "Pages",
+//     icon: <PageIcon />,
+//     subItems: [
+//       { name: "Blank Page", path: "/admin/blank", pro: false },
+//       { name: "404 Error", path: "/admin/error-404", pro: false },
+//     ],
+//   },
 ];
 
 const othersItems: NavItem[] = [

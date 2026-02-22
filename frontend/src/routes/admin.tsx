@@ -36,6 +36,10 @@ const AddBlog = lazy(() => import("../views/admin/blog/components/AddBlog"));
 const ConsumerList = lazy(() => import("../views/admin/consumer"));
 const ConsumerDetail = lazy(() => import("../views/admin/consumer/components/ConsumerDetail"));
 
+const VendorList = lazy(() => import("../views/admin/vendor"));
+const AddVendor = lazy(() => import("../views/admin/vendor/components/AddVendor"));
+const VendorDetail = lazy(() => import("../views/admin/vendor/components/VendorDetail"));
+
 // categories 
 const CLOneList = lazy(() => import("../views/admin/categories/categoryLevel1"));
 const AddCLOne = lazy(() => import("../views/admin/categories/categoryLevel1/components/AddCLOne"));
@@ -188,6 +192,22 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/consumer/detail/:consumerId",
     element: <ConsumerDetail />,
+  },
+  {
+    path: "/admin/vendor",
+    element: <VendorList />,
+  },
+  {
+    path: "/admin/vendor/add",
+    element: <AddVendor />,
+  },
+  {
+    path: "/admin/vendor/edit/:vendorId",
+    element: <AddVendor />,
+  },
+  {
+    path: "/admin/vendor/detail/:vendorId",
+    element: <VendorDetail />,
   }
 ];
 
