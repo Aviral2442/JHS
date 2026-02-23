@@ -1,29 +1,39 @@
 import React, { useState } from "react";
 
 type QuickFilterOption = "today" | "yesterday" | "thisWeek" | "thisMonth" | "custom" | "";
-type StatusOption = "active" | "inactive" | "";
+
+interface StatusOptionItem {
+  label: string;
+  value: string;
+}
+
+const DEFAULT_STATUS_OPTIONS: StatusOptionItem[] = [
+  { label: "Active", value: "active" },
+  { label: "Inactive", value: "inactive" },
+];
 
 interface Props {
   onFilterChange: (filters: {
     date: QuickFilterOption;
-    status: StatusOption;
+    status: string;
     fromDate: string;
     toDate: string;
     search: string;
   }) => void;
   onAddNew?: () => void;
   title: string;
+  statusOptions?: StatusOptionItem[];
 }
 
-const DataTableFilters: React.FC<Props> = ({ onFilterChange, onAddNew, title }) => {
+const DataTableFilters: React.FC<Props> = ({ onFilterChange, onAddNew, title, statusOptions = DEFAULT_STATUS_OPTIONS }) => {
   const [quickFilter, setQuickFilter] = useState<QuickFilterOption>("");
-  const [status, setStatus] = useState<StatusOption>("");
+  const [status, setStatus] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
   const emitFilters = (overrides: Partial<{
     date: QuickFilterOption;
-    status: StatusOption;
+    status: string;
     fromDate: string;
     toDate: string;
     search: string;
@@ -46,7 +56,7 @@ const DataTableFilters: React.FC<Props> = ({ onFilterChange, onAddNew, title }) 
     emitFilters({ date: val, fromDate: val !== "custom" ? "" : fromDate, toDate: val !== "custom" ? "" : toDate });
   };
 
-  const handleStatus = (val: StatusOption) => {
+  const handleStatus = (val: string) => {
     setStatus(val);
     emitFilters({ status: val });
   };
@@ -110,13 +120,16 @@ const DataTableFilters: React.FC<Props> = ({ onFilterChange, onAddNew, title }) 
           {/* Status Filter */}
           <select
             value={status}
-            onChange={(e) => handleStatus(e.target.value as StatusOption)}
+            onChange={(e) => handleStatus(e.target.value)}
             className="rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700
               dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 focus:border-brand-500 focus:outline-none"
           >
             <option value="">Status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
+            {statusOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
           </select>
 
           {/* Add New Button */}

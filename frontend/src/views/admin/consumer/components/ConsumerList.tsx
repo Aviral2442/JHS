@@ -141,6 +141,11 @@ const ConsumerList: React.FC = () => {
           title="Consumer List"
           onFilterChange={handleFilterChange}
           //   onAddNew={() => navigate("/admin/consumer/add")}
+          statusOptions={[
+            { label: "Active", value: 'active' },
+            { label: "Inactive", value: 'inactive' },
+            { label: "Blocked", value: 'block' }
+          ]}
         />
 
         {/* Export Buttons */}

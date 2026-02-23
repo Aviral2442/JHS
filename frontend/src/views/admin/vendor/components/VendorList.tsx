@@ -130,6 +130,11 @@ const VendorList: React.FC = () => {
           title="Vendor List"
           onFilterChange={handleFilterChange}
           onAddNew={() => navigate("/admin/vendor/add")}
+          statusOptions={[
+            { label: "Active", value: "active" },
+            { label: "Inactive", value: "inactive" },
+            { label: "Blocked", value: "blocked" },
+          ]}
         />
 
         {/* Export & Search */}

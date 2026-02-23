@@ -136,6 +136,14 @@ const BookingList: React.FC = () => {
           title="Booking List"
           onFilterChange={handleFilterChange}
           onAddNew={() => navigate("/admin/booking/add")}
+          statusOptions={[
+            { label: "Enquiry", value: "enquiry" },
+            { label: "Confirm", value: "confirm" },
+            { label: "Vendor Assigned", value: "vendorAssigned" },
+            { label: "Ongoing", value: "ongoing" },
+            { label: "Complete", value: "complete" },
+            { label: "Cancelled", value: "cancel" },
+          ]}
         />
 
         {/* Export & Search */}

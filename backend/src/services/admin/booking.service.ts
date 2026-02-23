@@ -281,3 +281,43 @@ export const updateBookingDetailsService = async (bookingId: number, data: any) 
     }
 };
 
+//CONFIRM BOOKING SERVICE
+export const confirmBookingService = async (bookingId: number) => {};
+
+// CANCELLED BOOKING SERVICE
+export const cancelBookingService = async (bookingId: number) => {
+    try {
+
+        const [bookingData]: any = await dbConfig.query(
+            `SELECT 
+                booking.booking_assigned_vendor_id,
+                vendor.vendor_booking_status
+            FROM booking
+            LEFT JOIN vendor ON vendor.vendor_id = booking.booking_assigned_vendor_id AND booking.booking_assigned_vendor_id IS NOT NULL
+            WHERE booking.booking_id = ?`,
+            [bookingId]
+        );    
+        
+        if (bookingData.booking_assigned_vendor_id == null) {
+            const [result]: any = await dbConfig.query(
+                `UPDATE booking SET booking_status = 5 WHERE booking_id = ?`,
+                [bookingId]
+            );
+        }
+
+        const [result]: any = await dbConfig.query(
+            `UPDATE booking SET booking_status = 5, booking_assigned_vendor_id = NULL WHERE booking_id = ?`,
+            [bookingId]
+        );
+
+
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "An error occurred while cancelling the booking.",
+            jsonData: {},
+        };
+    }
+};
+
