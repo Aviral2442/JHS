@@ -233,22 +233,17 @@ export const addBookingDetailsService = async (data: any) => {
     }
 };
 
-// UPDATE BOOKING DETAILS SERVICE
-export const updateBookingDetailsService = async (bookingId: number, data: any) => {
+// UPDATE BOOKING ADDRESS SERVICE
+export const updateBookingAddressService = async (bookingId: number, data: any) => {
     try {
         const updateData: any = {};
 
-        if (data.booking_service_type) updateData.booking_service_type = data.booking_service_type;
-        if (data.booking_category_l3) updateData.booking_category_l3 = data.booking_category_l3;
-        if (data.booking_consumer_id) updateData.booking_consumer_id = data.booking_consumer_id;
         if (data.booking_address) updateData.booking_address = data.booking_address;
         if (data.booking_city_name) updateData.booking_city_name = data.booking_city_name;
         if (data.booking_state_name) updateData.booking_state_name = data.booking_state_name;
         if (data.booking_pincode) updateData.booking_pincode = data.booking_pincode;
         if (data.booking_lat) updateData.booking_lat = data.booking_lat;
         if (data.booking_long) updateData.booking_long = data.booking_long;
-        if (data.booking_assigned_vendor_id) updateData.booking_assigned_vendor_id = data.booking_assigned_vendor_id;
-        if (data.bookings_schedule_time) updateData.bookings_schedule_time = data.bookings_schedule_time;
 
         const [result]: any = await dbConfig.query(
             `UPDATE booking SET ? WHERE booking_id = ?`,
@@ -281,8 +276,146 @@ export const updateBookingDetailsService = async (bookingId: number, data: any) 
     }
 };
 
+// UPDATE BOOKING VENDOR SERVICE
+export const updateBookingVendorService = async (bookingId: number, vendorId: number) => {
+    try {
+        const [result]: any = await dbConfig.query(
+            `UPDATE booking SET booking_assigned_vendor_id = ?, booking_status = 2 WHERE booking_id = ?`,
+            [vendorId, bookingId]
+        );
+
+        if (result.affectedRows === 0) {
+            return {
+                status: 404,
+                message: "Booking not found.",
+                jsonData: {},
+            };
+        }
+
+        return {
+            status: 200,
+            message: "Booking vendor updated successfully.",
+            jsonData: {
+                booking_id: bookingId,
+            },
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "An error occurred while updating the booking vendor.",
+            jsonData: {},
+        };
+    };
+}
+
+// UPDATE BOOKING SCHEDULE SERVICE
+export const updateBookingScheduleService = async (bookingId: number, scheduleTime: number) => {
+    try {
+        const [result]: any = await dbConfig.query(
+            `UPDATE booking SET booking_schedule_time = ? WHERE booking_id = ?`,
+            [scheduleTime, bookingId]
+        );
+
+        if (result.affectedRows === 0) {
+            return {
+                status: 404,
+                message: "Booking not found.",
+                jsonData: {},
+            };
+        }
+
+        return {
+            status: 200,
+            message: "Booking schedule updated successfully.",
+            jsonData: {
+                booking_id: bookingId,
+            },
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "An error occurred while updating the booking schedule.",
+            jsonData: {},
+        };
+    }
+};
+
+// UPDATE BOOKING CATEGORY SERVICE
+export const updateBookingCategoryService = async (bookingId: number, data: any) => {
+    try {
+        const updateData: any = {};
+
+        if (data.booking_service_type) updateData.booking_service_type = data.booking_service_type;
+        if (data.booking_category_l3) updateData.booking_category_l3 = data.booking_category_l3;
+        if (data.booking_consumer_l2) updateData.booking_consumer_l2 = data.booking_consumer_l2;
+
+        const [result]: any = await dbConfig.query(
+            `UPDATE booking SET ? WHERE booking_id = ?`,
+            [updateData, bookingId]
+        );
+
+        if (result.affectedRows === 0) {
+            return {
+                status: 404,
+                message: "Booking not found.",
+                jsonData: {},
+            };
+        }
+
+        return {
+            status: 200,
+            message: "Booking details updated successfully.",
+            jsonData: {
+                booking_id: bookingId,
+            },
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "An error occurred while updating the booking details.",
+            jsonData: {},
+        };
+    }
+};
+
+// UPDATE BOOKING CONSUMER SERVICE
+export const updateBookingConsumerService = async (bookingId: number, consumerId: number) => {
+    try {
+        const [result]: any = await dbConfig.query(
+            `UPDATE booking SET booking_consumer_id = ? WHERE booking_id = ?`,
+            [consumerId, bookingId]
+        );
+
+        if (result.affectedRows === 0) {
+            return {
+                status: 404,
+                message: "Booking not found.",
+                jsonData: {},
+            };
+        }
+
+        return {
+            status: 200,
+            message: "Booking consumer updated successfully.",
+            jsonData: {
+                booking_id: bookingId,
+            },
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "An error occurred while updating the booking consumer.",
+            jsonData: {},
+        };
+    }
+};
+
 //CONFIRM BOOKING SERVICE
-export const confirmBookingService = async (bookingId: number) => {};
+export const confirmBookingService = async (bookingId: number) => { };
 
 // CANCELLED BOOKING SERVICE
 export const cancelBookingService = async (bookingId: number) => {
@@ -296,8 +429,8 @@ export const cancelBookingService = async (bookingId: number) => {
             LEFT JOIN vendor ON vendor.vendor_id = booking.booking_assigned_vendor_id AND booking.booking_assigned_vendor_id IS NOT NULL
             WHERE booking.booking_id = ?`,
             [bookingId]
-        );    
-        
+        );
+
         if (bookingData.booking_assigned_vendor_id == null) {
             const [result]: any = await dbConfig.query(
                 `UPDATE booking SET booking_status = 5 WHERE booking_id = ?`,
@@ -320,4 +453,3 @@ export const cancelBookingService = async (bookingId: number) => {
         };
     }
 };
-
