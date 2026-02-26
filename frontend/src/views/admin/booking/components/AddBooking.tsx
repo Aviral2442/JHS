@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  Autocomplete,
+} from "@react-google-maps/api";
 
 const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const libraries: "places"[] = ["places"];
 
 interface BookingForm {
   booking_service_type: string;
@@ -38,10 +45,17 @@ const AddBooking: React.FC = () => {
   const { bookingId } = useParams<{ bookingId: string }>();
   const isEditMode = !!bookingId;
 
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: (import.meta as any).env.VITE_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
+
   const [form, setForm] = useState<BookingForm>(initialForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
+  const [addressData, setAddressData] = useState<any>({});
+  const autocompleteRef = useRef<any>(null);
 
   // Fetch existing booking data in edit mode
   useEffect(() => {
@@ -49,7 +63,9 @@ const AddBooking: React.FC = () => {
     const fetchBooking = async () => {
       try {
         setFetching(true);
-        const res = await axios.get(`${baseURL}/api/booking/fetch_booking_details/${bookingId}`);
+        const res = await axios.get(
+          `${baseURL}/api/booking/fetch_booking_details/${bookingId}`,
+        );
         const data = res.data;
         if (data?.jsonData?.booking_details) {
           const b = data.jsonData.booking_details;
@@ -63,7 +79,8 @@ const AddBooking: React.FC = () => {
             booking_pincode: b.booking_pincode || "",
             booking_lat: b.booking_lat || "",
             booking_long: b.booking_long || "",
-            booking_assigned_vendor_id: b.booking_assigned_vendor_id?.toString() || "",
+            booking_assigned_vendor_id:
+              b.booking_assigned_vendor_id?.toString() || "",
             booking_schedule_time: b.booking_schedule_time?.toString() || "",
           });
         }
@@ -76,7 +93,11 @@ const AddBooking: React.FC = () => {
     fetchBooking();
   }, [isEditMode, bookingId]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
@@ -84,12 +105,18 @@ const AddBooking: React.FC = () => {
 
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {};
-    if (!form.booking_service_type) newErrors.booking_service_type = "Service type is required.";
-    if (!form.booking_consumer_id) newErrors.booking_consumer_id = "Consumer ID is required.";
-    if (!form.booking_address.trim()) newErrors.booking_address = "Address is required.";
-    if (!form.booking_city_name.trim()) newErrors.booking_city_name = "City is required.";
-    if (!form.booking_state_name.trim()) newErrors.booking_state_name = "State is required.";
-    if (!form.booking_pincode.trim()) newErrors.booking_pincode = "Pincode is required.";
+    if (!form.booking_service_type)
+      newErrors.booking_service_type = "Service type is required.";
+    if (!form.booking_consumer_id)
+      newErrors.booking_consumer_id = "Consumer ID is required.";
+    if (!form.booking_address.trim())
+      newErrors.booking_address = "Address is required.";
+    if (!form.booking_city_name.trim())
+      newErrors.booking_city_name = "City is required.";
+    if (!form.booking_state_name.trim())
+      newErrors.booking_state_name = "State is required.";
+    if (!form.booking_pincode.trim())
+      newErrors.booking_pincode = "Pincode is required.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -101,14 +128,20 @@ const AddBooking: React.FC = () => {
     try {
       setLoading(true);
       if (isEditMode) {
-        const res = await axios.put(`${baseURL}/api/booking/update_booking_details/${bookingId}`, form);
+        const res = await axios.put(
+          `${baseURL}/api/booking/update_booking_details/${bookingId}`,
+          form,
+        );
         if (res.data?.status === 200) {
           navigate("/admin/booking");
         } else {
           alert(res.data?.message || "Failed to update booking.");
         }
       } else {
-        const res = await axios.post(`${baseURL}/api/booking/add_booking_details`, form);
+        const res = await axios.post(
+          `${baseURL}/api/booking/add_booking_details`,
+          form,
+        );
         if (res.data?.status === 200) {
           navigate("/admin/booking");
         } else {
@@ -130,6 +163,54 @@ const AddBooking: React.FC = () => {
       </div>
     );
   }
+
+  // Extract address components
+  const extractAddress = (place: google.maps.places.PlaceResult) => {
+    const components = place.address_components || [];
+
+    let city = "";
+    let state = "";
+    let pincode = "";
+
+    // console.log("Hero",components)
+
+    components.forEach((component) => {
+      const types = component.types;
+      if (types.includes("locality")) {
+        city = component.long_name;
+      }
+
+      if (types.includes("administrative_area_level_1")) {
+        state = component.long_name;
+      }
+
+      if (types.includes("postal_code")) {
+        pincode = component.long_name;
+      }
+    });
+
+    const lat = place.geometry?.location?.lat();
+    const lng = place.geometry?.location?.lng();
+
+    setForm((prev) => ({
+      ...prev,
+      booking_address: place.formatted_address || "",
+      booking_city_name: city,
+      booking_state_name: state,
+      booking_pincode: pincode,
+      booking_lat: lat ? String(lat) : "",
+      booking_long: lng ? String(lng) : "",
+    }));
+  };
+
+  // When user selects from autocomplete
+  const onPlaceChanged = () => {
+    const place = autocompleteRef.current.getPlace();
+    if (!place.geometry) return;
+    extractAddress(place);
+  };
+
+  console.log("Address Data State:", addressData);
 
   return (
     <>
@@ -154,30 +235,118 @@ const AddBooking: React.FC = () => {
         <form onSubmit={handleSubmit} className="p-5 lg:p-6 space-y-8">
           {/* Service Information */}
           <fieldset>
-            <legend className="text-base font-semibold text-gray-900 dark:text-white mb-4">Service Information</legend>
+            <legend className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              Service Information
+            </legend>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <InputField label="Service Type (Category L1 ID) *" name="booking_service_type" value={form.booking_service_type} onChange={handleChange} error={errors.booking_service_type} />
-              <InputField label="Category L3 ID" name="booking_category_l3" value={form.booking_category_l3} onChange={handleChange} error={errors.booking_category_l3} />
-              <InputField label="Consumer ID *" name="booking_consumer_id" value={form.booking_consumer_id} onChange={handleChange} error={errors.booking_consumer_id} />
-              <InputField label="Assigned Vendor ID" name="booking_assigned_vendor_id" value={form.booking_assigned_vendor_id} onChange={handleChange} error={errors.booking_assigned_vendor_id} />
-              <InputField label="Schedule Time (Unix)" name="booking_schedule_time" value={form.booking_schedule_time} onChange={handleChange} error={errors.booking_schedule_time} />
+              <InputField
+                label="Service Type (Category L1 ID) *"
+                name="booking_service_type"
+                value={form.booking_service_type}
+                onChange={handleChange}
+                error={errors.booking_service_type}
+              />
+              <InputField
+                label="Category L3 ID"
+                name="booking_category_l3"
+                value={form.booking_category_l3}
+                onChange={handleChange}
+                error={errors.booking_category_l3}
+              />
+              <InputField
+                label="Consumer ID *"
+                name="booking_consumer_id"
+                value={form.booking_consumer_id}
+                onChange={handleChange}
+                error={errors.booking_consumer_id}
+              />
+              <InputField
+                label="Assigned Vendor ID"
+                name="booking_assigned_vendor_id"
+                value={form.booking_assigned_vendor_id}
+                onChange={handleChange}
+                error={errors.booking_assigned_vendor_id}
+              />
+              <InputField
+                label="Schedule Time (Unix)"
+                name="booking_schedule_time"
+                value={form.booking_schedule_time}
+                onChange={handleChange}
+                error={errors.booking_schedule_time}
+              />
             </div>
           </fieldset>
 
           {/* Address Information */}
           <fieldset>
-            <legend className="text-base font-semibold text-gray-900 dark:text-white mb-4">Address Information</legend>
+            <legend className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              Address Information
+            </legend>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
-                <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">Address *</label>
-                <textarea name="booking_address" value={form.booking_address} onChange={handleChange} rows={3} className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700 dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none" />
-                {errors.booking_address && <p className="mt-1 text-xs text-red-500">{errors.booking_address}</p>}
+                {isLoaded ? (
+                  <Autocomplete 
+                    onLoad={(ref) => (autocompleteRef.current = ref)}
+                    onPlaceChanged={onPlaceChanged}
+                  >
+                    <InputField
+                      label="Address"
+                      name="booking_address"
+                      value={form.booking_address}
+                      onChange={handleChange}
+                      error={errors.booking_address}
+                    />
+                  </Autocomplete>
+                ) : (
+                  <textarea
+                    name="booking_address"
+                    value={form.booking_address}
+                    onChange={handleChange}
+                    rows={3}
+                    className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700 dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none"
+                  />
+                )}
+                {errors.booking_address && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.booking_address}
+                  </p>
+                )}
               </div>
-              <InputField label="City *" name="booking_city_name" value={form.booking_city_name} onChange={handleChange} error={errors.booking_city_name} />
-              <InputField label="State *" name="booking_state_name" value={form.booking_state_name} onChange={handleChange} error={errors.booking_state_name} />
-              <InputField label="Pincode *" name="booking_pincode" value={form.booking_pincode} onChange={handleChange} error={errors.booking_pincode} />
-              <InputField label="Latitude" name="booking_lat" value={form.booking_lat} onChange={handleChange} error={errors.booking_lat} />
-              <InputField label="Longitude" name="booking_long" value={form.booking_long} onChange={handleChange} error={errors.booking_long} />
+              <InputField
+                label="City *"
+                name="booking_city_name"
+                value={form.booking_city_name}
+                onChange={handleChange}
+                error={errors.booking_city_name}
+              />
+              <InputField
+                label="State *"
+                name="booking_state_name"
+                value={form.booking_state_name}
+                onChange={handleChange}
+                error={errors.booking_state_name}
+              />
+              <InputField
+                label="Pincode *"
+                name="booking_pincode"
+                value={form.booking_pincode}
+                onChange={handleChange}
+                error={errors.booking_pincode}
+              />
+              {/* <InputField
+                label="Latitude"
+                name="booking_lat"
+                value={form.booking_lat}
+                onChange={handleChange}
+                error={errors.booking_lat}
+              />
+              <InputField
+                label="Longitude"
+                name="booking_long"
+                value={form.booking_long}
+                onChange={handleChange}
+                error={errors.booking_long}
+              /> */}
             </div>
           </fieldset>
 
@@ -195,7 +364,11 @@ const AddBooking: React.FC = () => {
               disabled={loading}
               className="rounded-lg bg-brand-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
             >
-              {loading ? "Saving..." : isEditMode ? "Update Booking" : "Add Booking"}
+              {loading
+                ? "Saving..."
+                : isEditMode
+                  ? "Update Booking"
+                  : "Add Booking"}
             </button>
           </div>
         </form>
@@ -214,7 +387,9 @@ const InputField: React.FC<{
   type?: string;
 }> = ({ label, name, value, onChange, error, type = "text" }) => (
   <div>
-    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>
+    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+      {label}
+    </label>
     <input
       type={type}
       name={name}
