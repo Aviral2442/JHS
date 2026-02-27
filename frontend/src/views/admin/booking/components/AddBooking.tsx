@@ -2,12 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  Autocomplete,
-} from "@react-google-maps/api";
+import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 
 const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
 const libraries: "places"[] = ["places"];
@@ -15,6 +10,7 @@ const libraries: "places"[] = ["places"];
 interface BookingForm {
   booking_service_type: string;
   booking_category_l3: string;
+  booking_category_l2: string;
   booking_consumer_id: string;
   booking_address: string;
   booking_city_name: string;
@@ -29,6 +25,7 @@ interface BookingForm {
 const initialForm: BookingForm = {
   booking_service_type: "",
   booking_category_l3: "",
+  booking_category_l2: "",
   booking_consumer_id: "",
   booking_address: "",
   booking_city_name: "",
@@ -54,8 +51,16 @@ const AddBooking: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
-  const [addressData, setAddressData] = useState<any>({});
   const autocompleteRef = useRef<any>(null);
+  const [categoryLevel1List, setCategoryLevel1List] = useState<
+    { catLvl1Id: number; catLvl1Name: string }[]
+  >([]);
+  const [categoryLevel2List, setCategoryLevel2List] = useState<
+    { catLvl2Id: number; catLvl2Name: string }[]
+  >([]);
+  const [categoryLevel3List, setCategoryLevel3List] = useState<
+    { catLvl3Id: number; catLvl3Name: string }[]
+  >([]);
 
   // Fetch existing booking data in edit mode
   useEffect(() => {
@@ -72,6 +77,7 @@ const AddBooking: React.FC = () => {
           setForm({
             booking_service_type: b.booking_service_type?.toString() || "",
             booking_category_l3: b.booking_category_l3?.toString() || "",
+            booking_category_l2: b.booking_category_l2?.toString() || "",
             booking_consumer_id: b.booking_consumer_id?.toString() || "",
             booking_address: b.booking_address || "",
             booking_city_name: b.booking_city_name || "",
@@ -128,14 +134,81 @@ const AddBooking: React.FC = () => {
     try {
       setLoading(true);
       if (isEditMode) {
-        const res = await axios.put(
-          `${baseURL}/api/booking/update_booking_details/${bookingId}`,
-          form,
+        // In edit mode, call multiple specific update endpoints
+        const updatePromises = [];
+
+        // Update address information
+        updatePromises.push(
+          axios.put(
+            `${baseURL}/api/booking/update_booking_address/${bookingId}`,
+            {
+              booking_address: form.booking_address,
+              booking_city_name: form.booking_city_name,
+              booking_state_name: form.booking_state_name,
+              booking_pincode: form.booking_pincode,
+              booking_lat: form.booking_lat,
+              booking_long: form.booking_long,
+            },
+          ),
         );
-        if (res.data?.status === 200) {
+
+        // Update category information
+        updatePromises.push(
+          axios.put(
+            `${baseURL}/api/booking/update_booking_category/${bookingId}`,
+            {
+              booking_service_type: form.booking_service_type,
+              booking_category_l2: form.booking_category_l2,
+              booking_category_l3: form.booking_category_l3,
+            },
+          ),
+        );
+
+        // Update consumer
+        updatePromises.push(
+          axios.patch(
+            `${baseURL}/api/booking/update_booking_consumer/${bookingId}`,
+            {
+              consumerId: form.booking_consumer_id,
+            },
+          ),
+        );
+
+        // Update schedule time
+        if (form.booking_schedule_time) {
+          updatePromises.push(
+            axios.patch(
+              `${baseURL}/api/booking/update_booking_schedule/${bookingId}`,
+              {
+                scheduleTime: form.booking_schedule_time,
+              },
+            ),
+          );
+        }
+
+        // Update vendor if assigned
+        if (form.booking_assigned_vendor_id) {
+          updatePromises.push(
+            axios.patch(
+              `${baseURL}/api/booking/update_booking_vendor/${bookingId}`,
+              {
+                vendorId: form.booking_assigned_vendor_id,
+              },
+            ),
+          );
+        }
+
+        // Execute all updates
+        const results = await Promise.all(updatePromises);
+
+        // Check if all updates were successful
+        const allSuccess = results.every((res) => res.data?.status === 200);
+
+        if (allSuccess) {
           navigate("/admin/booking");
         } else {
-          alert(res.data?.message || "Failed to update booking.");
+          const failedUpdate = results.find((res) => res.data?.status !== 200);
+          alert(failedUpdate?.data?.message || "Failed to update booking.");
         }
       } else {
         const res = await axios.post(
@@ -168,6 +241,8 @@ const AddBooking: React.FC = () => {
   const extractAddress = (place: google.maps.places.PlaceResult) => {
     const components = place.address_components || [];
 
+    console.log("Extracting address components:", components);
+
     let city = "";
     let state = "";
     let pincode = "";
@@ -192,6 +267,15 @@ const AddBooking: React.FC = () => {
     const lat = place.geometry?.location?.lat();
     const lng = place.geometry?.location?.lng();
 
+    console.log("Extracted Address:", {
+      formatted_address: place.formatted_address,
+      city,
+      state,
+      pincode,
+      lat,
+      lng,
+    });
+
     setForm((prev) => ({
       ...prev,
       booking_address: place.formatted_address || "",
@@ -210,7 +294,22 @@ const AddBooking: React.FC = () => {
     extractAddress(place);
   };
 
-  console.log("Address Data State:", addressData);
+  // useEffect(() => {
+  //   const fetchCategorySLevel1List = async () => {
+  //     try {
+  //       const res = await axios.get(
+  //         `${baseURL}/api/category/get_category_level_one_list`,
+  //       );
+  //       console.log("Category Level 1 List:", res.data);
+  //       if (res.data?.status === 200) {
+  //         setCategoryLevel1List(res.data.jsonData.category_level_one_list || []);
+  //       }
+  //     } catch (err) {
+  //       console.error("Failed to fetch category level 1 list:", err);
+  //     }
+  //   };
+  //   fetchCategorySLevel1List();
+  // }, []);
 
   return (
     <>
@@ -247,7 +346,14 @@ const AddBooking: React.FC = () => {
                 error={errors.booking_service_type}
               />
               <InputField
-                label="Category L3 ID"
+                label="Category Level 2 ID"
+                name="booking_category_l2"
+                value={form.booking_category_l2}
+                onChange={handleChange}
+                error={errors.booking_category_l2}
+              />
+              <InputField
+                label="Category Level 3 ID"
                 name="booking_category_l3"
                 value={form.booking_category_l3}
                 onChange={handleChange}
@@ -285,7 +391,7 @@ const AddBooking: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
                 {isLoaded ? (
-                  <Autocomplete 
+                  <Autocomplete
                     onLoad={(ref) => (autocompleteRef.current = ref)}
                     onPlaceChanged={onPlaceChanged}
                   >

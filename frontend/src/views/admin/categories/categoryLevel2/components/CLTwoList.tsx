@@ -5,8 +5,9 @@ import DataTablePagination from "../../../../../components/tables/DataTablePagin
 import { useNavigate } from "react-router";
 import DatatableActionButton from "../../../../../components/DatatableActionButton";
 import { formatDate } from "../../../../../components/DateFormat";
+import Api from "../../../../../components/apicall";
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 const ENDPOINT = "/api/category/get_category_level_two_list";
 
 interface CategoryLevelTwoItem {
@@ -44,6 +45,7 @@ const CLTwoList: React.FC = () => {
   });
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
+  const api = Api();
 
   const filtersRef = useRef<Filters>({
     date: "",
@@ -69,12 +71,14 @@ const CLTwoList: React.FC = () => {
       if (f.toDate) params.toDate = f.toDate;
       if (f.search) params.search = f.search;
 
-      const res = await axios.get(`${baseURL}${ENDPOINT}`, { params });
-      const data = res.data;
-      setCategories(data?.jsonData?.category_level_two_list || []);
-      setPagination(
-        data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 }
-      );
+      const res = await api.fetchCategoryLevelTwoList(params);
+      if (res.success) {
+        console.log("Fetched category level two list data:", res.data);
+        setCategories(res.data);
+        setPagination(res.pagination);
+      } else {
+        console.error("Failed to fetch category level two list:", res.error);
+      }
     } catch (error) {
       console.error("Failed to fetch category level two list:", error);
     } finally {

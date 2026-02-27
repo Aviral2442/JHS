@@ -349,7 +349,7 @@ export const updateBookingCategoryService = async (bookingId: number, data: any)
 
         if (data.booking_service_type) updateData.booking_service_type = data.booking_service_type;
         if (data.booking_category_l3) updateData.booking_category_l3 = data.booking_category_l3;
-        if (data.booking_consumer_l2) updateData.booking_consumer_l2 = data.booking_consumer_l2;
+        if (data.booking_category_l2) updateData.booking_category_l2 = data.booking_category_l2;
 
         const [result]: any = await dbConfig.query(
             `UPDATE booking SET ? WHERE booking_id = ?`,

@@ -339,8 +339,8 @@ export const getCategoryLevelTwoListService = async (filters?: {
                 category_level_2.*,
                 category_level_1.category_level1_name
             FROM category_level_2
-            ${finalWhereSQL}
             LEFT JOIN category_level_1 ON category_level_2.category_level2_level1_id = category_level_1.category_level1_id
+            ${finalWhereSQL}
             ORDER BY category_level_2.category_level2_id DESC
             LIMIT ? OFFSET ?
         `;
