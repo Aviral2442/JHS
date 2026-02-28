@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addVendorDetailsService, fetchVendorDetailsService, getVendorListService, updateVendorDetailsService, vendorBlockStatusService, vendorVerifyStatusService } from "../../services/admin/vendor.service";
+import { addVendorDetailsService, fetchVendorDetailsService, getVendorListService, searchVendorService, updateVendorDetailsService, vendorBlockStatusService, vendorVerifyStatusService } from "../../services/admin/vendor.service";
 
 
 // GET VENDOR LIST CONTROLLER
@@ -71,6 +71,16 @@ export const updateVendorBlockStatusController = async (req: Request, res: Respo
     try {
         const vendorId = parseInt(req.params.vendorId);
         const result = await vendorBlockStatusService(vendorId);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const searchVendorController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const searchTerm = req.params.search;
+        const result = await searchVendorService(searchTerm);
         res.status(result.status).json(result);
     } catch (error) {
         next(error);

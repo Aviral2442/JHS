@@ -386,3 +386,37 @@ export const vendorBlockStatusService = async (vendorId: Number) => {
         }
     }
 };
+
+// SEARCH VENDOR SERVICE
+export const searchVendorService = async (searchTerm: string) => {
+    try {
+        const likeSearchTerm = `%${searchTerm}%`;
+
+        const [rows]: any = await dbConfig.query(
+            `SELECT 
+                vendor.vendor_id,
+                vendor.vendor_name,
+                vendor.vendor_mobile,
+                vendor.vendor_status
+            FROM vendor
+            WHERE vendor.vendor_mobile LIKE ?
+            ORDER BY vendor.vendor_createdAt DESC`,
+            [likeSearchTerm]
+        );
+
+        return {
+            status: 200,
+            message: "Vendor search completed successfully.",
+            jsonData: {
+                vendor_list: rows,
+            },
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "An error occurred while searching for vendors.",
+            jsonData: {},
+        }
+    }
+};

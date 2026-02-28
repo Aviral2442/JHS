@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService } from "../../services/admin/category.service";
+import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, getCategoryThreeListByCategoryTwoIdService, getCategoryTwoListByCategoryOneIdService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService } from "../../services/admin/category.service";
 
 
 //---------------------------------- CATEGORY LEVEL ONE CONTROLLERS -----------------------------
@@ -208,6 +208,28 @@ export const updateCategoryLevelThreeStatusController = async (req: Request, res
 };
 
 
+
+
+//-------------------------------- CATEGORY LIST BY ID ROUTES -----------------------------
+export const getCategoryLevelTwoListByCatLvl1IdController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const catLvl1Id = parseInt(req.params.catLvl1Id);
+        const result = await getCategoryTwoListByCategoryOneIdService(catLvl1Id);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getCategoryLevelThreeListByCatLvl2IdController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const catLvl2Id = parseInt(req.params.catLvl2Id);
+        const result = await getCategoryThreeListByCategoryTwoIdService(catLvl2Id);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
 
 
 //------------------------------- BLOG CONTROLLERS -----------------------------

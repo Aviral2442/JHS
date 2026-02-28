@@ -6,7 +6,7 @@ import DatatableActionButton from "../../../../components/DatatableActionButton"
 import { useNavigate } from "react-router";
 import { formatDate } from "../../../../components/DateFormat";
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 const ENDPOINT = "/api/booking/get_booking_list";
 
 interface BookingItem {
@@ -86,6 +86,7 @@ const BookingList: React.FC = () => {
 
       const res = await axios.get(`${baseURL}${ENDPOINT}`, { params });
       const data = res.data;
+      console.log("Booking List Response:", data);
       setBookings(data?.jsonData?.booking_list || []);
       setPagination(
         data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 },

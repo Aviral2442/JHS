@@ -791,6 +791,56 @@ export const updateCategoryLevelThreeStatusService = async (category_level3_id: 
 
 
 
+//-------------------------------- CATEGORY LIST BY ID ROUTES -----------------------------
+export const getCategoryTwoListByCategoryOneIdService = async (category_level1_id: number) => {
+    try {
+        const [rows]: any = await dbConfig.query(
+            `SELECT category_level2_id, category_level2_name FROM category_level_2 WHERE category_level2_level1_id = ?`,
+            [category_level1_id]
+        );
+
+        return {
+            status: 200,
+            message: "Category level Two list fetched successfully",
+            jsonData: {
+                category_level_two_list: rows
+            }
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
+    }
+};
+
+export const getCategoryThreeListByCategoryTwoIdService = async (category_level2_id: number) => {
+    try {
+        const [rows]: any = await dbConfig.query(
+            `SELECT category_level3_id, category_level3_name FROM category_level_3 WHERE category_level3_level2_id = ?`,
+            [category_level2_id]
+        );
+
+        return {
+            status: 200,
+            message: "Category level Three list fetched successfully",
+            jsonData: {
+                category_level_three_list: rows
+            }
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
+    }
+};
+
+
 
 // ---------------------------------- BLOG SERVICES --------------------------------
 export const getBlogListService = async (filters?: {
