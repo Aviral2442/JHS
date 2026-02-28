@@ -45,7 +45,7 @@ const CLOneList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const api = Api();
-  
+
   // Store the latest filters in a ref so the fetch function always uses the latest values
   const filtersRef = useRef<Filters>({
     date: "",
@@ -72,7 +72,7 @@ const CLOneList: React.FC = () => {
       if (f.search) params.search = f.search;
 
       const res = await api.fetchCategoryLevelOneList(params);
-      console.log(res)
+      console.log(res);
       if (res.success) {
         console.log("Fetched category level one list data:", res.data);
         setCategories(res.data);
@@ -122,16 +122,15 @@ const CLOneList: React.FC = () => {
       `Toggling status for category level one ID ${categoryId} from ${currentStatus} to ${newStatus}`,
     );
     try {
-      await axios.patch(
-        `${baseURL}/api/category/update_category_level_one_status/${categoryId}`,
-        {
-          category_level1_status: newStatus,
-        },
+      const res = await api.toggleStatusOFCategoryLevelOne(
+        categoryId,
+        newStatus,
       );
-      console.log(
-        `Category level one ID ${categoryId} status updated to ${newStatus}`,
-      );
-      fetchBlogs(pagination.page);
+      if (res.success) {
+        fetchBlogs(pagination.page);
+      } else {
+        console.error("Failed to update category level one status:", res.error);
+      }
     } catch (error) {
       console.error("Failed to update category level one status:", error);
     }

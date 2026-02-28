@@ -5,8 +5,9 @@ import DataTablePagination from "../../../../../components/tables/DataTablePagin
 import { useNavigate } from "react-router";
 import DatatableActionButton from "../../../../../components/DatatableActionButton";
 import { formatDate } from "../../../../../components/DateFormat";
+import Api from "../../../../../components/apicall";
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 const ENDPOINT = "/api/category/get_category_level_three_list";
 
 interface CategoryLevelThreeItem {
@@ -44,6 +45,7 @@ const CLThreeList: React.FC = () => {
   });
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
+  const api = Api();
 
   const filtersRef = useRef<Filters>({
     date: "",
@@ -69,12 +71,14 @@ const CLThreeList: React.FC = () => {
       if (f.toDate) params.toDate = f.toDate;
       if (f.search) params.search = f.search;
 
-      const res = await axios.get(`${baseURL}${ENDPOINT}`, { params });
-      const data = res.data;
-      setCategories(data?.jsonData?.category_level_three_list || []);
-      setPagination(
-        data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 }
-      );
+      const res = await api.fetchCategoryLevelThreeList(params);
+
+      if (res.success) {
+        setCategories(res.data);
+        setPagination(res.pagination);
+      } else {
+        console.error("Failed to fetch category level three list:", res.error);
+      }
     } catch (error) {
       console.error("Failed to fetch category level three list:", error);
     } finally {
@@ -107,15 +111,26 @@ const CLThreeList: React.FC = () => {
     fetchCategories(page);
   };
 
-  const handleStatusToggle = async (categoryId: number, currentStatus: number) => {
+  const handleStatusToggle = async (
+    categoryId: number,
+    currentStatus: number,
+  ) => {
     const newStatus = currentStatus == 0 ? 1 : 0;
     try {
-      await axios.patch(`${baseURL}/api/category/update_category_level_three_status/${categoryId}`, {
-        category_level3_status: newStatus,
-      });
-      fetchCategories(pagination.page);
+      const res = await api.toggleStatusOFCategoryLevelThree(
+        categoryId,
+        newStatus,
+      );
+      if (res.success) {
+        fetchCategories(pagination.page);
+      } else {
+        console.error(
+          "Failed to toggle status of category level three:",
+          res.error,
+        );
+      }
     } catch (error) {
-      console.error("Failed to update category level three status:", error);
+      console.error("Failed to toggle status of category level three:", error);
     }
   };
 
@@ -129,9 +144,14 @@ const CLThreeList: React.FC = () => {
         />
 
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <DatatableActionButton endpoint={ENDPOINT} dataAccess="category_level_three_list" />
+          <DatatableActionButton
+            endpoint={ENDPOINT}
+            dataAccess="category_level_three_list"
+          />
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Search:</span>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Search:
+            </span>
             <input
               type="text"
               value={search}
@@ -176,19 +196,26 @@ const CLThreeList: React.FC = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-gray-400 dark:text-gray-500">
+                  <td
+                    colSpan={7}
+                    className="px-4 py-10 text-center text-gray-400 dark:text-gray-500"
+                  >
                     Loading...
                   </td>
                 </tr>
               ) : categories.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-gray-400 dark:text-gray-500">
+                  <td
+                    colSpan={7}
+                    className="px-4 py-10 text-center text-gray-400 dark:text-gray-500"
+                  >
                     No categories found.
                   </td>
                 </tr>
               ) : (
                 categories.map((category, idx) => {
-                  const sNo = (pagination.page - 1) * pagination.limit + idx + 1;
+                  const sNo =
+                    (pagination.page - 1) * pagination.limit + idx + 1;
                   const isActive = category.category_level3_status == 0;
 
                   return (
@@ -213,7 +240,9 @@ const CLThreeList: React.FC = () => {
                           />
                         ) : (
                           <div className="flex h-10 w-10 items-center justify-center rounded bg-gray-200 dark:bg-gray-700">
-                            <span className="text-xs text-gray-500 dark:text-gray-400">No Image</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                              No Image
+                            </span>
                           </div>
                         )}
                       </td>
@@ -246,7 +275,12 @@ const CLThreeList: React.FC = () => {
                       <td className="px-4 py-2">
                         <div className="flex items-center justify-center gap-2">
                           <button
-                            onClick={() => handleStatusToggle(category.category_level3_id, category.category_level3_status)}
+                            onClick={() =>
+                              handleStatusToggle(
+                                category.category_level3_id,
+                                category.category_level3_status,
+                              )
+                            }
                             title={isActive ? "Deactivate" : "Activate"}
                             className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors
                               ${
@@ -256,23 +290,53 @@ const CLThreeList: React.FC = () => {
                               }`}
                           >
                             {isActive ? (
-                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 16 16"
+                                fill="none"
+                              >
+                                <path
+                                  d="M12 4L4 12M4 4L12 12"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                />
                               </svg>
                             ) : (
-                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 16 16"
+                                fill="none"
+                              >
+                                <path
+                                  d="M3 8L6.5 11.5L13 4.5"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
                               </svg>
                             )}
                           </button>
 
                           <button
-                            onClick={() => navigate(`/admin/category/level-three/edit/${category.category_level3_id}`)}
+                            onClick={() =>
+                              navigate(
+                                `/admin/category/level-three/edit/${category.category_level3_id}`,
+                              )
+                            }
                             title="Edit Category Level Three"
                             className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-600
                               hover:bg-brand-200 dark:bg-brand-900/30 dark:text-brand-400 dark:hover:bg-brand-900/50 transition-colors"
                           >
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
                               <path
                                 d="M11.334 2.00004C11.5091 1.82494 11.7169 1.68605 11.9457 1.59129C12.1745 1.49653 12.4197 1.44775 12.6673 1.44775C12.915 1.44775 13.1602 1.49653 13.389 1.59129C13.6178 1.68605 13.8256 1.82494 14.0007 2.00004C14.1758 2.17513 14.3147 2.383 14.4094 2.61178C14.5042 2.84055 14.553 3.08575 14.553 3.33337C14.553 3.581 14.5042 3.8262 14.4094 4.05497C14.3147 4.28375 14.1758 4.49161 14.0007 4.66671L5.00065 13.6667L1.33398 14.6667L2.33398 11L11.334 2.00004Z"
                                 stroke="currentColor"

@@ -114,10 +114,12 @@ const CLTwoList: React.FC = () => {
   const handleStatusToggle = async (categoryId: number, currentStatus: number) => {
     const newStatus = currentStatus == 0 ? 1 : 0;
     try {
-      await axios.patch(`${baseURL}/api/category/update_category_level_two_status/${categoryId}`, {
-        category_level2_status: newStatus,
-      });
-      fetchCategories(pagination.page);
+      const res = await api.toggleStatusOFCategoryLevelTwo(categoryId, newStatus);
+      if (res.success) {
+        fetchCategories(pagination.page);
+      } else {
+        console.error("Failed to update category level two status:", res.error);
+      }
     } catch (error) {
       console.error("Failed to update category level two status:", error);
     }
