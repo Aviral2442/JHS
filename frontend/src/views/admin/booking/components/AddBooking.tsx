@@ -3,6 +3,9 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
+import { formatDate } from "../../../../components/DateFormat";
+import Api from "../../../../components/apicall";
+import toast from "react-hot-toast";
 
 const baseURL = (import.meta as any).env.VITE_URL || "";
 const libraries: "places"[] = ["places"];
@@ -66,21 +69,20 @@ const AddBooking: React.FC = () => {
   const [categoryLevel3List, setCategoryLevel3List] = useState<
     { category_level3_id: number; category_level3_name: string }[]
   >([]);
+  const api = Api();
 
   // Fetch Category Level 1 list on mount
   useEffect(() => {
     const fetchCategoryLevel1List = async () => {
       try {
-        const res = await axios.get(
-          `${baseURL}/api/category/get_category_level_one_list`,
-        );
-        if (res.data?.status === 200) {
-          setCategoryLevel1List(
-            res.data.jsonData.category_level_one_list || [],
-          );
+        const res = await api.fetchCategoryLevelOneList();
+        if (res.success) {
+          setCategoryLevel1List(res.data);
+        } else {
+          console.error("Failed to fetch category level 1 list:", res.error);
         }
       } catch (err) {
-        console.error("Failed to fetch category level 1 list:", err);
+        console.error("Error fetching category level 1 list:", err);
       }
     };
     fetchCategoryLevel1List();
@@ -94,17 +96,14 @@ const AddBooking: React.FC = () => {
       return;
     }
     const fetchCategoryLevel2List = async () => {
-      try {
-        const res = await axios.get(
-          `${baseURL}/api/category/get_category_level_two_list_by_cat_lvl1_id/${form.booking_service_type}`,
-        );
-        if (res.data?.status === 200) {
-          setCategoryLevel2List(
-            res.data.jsonData.category_level_two_list || [],
-          );
-        }
-      } catch (err) {
-        console.error("Failed to fetch category level 2 list:", err);
+      if (!form.booking_service_type) return;
+      const res = await api.fetchCategoryLevelTwoListByLevelOneId(
+        Number(form.booking_service_type),
+      );
+      if (res.success) {
+        setCategoryLevel2List(res.data);
+      } else {
+        console.error("Backend Error: ", res.message);
       }
     };
     fetchCategoryLevel2List();
@@ -117,17 +116,14 @@ const AddBooking: React.FC = () => {
       return;
     }
     const fetchCategoryLevel3List = async () => {
-      try {
-        const res = await axios.get(
-          `${baseURL}/api/category/get_category_level_three_list_by_cat_lvl2_id/${form.booking_category_l2}`,
-        );
-        if (res.data?.status === 200) {
-          setCategoryLevel3List(
-            res.data.jsonData.category_level_three_list || [],
-          );
-        }
-      } catch (err) {
-        console.error("Failed to fetch category level 3 list:", err);
+      if (!form.booking_category_l2) return;
+      const res = await api.fetchCategoryLevelThreeListByLevelTwoId(
+        Number(form.booking_category_l2),
+      );
+      if (res.success) {
+        setCategoryLevel3List(res.data);
+      } else {
+        console.error("Backend Error: ", res.message);
       }
     };
     fetchCategoryLevel3List();
@@ -137,35 +133,29 @@ const AddBooking: React.FC = () => {
   useEffect(() => {
     if (!isEditMode) return;
     const fetchBooking = async () => {
-      try {
-        setFetching(true);
-        const res = await axios.get(
-          `${baseURL}/api/booking/fetch_booking_details/${bookingId}`,
-        );
-        const data = res.data;
-        console.log("Fetch Booking Details Response:", data);
-        if (data?.jsonData?.booking_details) {
-          const b = data.jsonData.booking_details;
-          setForm({
-            booking_service_type: b.booking_service_type?.toString() || "",
-            booking_category_l3: b.booking_category_l3?.toString() || "",
-            booking_category_l2: b.booking_category_l2?.toString() || "",
-            booking_consumer_id: b.booking_consumer_id?.toString() || "",
-            booking_address: b.booking_address || "",
-            booking_city_name: b.booking_city_name || "",
-            booking_state_name: b.booking_state_name || "",
-            booking_pincode: b.booking_pincode || "",
-            booking_lat: b.booking_lat || "",
-            booking_long: b.booking_long || "",
-            booking_assigned_vendor_id:
-              b.booking_assigned_vendor_id?.toString() || "",
-            booking_schedule_time: b.booking_schedule_time?.toString() || "",
-          });
-        }
-      } catch (err) {
-        console.error("Failed to fetch booking:", err);
-      } finally {
+      setFetching(true);
+      const res = await api.fetchBookingDetails(Number(bookingId));
+      if (res.success && res.data) {
+        toast.success("Booking details fetched successfully!");
         setFetching(false);
+        const b = res.data;
+        setForm({
+          booking_service_type: b.booking_service_type?.toString() || "",
+          booking_category_l3: b.booking_category_l3?.toString() || "",
+          booking_category_l2: b.booking_category_l2?.toString() || "",
+          booking_consumer_id: b.booking_consumer_id?.toString() || "",
+          booking_address: b.booking_address || "",
+          booking_city_name: b.booking_city_name || "",
+          booking_state_name: b.booking_state_name || "",
+          booking_pincode: b.booking_pincode || "",
+          booking_lat: b.booking_lat || "",
+          booking_long: b.booking_long || "",
+          booking_assigned_vendor_id:
+            b.booking_assigned_vendor_id?.toString() || "",
+          booking_schedule_time: b.booking_schedule_time || "",
+        });
+      } else {
+        console.error("Failed to fetch booking details:", res.message);
       }
     };
     fetchBooking();
@@ -459,9 +449,7 @@ const AddBooking: React.FC = () => {
   };
 
   // Handle category select change with cascading reset
-  const handleCategoryChange = (
-    e: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === "booking_service_type") {
       setForm((prev) => ({
@@ -506,19 +494,9 @@ const AddBooking: React.FC = () => {
           <div className="p-5 lg:p-6 space-y-6">
             {/* Category Information Section */}
             <fieldset className="rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <legend className="text-base font-semibold text-gray-900 dark:text-white">
-                  Category Information
-                </legend>
-                <button
-                  type="button"
-                  onClick={handleUpdateCategory}
-                  disabled={loadingCategory}
-                  className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
-                >
-                  {loadingCategory ? "Saving..." : "Save Category"}
-                </button>
-              </div>
+              <legend className="text-base font-semibold text-gray-900 dark:text-white">
+                Category Information
+              </legend>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <SelectField
                   label="Service Type (Category L1) *"
@@ -559,14 +537,42 @@ const AddBooking: React.FC = () => {
                   disabled={!form.booking_category_l2}
                 />
               </div>
+              <div className="flex items-center justify-end mt-2">
+                <button
+                  type="button"
+                  onClick={handleUpdateCategory}
+                  disabled={loadingCategory}
+                  className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
+                >
+                  {loadingCategory ? "Saving..." : "Save Category"}
+                </button>
+              </div>
             </fieldset>
 
             {/* Consumer Information Section */}
             <fieldset className="rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <legend className="text-base font-semibold text-gray-900 dark:text-white">
-                  Consumer Information
-                </legend>
+              <legend className="text-base font-semibold text-gray-900 dark:text-white">
+                Consumer Information
+              </legend>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <InputField
+                  label="Consumer ID *"
+                  name="booking_consumer_id"
+                  value={form.booking_consumer_id}
+                  onChange={handleChange}
+                  error={errors.booking_consumer_id}
+                  hint="Search Consumer Using it's Mobile Number"
+                />
+                <InputField
+                  label="Consumer Name *"
+                  name="booking_consumer_name"
+                  value={form.booking_consumer_id}
+                  onChange={handleChange}
+                  error={errors.booking_consumer_id}
+                  disabled
+                />
+              </div>
+              <div className="flex justify-end items-center mt-2">
                 <button
                   type="button"
                   onClick={handleUpdateConsumer}
@@ -576,23 +582,32 @@ const AddBooking: React.FC = () => {
                   {loadingConsumer ? "Saving..." : "Save Consumer"}
                 </button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <InputField
-                  label="Consumer ID *"
-                  name="booking_consumer_id"
-                  value={form.booking_consumer_id}
-                  onChange={handleChange}
-                  error={errors.booking_consumer_id}
-                />
-              </div>
             </fieldset>
 
             {/* Vendor Information Section */}
             <fieldset className="rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <legend className="text-base font-semibold text-gray-900 dark:text-white">
-                  Vendor Information
-                </legend>
+              <legend className="text-base font-semibold text-gray-900 dark:text-white">
+                Vendor Information
+              </legend>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <InputField
+                  label="Assigned Vendor ID"
+                  name="booking_assigned_vendor_id"
+                  value={form.booking_assigned_vendor_id}
+                  onChange={handleChange}
+                  error={errors.booking_assigned_vendor_id}
+                  hint="Search Vendor Using it's Mobile Number"
+                />
+                <InputField
+                  label="Assigned Vendor Name"
+                  name="booking_assigned_vendor_id"
+                  value={form.booking_assigned_vendor_id}
+                  onChange={handleChange}
+                  error={errors.booking_assigned_vendor_id}
+                  disabled
+                />
+              </div>
+              <div className="flex items-center justify-end mb-4">
                 <button
                   type="button"
                   onClick={handleUpdateVendor}
@@ -602,32 +617,13 @@ const AddBooking: React.FC = () => {
                   {loadingVendor ? "Saving..." : "Save Vendor"}
                 </button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <InputField
-                  label="Assigned Vendor ID"
-                  name="booking_assigned_vendor_id"
-                  value={form.booking_assigned_vendor_id}
-                  onChange={handleChange}
-                  error={errors.booking_assigned_vendor_id}
-                />
-              </div>
             </fieldset>
 
             {/* Schedule Information Section */}
             <fieldset className="rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <legend className="text-base font-semibold text-gray-900 dark:text-white">
-                  Schedule Information
-                </legend>
-                <button
-                  type="button"
-                  onClick={handleUpdateSchedule}
-                  disabled={loadingSchedule}
-                  className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
-                >
-                  {loadingSchedule ? "Saving..." : "Save Schedule"}
-                </button>
-              </div>
+              <legend className="text-base font-semibold text-gray-900 dark:text-white">
+                Schedule Information
+              </legend>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <InputField
                   label="Schedule Time (Unix)"
@@ -638,23 +634,23 @@ const AddBooking: React.FC = () => {
                   error={errors.booking_schedule_time}
                 />
               </div>
+              <div className="flex items-center justify-end">
+                <button
+                  type="button"
+                  onClick={handleUpdateSchedule}
+                  disabled={loadingSchedule}
+                  className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
+                >
+                  {loadingSchedule ? "Saving..." : "Save Schedule"}
+                </button>
+              </div>
             </fieldset>
 
             {/* Address Information Section */}
             <fieldset className="rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <legend className="text-base font-semibold text-gray-900 dark:text-white">
-                  Address Information
-                </legend>
-                <button
-                  type="button"
-                  onClick={handleUpdateAddress}
-                  disabled={loadingAddress}
-                  className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
-                >
-                  {loadingAddress ? "Saving..." : "Save Address"}
-                </button>
-              </div>
+              <legend className="text-base font-semibold text-gray-900 dark:text-white">
+                Address Information
+              </legend>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="md:col-span-2">
                   {isLoaded ? (
@@ -711,6 +707,16 @@ const AddBooking: React.FC = () => {
                   onChange={handleChange}
                   error={errors.booking_pincode}
                 />
+              </div>
+              <div className="flex justify-end items-center mt-2">
+                <button
+                  type="button"
+                  onClick={handleUpdateAddress}
+                  disabled={loadingAddress}
+                  className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
+                >
+                  {loadingAddress ? "Saving..." : "Save Address"}
+                </button>
               </div>
             </fieldset>
 
@@ -890,7 +896,18 @@ const InputField: React.FC<{
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   type?: string;
-}> = ({ label, name, value, onChange, error, type = "text" }) => (
+  disabled?: boolean;
+  hint?: string;
+}> = ({
+  label,
+  name,
+  value,
+  onChange,
+  error,
+  type = "text",
+  disabled = false,
+  hint,
+}) => (
   <div>
     <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
       {label}
@@ -900,9 +917,11 @@ const InputField: React.FC<{
       name={name}
       value={value}
       onChange={onChange}
+      disabled={disabled}
       className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700
         dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none"
     />
+    {hint && <p className="mt-1 text-xs text-gray-500">{hint}</p>}
     {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
   </div>
 );
@@ -917,7 +936,16 @@ const SelectField: React.FC<{
   error?: string;
   placeholder?: string;
   disabled?: boolean;
-}> = ({ label, name, value, onChange, options, error, placeholder = "Select...", disabled = false }) => (
+}> = ({
+  label,
+  name,
+  value,
+  onChange,
+  options,
+  error,
+  placeholder = "Select...",
+  disabled = false,
+}) => (
   <div>
     <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
       {label}

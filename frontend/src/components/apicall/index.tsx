@@ -160,6 +160,57 @@ const Api = () => {
     }
   };
 
+  const fetchCategoryLevelTwoListByLevelOneId = async (levelOneId: number) => {
+    try {
+        const response = await axios.get(`${baseURL}/api/category/get_category_level_two_list_by_cat_lvl1_id/${levelOneId}`);
+      return {
+        success: true,
+        message: response.data?.message || "Category level 2 list fetched successfully",
+        data: response.data?.jsonData?.category_level_two_list || [],
+      }
+    } catch (error: any) {
+      console.error("Error fetching cancelled with reopen booking data:", error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to fetch cancelled with reopen booking data",
+      }
+    }
+  };
+
+  const fetchCategoryLevelThreeListByLevelTwoId = async (levelTwoId: number) => {
+    try {
+      const response = await axios.get(`${baseURL}/api/category/get_category_level_three_list_by_cat_lvl2_id/${levelTwoId}`);
+      return {
+        success: true,
+        message: response.data?.message || "Category level 3 list fetched successfully",
+        data: response.data?.jsonData?.category_level_three_list || [],
+      }
+    } catch (error: any) {
+      console.error("Error fetching cancelled with reopen booking data:", error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to fetch cancelled with reopen booking data",
+    }
+  }
+  };
+
+  const fetchBookingDetails = async (bookingId: number) => {
+    try {
+      const response = await axios.get(`${baseURL}/api/booking/fetch_booking_details/${bookingId}`);
+      return {
+        success: true,
+        message: response.data?.message || "Booking details fetched successfully",
+        data: response.data?.jsonData?.booking_details || null,
+      }
+    } catch (error: any) {
+      console.error("Error fetching booking details:", error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to fetch booking details",
+      }
+    }
+  };
+
 
 
   return {
@@ -169,6 +220,9 @@ const Api = () => {
     toggleStatusOFCategoryLevelOne,
     toggleStatusOFCategoryLevelTwo,
     toggleStatusOFCategoryLevelThree,
+    fetchCategoryLevelTwoListByLevelOneId,
+    fetchCategoryLevelThreeListByLevelTwoId,
+    fetchBookingDetails,
   };
 };
 export default Api;

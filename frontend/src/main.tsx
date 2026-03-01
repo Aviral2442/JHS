@@ -11,7 +11,7 @@ import { Toaster } from "react-hot-toast";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     {/* <ThemeProvider> */}
-    <Toaster position="top-right" reverseOrder={false} />
+    <Toaster position="bottom-right" reverseOrder={false} />
     <AppWrapper>
       <BrowserRouter>
         <App />
