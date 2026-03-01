@@ -145,10 +145,13 @@ export const fetchBookingDetailsService = async (bookingId: number) => {
                 booking.*, 
                 consumer.consumer_full_name,
                 consumer.consumer_mobile,
+                vendor.vendor_name,
+                vendor.vendor_mobile,
                 category_level_1.category_level1_name,
                 category_level_3.category_level3_name
             FROM booking
             LEFT JOIN consumer ON consumer.consumer_id = booking.booking_consumer_id
+            LEFT JOIN vendor ON vendor.vendor_id = booking.booking_assigned_vendor_id
             LEFT JOIN category_level_1 ON category_level_1.category_level1_id = booking.booking_service_type
             LEFT JOIN category_level_3 ON category_level_3.category_level3_id = booking.booking_category_l3
             WHERE booking.booking_id = ?

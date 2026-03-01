@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import DatatableActionButton from "../../../../components/DatatableActionButton";
 import { formatDate } from "../../../../components/DateFormat";
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 const ENDPOINT = "/api/consumer/get_consumers_list";
 
 interface ConsumerItem {

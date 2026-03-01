@@ -361,6 +361,16 @@ export const searchConsumerService = async (searchTerm: string) => {
             [likeSearchTerm]
         );
 
+        if (rows.length === 0) {
+            return {
+                status: 404,
+                message: "No consumers found",
+                jsonData: {
+                    consumer_list: []
+                }
+            };
+        }
+
         return {
             status: 200,
             message: "Consumer search completed successfully",

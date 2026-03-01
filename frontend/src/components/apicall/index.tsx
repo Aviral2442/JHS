@@ -248,6 +248,25 @@ const Api = () => {
     }
   };
 
+  const searchConsumerByItsNumber = async (consumerNumber: string) => {
+    try {
+      const response = await axios.get(`${baseURL}/api/consumer/search_consumer`,{
+        params: { search: consumerNumber }
+      });
+      return {
+        success: true,
+        message: response.data?.message || "Consumer search completed successfully",
+        data: response.data?.jsonData?.consumer_list || [],
+      }
+    } catch (error: any) {
+      console.error("Error searching consumer by its number:", error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to search consumer by its number",
+      }
+    }
+  };
+
 
 
   return {
@@ -262,6 +281,7 @@ const Api = () => {
     fetchBookingDetails,
     fetchVendorList,
     searchVendorByItsNumber,
+    searchConsumerByItsNumber,
   };
 };
 export default Api;

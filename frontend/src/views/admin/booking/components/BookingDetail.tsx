@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
 import { formatDate } from "../../../../components/DateFormat";
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 
 interface BookingDetails {
   booking_id: number;
@@ -27,6 +27,7 @@ interface BookingDetails {
   consumer_mobile?: string;
   category_level1_name?: string;
   category_level3_name?: string;
+  vendor_name?: string;
 }
 
 const statusMap: Record<number, { label: string; color: string }> = {
@@ -165,7 +166,7 @@ const BookingDetail: React.FC = () => {
               <InfoRow label="Category L3" value={booking.category_level3_name || (booking.booking_category_l3 ? `ID: ${booking.booking_category_l3}` : null)} />
               <InfoRow label="Consumer" value={booking.consumer_full_name || (booking.booking_consumer_id ? `ID: ${booking.booking_consumer_id}` : null)} />
               <InfoRow label="Consumer Mobile" value={booking.consumer_mobile} />
-              <InfoRow label="Assigned Vendor ID" value={booking.booking_assigned_vendor_id || null} />
+              <InfoRow label="Assigned Vendor ID" value={booking.vendor_name || null} />
               <InfoRow label="Schedule Time" value={booking.booking_schedule_time ? formatDate(booking.booking_schedule_time) : null} />
             </dl>
           </div>

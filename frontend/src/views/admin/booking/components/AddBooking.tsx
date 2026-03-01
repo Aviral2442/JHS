@@ -6,6 +6,8 @@ import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { formatDate } from "../../../../components/DateFormat";
 import Api from "../../../../components/apicall";
 import toast from "react-hot-toast";
+import { CiSearch } from "react-icons/ci";
+
 
 const baseURL = (import.meta as any).env.VITE_URL || "";
 const libraries: "places"[] = ["places"];
@@ -15,6 +17,7 @@ interface BookingForm {
   booking_category_l3: string;
   booking_category_l2: string;
   booking_consumer_id: string;
+  booking_consumer_name: string;
   booking_address: string;
   booking_city_name: string;
   booking_state_name: string;
@@ -22,6 +25,7 @@ interface BookingForm {
   booking_lat: string;
   booking_long: string;
   booking_assigned_vendor_id: string;
+  booking_assigned_vendor_name: string;
   booking_schedule_time: string;
 }
 
@@ -30,6 +34,7 @@ const initialForm: BookingForm = {
   booking_category_l3: "",
   booking_category_l2: "",
   booking_consumer_id: "",
+  booking_consumer_name: "",
   booking_address: "",
   booking_city_name: "",
   booking_state_name: "",
@@ -37,6 +42,7 @@ const initialForm: BookingForm = {
   booking_lat: "",
   booking_long: "",
   booking_assigned_vendor_id: "",
+  booking_assigned_vendor_name: "",
   booking_schedule_time: "",
 };
 
@@ -57,8 +63,12 @@ const AddBooking: React.FC = () => {
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [loadingCategory, setLoadingCategory] = useState(false);
   const [loadingConsumer, setLoadingConsumer] = useState(false);
+  const [searchingConsumer, setSearchingConsumer] = useState(false);
   const [loadingSchedule, setLoadingSchedule] = useState(false);
   const [loadingVendor, setLoadingVendor] = useState(false);
+  const [searchingVendor, setSearchingVendor] = useState(false);
+  const [consumerMobile, setConsumerMobile] = useState("");
+  const [vendorMobile, setVendorMobile] = useState("");
   const autocompleteRef = useRef<any>(null);
   const [categoryLevel1List, setCategoryLevel1List] = useState<
     { category_level1_id: number; category_level1_name: string }[]
@@ -139,11 +149,14 @@ const AddBooking: React.FC = () => {
         toast.success("Booking details fetched successfully!");
         setFetching(false);
         const b = res.data;
+        setConsumerMobile(b.consumer_mobile || "");
+        setVendorMobile(b.vendor_mobile || "");
         setForm({
           booking_service_type: b.booking_service_type?.toString() || "",
           booking_category_l3: b.booking_category_l3?.toString() || "",
           booking_category_l2: b.booking_category_l2?.toString() || "",
           booking_consumer_id: b.booking_consumer_id?.toString() || "",
+          booking_consumer_name: b.consumer_full_name || "",
           booking_address: b.booking_address || "",
           booking_city_name: b.booking_city_name || "",
           booking_state_name: b.booking_state_name || "",
@@ -152,6 +165,7 @@ const AddBooking: React.FC = () => {
           booking_long: b.booking_long || "",
           booking_assigned_vendor_id:
             b.booking_assigned_vendor_id?.toString() || "",
+          booking_assigned_vendor_name: b.vendor_name || "",
           booking_schedule_time: b.booking_schedule_time || "",
         });
       } else {
@@ -448,6 +462,65 @@ const AddBooking: React.FC = () => {
     extractAddress(place);
   };
 
+  // Search Consumer by mobile number
+  const handleSearchConsumer = async () => {
+    const mobile = consumerMobile
+    if (!mobile) return;
+    setSearchingConsumer(true);
+    try {
+      const res = await api.searchConsumerByItsNumber(mobile);
+      if (res.success && res.data && res.data.length > 0) {
+        const c = res.data[0];
+        console.log("Consumer search result:", c);
+        setForm((prev) => ({
+          ...prev,
+          booking_consumer_id: c.consumer_id?.toString() || "",
+          booking_consumer_name: c.consumer_full_name || "",
+        }));
+        if (errors.booking_consumer_id)
+          setErrors((prev) => ({ ...prev, booking_consumer_id: "" }));
+        toast.success("Consumer found!");
+      } else {
+        toast.error(res.message || "No consumer found with this number");
+        setForm((prev) => ({ ...prev, booking_consumer_id: "", booking_consumer_name: "" }));
+      }
+    } catch (err) {
+      console.error("Search consumer error:", err);
+      toast.error("Failed to search consumer");
+    } finally {
+      setSearchingConsumer(false);
+    }
+  };
+
+  // Search Vendor by mobile number
+  const handleSearchVendor = async () => {
+    const mobile = vendorMobile.trim();
+    if (!mobile) return;
+    setSearchingVendor(true);
+    try {
+      const res = await api.searchVendorByItsNumber(mobile);
+      if (res.success && res.data && res.data.length > 0) {
+        const v = res.data[0];
+        setForm((prev) => ({
+          ...prev,
+          booking_assigned_vendor_id: v.vendor_id?.toString() || "",
+          booking_assigned_vendor_name: v.vendor_name || "",
+        }));
+        if (errors.booking_assigned_vendor_id)
+          setErrors((prev) => ({ ...prev, booking_assigned_vendor_id: "" }));
+        toast.success("Vendor found!");
+      } else {
+        toast.error(res.message || "No vendor found with this number");
+        setForm((prev) => ({ ...prev, booking_assigned_vendor_id: "", booking_assigned_vendor_name: "" }));
+      }
+    } catch (err) {
+      console.error("Search vendor error:", err);
+      toast.error("Failed to search vendor");
+    } finally {
+      setSearchingVendor(false);
+    }
+  };
+
   // Handle category select change with cascading reset
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -469,6 +542,7 @@ const AddBooking: React.FC = () => {
     }
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
+
 
   return (
     <>
@@ -555,20 +629,38 @@ const AddBooking: React.FC = () => {
                 Consumer Information
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Search Consumer by Mobile
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter mobile number"
+                      value={consumerMobile}
+                      onChange={(e) => setConsumerMobile(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSearchConsumer()}
+                      disabled={searchingConsumer}
+                      className="flex-1 rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700 dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none disabled:opacity-50"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSearchConsumer}
+                      disabled={searchingConsumer || !consumerMobile}
+                      className="rounded-lg bg-brand-500 px-3 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
+                    >
+                      {searchingConsumer ? "..." : <CiSearch />}
+                    </button>
+                  </div>
+                  {errors.booking_consumer_id && (
+                    <p className="mt-1 text-xs text-red-500">{errors.booking_consumer_id}</p>
+                  )}
+                </div>
                 <InputField
-                  label="Consumer ID *"
-                  name="booking_consumer_id"
-                  value={form.booking_consumer_id}
-                  onChange={handleChange}
-                  error={errors.booking_consumer_id}
-                  hint="Search Consumer Using it's Mobile Number"
-                />
-                <InputField
-                  label="Consumer Name *"
+                  label="Consumer Name"
                   name="booking_consumer_name"
-                  value={form.booking_consumer_id}
+                  value={form.booking_consumer_name}
                   onChange={handleChange}
-                  error={errors.booking_consumer_id}
                   disabled
                 />
               </div>
@@ -590,24 +682,39 @@ const AddBooking: React.FC = () => {
                 Vendor Information
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <InputField
-                  label="Assigned Vendor ID"
-                  name="booking_assigned_vendor_id"
-                  value={form.booking_assigned_vendor_id}
-                  onChange={handleChange}
-                  error={errors.booking_assigned_vendor_id}
-                  hint="Search Vendor Using it's Mobile Number"
-                />
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Search Vendor by Mobile
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter mobile number"
+                      value={vendorMobile}
+                      onChange={(e) => setVendorMobile(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSearchVendor()}
+                      disabled={searchingVendor}
+                      className="flex-1 rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700 dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none disabled:opacity-50"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSearchVendor}
+                      disabled={searchingVendor || !vendorMobile.trim()}
+                      className="rounded-lg bg-brand-500 px-3 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
+                    >
+                      {searchingVendor ? "..." : <CiSearch />}
+                    </button>
+                  </div>
+                </div>
                 <InputField
                   label="Assigned Vendor Name"
-                  name="booking_assigned_vendor_id"
-                  value={form.booking_assigned_vendor_id}
+                  name="booking_assigned_vendor_name"
+                  value={form.booking_assigned_vendor_name}
                   onChange={handleChange}
-                  error={errors.booking_assigned_vendor_id}
                   disabled
                 />
               </div>
-              <div className="flex items-center justify-end mb-4">
+              <div className="flex items-center justify-end mt-2">
                 <button
                   type="button"
                   onClick={handleUpdateVendor}
@@ -624,9 +731,14 @@ const AddBooking: React.FC = () => {
               <legend className="text-base font-semibold text-gray-900 dark:text-white">
                 Schedule Information
               </legend>
+              {form.booking_schedule_time && (
+                <p className="mb-3 text-sm text-gray-500 dark:text-gray-400">
+                  Current: <span className="font-medium text-gray-700 dark:text-gray-300">{formatDate(form.booking_schedule_time)}</span>
+                </p>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <InputField
-                  label="Schedule Time (Unix)"
+                  label="Update Schedule Time"
                   type="datetime-local"
                   name="booking_schedule_time"
                   value={form.booking_schedule_time}
@@ -776,20 +888,87 @@ const AddBooking: React.FC = () => {
                   placeholder="Select Category L3"
                   disabled={!form.booking_category_l2}
                 />
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Search Consumer by Mobile *
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter mobile number"
+                      value={consumerMobile}
+                      onChange={(e) => setConsumerMobile(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSearchConsumer()}
+                      disabled={searchingConsumer}
+                      className="flex-1 rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700 dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none disabled:opacity-50"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSearchConsumer}
+                      disabled={searchingConsumer || !consumerMobile.trim()}
+                      className="rounded-lg bg-brand-500 px-3 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
+                    >
+                      {searchingConsumer ? "..." : "Search"}
+                    </button>
+                  </div>
+                  {errors.booking_consumer_id && (
+                    <p className="mt-1 text-xs text-red-500">{errors.booking_consumer_id}</p>
+                  )}
+                </div>
                 <InputField
-                  label="Consumer ID *"
+                  label="Consumer ID"
                   name="booking_consumer_id"
                   value={form.booking_consumer_id}
                   onChange={handleChange}
-                  error={errors.booking_consumer_id}
+                  disabled
                 />
+                <InputField
+                  label="Consumer Name"
+                  name="booking_consumer_name"
+                  value={form.booking_consumer_name}
+                  onChange={handleChange}
+                  disabled
+                />
+
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Search Vendor by Mobile
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter mobile number"
+                      value={vendorMobile}
+                      onChange={(e) => setVendorMobile(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSearchVendor()}
+                      disabled={searchingVendor}
+                      className="flex-1 rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700 dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none disabled:opacity-50"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSearchVendor}
+                      disabled={searchingVendor || !vendorMobile.trim()}
+                      className="rounded-lg bg-brand-500 px-3 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
+                    >
+                      {searchingVendor ? "..." : "Search"}
+                    </button>
+                  </div>
+                </div>
                 <InputField
                   label="Assigned Vendor ID"
                   name="booking_assigned_vendor_id"
                   value={form.booking_assigned_vendor_id}
                   onChange={handleChange}
-                  error={errors.booking_assigned_vendor_id}
+                  disabled
                 />
+                <InputField
+                  label="Assigned Vendor Name"
+                  name="booking_assigned_vendor_name"
+                  value={form.booking_assigned_vendor_name}
+                  onChange={handleChange}
+                  disabled
+                />
+
                 <InputField
                   label="Schedule Time (Unix)"
                   name="booking_schedule_time"
@@ -894,33 +1073,49 @@ const InputField: React.FC<{
   name: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   error?: string;
   type?: string;
   disabled?: boolean;
   hint?: string;
+  loading?: boolean;
 }> = ({
   label,
   name,
   value,
   onChange,
+  onBlur,
   error,
   type = "text",
   disabled = false,
   hint,
+  loading = false,
 }) => (
   <div>
     <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
       {label}
     </label>
-    <input
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      disabled={disabled}
-      className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700
-        dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none"
-    />
+    <div className="relative">
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        disabled={disabled || loading}
+        className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700
+          dark:border-gray-600 dark:text-gray-300 focus:border-brand-500 focus:outline-none
+          disabled:opacity-50 disabled:cursor-not-allowed"
+      />
+      {loading && (
+        <span className="absolute right-3 top-1/2 -translate-y-1/2">
+          <svg className="animate-spin h-4 w-4 text-brand-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+          </svg>
+        </span>
+      )}
+    </div>
     {hint && <p className="mt-1 text-xs text-gray-500">{hint}</p>}
     {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
   </div>
