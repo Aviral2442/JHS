@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 
 interface VendorForm {
   vendor_service_type: string;

@@ -211,6 +211,43 @@ const Api = () => {
     }
   };
 
+  const fetchVendorList = async (params?: Record<string, string | number>) => {
+    try {
+      const response = await axios.get(`${baseURL}/api/vendor/get_vendor_list`, { params });
+      return {
+        success: true,
+        message: response.data?.message || "Vendor list fetched successfully",
+        data: response.data?.jsonData?.vendor_list || [],
+        pagination: response.data?.pagination || {},
+      }
+    } catch (error: any) {
+      console.error("Error fetching vendor list:", error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to fetch vendor list",
+      }
+    }
+  };
+
+  const searchVendorByItsNumber = async (vendorNumber: string) => {
+    try {
+      const response = await axios.get(`${baseURL}/api/vendor/search_vendor`,{
+        params: { search: vendorNumber }
+      });
+      return {
+        success: true,
+        message: response.data?.message || "Vendor search completed successfully",
+        data: response.data?.jsonData?.vendor_list || [],
+      }
+    } catch (error: any) {
+      console.error("Error searching vendor by its number:", error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to search vendor by its number",
+      }
+    }
+  };
+
 
 
   return {
@@ -223,6 +260,8 @@ const Api = () => {
     fetchCategoryLevelTwoListByLevelOneId,
     fetchCategoryLevelThreeListByLevelTwoId,
     fetchBookingDetails,
+    fetchVendorList,
+    searchVendorByItsNumber,
   };
 };
 export default Api;

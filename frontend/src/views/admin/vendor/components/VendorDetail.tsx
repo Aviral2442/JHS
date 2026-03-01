@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
 import { formatDate } from "../../../../components/DateFormat";
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 
 interface VendorDetails {
   vendor_id: number;

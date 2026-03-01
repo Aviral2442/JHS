@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { consumerLoginController, fetchConsumerDetailsController, getConsumerListController, signUpConsumerController, updateConsumerDetailsController, updateConsumerStatusController } from "../../controller/admin/consumer.controller";
+import { consumerLoginController, fetchConsumerDetailsController, getConsumerListController, searchConsumerController, signUpConsumerController, updateConsumerDetailsController, updateConsumerStatusController } from "../../controller/admin/consumer.controller";
 const router = Router();
 
 
@@ -10,5 +10,6 @@ router.put("/update_consumer_details/:consumerId", updateConsumerDetailsControll
 router.patch("/update_consumer_status/:consumerId", updateConsumerStatusController);
 router.post("/consumer_login", consumerLoginController);
 
+router.get("/search_consumer", searchConsumerController);
 
 export default router;

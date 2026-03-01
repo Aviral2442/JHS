@@ -5,8 +5,9 @@ import DataTablePagination from "../../../../components/tables/DataTablePaginati
 import DatatableActionButton from "../../../../components/DatatableActionButton";
 import { useNavigate } from "react-router";
 import { formatDate } from "../../../../components/DateFormat";
+import Api from "../../../../components/apicall";
+import toast from "react-hot-toast";
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
 const ENDPOINT = "/api/vendor/get_vendor_list";
 
 interface VendorItem {
@@ -46,6 +47,7 @@ const VendorList: React.FC = () => {
     totalPages: 1,
   });
   const [loading, setLoading] = useState(false);
+  const api = Api();
 
   const filtersRef = useRef<Filters>({
     date: "",
@@ -56,8 +58,6 @@ const VendorList: React.FC = () => {
   });
 
   const fetchVendors = useCallback(async (page = 1) => {
-    try {
-      setLoading(true);
       const f = filtersRef.current;
 
       const params: Record<string, string | number> = {
@@ -71,17 +71,17 @@ const VendorList: React.FC = () => {
       if (f.toDate) params.toDate = f.toDate;
       if (f.search) params.search = f.search;
 
-      const res = await axios.get(`${baseURL}${ENDPOINT}`, { params });
-      const data = res.data;
-      setVendors(data?.jsonData?.vendor_list || []);
-      setPagination(
-        data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 },
-      );
-    } catch (error) {
-      console.error("Failed to fetch vendor list:", error);
-    } finally {
-      setLoading(false);
-    }
+      const res = await api.fetchVendorList(params);
+      if (res.success) {
+        setVendors(res.data);
+        toast.success(res.message || "Vendor list fetched successfully");
+        setPagination(res.pagination);
+      } else {
+        console.log("Failed to fetch vendor list:", res.message);
+        toast.error(res.message || "Failed to fetch vendor list");
+        setVendors([]);
+        setPagination((prev) => ({ ...prev, page: 1, total: 0, totalPages: 1 }));
+      }
   }, []);
 
   useEffect(() => {

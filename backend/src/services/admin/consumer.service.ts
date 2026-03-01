@@ -343,3 +343,37 @@ export const consumerLoginService = async (email: string, password: string) => {
         }
     }
 };
+
+// SEARCH CONSUMER SERVICE
+export const searchConsumerService = async (searchTerm: string) => {
+    try {
+        const likeSearchTerm = `%${searchTerm}%`;
+
+        const [rows]: any = await dbConfig.query(
+            `SELECT 
+                consumer.consumer_id,
+                consumer.consumer_full_name,
+                consumer.consumer_mobile,
+                consumer.consumer_status
+            FROM consumer
+            WHERE consumer.consumer_mobile LIKE ?
+            ORDER BY consumer.consumer_createdAt DESC`,
+            [likeSearchTerm]
+        );
+
+        return {
+            status: 200,
+            message: "Consumer search completed successfully",
+            jsonData: {
+                consumer_list: rows
+            }
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
+    }
+};

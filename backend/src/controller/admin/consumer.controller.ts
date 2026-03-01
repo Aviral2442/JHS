@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addConsumerService, consumerLoginService, fetchConsumerDetailsService, getConsumerListService, updateConsumerDetailsService, updateConsumerStatusService } from "../../services/admin/consumer.service";
+import { addConsumerService, consumerLoginService, fetchConsumerDetailsService, getConsumerListService, searchConsumerService, updateConsumerDetailsService, updateConsumerStatusService } from "../../services/admin/consumer.service";
 
 
 // GET CONSUMER LIST CONTROLLER
@@ -72,6 +72,20 @@ export const consumerLoginController = async (req: Request, res: Response, next:
     try {
         const { email, password } = req.body;
         const result = await consumerLoginService(email, password);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// SEARCH CONSUMER CONTROLLER
+export const searchConsumerController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const searchTerm = req.query.search as string;
+        if (!searchTerm || searchTerm.trim() === "") {
+          return res.status(400).json({ status: 400, message: "Search term is required" });
+        }
+        const result = await searchConsumerService(searchTerm);
         res.status(result.status).json(result);
     } catch (error) {
         next(error);

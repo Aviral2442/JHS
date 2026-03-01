@@ -79,7 +79,10 @@ export const updateVendorBlockStatusController = async (req: Request, res: Respo
 
 export const searchVendorController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const searchTerm = req.params.search;
+        const searchTerm = req.query.search as string;
+        if (!searchTerm || searchTerm.trim() === "") {
+          return res.status(400).json({ status: 400, message: "Search term is required" });
+        }
         const result = await searchVendorService(searchTerm);
         res.status(result.status).json(result);
     } catch (error) {
