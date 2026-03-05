@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, addServicesController, getBlogDetailsController, getBlogListController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, getServicesListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController } from "../../controller/admin/category.controller";
+import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, addServicesController, getBlogDetailsController, getBlogListController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, getServiceDatabyIdController, getServicesListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController } from "../../controller/admin/category.controller";
 const router = Router();
 
 //------------------------------- CATEGORY LEVEL ONE ROUTES -------------------------------------------------------------------
@@ -36,7 +36,7 @@ router.get("/get_category_level_three_list_by_cat_lvl2_id/:catLvl2Id", getCatego
 //-------------------------------- SERVICE ROUTES -----------------------------------------------------------------------------
 router.get("/get_services_list", getServicesListController);
 router.post("/add_services", addServicesController);
-
+router.get("/get_service_details/:serviceId", getServiceDatabyIdController);
 
 //------------------------------- BLOG ROUTES ---------------------------------------------------------------------------------
 router.get("/get_blog_list", getBlogListController);

@@ -1015,6 +1015,37 @@ export const addServicesService = async (data: any) => {
     }
 };
 
+export const getServiceDatabyIdService = async (service_id: number) => {
+    try {
+        const [rows]: any = await dbConfig.query(
+            `SELECT * FROM service WHERE service_id = ?`,
+            [service_id]
+        );
+
+        if (rows.length === 0) {
+            return {
+                status: 404,
+                message: "Service not found",
+                jsonData: {}
+            };
+        }
+
+        return {
+            status: 200,
+            message: "Service details fetched successfully",
+            jsonData: {
+                service_details: rows[0]
+            }
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
+    }
+};
 
 // ---------------------------------- BLOG SERVICES --------------------------------
 export const getBlogListService = async (filters?: {
