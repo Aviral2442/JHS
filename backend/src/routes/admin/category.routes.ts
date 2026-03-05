@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, getBlogDetailsController, getBlogListController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController } from "../../controller/admin/category.controller";
+import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, addServicesController, getBlogDetailsController, getBlogListController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, getServicesListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController } from "../../controller/admin/category.controller";
 const router = Router();
 
-//------------------------------- CATEGORY LEVEL ONE ROUTES -----------------------------
+//------------------------------- CATEGORY LEVEL ONE ROUTES -------------------------------------------------------------------
 router.get("/get_category_level_one_list", getCategoryLevelOneListController);
 router.post("/add_category_level_one", addCategoryLevelOneController);
 router.get("/get_category_level_one/:catLvl1Id", getCategoryLevelOneDetailsController);
@@ -11,7 +11,7 @@ router.patch("/update_category_level_one_status/:catLvl1Id", updateCategoryLevel
 
 
 
-//------------------------------- CATEGORY LEVEL TWO ROUTES -----------------------------
+//------------------------------- CATEGORY LEVEL TWO ROUTES -------------------------------------------------------------------
 router.get("/get_category_level_two_list", getCategoryLevelTwoListController);
 router.post("/add_category_level_two", addCategoryLevelTwoController);
 router.get("/get_category_level_two/:catLvl2Id", getCategoryLevelTwoDetailsController);
@@ -20,7 +20,7 @@ router.patch("/update_category_level_two_status/:catLvl2Id", updateCategoryLevel
 
 
 
-//------------------------------- CATEGORY LEVEL THREE ROUTES -----------------------------
+//------------------------------- CATEGORY LEVEL THREE ROUTES -----------------------------------------------------------------
 router.get("/get_category_level_three_list", getCategoryLevelThreeListController);
 router.post("/add_category_level_three", addCategoryLevelThreeController);
 router.get("/get_category_level_three/:catLvl3Id", getCategoryLevelThreeDetailsController);
@@ -28,13 +28,17 @@ router.put("/update_category_level_three/:catLvl3Id", updateCategoryLevelThreeCo
 router.patch("/update_category_level_three_status/:catLvl3Id", updateCategoryLevelThreeStatusController);
 
 
-//-------------------------------- CATEGORY LIST BY ID ROUTES -----------------------------
+//-------------------------------- CATEGORY LIST BY ID ROUTES -----------------------------------------------------------------
 router.get("/get_category_level_two_list_by_cat_lvl1_id/:catLvl1Id", getCategoryLevelTwoListByCatLvl1IdController);
 router.get("/get_category_level_three_list_by_cat_lvl2_id/:catLvl2Id", getCategoryLevelThreeListByCatLvl2IdController);
 
 
+//-------------------------------- SERVICE ROUTES -----------------------------------------------------------------------------
+router.get("/get_services_list", getServicesListController);
+router.post("/add_services", addServicesController);
 
-//------------------------------- BLOG ROUTES -----------------------------
+
+//------------------------------- BLOG ROUTES ---------------------------------------------------------------------------------
 router.get("/get_blog_list", getBlogListController);
 router.post("/add_blog", addBlogController);
 router.get("/get_blog_details/:blogId", getBlogDetailsController);

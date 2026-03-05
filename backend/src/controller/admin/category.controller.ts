@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, getCategoryThreeListByCategoryTwoIdService, getCategoryTwoListByCategoryOneIdService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService } from "../../services/admin/category.service";
+import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, addServicesService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, getCategoryThreeListByCategoryTwoIdService, getCategoryTwoListByCategoryOneIdService, getServicesListService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService } from "../../services/admin/category.service";
 
 
 //---------------------------------- CATEGORY LEVEL ONE CONTROLLERS -----------------------------
@@ -225,6 +225,36 @@ export const getCategoryLevelThreeListByCatLvl2IdController = async (req: Reques
     try {
         const catLvl2Id = parseInt(req.params.catLvl2Id);
         const result = await getCategoryThreeListByCategoryTwoIdService(catLvl2Id);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+//------------------------------- SERVICE CONTROLLERS -----------------------------
+export const getServicesListController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const filters = {
+            date: req.query.date as string,
+            status: req.query.status as string,
+            fromDate: req.query.fromDate as string,
+            toDate: req.query.toDate as string,
+            page: req.query.page ? parseInt(req.query.page as string, 10) : undefined,
+            limit: req.query.limit ? parseInt(req.query.limit as string, 10) : undefined,
+            search: req.query.search as string,
+        };
+        const result = await getServicesListService(filters);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const addServicesController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const data = req.body;
+        const result = await addServicesService(data);
         res.status(result.status).json(result);
     } catch (error) {
         next(error);
