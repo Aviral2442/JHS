@@ -1047,6 +1047,72 @@ export const getServiceDatabyIdService = async (service_id: number) => {
     }
 };
 
+export const updateServicesService = async (service_id: number, data: any) => {
+    try {
+        const updateData: any = {}
+
+        if (data.service_ctg_level_1) updateData.service_ctg_level_1 = data.service_ctg_level_1;
+        if (data.service_ctg_level_2) updateData.service_ctg_level_2 = data.service_ctg_level_2;
+        if (data.service_ctg_level_3) updateData.service_ctg_level_3 = data.service_ctg_level_3;
+        if (data.service_title) updateData.service_title = data.service_title;
+        if (data.service_fixed_price) updateData.service_fixed_price = data.service_fixed_price;
+        if (data.service_offer_price) updateData.service_offer_price = data.service_offer_price;
+        if (data.service_duration_min) updateData.service_duration_min = data.service_duration_min;
+        updateData.service_updatedAt = currentUnixTimeStamp();
+
+        const servicePrimaryImage = saveBase64File(
+            data.service_primary_img,
+            "service",
+            "primary_images",
+        );
+
+        if (servicePrimaryImage) {
+            updateData.service_primary_img = servicePrimaryImage;
+        }
+
+        const result = await dbConfig.query(
+            `UPDATE service SET ? WHERE service_id = ?`,
+            [updateData, service_id]
+        );
+
+        return {
+            status: 200,
+            message: "Service updated successfully",
+            jsonData: {}
+        };
+
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
+    }
+};
+
+export const updateServiceStatusService = async (service_id: number, status: number) => {
+    try {
+        const [result]: any = await dbConfig.query(
+            `UPDATE service SET service_status = ? WHERE service_id = ?`,
+            [status, service_id]
+        );
+
+        return {
+            status: 200,
+            message: "Service status updated successfully",
+            jsonData: {}
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
+    }
+};
+
 // ---------------------------------- BLOG SERVICES --------------------------------
 export const getBlogListService = async (filters?: {
     date?: string;

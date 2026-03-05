@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, addServicesService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, getCategoryThreeListByCategoryTwoIdService, getCategoryTwoListByCategoryOneIdService, getServiceDatabyIdService, getServicesListService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService } from "../../services/admin/category.service";
+import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, addServicesService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, getCategoryThreeListByCategoryTwoIdService, getCategoryTwoListByCategoryOneIdService, getServiceDatabyIdService, getServicesListService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService, updateServicesService, updateServiceStatusService } from "../../services/admin/category.service";
 
 
 //---------------------------------- CATEGORY LEVEL ONE CONTROLLERS -----------------------------
@@ -271,6 +271,27 @@ export const getServiceDatabyIdController = async (req: Request, res: Response, 
     }
 };
 
+export const updateServicesController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const service_id = parseInt(req.params.serviceId);
+        const data = req.body;
+        const result = await updateServicesService(service_id, data);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateServiceStatusController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const service_id = parseInt(req.params.serviceId);
+        const status = req.body.service_status;
+        const result = await updateServiceStatusService(service_id, status);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
 
 //------------------------------- BLOG CONTROLLERS -----------------------------
 
