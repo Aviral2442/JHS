@@ -888,6 +888,7 @@ const AddBooking: React.FC = () => {
                   placeholder="Select Category L3"
                   disabled={!form.booking_category_l2}
                 />
+                <br />
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Search Consumer by Mobile *
@@ -916,13 +917,6 @@ const AddBooking: React.FC = () => {
                   )}
                 </div>
                 <InputField
-                  label="Consumer ID"
-                  name="booking_consumer_id"
-                  value={form.booking_consumer_id}
-                  onChange={handleChange}
-                  disabled
-                />
-                <InputField
                   label="Consumer Name"
                   name="booking_consumer_name"
                   value={form.booking_consumer_name}
@@ -930,7 +924,7 @@ const AddBooking: React.FC = () => {
                   disabled
                 />
 
-                <div>
+                {/* <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Search Vendor by Mobile
                   </label>
@@ -955,13 +949,6 @@ const AddBooking: React.FC = () => {
                   </div>
                 </div>
                 <InputField
-                  label="Assigned Vendor ID"
-                  name="booking_assigned_vendor_id"
-                  value={form.booking_assigned_vendor_id}
-                  onChange={handleChange}
-                  disabled
-                />
-                <InputField
                   label="Assigned Vendor Name"
                   name="booking_assigned_vendor_name"
                   value={form.booking_assigned_vendor_name}
@@ -971,11 +958,12 @@ const AddBooking: React.FC = () => {
 
                 <InputField
                   label="Schedule Time (Unix)"
+                  type="datetime-local"
                   name="booking_schedule_time"
                   value={form.booking_schedule_time}
                   onChange={handleChange}
                   error={errors.booking_schedule_time}
-                />
+                /> */}
               </div>
             </fieldset>
 
