@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import axios from "axios";
 import DataTableFilters from "../../../../components/tables/DataTableFilters";
 import DataTablePagination from "../../../../components/tables/DataTablePagination";
 import DatatableActionButton from "../../../../components/DatatableActionButton";
@@ -46,7 +45,7 @@ const VendorList: React.FC = () => {
     total: 0,
     totalPages: 1,
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, _setLoading] = useState(false);
   const api = Api();
 
   const filtersRef = useRef<Filters>({

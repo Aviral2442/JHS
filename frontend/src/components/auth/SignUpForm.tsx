@@ -31,7 +31,7 @@ export default function SignUpForm() {
         await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/admin/register`, values)
         .then((result) => {
           console.log("Admin registration successfully!!")
-          // console.log(result.data);
+          console.log(result.data);
         }).catch((err) => {
           console.error("Admin registration failed:", err.response?.data || err.message);
         });

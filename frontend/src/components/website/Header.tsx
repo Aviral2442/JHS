@@ -792,8 +792,12 @@ const MegaMenuHeader: React.FC = () => {
   const [isMegaMenuVisible, setIsMegaMenuVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const hoverTimeoutRef = useRef<number | undefined>(undefined);
-  const leaveTimeoutRef = useRef<number | undefined>(undefined);
+  // useRef stores timer identifiers returned by setTimeout. 
+  // In browsers this is a number, but TypeScript's lib.dom declares the return
+  // type as "number" while Node returns a NodeJS.Timeout object. Using
+  // ReturnType<typeof setTimeout> keeps us safe across environments.
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const leaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Handle scroll for shadow effect

@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import axios from "axios";
 import DataTableFilters from "../../../../../components/tables/DataTableFilters";
 import DataTablePagination from "../../../../../components/tables/DataTablePagination";
 import { useNavigate } from "react-router";
