@@ -25,7 +25,7 @@ export default function SignInForm() {
     },
     onSubmit: async (values) => {
         console.log(values);
-        await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/admin/login`, values)
+        await axios.post(`${import.meta.env.VITE_URL}/api/auth/admin/login`, values)
         .then((result) => {
           console.log("Admin login successfully!!")
           localStorage.setItem("admin_token", result.data.token);

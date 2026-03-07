@@ -48,7 +48,7 @@ const HomeServicesRegister = () => {
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const res = await axios.post(`${import.meta.env.VITE_BACK_URL}/api/consumer/consumer_signup`, values);
+        const res = await axios.post(`${import.meta.env.VITE_URL}/api/consumer/consumer_signup`, values);
         console.log(res.data);
         setSubmitting(false);
         if (res.data?.jsonData?.status == 200) {

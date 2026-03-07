@@ -28,7 +28,7 @@ export default function SignUpForm() {
     },
     onSubmit: async (values) => {
       console.log(values);
-        await axios.post(`${import.meta.env.VITE_BACK_URL}/api/auth/admin/register`, values)
+        await axios.post(`${import.meta.env.VITE_URL}/api/auth/admin/register`, values)
         .then((result) => {
           console.log("Admin registration successfully!!")
           console.log(result.data);

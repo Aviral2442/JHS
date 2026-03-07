@@ -12,7 +12,7 @@ const categoryValidationSchema = Yup.object().shape({
   category_level2_img: Yup.string().required("Category image is required"),
 });
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 
 interface CategoryForm {
   category_level2_level1_id: string;

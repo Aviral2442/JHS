@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 
 interface ConsumerFormData {
   consumer_full_name: string;

@@ -186,7 +186,7 @@ const ContactFormSection: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const baseURL = import.meta.env.VITE_BACK_URL || "http://localhost:5000";
+  const baseURL = import.meta.env.VITE_URL || "http://localhost:5000";
 
   const serviceOptions = [
     "Plumbing Repair",

@@ -18,7 +18,7 @@ const blogValidationSchema = Yup.object().shape({
   blog_meta_keyword: Yup.string().required("Blog meta keywords are required"),
 });
 
-const baseURL = (import.meta as any).env.VITE_BACK_URL || "";
+const baseURL = (import.meta as any).env.VITE_URL || "";
 
 interface BlogForm {
   blog_category_id: string;

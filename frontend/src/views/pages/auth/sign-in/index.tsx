@@ -39,7 +39,7 @@ export default function HomeServicesLogin() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         console.log("Submitting login form with values:", values);
-        const response = await axios.post(`${import.meta.env.VITE_BACK_URL}/api/consumer/consumer_login`, values);
+        const response = await axios.post(`${import.meta.env.VITE_URL}/api/consumer/consumer_login`, values);
         console.log("Login successful:", response.data);
         // Handle successful login (e.g., store token, redirect)
         if (response.data?.status == 200) {
