@@ -9,6 +9,7 @@ import categoryRoutes from './src/routes/admin/category.routes';
 import consumerRoutes from './src/routes/admin/consumer.routes';
 import vendorRoutes from './src/routes/admin/vendor.routes';
 import bookingRoutes from './src/routes/admin/booking.routes';
+import settingRoutes from './src/routes/website/setting.routes';
 import path from 'path/win32';
 
 const app = express();
@@ -31,5 +32,6 @@ app.use('/api/booking', bookingRoutes);
 app.use('/api/auth', websiteAuthRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/home', homeRoutes);
+app.use('/api/setting', settingRoutes);
 
 export default app;
