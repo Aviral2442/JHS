@@ -48,6 +48,7 @@ export const updateConsumerDetailsController = async (req: Request, res: Respons
     try {
         const consumerId = req.params.consumerId;
         const data = req.body;
+        console.log("Consumer:", data);
         const result = await updateConsumerDetailsService(consumerId, data);
         res.status(result.status).json(result);
     } catch (error) {

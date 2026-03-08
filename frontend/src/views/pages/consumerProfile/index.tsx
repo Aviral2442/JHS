@@ -1,5 +1,5 @@
 // src/pages/ConsumerProfile.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Menu,
@@ -15,20 +15,53 @@ import {
   Referral, 
    
 } from '../../../types/index';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const ConsumerProfile: React.FC = () => {
   const [_sidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<'overview' | 'transactions' | 'referrals'>('overview');
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [consumerData, setConsumerData] = useState<any>(null);
+  const navigate = useNavigate();
+  const baseURL = (import.meta.env.VITE_URL as string) || '';
   
-  // Mock data
+
+  useEffect(() => {
+    const consumerToken = localStorage.getItem('token');
+    if (!consumerToken) {
+      navigate('/login');
+    }
+    const decodedToken: any = jwtDecode(consumerToken || '');
+    const consumerId = decodedToken.consumerId;
+    // console.log("Decoded Token:", decodedToken);
+    console.log("Consumer ID:", consumerId);
+
+    const fetchConsumerData = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/api/consumer/fetch_consumer_details/${consumerId}`);
+        console.log("Consumer Data:", response.data); 
+        setConsumerData(response.data.jsonData.consumer_details);
+      } catch (error) {
+        console.error("Error fetching consumer data:", error);
+      }
+    }
+
+    fetchConsumerData();
+  }, []);
+  
   const user: User = {
-    id: 'USR001',
-    name: 'Alex Johnson',
-    email: 'alex.johnson@example.com',
-    phone: '+1 (555) 123-4567',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex',
-    joinDate: '2022-03-15',
+    id: consumerData?.consumer_id?.toString() || 'USR001',
+    name: consumerData?.consumer_full_name || '',
+    email: consumerData?.consumer_email || '',
+    phone: consumerData?.consumer_mobile || '',
+    avatar: consumerData?.consumer_profile_pic
+      ? `${baseURL}${consumerData.consumer_profile_pic}`
+      : 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex',
+    joinDate: consumerData?.consumer_createdAt
+      ? new Date(Number(consumerData.consumer_createdAt) * 1000).toISOString().split('T')[0]
+      : '2022-03-15',
     membership: 'Gold',
     verified: true
   };

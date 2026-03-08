@@ -29,6 +29,7 @@
     "formik": "^2.4.9",
     "framer-motion": "^12.25.0",
     "install": "^0.13.0",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.562.0",
     "npm": "^11.6.0",
     "pdfmake": "^0.3.4",

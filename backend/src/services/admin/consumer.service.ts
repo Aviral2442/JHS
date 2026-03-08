@@ -224,11 +224,13 @@ export const updateConsumerDetailsService = async (consumerId: string, data: any
         if (data.consumer_city_id) updateData.consumer_city_id = data.consumer_city_id;
         if (data.consumer_zipcode) updateData.consumer_zipcode = data.consumer_zipcode;
 
-        data.consumer_profile_pic = await saveBase64File(
+        const imagePath = await saveBase64File(
             data.consumer_profile_pic,
             "consumer_profile_pics",
             "consumer_profile_pic_" + consumerId
         )
+
+        updateData.consumer_profile_pic = imagePath;
 
         const [result]: any = await dbConfig.query(
             `UPDATE consumer SET ? WHERE consumer_id = ?`,
