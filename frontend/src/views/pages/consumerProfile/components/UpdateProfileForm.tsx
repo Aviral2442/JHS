@@ -146,6 +146,7 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
           `${baseURL}/api/consumer/fetch_consumer_details/${consumerId}`
         );
         const details = res.data?.jsonData?.consumer_details;
+
         if (details) {
           setForm({
             consumer_full_name: details.consumer_full_name || "",
@@ -158,21 +159,71 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
             consumer_city_id: details.consumer_city_id?.toString() || "",
             consumer_zipcode: details.consumer_zipcode || "",
           });
+
           if (details.consumer_profile_pic) {
             setImagePreview(`${baseURL}${details.consumer_profile_pic}`);
           }
-          // Pre-select state if it exists
+
+          // Pre-select state
           if (details.consumer_state_id) {
             const stateId = details.consumer_state_id.toString();
-            const stateName = details.state_name || stateId;
-            setSelectedState({ value: stateId, label: stateName });
+            // Use state_name from details if available; will be resolved once stateOptions load
+            setSelectedState({
+              value: stateId,
+              label: details.state_name || stateId,
+            });
           }
-          // Pre-select city if it exists
+
+          // ✅ FIX: Pre-select city — fetch city list to get proper city_name string
           if (details.consumer_city_id) {
             const cityId = details.consumer_city_id.toString();
-            const cityName = details.city_name || `City #${cityId}`;
-            setSelectedCity({ value: cityId, label: cityName });
-            setCityOptions([{ value: cityId, label: cityName }]);
+
+            // If city_name is already a plain string in the response, use it directly
+            if (details.city_name && typeof details.city_name === "string") {
+              const cityOption: SelectOption = {
+                value: cityId,
+                label: details.city_name,
+              };
+              setSelectedCity(cityOption);
+              setCityOptions([cityOption]);
+            } else {
+              // Otherwise, search the API using the cityId to get the proper name
+              try {
+                const cityRes = await axios.get(
+                  `${baseURL}/api/home/get_city_list_search`,
+                  { params: { search: cityId } }
+                );
+                const cities: { city_id: number; city_name: string }[] =
+                  cityRes.data?.jsonData?.cities || [];
+
+                const matched = cities.find(
+                  (c) => c.city_id.toString() === cityId
+                );
+
+                const cityOption: SelectOption = {
+                  value: cityId,
+                  label: matched?.city_name ?? `City #${cityId}`,
+                };
+
+                setSelectedCity(cityOption);
+                setCityOptions(
+                  cities.length > 0
+                    ? cities.map((c) => ({
+                        value: c.city_id.toString(),
+                        label: c.city_name,
+                      }))
+                    : [cityOption]
+                );
+              } catch {
+                // Graceful fallback — show ID if API fails
+                const fallback: SelectOption = {
+                  value: cityId,
+                  label: `City #${cityId}`,
+                };
+                setSelectedCity(fallback);
+                setCityOptions([fallback]);
+              }
+            }
           }
         }
       } catch (error) {
@@ -196,7 +247,7 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
     }
   }, [stateOptions, selectedState]);
 
-  // City search handler (debounced via input)
+  // City search handler
   const handleCitySearch = useCallback(async (inputValue: string) => {
     if (inputValue.length < 2) {
       setCityOptions([]);
@@ -326,8 +377,13 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-10 flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--sky-blue)" }} />
-          <p className="text-gray-600 dark:text-gray-300">Loading profile...</p>
+          <Loader2
+            className="w-8 h-8 animate-spin"
+            style={{ color: "var(--sky-blue)" }}
+          />
+          <p className="text-gray-600 dark:text-gray-300">
+            Loading profile...
+          </p>
         </div>
       </div>
     );
