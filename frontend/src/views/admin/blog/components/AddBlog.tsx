@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import MDEditor from "@uiw/react-md-editor";
 
 const blogValidationSchema = Yup.object().shape({
   blog_category_id: Yup.string().required("Blog category is required"),
@@ -362,14 +363,23 @@ const AddBlog: React.FC = () => {
               <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Long Description <span className="text-red-500">*</span>
               </label>
-              <textarea
-                name="blog_long_desc"
-                value={form.blog_long_desc}
-                onChange={handleChange}
-                rows={6}
-                placeholder="Enter detailed blog content"
-                className="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-700 focus:border-brand-500 focus:outline-none dark:border-gray-600 dark:text-gray-300"
-              />
+              <div data-color-mode="light">
+                <MDEditor
+                  value={form.blog_long_desc}
+                  onChange={(val) => {
+                    setForm((prev) => ({ ...prev, blog_long_desc: val || "" }));
+                    if (errors.blog_long_desc) {
+                      setErrors((prev) => {
+                        const next = { ...prev };
+                        delete next.blog_long_desc;
+                        return next;
+                      });
+                    }
+                  }}
+                  height={300}
+                  preview="edit"
+                />
+              </div>
               {errors.blog_long_desc && (
                 <p className="mt-1 text-xs text-red-500">
                   {errors.blog_long_desc}
