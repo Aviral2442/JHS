@@ -118,7 +118,7 @@ const AddCLOne: React.FC = () => {
       }
       return;
     }
-
+    console.log("Submitting form with data:", form);
     try {
       setLoading(true);
       let res;
@@ -139,7 +139,7 @@ const AddCLOne: React.FC = () => {
             ? "Category updated successfully!"
             : "Category added successfully!",
         );
-        navigate("/admin/category-level-one");
+        navigate("/admin/category/level-one");
       } else {
         alert(
           res.data?.message ||

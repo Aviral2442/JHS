@@ -1,10 +1,9 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   Filter,
   Calendar,
-  Clock,
   ChevronRight,
   ChevronLeft,
   Tag,
@@ -24,22 +23,15 @@ import {
   Zap,
   ArrowRight,
 } from "lucide-react";
+import Api from "../../../components/apicall";
 
 interface BlogPost {
-  id: number;
-  title: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  date: string;
-  readTime: string;
-  views: number;
-  likes: number;
-  comments: number;
-  category: string;
-  service: string;
-  tags: string[];
-  featured: boolean;
+  blog_id: number;
+  blog_title: string;
+  blog_short_desc: string;
+  blog_thumbnail: string;
+  blog_createdAt: number;
+  blog_status: number;
 }
 
 interface Service {
@@ -55,7 +47,32 @@ export default function BlogPage() {
   const [selectedService, setSelectedService] = useState<string>("all");
   const [selectedTag, setSelectedTag] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(false);
   const postsPerPage = 9;
+
+  const api = Api();
+
+  const IMG_BASE_URL = (import.meta as any).env?.VITE_URL ?? "";
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      setLoading(true);
+      const result = await api.fetchBlogList({
+        page: currentPage,
+        limit: postsPerPage,
+        search: searchQuery,
+        status: "1",
+      });
+      if (result.success) {
+        setBlogPosts(result.data || []);
+        setTotalCount(result.pagination?.total || 0);
+      }
+      setLoading(false);
+    };
+    fetchBlogs();
+  }, [currentPage, searchQuery]);
 
   const services: Service[] = [
     {
@@ -144,238 +161,16 @@ export default function BlogPage() {
     },
   ];
 
-  const blogPosts: BlogPost[] = [
-    {
-      id: 1,
-      title: "10 Essential Spring Cleaning Tips for Your Home",
-      excerpt:
-        "Prepare your home for the new season with these professional cleaning strategies",
-      content: "Full content about spring cleaning...",
-      author: "Sarah Johnson",
-      date: "2024-03-15",
-      readTime: "8 min",
-      views: 1250,
-      likes: 89,
-      comments: 24,
-      category: "Cleaning",
-      service: "Cleaning",
-      tags: ["cleaning", "seasonal", "tips"],
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Modern Interior Design Trends for 2024",
-      excerpt:
-        "Discover the latest interior design trends transforming homes this year",
-      content: "Full content about interior design...",
-      author: "Michael Chen",
-      date: "2024-03-10",
-      readTime: "12 min",
-      views: 2100,
-      likes: 156,
-      comments: 42,
-      category: "Design",
-      service: "Interior Design",
-      tags: ["design", "trends", "modern"],
-      featured: true,
-    },
-    {
-      id: 3,
-      title: "How to Choose the Right Paint for Every Room",
-      excerpt:
-        "A comprehensive guide to selecting paints based on room functionality and lighting",
-      content: "Full content about painting...",
-      author: "Emma Wilson",
-      date: "2024-03-05",
-      readTime: "10 min",
-      views: 980,
-      likes: 67,
-      comments: 18,
-      category: "Painting",
-      service: "Painting",
-      tags: ["painting", "diy", "colors"],
-      featured: true,
-    },
-    {
-      id: 4,
-      title: "Emergency Plumbing: What You Need to Know",
-      excerpt:
-        "Essential information for handling plumbing emergencies before help arrives",
-      content: "Full content about plumbing...",
-      author: "David Brown",
-      date: "2024-03-01",
-      readTime: "6 min",
-      views: 1500,
-      likes: 92,
-      comments: 31,
-      category: "Maintenance",
-      service: "Plumber",
-      tags: ["plumbing", "emergency", "repair"],
-      featured: true,
-    },
-    {
-      id: 5,
-      title: "Energy-Efficient Home Electrical Upgrades",
-      excerpt:
-        "Save money and reduce energy consumption with these electrical improvements",
-      content: "Full content about electrical...",
-      author: "James Wilson",
-      date: "2024-02-28",
-      readTime: "11 min",
-      views: 1200,
-      likes: 78,
-      comments: 22,
-      category: "Energy",
-      service: "Electrician",
-      tags: ["electrical", "energy", "savings"],
-      featured: false,
-    },
-    {
-      id: 6,
-      title: "Complete Home Renovation Planning Guide",
-      excerpt:
-        "Step-by-step guide to planning and executing a successful home renovation",
-      content: "Full content about renovation...",
-      author: "Lisa Rodriguez",
-      date: "2024-02-25",
-      readTime: "15 min",
-      views: 1800,
-      likes: 124,
-      comments: 38,
-      category: "Renovation",
-      service: "Renovation",
-      tags: ["renovation", "planning", "guide"],
-      featured: true,
-    },
-    {
-      id: 7,
-      title: "Natural Pest Control Methods That Work",
-      excerpt:
-        "Eco-friendly approaches to pest control without harmful chemicals",
-      content: "Full content about pest control...",
-      author: "Sarah Johnson",
-      date: "2024-02-20",
-      readTime: "7 min",
-      views: 900,
-      likes: 56,
-      comments: 16,
-      category: "Pest Control",
-      service: "Pest Control",
-      tags: ["pest-control", "eco-friendly", "natural"],
-      featured: false,
-    },
-    {
-      id: 8,
-      title: "AC Maintenance Checklist for Summer",
-      excerpt: "Prepare your air conditioning system for the hot months ahead",
-      content: "Full content about AC repair...",
-      author: "Michael Chen",
-      date: "2024-02-15",
-      readTime: "9 min",
-      views: 1100,
-      likes: 73,
-      comments: 20,
-      category: "Maintenance",
-      service: "AC Repair",
-      tags: ["ac-repair", "maintenance", "summer"],
-      featured: false,
-    },
-    {
-      id: 9,
-      title: "Professional Laundry Tips for Different Fabrics",
-      excerpt:
-        "Expert advice on caring for various fabrics to extend their lifespan",
-      content: "Full content about laundry...",
-      author: "Emma Wilson",
-      date: "2024-02-10",
-      readTime: "8 min",
-      views: 850,
-      likes: 48,
-      comments: 14,
-      category: "Laundry",
-      service: "Laundry",
-      tags: ["laundry", "fabrics", "care"],
-      featured: false,
-    },
-    {
-      id: 10,
-      title: "Custom Carpentry Projects for Small Spaces",
-      excerpt:
-        "Innovative carpentry solutions for maximizing space in compact homes",
-      content: "Full content about carpentry...",
-      author: "David Brown",
-      date: "2024-02-05",
-      readTime: "10 min",
-      views: 950,
-      likes: 61,
-      comments: 17,
-      category: "Carpentry",
-      service: "Carpenter",
-      tags: ["carpentry", "space-saving", "custom"],
-      featured: true,
-    },
-    {
-      id: 11,
-      title: "Construction Planning: A Homeowner's Guide",
-      excerpt:
-        "Everything you need to know when planning a construction project",
-      content: "Full content about construction...",
-      author: "James Wilson",
-      date: "2024-02-01",
-      readTime: "13 min",
-      views: 1300,
-      likes: 82,
-      comments: 25,
-      category: "Construction",
-      service: "Civil Contractor",
-      tags: ["construction", "planning", "guide"],
-      featured: false,
-    },
-    {
-      id: 12,
-      title: "Seasonal Home Maintenance Calendar",
-      excerpt:
-        "A month-by-month guide to keeping your home in perfect condition",
-      content: "Full content about maintenance...",
-      author: "Lisa Rodriguez",
-      date: "2024-01-28",
-      readTime: "14 min",
-      views: 2000,
-      likes: 145,
-      comments: 41,
-      category: "Maintenance",
-      service: "All Services",
-      tags: ["maintenance", "calendar", "seasonal"],
-      featured: true,
-    },
-  ];
+  const totalPages = Math.ceil(totalCount / postsPerPage);
 
+  const featuredPosts = blogPosts.slice(0, 3);
 
-  const filteredPosts = useMemo(() => {
-    return blogPosts.filter((post) => {
-      const matchesSearch =
-        searchQuery === "" ||
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some((tag) =>
-          tag.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-
-      const matchesService =
-        selectedService === "all" || post.service === selectedService;
-      const matchesTag = selectedTag === "" || post.tags.includes(selectedTag);
-
-      return matchesSearch && matchesService && matchesTag;
+  const formatDate = (unix: number) =>
+    new Date(unix * 1000).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
-  }, [searchQuery, selectedService, selectedTag]);
-
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-  const currentPosts = filteredPosts.slice(
-    (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage
-  );
-
-  const featuredPosts = blogPosts.filter((post) => post.featured);
 
   const clearFilters = () => {
     setSearchQuery("");
@@ -577,37 +372,38 @@ export default function BlogPage() {
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 {featuredPosts.slice(0, 3).map((post) => (
                   <motion.div
-                    key={post.id}
+                    key={post.blog_id}
                     variants={itemVariants}
                     whileHover={{ y: -5 }}
                     className="card-ui rounded-xl shadow-lg overflow-hidden group cursor-pointer"
                   >
                     <div className="relative h-48" style={{ background: 'linear-gradient(to right, var(--sky-blue), var(--gray-color))' }}>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-white text-center p-6">
-                          <Tag className="h-8 w-8 mx-auto mb-3" />
-                          <span className="text-sm font-medium backdrop-blur-sm px-3 py-1 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
-                            {post.service}
-                          </span>
+                      {post.blog_thumbnail ? (
+                        <img
+                          src={`${IMG_BASE_URL}/${post.blog_thumbnail}`}
+                          alt={post.blog_title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-white text-center p-6">
+                            <Tag className="h-8 w-8 mx-auto mb-3" />
+                            <span className="text-sm font-medium backdrop-blur-sm px-3 py-1 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
+                              Blog
+                            </span>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                     <div className="p-6">
-                      <div className="flex items-center space-x-4 mb-3">
-                        <span className="text-xs font-medium px-2 py-1 rounded" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--sky-blue)' }}>
-                          {post.category}
-                        </span>
-                      </div>
-                      <h3 className="card-title text-xl mb-3 group-hover:opacity-80 transition-colors">
-                        {post.title}
+                      <h3 className="card-title text-xl mb-3 group-hover:opacity-80 transition-colors line-clamp-2">
+                        {post.blog_title}
                       </h3>
-                      <p className="card-desc mb-4">{post.excerpt}</p>
+                      <p className="card-desc mb-4 line-clamp-2">{post.blog_short_desc}</p>
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center text-sm" style={{ color: 'var(--gray-color)' }}>
-                            <Clock className="h-4 w-4 mr-1" />
-                            {post.readTime}
-                          </div>
+                        <div className="flex items-center text-sm" style={{ color: 'var(--gray-color)' }}>
+                          <Calendar className="h-4 w-4 mr-1" />
+                          {formatDate(post.blog_createdAt)}
                         </div>
                         <ArrowRight className="h-5 w-5 group-hover:opacity-80 transition-colors" style={{ color: 'var(--gray-color)' }} />
                       </div>
@@ -624,12 +420,10 @@ export default function BlogPage() {
                   All Articles
                 </h2>
                 <p style={{ color: 'var(--gray-color)' }}>
-                  Showing {filteredPosts.length} of {blogPosts.length} posts
-                  {(selectedService !== "all" || selectedTag) && (
+                  Showing {blogPosts.length} of {totalCount} posts
+                  {selectedService !== "all" && (
                     <span className="ml-2" style={{ color: 'var(--sky-blue)' }}>
-                      • Filtered by{" "}
-                      {selectedService !== "all" && `${selectedService} `}
-                      {selectedTag && `#${selectedTag}`}
+                      • Filtered by {selectedService}
                     </span>
                   )}
                 </p>
@@ -665,26 +459,39 @@ export default function BlogPage() {
 
             {/* Blog Posts Grid */}
             <AnimatePresence mode="wait">
-              {currentPosts.length > 0 ? (
+              {loading ? (
+                <div className="flex justify-center items-center py-20">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: 'var(--sky-blue)' }}></div>
+                </div>
+              ) : blogPosts.length > 0 ? (
                 <motion.div
-                  key={`${selectedService}-${selectedTag}-${currentPage}`}
+                  key={`${selectedService}-${currentPage}`}
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
                   className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
                 >
-                  {currentPosts.map((post) => (
+                  {blogPosts.map((post) => (
                     <motion.div
-                      key={post.id}
+                      key={post.blog_id}
                       variants={itemVariants}
                       whileHover={{ y: -5 }}
                       className="card-ui rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all group cursor-pointer"
                     >
+                      {post.blog_thumbnail && (
+                        <div className="h-48 overflow-hidden">
+                          <img
+                            src={`${IMG_BASE_URL}/${post.blog_thumbnail}`}
+                            alt={post.blog_title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      )}
                       <div className="p-6">
                         <div className="flex items-center justify-between mb-4">
                           <span className="text-xs font-medium px-3 py-1 rounded-full" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }}>
-                            {post.service}
+                            Blog
                           </span>
                           <button className="hover:opacity-80" style={{ color: 'var(--sky-blue)' }}>
                             <Share2 className="h-5 w-5" />
@@ -692,23 +499,17 @@ export default function BlogPage() {
                         </div>
 
                         <h3 className="card-title text-lg mb-3 group-hover:opacity-80 transition-colors line-clamp-2">
-                          {post.title}
+                          {post.blog_title}
                         </h3>
 
                         <p className="card-desc text-sm mb-4 line-clamp-3">
-                          {post.excerpt}
+                          {post.blog_short_desc}
                         </p>
 
                         <div className="border-t pt-4">
-                          <div className="flex items-center justify-between text-sm" style={{ color: 'var(--gray-color)' }}>
-                            <div className="flex items-center">
-                              <Calendar className="h-4 w-4 mr-1" />
-                              {post.date}
-                            </div>
-                            <div className="flex items-center">
-                              <Clock className="h-4 w-4 mr-1" />
-                              <span className="text-sm">{post.readTime}</span>
-                            </div>
+                          <div className="flex items-center text-sm" style={{ color: 'var(--gray-color)' }}>
+                            <Calendar className="h-4 w-4 mr-1" />
+                            {formatDate(post.blog_createdAt)}
                           </div>
                         </div>
                       </div>
@@ -742,7 +543,7 @@ export default function BlogPage() {
             </AnimatePresence>
 
             {/* Pagination */}
-            {filteredPosts.length > postsPerPage && (
+            {totalCount > postsPerPage && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

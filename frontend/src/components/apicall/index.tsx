@@ -269,6 +269,30 @@ const Api = () => {
 
 
 
+  const fetchBlogList = async (params?: Record<string, string | number>) => {
+    try {
+      const response = await axios.get(`${baseURL}/api/category/get_blog_list`, { params });
+      if (response.data?.status === 200) {
+        return {
+          success: true,
+          data: response.data?.jsonData?.blog_list || [],
+          pagination: response.data?.pagination || {},
+        };
+      } else {
+        return {
+          success: false,
+          error: response.data?.message || "Failed to fetch blog list",
+        };
+      }
+    } catch (err) {
+      console.error("Failed to fetch blog list:", err);
+      return {
+        success: false,
+        error: err || "An error occurred while fetching blog list",
+      };
+    }
+  };
+
   return {
     fetchCategoryLevelOneList,
     fetchCategoryLevelTwoList,
@@ -282,6 +306,7 @@ const Api = () => {
     fetchVendorList,
     searchVendorByItsNumber,
     searchConsumerByItsNumber,
+    fetchBlogList,
   };
 };
 export default Api;

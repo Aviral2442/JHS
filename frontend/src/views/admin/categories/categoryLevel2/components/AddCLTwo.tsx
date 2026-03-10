@@ -177,7 +177,7 @@ const AddCLTwo: React.FC = () => {
             ? "Category updated successfully!"
             : "Category added successfully!",
         );
-        navigate("/admin/category-level-two");
+        navigate("/admin/category/level-two");
       } else {
         alert(
           res.data?.message ||

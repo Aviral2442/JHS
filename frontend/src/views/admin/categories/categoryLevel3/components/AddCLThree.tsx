@@ -170,7 +170,7 @@ const AddCLThree: React.FC = () => {
             ? "Category updated successfully!"
             : "Category added successfully!",
         );
-        navigate("/admin/category-level-three");
+        navigate("/admin/category/level-three");
       } else {
         alert(
           res.data?.message ||

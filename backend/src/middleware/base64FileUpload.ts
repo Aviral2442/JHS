@@ -45,15 +45,41 @@ export const saveBase64File = (
     // Detect file type from magic numbers
     let extension = "jpg"; // default
 
-    if (buffer[0] === 0x89 && buffer[1] === 0x50) {
+    //     if (buffer[0] === 0x89 && buffer[1] === 0x50) {
+    //   extension = "png";
+    // } else if (buffer[0] === 0xff && buffer[1] === 0xd8) {
+    //   extension = "jpg";
+    // } else if (buffer[0] === 0x47 && buffer[1] === 0x49) {
+    //   extension = "gif";
+    // } else if (buffer[0] === 0x25 && buffer[1] === 0x50) {
+    //   extension = "pdf";
+    // } else if (buffer[0] === 0x52 && buffer[1] === 0x49) {
+    //   extension = "webp";
+    // }
+
+    if (
+      buffer.slice(4, 8).toString() === "ftyp" &&
+      (buffer.slice(8, 12).toString() === "avif" ||
+        buffer.slice(8, 12).toString() === "avis")
+    ) {
+      extension = "avif";
+    }
+    else if (buffer[0] === 0x89 && buffer[1] === 0x50) {
       extension = "png";
-    } else if (buffer[0] === 0xff && buffer[1] === 0xd8) {
+    }
+    else if (buffer[0] === 0xff && buffer[1] === 0xd8) {
       extension = "jpg";
-    } else if (buffer[0] === 0x47 && buffer[1] === 0x49) {
+    }
+    else if (buffer[0] === 0x47 && buffer[1] === 0x49) {
       extension = "gif";
-    } else if (buffer[0] === 0x25 && buffer[1] === 0x50) {
+    }
+    else if (buffer[0] === 0x25 && buffer[1] === 0x50) {
       extension = "pdf";
-    } else if (buffer[0] === 0x52 && buffer[1] === 0x49) {
+    }
+    else if (
+      buffer.slice(0, 4).toString() === "RIFF" &&
+      buffer.slice(8, 12).toString() === "WEBP"
+    ) {
       extension = "webp";
     }
 
