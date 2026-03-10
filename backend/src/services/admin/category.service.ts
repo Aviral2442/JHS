@@ -1394,3 +1394,99 @@ export const updateBlogStatusService = async (blog_id: number, status: number) =
         }
     }
 };
+
+// GET BLOG LIST FOR WEBSITE SERVICE
+export const getBlogListForWebsiteService = async (filters?: {
+    date?: string;
+    status?: string;
+    fromDate?: string;
+    toDate?: string;
+    page?: number;
+    limit?: number;
+    search?: string;
+    category_level1_id?: number;
+}) => {
+    try {
+        const page = filters?.page && filters.page > 0 ? filters.page : 1;
+        const limit = filters?.limit && filters.limit > 0 ? filters.limit : 12;
+        const offset = (page - 1) * limit;
+
+        const searchTerm = filters?.search ? `%${filters.search}%` : null;
+
+        const { whereSQL, params } = buildFilters({
+            ...filters,
+            dateColumn: "blog.blog_createdAt",
+        });
+
+        let finalWhereSQL = whereSQL;
+
+        // For website, we only want active blogs
+        const websiteStatusCondition = "blog.blog_status = 0";
+        if (/where\s+/i.test(finalWhereSQL)) {
+            finalWhereSQL += ` AND ${websiteStatusCondition}`;
+        } else {
+            finalWhereSQL = `WHERE ${websiteStatusCondition}`;
+        }
+
+        if (filters?.category_level1_id) {
+            finalWhereSQL += ` AND blog.blog_category_id = ?`;
+            params.push(filters.category_level1_id);
+        }
+
+        if (searchTerm) {
+            const searchCondition = `blog.blog_title LIKE ? OR blog.blog_short_desc LIKE ?`;
+            if (/where\s+/i.test(finalWhereSQL)) {
+                finalWhereSQL += ` AND (${searchCondition})`;
+            } else {
+                finalWhereSQL = `WHERE ${searchCondition}`;
+            }
+            params.push(searchTerm, searchTerm);
+        }
+
+        const query = `
+            SELECT 
+                blog.blog_id,
+                blog.blog_title,
+                blog.blog_short_desc,
+                blog.blog_thumbnail,
+                blog.blog_createdAt,
+                category_level_1.category_level1_name
+            FROM blog
+            LEFT JOIN category_level_1 ON blog.blog_category_id = category_level_1.category_level1_id
+            ${finalWhereSQL}
+            ORDER BY blog.blog_id DESC
+            LIMIT ? OFFSET ?
+        `;
+
+        const queryParams = [...params, limit, offset];
+        const [rows]: any = await dbConfig.query(query, queryParams);
+
+        const [countRows]: any = await dbConfig.query(
+            `SELECT COUNT(*) as total FROM blog ${finalWhereSQL}`,
+            params
+        );
+        const total = countRows[0]?.total || 0;
+
+        return {
+            status: 200,
+            message: "Blog list for website fetched successfully",
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages: Math.ceil(total / limit),
+            },
+            jsonData: {
+                blog_list: rows
+            },
+        };
+
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
+    }
+};

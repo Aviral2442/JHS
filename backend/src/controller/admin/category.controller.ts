@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, addServicesService, getBlogDetailsService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, getCategoryThreeListByCategoryTwoIdService, getCategoryTwoListByCategoryOneIdService, getServiceDatabyIdService, getServicesListService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService, updateServicesService, updateServiceStatusService } from "../../services/admin/category.service";
+import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, addServicesService, getBlogDetailsService, getBlogListForWebsiteService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, getCategoryThreeListByCategoryTwoIdService, getCategoryTwoListByCategoryOneIdService, getServiceDatabyIdService, getServicesListService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService, updateServicesService, updateServiceStatusService } from "../../services/admin/category.service";
 
 
 //---------------------------------- CATEGORY LEVEL ONE CONTROLLERS -----------------------------
@@ -355,6 +355,26 @@ export const updateBlogStatusController = async (req: Request, res: Response, ne
         const status = req.body.blog_status;
         console.log(`Updating blog ID ${blog_id} to status ${status}`); // Debug log to check incoming data
         const result = await updateBlogStatusService(blog_id, status);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// GET BLOG LIST FOR WEBSITE SERVICE
+export const getBlogListForWebsiteController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const filters = {
+            date: req.query.date as string,
+            status: req.query.status as string,
+            fromDate: req.query.fromDate as string,
+            toDate: req.query.toDate as string,
+            page: req.query.page ? parseInt(req.query.page as string, 10) : undefined,
+            limit: req.query.limit ? parseInt(req.query.limit as string, 10) : undefined,
+            search: req.query.search as string,
+            category_level1_id: req.query.category_level1_id ? parseInt(req.query.category_level1_id as string, 10) : undefined,
+        };
+        const result = await getBlogListForWebsiteService(filters);
         res.status(result.status).json(result);
     } catch (error) {
         next(error);

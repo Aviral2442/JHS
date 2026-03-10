@@ -6,22 +6,9 @@ import {
   Calendar,
   ChevronRight,
   ChevronLeft,
-  Tag,
   BookOpen,
   Share2,
   X,
-  Sparkles,
-  Home,
-  Wrench,
-  PaintBucket,
-  Droplets,
-  Hammer,
-  Construction,
-  Bug,
-  Wind,
-  Brush,
-  Zap,
-  ArrowRight,
 } from "lucide-react";
 import Api from "../../../components/apicall";
 
@@ -32,24 +19,24 @@ interface BlogPost {
   blog_thumbnail: string;
   blog_createdAt: number;
   blog_status: number;
+  category_level1_name?: string;
 }
 
-interface Service {
-  id: number;
-  name: string;
-  icon: React.ElementType;
-  color: string;
-  blogCount: number;
+interface CategoryLevel {
+  category_level1_id: number;
+  category_level1_name: string;
+  category_level1_img: string;
 }
 
 export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedService, setSelectedService] = useState<string>("all");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [selectedTag, setSelectedTag] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [categoryList, setCategoryList] = useState<CategoryLevel[]>([]);
   const postsPerPage = 9;
 
   const api = Api();
@@ -57,14 +44,25 @@ export default function BlogPage() {
   const IMG_BASE_URL = (import.meta as any).env?.VITE_URL ?? "";
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      const result = await api.fetchCategoryLevelOneList({ status: "1" });
+      if (result.success) {
+        setCategoryList(result.data || []);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
     const fetchBlogs = async () => {
       setLoading(true);
-      const result = await api.fetchBlogList({
+      const params: Record<string, string | number> = {
         page: currentPage,
         limit: postsPerPage,
-        search: searchQuery,
-        status: "1",
-      });
+      };
+      if (searchQuery) params.search = searchQuery;
+      if (selectedCategoryId) params.category_level1_id = selectedCategoryId;
+      const result = await api.fetchBlogForWebsiteList(params);
       if (result.success) {
         setBlogPosts(result.data || []);
         setTotalCount(result.pagination?.total || 0);
@@ -72,98 +70,9 @@ export default function BlogPage() {
       setLoading(false);
     };
     fetchBlogs();
-  }, [currentPage, searchQuery]);
-
-  const services: Service[] = [
-    {
-      id: 1,
-      name: "All Services",
-      icon: Home,
-      color: "text-gray-600",
-      blogCount: 48,
-    },
-    {
-      id: 2,
-      name: "Cleaning",
-      icon: Sparkles,
-      color: "text-teal-500",
-      blogCount: 8,
-    },
-    {
-      id: 3,
-      name: "Interior Design",
-      icon: Home,
-      color: "text-purple-500",
-      blogCount: 6,
-    },
-    {
-      id: 4,
-      name: "Laundry",
-      icon: Droplets,
-      color: "text-cyan-500",
-      blogCount: 4,
-    },
-    {
-      id: 5,
-      name: "Carpenter",
-      icon: Hammer,
-      color: "text-amber-500",
-      blogCount: 7,
-    },
-    {
-      id: 6,
-      name: "Painting",
-      icon: PaintBucket,
-      color: "text-red-500",
-      blogCount: 5,
-    },
-    {
-      id: 7,
-      name: "Plumber",
-      icon: Wrench,
-      color: "text-teal-600",
-      blogCount: 6,
-    },
-    {
-      id: 8,
-      name: "Electrician",
-      icon: Zap,
-      color: "text-yellow-500",
-      blogCount: 4,
-    },
-    {
-      id: 9,
-      name: "Civil Contractor",
-      icon: Construction,
-      color: "text-orange-500",
-      blogCount: 3,
-    },
-    {
-      id: 10,
-      name: "Renovation",
-      icon: Brush,
-      color: "text-green-500",
-      blogCount: 5,
-    },
-    {
-      id: 11,
-      name: "Pest Control",
-      icon: Bug,
-      color: "text-lime-500",
-      blogCount: 4,
-    },
-    {
-      id: 12,
-      name: "AC Repair",
-      icon: Wind,
-      color: "text-sky-500",
-      blogCount: 3,
-    },
-  ];
+  }, [currentPage, searchQuery, selectedCategoryId]);
 
   const totalPages = Math.ceil(totalCount / postsPerPage);
-
-  const featuredPosts = blogPosts.slice(0, 3);
 
   const formatDate = (unix: number) =>
     new Date(unix * 1000).toLocaleDateString("en-US", {
@@ -174,14 +83,14 @@ export default function BlogPage() {
 
   const clearFilters = () => {
     setSearchQuery("");
-    setSelectedService("all");
+    setSelectedCategoryId(null);
     setSelectedTag("");
     setCurrentPage(1);
   };
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedService, selectedTag]);
+  }, [searchQuery, selectedCategoryId, selectedTag]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -266,36 +175,44 @@ export default function BlogPage() {
                   </h3>
                 </div>
                 <div className="space-y-2">
-                  {services.map((service) => (
+                  {/* All option */}
+                  <button
+                    onClick={() => { setSelectedCategoryId(null); setCurrentPage(1); }}
+                    className="w-full flex items-center p-3 rounded-lg transition-all text-left"
+                    style={{
+                      backgroundColor: selectedCategoryId === null ? 'var(--sky-blue)' : 'transparent',
+                      color: selectedCategoryId === null ? 'var(--white-color)' : 'var(--gray-color)'
+                    }}
+                  >
+                    <span className="text-sm font-medium">All Services</span>
+                  </button>
+                  {categoryList.map((cat) => (
                     <button
-                      key={service.id}
-                      onClick={() => setSelectedService(service.name)}
-                      className={`w-full flex items-center justify-between p-3 rounded-lg transition-all ${
-                        selectedService === service.name
-                          ? "text-white"
-                          : "hover:bg-gray-50"
-                      }`}
+                      key={cat.category_level1_id}
+                      onClick={() => { setSelectedCategoryId(cat.category_level1_id); setCurrentPage(1); }}
+                      className="w-full flex items-center justify-between p-3 rounded-lg transition-all"
                       style={{
-                        backgroundColor: selectedService === service.name ? 'var(--sky-blue)' : 'transparent',
-                        color: selectedService === service.name ? 'var(--white-color)' : 'var(--gray-color)'
+                        backgroundColor: selectedCategoryId === cat.category_level1_id ? 'var(--sky-blue)' : 'transparent',
+                        color: selectedCategoryId === cat.category_level1_id ? 'var(--white-color)' : 'var(--gray-color)'
                       }}
                     >
-                      <div className="flex items-center">
-                        <service.icon
-                          className={`h-5 w-5 mr-3 ${service.color}`}
-                        />
-                        <span>{service.name}</span>
+                      <div className="flex items-center gap-2">
+                        {cat.category_level1_img && (
+                          <img
+                            src={`${IMG_BASE_URL}${cat.category_level1_img}`}
+                            alt={cat.category_level1_name}
+                            className="w-6 h-6 rounded-full object-cover"
+                          />
+                        )}
+                        <span className="text-sm text-left">{cat.category_level1_name}</span>
                       </div>
-                      <span className="text-xs font-medium px-2 py-1 rounded-full" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }}>
-                        {service.blogCount}
-                      </span>
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Active Filters */}
-              {(searchQuery || selectedService !== "all" || selectedTag) && (
+              {(searchQuery || selectedCategoryId !== null || selectedTag) && (
                 <div className="border-t pt-6">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm font-medium" style={{ color: 'var(--black-color)' }}>
@@ -320,22 +237,12 @@ export default function BlogPage() {
                         </button>
                       </div>
                     )}
-                    {selectedService !== "all" && (
+                    {selectedCategoryId !== null && (
                       <div className="flex items-center justify-between px-3 py-2 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
                         <span className="text-sm" style={{ color: 'var(--gray-color)' }}>
-                          Service: {selectedService}
+                          {categoryList.find(c => c.category_level1_id === selectedCategoryId)?.category_level1_name}
                         </span>
-                        <button onClick={() => setSelectedService("all")}>
-                          <X className="h-4 w-4" style={{ color: 'var(--sky-blue)' }} />
-                        </button>
-                      </div>
-                    )}
-                    {selectedTag && (
-                      <div className="flex items-center justify-between px-3 py-2 rounded-lg" style={{ backgroundColor: 'var(--background-alt)' }}>
-                        <span className="text-sm" style={{ color: 'var(--gray-color)' }}>
-                          Tag: #{selectedTag}
-                        </span>
-                        <button onClick={() => setSelectedTag("")}>
+                        <button onClick={() => setSelectedCategoryId(null)}>
                           <X className="h-4 w-4" style={{ color: 'var(--sky-blue)' }} />
                         </button>
                       </div>
@@ -349,7 +256,7 @@ export default function BlogPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-3">
             {/* Featured Posts */}
-            <motion.div
+            {/* <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -411,7 +318,7 @@ export default function BlogPage() {
                   </motion.div>
                 ))}
               </div>
-            </motion.div>
+            </motion.div> */}
 
             {/* Filter Results Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
@@ -421,9 +328,9 @@ export default function BlogPage() {
                 </h2>
                 <p style={{ color: 'var(--gray-color)' }}>
                   Showing {blogPosts.length} of {totalCount} posts
-                  {selectedService !== "all" && (
+                  {selectedCategoryId !== null && (
                     <span className="ml-2" style={{ color: 'var(--sky-blue)' }}>
-                      • Filtered by {selectedService}
+                      • {categoryList.find(c => c.category_level1_id === selectedCategoryId)?.category_level1_name}
                     </span>
                   )}
                 </p>
@@ -465,7 +372,7 @@ export default function BlogPage() {
                 </div>
               ) : blogPosts.length > 0 ? (
                 <motion.div
-                  key={`${selectedService}-${currentPage}`}
+                  key={`${selectedCategoryId}-${currentPage}`}
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
@@ -480,15 +387,15 @@ export default function BlogPage() {
                       className="card-ui rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all group cursor-pointer"
                     >
                       {post.blog_thumbnail && (
-                        <div className="h-48 overflow-hidden">
+                        <div className="h-44 overflow-hidden">
                           <img
-                            src={`${IMG_BASE_URL}/${post.blog_thumbnail}`}
+                            src={`${IMG_BASE_URL}${post.blog_thumbnail}`}
                             alt={post.blog_title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 rounded"
                           />
                         </div>
                       )}
-                      <div className="p-6">
+                      <div className="p-0 pt-2">
                         <div className="flex items-center justify-between mb-4">
                           <span className="text-xs font-medium px-3 py-1 rounded-full" style={{ backgroundColor: 'var(--background-alt)', color: 'var(--gray-color)' }}>
                             Blog

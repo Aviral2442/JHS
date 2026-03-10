@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, addServicesController, getBlogDetailsController, getBlogListController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, getServiceDatabyIdController, getServicesListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController, updateServicesController, updateServiceStatusController } from "../../controller/admin/category.controller";
+import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, addServicesController, getBlogDetailsController, getBlogListController, getBlogListForWebsiteController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, getServiceDatabyIdController, getServicesListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController, updateServicesController, updateServiceStatusController } from "../../controller/admin/category.controller";
 const router = Router();
 
 //------------------------------- CATEGORY LEVEL ONE ROUTES -------------------------------------------------------------------
@@ -46,5 +46,7 @@ router.post("/add_blog", addBlogController);
 router.get("/get_blog_details/:blogId", getBlogDetailsController);
 router.put("/update_blog/:blogId", updateBlogController);
 router.patch("/update_blog_status/:blogId", updateBlogStatusController);
+router.get("/get_blog_list_for_website", getBlogListForWebsiteController);
+
 
 export default router;

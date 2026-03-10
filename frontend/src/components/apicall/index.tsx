@@ -267,12 +267,11 @@ const Api = () => {
     }
   };
 
-
-
-  const fetchBlogList = async (params?: Record<string, string | number>) => {
+  const fetchBlogForWebsiteList = async (params?: Record<string, string | number>) => {
     try {
-      const response = await axios.get(`${baseURL}/api/category/get_blog_list`, { params });
+      const response = await axios.get(`${baseURL}/api/category/get_blog_list_for_website`, { params });
       if (response.data?.status === 200) {
+        console.log("Blog List for Website:", response.data);
         return {
           success: true,
           data: response.data?.jsonData?.blog_list || [],
@@ -306,7 +305,7 @@ const Api = () => {
     fetchVendorList,
     searchVendorByItsNumber,
     searchConsumerByItsNumber,
-    fetchBlogList,
+    fetchBlogForWebsiteList,
   };
 };
 export default Api;
