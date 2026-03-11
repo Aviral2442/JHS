@@ -1447,6 +1447,7 @@ export const getBlogListForWebsiteService = async (filters?: {
             SELECT 
                 blog.blog_id,
                 blog.blog_title,
+                blog.blog_title_sku,
                 blog.blog_short_desc,
                 blog.blog_thumbnail,
                 blog.blog_createdAt,
@@ -1481,6 +1482,44 @@ export const getBlogListForWebsiteService = async (filters?: {
             },
         };
 
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
+    }
+};
+
+// GET BLOG DETAILS BY SKU SERVICE
+export const getBlogDetailsBySkuService = async (blog_title_sku: string) => {
+    try {
+        const [rows]: any = await dbConfig.query(
+            `SELECT 
+                blog.*,
+                category_level_1.category_level1_name
+            FROM blog
+            LEFT JOIN category_level_1 ON blog.blog_category_id = category_level_1.category_level1_id
+            WHERE blog.blog_title_sku = ? AND blog.blog_status = 0`,
+            [blog_title_sku]
+        );
+
+        if (rows.length === 0) {
+            return {
+                status: 404,
+                message: "Blog not found",
+                jsonData: {}
+            };
+        }
+
+        return {
+            status: 200,
+            message: "Blog details fetched successfully",
+            jsonData: {
+                blog_details: rows[0]
+            }
+        };
     } catch (error) {
         console.log(error);
         return {

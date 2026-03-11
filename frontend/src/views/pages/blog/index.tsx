@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -15,6 +16,7 @@ import Api from "../../../components/apicall";
 interface BlogPost {
   blog_id: number;
   blog_title: string;
+  blog_title_sku: string;
   blog_short_desc: string;
   blog_thumbnail: string;
   blog_createdAt: number;
@@ -40,6 +42,8 @@ export default function BlogPage() {
   const postsPerPage = 9;
 
   const api = Api();
+
+  const navigate = useNavigate();
 
   const IMG_BASE_URL = (import.meta as any).env?.VITE_URL ?? "";
 
@@ -384,6 +388,7 @@ export default function BlogPage() {
                       key={post.blog_id}
                       variants={itemVariants}
                       whileHover={{ y: -5 }}
+                      onClick={() => navigate(`/blog/${post.blog_title_sku}`)}
                       className="card-ui rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all group cursor-pointer"
                     >
                       {post.blog_thumbnail && (
