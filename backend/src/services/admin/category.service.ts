@@ -208,16 +208,12 @@ export const updateCategoryLevelOneService = async (category_level1_id: number, 
     try {
         const updateData: any = {}
         if (data.category_level1_name) updateData.category_level1_name = data.category_level1_name;
-        if (data.category_level1_img) updateData.category_level1_img = null;
-
-        const categoryImageOne = saveBase64File(
+        if (data.category_level1_img) updateData.category_level1_img = saveBase64File(
             data.category_level1_img,
             "category",
             "category_level_one",
             // data.extension || ""
         );
-
-        if (categoryImageOne) updateData.category_level1_img = categoryImageOne;
 
         await dbConfig.query(
             `UPDATE category_level_1 SET ? WHERE category_level1_id = ?`,
@@ -472,16 +468,12 @@ export const updateCategoryLevelTwoService = async (category_level2_id: number, 
         const updateData: any = {}
         if (data.category_level2_level1_id) updateData.category_level2_level1_id = data.category_level2_level1_id;
         if (data.category_level2_name) updateData.category_level2_name = data.category_level2_name;
-        if (data.category_level2_img) updateData.category_level2_img = null;
-
-        const categoryImageTwo = saveBase64File(
+        if (data.category_level2_img) updateData.category_level2_img = saveBase64File(
             data.category_level2_img,
             "category",
             "category_level_two",
             // data.extension || ""
         );
-
-        if (categoryImageTwo) updateData.category_level2_img = categoryImageTwo;
 
         await dbConfig.query(
             `UPDATE category_level_2 SET ? WHERE category_level2_id = ?`,
@@ -735,16 +727,12 @@ export const updateCategoryLevelThreeService = async (category_level3_id: number
         const updateData: any = {}
         if (data.category_level3_level2_id) updateData.category_level3_level2_id = data.category_level3_level2_id;
         if (data.category_level3_name) updateData.category_level3_name = data.category_level3_name;
-        if (data.category_level3_img) updateData.category_level3_img = null;
-
-        const categoryImageThree = saveBase64File(
+        if (data.category_level3_img) updateData.category_level3_img = saveBase64File(
             data.category_level3_img,
             "category",
             "category_level_three",
             // data.extension || ""
         );
-
-        if (categoryImageThree) updateData.category_level3_img = categoryImageThree;
 
         await dbConfig.query(
             `UPDATE category_level_3 SET ? WHERE category_level3_id = ?`,
@@ -792,10 +780,33 @@ export const updateCategoryLevelThreeStatusService = async (category_level3_id: 
 
 
 //-------------------------------- CATEGORY LIST BY ID ROUTES -----------------------------
+export const getCategoryOneService = async () => {
+    try {
+        const [rows]: any = await dbConfig.query(
+            `SELECT category_level1_id, category_level1_name, category_level1_img FROM category_level_1 WHERE category_level1_status = 0`
+        );
+
+        return {
+            status: 200,
+            message: "Category level One list fetched successfully",
+            jsonData: {
+                category_level_one_list: rows
+            }
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
+    }
+};
+
 export const getCategoryTwoListByCategoryOneIdService = async (category_level1_id: number) => {
     try {
         const [rows]: any = await dbConfig.query(
-            `SELECT category_level2_id, category_level2_name FROM category_level_2 WHERE category_level2_level1_id = ?`,
+            `SELECT category_level2_id, category_level2_name, category_level2_img FROM category_level_2 WHERE category_level2_level1_id = ? AND category_level2_status = 0`,
             [category_level1_id]
         );
 
@@ -819,7 +830,7 @@ export const getCategoryTwoListByCategoryOneIdService = async (category_level1_i
 export const getCategoryThreeListByCategoryTwoIdService = async (category_level2_id: number) => {
     try {
         const [rows]: any = await dbConfig.query(
-            `SELECT category_level3_id, category_level3_name FROM category_level_3 WHERE category_level3_level2_id = ?`,
+            `SELECT category_level3_id, category_level3_name, category_level3_img FROM category_level_3 WHERE category_level3_level2_id = ? AND category_level3_status = 0`,
             [category_level2_id]
         );
 

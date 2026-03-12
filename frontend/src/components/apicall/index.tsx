@@ -163,6 +163,7 @@ const Api = () => {
   const fetchCategoryLevelTwoListByLevelOneId = async (levelOneId: number) => {
     try {
         const response = await axios.get(`${baseURL}/api/category/get_category_level_two_list_by_cat_lvl1_id/${levelOneId}`);
+        console.log("Category Level 2 List by Level 1 ID:", response.data);
       return {
         success: true,
         message: response.data?.message || "Category level 2 list fetched successfully",
