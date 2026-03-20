@@ -63,6 +63,7 @@ export default function BlogPage() {
       if (searchQuery) params.search = searchQuery;
       if (selectedCategoryId) params.category_level1_id = selectedCategoryId;
       const result = await api.fetchBlogForWebsiteList(params);
+      console.log(result);
       if (result.success) {
         setBlogPosts(result.data || []);
         setTotalCount(result.pagination?.total || 0);
