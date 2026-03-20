@@ -44,7 +44,7 @@ const websiteRoutes: RouteObject[] = [
   { path: "/contact", element: <ContactPage /> },
   { path: "/services", element: <ServicesPage /> },
   { path: "/blog", element: <BlogPage /> },
-  { path: "/blog/service-cleaning-tips", element: <BlogDetailPage /> },
+  { path: "/blog/:blogSku", element: <BlogDetailPage /> },
   { path: "/cart", element: <CartPage /> },
   { path: "/checkout", element: <CheckoutPage /> },
   { path: "/sign-in", element: <SignIn /> },

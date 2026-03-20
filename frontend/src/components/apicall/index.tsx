@@ -163,6 +163,7 @@ const Api = () => {
   const fetchCategoryLevelTwoListByLevelOneId = async (levelOneId: number) => {
     try {
         const response = await axios.get(`${baseURL}/api/category/get_category_level_two_list_by_cat_lvl1_id/${levelOneId}`);
+        console.log("Category Level 2 List by Level 1 ID:", response.data);
       return {
         success: true,
         message: response.data?.message || "Category level 2 list fetched successfully",
@@ -292,6 +293,53 @@ const Api = () => {
     }
   };
 
+  const fetchBlogDetailsById = async (blogId: number) => {
+    try {
+      const response = await axios.get(`${baseURL}/api/category/get_blog_details/${blogId}`);
+      if (response.data?.status === 200) {
+        console.log("Blog Details:", response.data);
+        return {
+          success: true,
+          data: response.data?.jsonData?.blog_details || null,
+        };
+      } else {
+        return {
+          success: false,
+          error: response.data?.message || "Failed to fetch blog details",
+        };
+      }
+    } catch (err) {
+      console.error("Failed to fetch blog details:", err);
+      return {
+        success: false,
+        error: err || "An error occurred while fetching blog details",
+      };
+    }
+  };
+
+  const fetchBlogDetailsBySku = async (blogSku: string) => {
+    try {
+      const response = await axios.get(`${baseURL}/api/category/get_blog_details_by_sku/${encodeURIComponent(blogSku)}`);
+      if (response.data?.status === 200) {
+        return {
+          success: true,
+          data: response.data?.jsonData?.blog_details || null,
+        };
+      } else {
+        return {
+          success: false,
+          error: response.data?.message || "Failed to fetch blog details",
+        };
+      }
+    } catch (err) {
+      console.error("Failed to fetch blog details by SKU:", err);
+      return {
+        success: false,
+        error: err || "An error occurred while fetching blog details",
+      };
+    }
+  };
+
   return {
     fetchCategoryLevelOneList,
     fetchCategoryLevelTwoList,
@@ -306,6 +354,8 @@ const Api = () => {
     searchVendorByItsNumber,
     searchConsumerByItsNumber,
     fetchBlogForWebsiteList,
+    fetchBlogDetailsById,
+    fetchBlogDetailsBySku,
   };
 };
 export default Api;

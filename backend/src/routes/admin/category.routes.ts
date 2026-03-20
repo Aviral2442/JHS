@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, addServicesController, getBlogDetailsController, getBlogListController, getBlogListForWebsiteController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, getServiceDatabyIdController, getServicesListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController, updateServicesController, updateServiceStatusController } from "../../controller/admin/category.controller";
+import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, addServicesController, getBlogDetailsBySkuController, getBlogDetailsController, getBlogListController, getBlogListForWebsiteController, getCategoryLevelOneController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, getServiceDatabyIdController, getServicesListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController, updateServicesController, updateServiceStatusController } from "../../controller/admin/category.controller";
 const router = Router();
 
 //------------------------------- CATEGORY LEVEL ONE ROUTES -------------------------------------------------------------------
@@ -29,6 +29,7 @@ router.patch("/update_category_level_three_status/:catLvl3Id", updateCategoryLev
 
 
 //-------------------------------- CATEGORY LIST BY ID ROUTES -----------------------------------------------------------------
+router.get("/get_category_level_one_list", getCategoryLevelOneController);
 router.get("/get_category_level_two_list_by_cat_lvl1_id/:catLvl1Id", getCategoryLevelTwoListByCatLvl1IdController);
 router.get("/get_category_level_three_list_by_cat_lvl2_id/:catLvl2Id", getCategoryLevelThreeListByCatLvl2IdController);
 
@@ -47,6 +48,7 @@ router.get("/get_blog_details/:blogId", getBlogDetailsController);
 router.put("/update_blog/:blogId", updateBlogController);
 router.patch("/update_blog_status/:blogId", updateBlogStatusController);
 router.get("/get_blog_list_for_website", getBlogListForWebsiteController);
+router.get("/get_blog_details_by_sku/:blogSku", getBlogDetailsBySkuController);
 
 
 export default router;

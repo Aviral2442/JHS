@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, addServicesService, getBlogDetailsService, getBlogListForWebsiteService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, getCategoryThreeListByCategoryTwoIdService, getCategoryTwoListByCategoryOneIdService, getServiceDatabyIdService, getServicesListService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService, updateServicesService, updateServiceStatusService } from "../../services/admin/category.service";
+import { addBlogService, addCategoryLevelOneService, addCategoryLevelThreeService, addCategoryLevelTwoService, addServicesService, getBlogDetailsBySkuService, getBlogDetailsService, getBlogListForWebsiteService, getBlogListService, getCategoryLevelOneDetailsService, getCategoryLevelOneListService, getCategoryLevelThreeDetailsService, getCategoryLevelThreeListService, getCategoryLevelTwoDetailsService, getCategoryLevelTwoListService, getCategoryOneService, getCategoryThreeListByCategoryTwoIdService, getCategoryTwoListByCategoryOneIdService, getServiceDatabyIdService, getServicesListService, updateBlogService, updateBlogStatusService, updateCategoryLevelOneService, updateCategoryLevelOneStatusService, updateCategoryLevelThreeService, updateCategoryLevelThreeStatusService, updateCategoryLevelTwoService, updateCategoryLevelTwoStatusService, updateServicesService, updateServiceStatusService } from "../../services/admin/category.service";
 
 
 //---------------------------------- CATEGORY LEVEL ONE CONTROLLERS -----------------------------
@@ -211,9 +211,18 @@ export const updateCategoryLevelThreeStatusController = async (req: Request, res
 
 
 //-------------------------------- CATEGORY LIST BY ID ROUTES -----------------------------
+export const getCategoryLevelOneController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const result = await getCategoryOneService();
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
 export const getCategoryLevelTwoListByCatLvl1IdController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const catLvl1Id = parseInt(req.params.catLvl1Id);
+        // console.log("Received request for Level 2 categories with Level 1 ID:", catLvl1Id); // Debug log to check incoming parameter
         const result = await getCategoryTwoListByCategoryOneIdService(catLvl1Id);
         res.status(result.status).json(result);
     } catch (error) {
@@ -355,6 +364,17 @@ export const updateBlogStatusController = async (req: Request, res: Response, ne
         const status = req.body.blog_status;
         console.log(`Updating blog ID ${blog_id} to status ${status}`); // Debug log to check incoming data
         const result = await updateBlogStatusService(blog_id, status);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// FETCH BLOG DETAILS BY SKU CONTROLLER
+export const getBlogDetailsBySkuController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const blog_title_sku = req.params.blogSku;
+        const result = await getBlogDetailsBySkuService(blog_title_sku);
         res.status(result.status).json(result);
     } catch (error) {
         next(error);
