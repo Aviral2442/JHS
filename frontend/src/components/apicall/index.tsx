@@ -271,7 +271,7 @@ const Api = () => {
   const fetchBlogForWebsiteList = async (params?: Record<string, string | number>) => {
     try {
       const response = await axios.get(`${baseURL}/api/category/get_blog_list_for_website`, { params });
-      if (response.data?.status === 200) {
+      if (response.data?.status == 200) {
         console.log("Blog List for Website:", response.data);
         return {
           success: true,
