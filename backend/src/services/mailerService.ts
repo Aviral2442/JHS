@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import { emailTemplate } from "../utils/emailTemplate";
 require("dotenv").config();
+import axios from "axios";
 
 export const sendMailService = async ({
   to,
@@ -35,12 +36,114 @@ export const sendMailService = async ({
       html,
     });
 
-    return { 
-        status: 200, 
-        message: "Mail Sent Successfully"
+    return {
+      status: 200,
+      message: "Mail Sent Successfully"
     };
   } catch (error) {
     console.log(error);
     return { status: 500, message: "Mail Failed" };
+  }
+};
+
+
+// MSG91 API Integration (Commented Out)
+// export const sendSMSService = async (mobile: string) => {
+//   try {
+//     console.log("Initiating SMS send to:", mobile);
+//     const otp = Math.floor(1000 + Math.random() * 9000);
+
+//     console.log("Auth Key:", process.env.MSG_AUTH_KEY ? "✅ Loaded" : "❌ Missing");
+//     console.log("Template ID:", process.env.DLT_TEMPLATE_ID ? "✅ Loaded" : "❌ Missing");
+//     console.log("Sender ID:", process.env.SENDER_ID ? "✅ Loaded" : "❌ Missing");
+
+//     const response = await axios.post(
+//       "https://control.msg91.com/api/v5/sms/send",
+//       {
+//         template_id: process.env.DLT_TEMPLATE_ID,
+//         sender: process.env.SENDER_ID,
+//         mobiles: `91${String(mobile).trim()}`,
+//         VAR1: otp
+//       },
+//       {
+//         headers: {
+//           authkey: process.env.MSG_AUTH_KEY?.trim(),
+//           "Content-Type": "application/json"
+//         }
+//       }
+//     );
+
+//     console.log(response.data);
+
+//     return {
+//       status: 200,
+//       message: "SMS Sent Successfully",
+//       otp
+//     };
+
+//   } catch (error: any) {
+//     console.log(error?.response?.data || error.message);
+
+//     return {
+//       status: 500,
+//       message: "SMS Failed"
+//     };
+//   }
+// };
+
+
+export const sendSMSService = async (mobile: string) => {
+  try {
+    const otp = Math.floor(1000 + Math.random() * 9000);
+
+    const response = await axios.post(
+      "https://control.msg91.com/api/v5/oneapi/api/flow/jeevan/run",
+      {
+        data: {
+          sendTo: [
+            {
+              to: [
+                {
+                  mobiles: `91${String(mobile).trim()}`,
+                  variables: {
+                    otp: {
+                      type: "text",
+                      value: otp.toString()
+                    },
+                    timer: {
+                      type: "text",
+                      value: "5"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        headers: {
+          "authkey": String(process.env.MSG_AUTH_KEY).trim(),
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }
+      }
+    );
+
+    console.log(response.data);
+
+    return {
+      status: 200,
+      message: "SMS Sent Successfully",
+      otp
+    };
+
+  } catch (error: any) {
+    console.log("ERROR:", error?.response?.data || error.message);
+
+    return {
+      status: 500,
+      message: "SMS Failed"
+    };
   }
 };
