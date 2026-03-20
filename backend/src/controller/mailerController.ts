@@ -1,31 +1,13 @@
 import { emailTemplate } from "../utils/emailTemplate";
-import { sendMailService, sendSMSService } from "../services/mailerService";
+import { sendSMSService } from "../services/mailerService";
 import { Request, Response, NextFunction } from "express";
 
-export const sendMailController = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { to, subject, headerTitle, bodyContent, footerContent, buttonText, buttonLink } =
-            req.body;
-        const result = await sendMailService({
-            to,
-            subject,
-            headerTitle,
-            bodyContent,
-            footerContent,
-            buttonText,
-            buttonLink,
-        });
-        return res.status(result.status).json({ message: result.message });
-    } catch (error) {
-        next(error);
-    }
-};
-
+// MSG91 API Integration and nodemailer for sending OTP via email or SMS based on the input type (email or mobile number)
 export const sendSMSController = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        const mobile = req.body.mobile;
-        const result = await sendSMSService(mobile);
+        const emailOrMobile = req.body.emailOrMobile;
+        const result = await sendSMSService(emailOrMobile);
         return res.status(result.status).json(result);
 
     } catch (error) {

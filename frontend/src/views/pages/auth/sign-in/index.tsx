@@ -210,13 +210,13 @@ export default function HomeServicesLogin() {
                     <Lock className="w-4 h-4" style={{ color: 'var(--gray-color)' }} />
                     Password
                   </label>
-                  <a
-                    href="#"
+                  <Link
+                    to="/forgot-password"
                     className="text-sm font-semibold transition-colors hover:opacity-80"
                     style={{ color: 'var(--sky-blue)' }}
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <input
                   type="password"
