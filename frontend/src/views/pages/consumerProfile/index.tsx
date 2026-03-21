@@ -1,7 +1,7 @@
 // src/pages/ConsumerProfile.tsx
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
+import {
   Menu,
 } from 'lucide-react';
 import UserProfileCard from './components/UserProfileCard';
@@ -9,11 +9,11 @@ import WalletCard from './components/WalletCard';
 import ReferralDashboard from './components/ReferralDashboard';
 import TransactionHistory from './components/TransactionHistory';
 import UpdateProfileForm from './components/UpdateProfileForm';
-import { 
-  User, 
-  Wallet, 
-  Referral, 
-   
+import {
+  User,
+  Wallet,
+  Referral,
+
 } from '../../../types/index';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -26,12 +26,11 @@ const ConsumerProfile: React.FC = () => {
   const [consumerData, setConsumerData] = useState<any>(null);
   const navigate = useNavigate();
   const baseURL = (import.meta.env.VITE_URL as string) || '';
-  
 
   useEffect(() => {
     const consumerToken = localStorage.getItem('token');
     if (!consumerToken) {
-      navigate('/login');
+      navigate('/sign-in');
     }
     const decodedToken: any = jwtDecode(consumerToken || '');
     const consumerId = decodedToken.consumerId;
@@ -41,7 +40,7 @@ const ConsumerProfile: React.FC = () => {
     const fetchConsumerData = async () => {
       try {
         const response = await axios.get(`${baseURL}/api/consumer/fetch_consumer_details/${consumerId}`);
-        console.log("Consumer Data:", response.data); 
+        console.log("Consumer Data:", response.data);
         setConsumerData(response.data.jsonData.consumer_details);
       } catch (error) {
         console.error("Error fetching consumer data:", error);
@@ -50,7 +49,7 @@ const ConsumerProfile: React.FC = () => {
 
     fetchConsumerData();
   }, []);
-  
+
   const user: User = {
     id: consumerData?.consumer_id?.toString() || 'USR001',
     name: consumerData?.consumer_full_name || '',
@@ -216,7 +215,7 @@ const ConsumerProfile: React.FC = () => {
                       onWithdraw={handleWithdraw}
                       onViewTransactions={() => setActiveSection('transactions')}
                     />
-                    
+
                     <ReferralDashboard referral={referral} />
                   </div>
                 </div>
