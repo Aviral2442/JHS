@@ -435,6 +435,21 @@ const MainHeader: React.FC<{
     const navigate = useNavigate();
 
     const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target as Node)
+        ) {
+          setShowDropdown(false);
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
       <div className="bg-white shadow-md">
@@ -506,11 +521,10 @@ const MainHeader: React.FC<{
                 </button>
               </div>
 
-              <div className="relative">
+              <div ref={dropdownRef} className="relative">
                 <button
                   className="flex items-center space-x-2 focus:outline-none"
                   onClick={() => setShowDropdown((prev) => !prev)}
-                  onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
                   tabIndex={0}
                 >
                   <img
@@ -526,13 +540,13 @@ const MainHeader: React.FC<{
                 {/* Dropdown */}
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50 animate-fade-in">
-                    <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={() => setShowDropdown(false)}>
                       My Profile
                     </Link>
-                    <Link to="/orders" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    <Link to="/orders" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={() => setShowDropdown(false)}>
                       My Orders
                     </Link>
-                    <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={() => setShowDropdown(false)}>
                       Logout  
                     </button>
                   </div>
