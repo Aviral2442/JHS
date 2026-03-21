@@ -60,6 +60,12 @@ const PestControlServiceList = lazy(() => import("../views/admin/services/compon
 const FurnitureServiceList = lazy(() => import("../views/admin/services/components/FurnitureServiceList"));
 const AddService = lazy(() => import("../views/admin/services/components/AddService"));
 
+// Transaction routes
+
+const RazorpayTransList = lazy(() => import("../views/admin/transaction/components/RazorpayTransList"));
+const ConsumerTransList = lazy(() => import("../views/admin/transaction/components/ConsumerTransList"));
+const VendorTransList = lazy(() => import("../views/admin/transaction/components/VendorTransList"));
+
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
 /**
@@ -256,6 +262,18 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/services/add",
     element: <AddService />,
+  },
+  {
+    path: "/admin/transactions/razorpay",
+    element: <RazorpayTransList />,
+  },
+  {
+    path: "/admin/transactions/consumer",
+    element: <ConsumerTransList />,
+  },
+  {
+    path: "/admin/transactions/vendor",
+    element: <VendorTransList />,
   }
 ];
 

@@ -70,8 +70,8 @@ const navItems: NavItem[] = [
     name: "Transactions",
     subItems: [
       { name: "Razorpay", path: "/admin/transactions/razorpay", pro: false },
-      { name: "Consumers", path: "/admin/transactions/consumers", pro: false },
-      { name: "Vendors", path: "/admin/transactions/vendors", pro: false },
+      { name: "Consumers", path: "/admin/transactions/consumer", pro: false },
+      { name: "Vendors", path: "/admin/transactions/vendor", pro: false },
     ],
   },
   {
