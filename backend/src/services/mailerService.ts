@@ -3,7 +3,6 @@ import { emailTemplate } from "../utils/emailTemplate";
 require("dotenv").config();
 import axios from "axios";
 import db from "../config/db_Config";
-import { send } from "process";
 
 // MOBILE AND EMAIL OTP SERVICE
 export const sendSMSService = async (emailOrMobile: string) => {
@@ -91,7 +90,7 @@ export const sendSMSService = async (emailOrMobile: string) => {
   }
 };
 
-// MOBILE OTP SERVICE
+// 
 export const sendOTPService = async (requestOTPOn: any) => {
   try {
 
@@ -129,7 +128,7 @@ export const sendOTPService = async (requestOTPOn: any) => {
       if (checkMobileOrEmail === "email") {
 
         senderEmailId = reqOnBoth;
-        const [rows] = await db.query(
+        const [rows]: any = await db.query(
           "SELECT consumer_mobile from consumer WHERE consumer_email = ?",
           [senderEmailId]
         )
@@ -149,12 +148,12 @@ export const sendOTPService = async (requestOTPOn: any) => {
       } else if (checkMobileOrEmail === "mobile") {
 
         senderMobileNo = reqOnBoth;
-        const [rows] = await db.query(
+        const [rows]: any = await db.query(
           "SELECT consumer_email from consumer WHERE consumer_mobile = ?",
           [senderMobileNo]
         )
 
-        if (rows.length > 0) {
+        if (rows && rows.length > 0) {
           await sendToEmail(rows[0].consumer_email, generateOTP);
         }
 
