@@ -36,6 +36,7 @@ import { FaCouch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 import SearchOverlay from "../../components/website/SearchOverlay";
 
+
 // ================ TYPES ================
 interface ServiceCategory {
   id: number;
@@ -371,10 +372,11 @@ const services: Service[] = [
 ];
 
 const mainMenuItems = [
-  { name: "Home", href: "/" },
+  { name: "Categories", href: "/categories" },
   { name: "Services", href: "/services" },
   { name: "About Us", href: "/about" },
-  { name: "Consumer Profile", href: "/consumer-profile" },
+  { name: "FAQ", href: "/faq" },
+  { name: "Blogs", href: "/blogs" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -382,6 +384,7 @@ const mainMenuItems = [
 
 // Top Bar Component
 const TopBar: React.FC = () => {
+
   return (
     <div
       className="bg-[#00ADB5] text-white text-sm py-2 hidden md:block"
@@ -429,83 +432,123 @@ const MainHeader: React.FC<{
   onServiceHover,
   onSearchOpen,
 }) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  return (
-    <div className="bg-white shadow-md">
-      <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <button
-              onClick={onMobileMenuToggle}
-              className="md:hidden mr-4 p-2 rounded-lg hover:bg-gray-100"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    return (
+      <div className="bg-white shadow-md">
+        <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
             <div className="flex items-center">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center">
-                <img src="/images/logo.png" alt="" />
-              </div>
-              <div className="ml-3">
-                <div className="text-xl font-bold text-dark">G.ONE Home</div>
-                {/* <div className="text-xs text-gray-500 -mt-1">Professional Services</div> */}
+              <button
+                onClick={onMobileMenuToggle}
+                className="md:hidden mr-4 p-2 rounded-lg hover:bg-gray-100"
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                  <img src="/images/logo.png" alt="" />
+                </div>
+                <div className="ml-3">
+                  <div className="text-xl font-bold text-dark">Jeevan Home Services</div>
+                  {/* <div className="text-xs text-gray-500 -mt-1">Professional Services</div> */}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {mainMenuItems.map((item) => (
-              <div key={item.name} className="relative">
-                <Link
-                  to={item.href}
-                  className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-sm"
-                  onMouseEnter={() => item && onServiceHover(null)}
-                >
-                  {item.name}
-                </Link>
-              </div>
-            ))}
-          </nav>
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-1">
+              {mainMenuItems.map((item) => (
+                <div key={item.name} className="relative">
+                  <Link
+                    to={item.href}
+                    className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-sm"
+                    onMouseEnter={() => item && onServiceHover(null)}
+                  >
+                    {item.name}
+                  </Link>
+                </div>
+              ))}
+            </nav>
 
-          {/* Right Section - Search & Auth */}
-          <div className="flex items-center space-x-4">
-            {/* Search */}
-            <button
-              onClick={onSearchOpen}
-              className="p-2 rounded-lg hover:bg-gray-100"
-            >
-              <Search size={22} className="text-gray-700" />
-            </button>
-
-            {/* Cart */}
-            <button
-              onClick={() => navigate("/cart")}
-              className="relative p-2 rounded-lg hover:bg-gray-100 hidden md:block"
-            >
-              <ShoppingCart size={22} className="text-gray-700" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                3
-              </span>
-            </button>
-
-            {/* Auth Buttons */}
-            <div className="hidden md:flex items-center space-x-2">
+            {/* Right Section - Search & Auth */}
+            <div className="flex items-center space-x-4">
+              {/* Search */}
               <button
-                onClick={() => navigate("/sign-in")}
-                className="btn-primary flex justify-center items-center"
+                onClick={onSearchOpen}
+                className="p-2 rounded-lg hover:bg-gray-100"
               >
-                <User size={18} className="mr-1" />
-                Login
+                <Search size={22} className="text-gray-700" />
               </button>
+
+              {/* Cart */}
+              <button
+                onClick={() => navigate("/cart")}
+                className="relative p-2 rounded-lg hover:bg-gray-100 hidden md:block"
+              >
+                <ShoppingCart size={22} className="text-gray-700" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  3
+                </span>
+              </button>
+
+              {/* Auth Buttons */}
+              <div className="hidden md:flex items-center space-x-2">
+                <button
+                  onClick={() => navigate("/sign-in")}
+                  className="btn-primary flex justify-center items-center"
+                >
+                  <User size={18} className="mr-1" />
+                  Login
+                </button>
+              </div>
+
+              {/* User profile img with name and with dropdown to show other options */}
+              <div className="relative">
+                <button
+                  className="flex items-center space-x-2 focus:outline-none"
+                  onClick={() => setShowDropdown((prev) => !prev)}
+                  onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+                  tabIndex={0}
+                >
+                  <img
+                    src="/images/user-profile.jpg"
+                    alt="User Profile"
+                    className="w-8 h-8 rounded-full"
+                  />
+                  <span className="hidden md:block text-gray-700 font-medium">
+                    John Doe
+                  </span>
+                </button>
+
+                {/* Dropdown */}
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50 animate-fade-in">
+                    <a href="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      My Profile
+                    </a>
+                    <a href="/orders" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      My Orders
+                    </a>
+                    <a href="/settings" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Settings
+                    </a>
+                    <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 // Mega Menu Component
 const MegaMenu: React.FC<{
   service: Service | null;
@@ -615,9 +658,8 @@ const MegaMenu: React.FC<{
                       className="flex items-center p-3 bg-white rounded-lg hover:shadow-md transition-shadow"
                     >
                       <div
-                        className={`p-2 rounded-md ${
-                          category.color.split(" ")[1]
-                        } mr-3`}
+                        className={`p-2 rounded-md ${category.color.split(" ")[1]
+                          } mr-3`}
                       >
                         <div className={category.color.split(" ")[0]}>
                           {category.icon}
@@ -732,9 +774,8 @@ const MobileMenu: React.FC<{
                     </span>
                   </div>
                   <ChevronDown
-                    className={`transition-transform ${
-                      expandedService === service.id ? "rotate-180" : ""
-                    }`}
+                    className={`transition-transform ${expandedService === service.id ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
 
@@ -749,9 +790,8 @@ const MobileMenu: React.FC<{
                         >
                           <div className="flex items-center mb-2">
                             <div
-                              className={`p-1 rounded ${
-                                category.color.split(" ")[1]
-                              } mr-2`}
+                              className={`p-1 rounded ${category.color.split(" ")[1]
+                                } mr-2`}
                             >
                               <div className={category.color.split(" ")[0]}>
                                 {category.icon}
@@ -851,9 +891,8 @@ const MegaMenuHeader: React.FC = () => {
     <>
       {/* Fixed Header Container */}
       <div
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "shadow-xl" : "shadow-md"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "shadow-xl" : "shadow-md"
+          }`}
       >
         {/* Top Bar */}
         <TopBar />
