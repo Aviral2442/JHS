@@ -25,6 +25,7 @@ export const getProductListController = async (req: Request, res: Response, next
 export const addProductController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const data = req.body;
+        console.log("Received data in controller:", data); // Debug log to check incoming data
         const result = await addProductService(data);
         res.status(result.status).json(result);
     } catch (error) {

@@ -13,7 +13,7 @@ export const getProductListService = async (filters?: {
   page?: number;
   limit?: number;
   search?: string;
-}) => {
+}, category?: string) => {
   try {
     const page = filters?.page && filters.page > 0 ? filters.page : 1;
     const limit = filters?.limit && filters.limit > 0 ? filters.limit : 10;
@@ -80,6 +80,7 @@ export const getProductListService = async (filters?: {
             service
             LEFT JOIN category_level_1 ON service.category_level_1_id = category_level_1.category_level_1_id
             ${finalWhereSQL}
+            WHERE category_level_1.category_level_1_id = ${category}
             ORDER BY service.service_createdAt DESC
             LIMIT ? OFFSET ?
         `
