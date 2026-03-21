@@ -53,7 +53,6 @@ const CLThreeList = lazy(() => import("../views/admin/categories/categoryLevel3"
 const AddCLThree = lazy(() => import("../views/admin/categories/categoryLevel3/components/AddCLThree"));
 
 // Service routes
-
 const CleaningServiceList = lazy(() => import("../views/admin/services"));
 const InteriorDesignServiceList = lazy(() => import("../views/admin/services/components/InteriorDesignServiceList"));
 const PestControlServiceList = lazy(() => import("../views/admin/services/components/PestControlServiceList"));
@@ -61,10 +60,15 @@ const FurnitureServiceList = lazy(() => import("../views/admin/services/componen
 const AddService = lazy(() => import("../views/admin/services/components/AddService"));
 
 // Transaction routes
-
 const RazorpayTransList = lazy(() => import("../views/admin/transaction/components/RazorpayTransList"));
 const ConsumerTransList = lazy(() => import("../views/admin/transaction/components/ConsumerTransList"));
 const VendorTransList = lazy(() => import("../views/admin/transaction/components/VendorTransList"));
+
+// Admin Users Routes
+const AdminList = lazy(() => import("../views/admin/adminUser"));
+
+// Contact Form Routes
+const ContactFormList = lazy(() => import("../views/admin/contactForm"));
 
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
@@ -274,6 +278,14 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/transactions/vendor",
     element: <VendorTransList />,
+  },
+  {
+    path: "/admin/admin-users",
+    element: <AdminList />,
+  },
+  {
+    path: "/admin/contact-forms",
+    element: <ContactFormList />,
   }
 ];
 

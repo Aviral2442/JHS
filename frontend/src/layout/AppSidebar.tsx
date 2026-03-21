@@ -80,9 +80,9 @@ const navItems: NavItem[] = [
     path: "/admin/blog",
   },
   {
-    icon: <BiCategory />, // Contact Enquiry icon updated
-    name: "Contact Enquiry",
-    path: "/admin/contact-enquiry",
+    icon: <BiCategory />, // Contact Forms icon updated
+    name: "Contact Forms Enquiry",
+    path: "/admin/contact-forms",
   },
   //   {
   //     icon: <CalenderIcon />,
@@ -121,14 +121,17 @@ const navItems: NavItem[] = [
 
 const othersItems: NavItem[] = [
   {
-    icon: <User />, // Settings icon updated
+    icon: <User />,
     name: "Settings",
-    path: "/admin/settings",
+    subItems: [
+      { name: "Blank Page", path: "/admin/blank", pro: false },
+      { name: "404 Error", path: "/admin/error-404", pro: false },
+    ],
   },
   {
-    icon: <UserCheck />, // Admin icon updated
+    icon: <UserCheck />,
     name: "Admin",
-    path: "/admin/admin",
+    path: "/admin/admin-users",
   }
 
   // {
