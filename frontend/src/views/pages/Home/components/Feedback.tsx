@@ -1,5 +1,3 @@
-import "../../../../app.css"
-
 const testimonials = Array.from({ length: 6 }).map((_, i) => ({
   id: i,
   name: "Ritwik Sinha",

@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import Header from "../components/website/Header";
 import Footer from "../components/website/Footer";
+import "../app.css";
 
 /**
  * WebsiteLayout Component
@@ -8,7 +9,7 @@ import Footer from "../components/website/Footer";
  */
 const WebsiteLayout: React.FC = () => {
   return (
-    <div className="min-h-screen">
+    <div className="website-theme min-h-screen">
       {/* Add your public website header here if needed */}
       {/* <PublicHeader /> */}
     <Header />
