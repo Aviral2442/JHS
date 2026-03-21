@@ -14,3 +14,14 @@ export const sendSMSController = async (req: Request, res: Response, next: NextF
         next(error);
     }
 };
+
+// Function to send OTP to mobile using MSG91 API
+export const sendOTPController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const requestOTPOn = req.body.requestOTPOn;
+        const result = await sendSMSService(requestOTPOn);
+        return res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
