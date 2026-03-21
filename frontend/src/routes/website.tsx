@@ -68,7 +68,7 @@ const websiteRoutes: RouteObject[] = [
   { path: "/interior-services", element: <InteriorPage /> },
   { path: "/furniture-services", element: <FurniturePage /> },
   { path: "/carpenter-services", element: <CarpenterPage /> },
-  { path: "/consumer-profile", element: <ConsumerProfilePage /> },
+  { path: "/profile", element: <ConsumerProfilePage /> },
   { path: "/forgot-password", element: <ForgotPasswordFlow /> }
 ];
 
