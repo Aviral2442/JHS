@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import app from './app';
-import db from './src/config/db_Config';
+import db from './config/db_Config';
 
 const PORT = process.env.SERVER_RUN_PORT || 5000;
 
