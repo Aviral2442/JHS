@@ -35,7 +35,12 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />, // Vendor icon updated
     name: "Vendor",
-    path: "/admin/vendor",
+    // path: "/admin/vendor",
+    subItems: [
+      { name: "Vendor List", path: "/admin/category/level-one", pro: false },
+      { name: "Vendor Referrals", path: "/admin/category/level-two", pro: false },
+      { name: "Live Tracking", path: "/admin/category/level-three", pro: false },
+    ],
   },
   {
     icon: <User />, // Booking icon updated
@@ -126,6 +131,15 @@ const othersItems: NavItem[] = [
     subItems: [
       { name: "Blank Page", path: "/admin/blank", pro: false },
       { name: "404 Error", path: "/admin/error-404", pro: false },
+    ],
+  },
+  {
+    icon: <User />,
+    name: "RBAC",
+    subItems: [
+      { name: "Roles", path: "/admin/roles", pro: false },
+      { name: "Modules", path: "/admin/modules", pro: false },
+      { name: "Operations", path: "/admin/operations", pro: false },
     ],
   },
   {
