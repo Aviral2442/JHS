@@ -52,6 +52,11 @@ const AddCLTwo = lazy(() => import("../views/admin/categories/categoryLevel2/com
 const CLThreeList = lazy(() => import("../views/admin/categories/categoryLevel3"));
 const AddCLThree = lazy(() => import("../views/admin/categories/categoryLevel3/components/AddCLThree"));
 
+// Service routes
+
+const CleaningServiceList = lazy(() => import("../views/admin/services"));
+const InteriorDesignServiceList = lazy(() => import("../views/admin/services/components/InteriorDesignService"));
+
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
 /**
@@ -69,7 +74,7 @@ const protectedAdminRoutes: RouteObject[] = [
     index: true,
     element: <AdminHome />,
   },
-    {
+  {
     path: "/admin/auth/sign-in",
     element: <SignIn />,
   },
@@ -228,6 +233,14 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/booking/detail/:bookingId",
     element: <BookingDetail />,
+  },
+  {
+    path: "/admin/services/manage-cleaning-service",
+    element: <CleaningServiceList />,
+  },
+  {
+    path: "/admin/services/manage-interior-design-service",
+    element: <InteriorDesignServiceList />,
   }
 ];
 
