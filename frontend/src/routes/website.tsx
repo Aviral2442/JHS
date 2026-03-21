@@ -57,7 +57,7 @@ const websiteRoutes: RouteObject[] = [
   { path: "/returns", element: <ReturnPolicyPage /> },
   { path: "/shipping", element: <ShippingPolicyPage /> },
   { path: "/terms", element: <TermsOfServicePage /> },
-  { path: "/order", element: <OrderPage /> },
+  { path: "/orders", element: <OrderPage /> },
   { path: "/order-detail", element: <OrderDetailPage /> },
   { path: "/thank-you", element: <Thankyou /> },
   { path: "/service-detail", element: <ServiceDetail /> },
@@ -68,7 +68,7 @@ const websiteRoutes: RouteObject[] = [
   { path: "/interior-services", element: <InteriorPage /> },
   { path: "/furniture-services", element: <FurniturePage /> },
   { path: "/carpenter-services", element: <CarpenterPage /> },
-  { path: "/consumer-profile", element: <ConsumerProfilePage /> },
+  { path: "/profile", element: <ConsumerProfilePage /> },
   { path: "/forgot-password", element: <ForgotPasswordFlow /> }
 ];
 

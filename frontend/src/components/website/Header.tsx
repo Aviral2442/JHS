@@ -33,7 +33,7 @@ import {
   Sun,
 } from "lucide-react";
 import { FaCouch } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import SearchOverlay from "../../components/website/SearchOverlay";
 
 
@@ -372,7 +372,7 @@ const services: Service[] = [
 ];
 
 const mainMenuItems = [
-  { name: "Categories", href: "/categories" },
+  { name: "Categories", href: "/category" },
   { name: "Services", href: "/services" },
   { name: "About Us", href: "/about" },
   { name: "FAQ", href: "/faq" },
@@ -506,7 +506,6 @@ const MainHeader: React.FC<{
                 </button>
               </div>
 
-              {/* User profile img with name and with dropdown to show other options */}
               <div className="relative">
                 <button
                   className="flex items-center space-x-2 focus:outline-none"
@@ -515,7 +514,7 @@ const MainHeader: React.FC<{
                   tabIndex={0}
                 >
                   <img
-                    src="/images/user-profile.jpg"
+                    src="http://localhost:5173/images/logo.png"
                     alt="User Profile"
                     className="w-8 h-8 rounded-full"
                   />
@@ -527,15 +526,12 @@ const MainHeader: React.FC<{
                 {/* Dropdown */}
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50 animate-fade-in">
-                    <a href="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                       My Profile
-                    </a>
-                    <a href="/orders" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    </Link>
+                    <Link to="/orders" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                       My Orders
-                    </a>
-                    <a href="/settings" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      Settings
-                    </a>
+                    </Link>
                     <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
                       Logout
                     </button>
