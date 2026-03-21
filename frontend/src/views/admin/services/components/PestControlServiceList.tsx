@@ -35,7 +35,7 @@ interface Filters {
     search: string;
 }
 
-const CleaningServiceList: React.FC = () => {
+const InteriorDesignServiceList: React.FC = () => {
     const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [consumers, setConsumers] = useState<ConsumerItem[]>([]);
@@ -135,7 +135,7 @@ const CleaningServiceList: React.FC = () => {
             <div className="p-5 lg:p-6 space-y-5">
                 {/* Filters Row */}
                 <DataTableFilters
-                    title="Manage Cleaning Services"
+                    title="Manage Pest Control Services"
                     onFilterChange={handleFilterChange}
                     onAddNew={() => navigate("/admin/services/add")}
                     statusOptions={[
@@ -375,4 +375,4 @@ const CleaningServiceList: React.FC = () => {
     );
 };
 
-export default CleaningServiceList;
+export default InteriorDesignServiceList;

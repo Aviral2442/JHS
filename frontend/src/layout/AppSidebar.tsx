@@ -57,12 +57,12 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Cleaning Services", path: "/admin/services/manage-cleaning-service", pro: false },
       { name: "Interior Design Services", path: "/admin/services/manage-interior-design-service", pro: false },
-      { name: "Furniture Services", path: "/admin/category/level-two", pro: false },
-      { name: "Carpenter Services", path: "/admin/category/level-two", pro: false },
-      { name: "Painting Services", path: "/admin/category/level-two", pro: false },
-      { name: "Pest Control Services", path: "/admin/category/level-two", pro: false },
-      { name: "Plumber Services", path: "/admin/category/level-two", pro: false },
-      { name: "Electrician Services", path: "/admin/category/level-two", pro: false },
+      { name: "Furniture Services", path: "/admin/services/manage-furniture-service", pro: false },
+      // { name: "Carpenter Services", path: "/admin/category/level-two", pro: false },
+      // { name: "Painting Services", path: "/admin/category/level-two", pro: false },
+      { name: "Pest Control Services", path: "/admin/services/manage-pest-control-service", pro: false },
+      // { name: "Plumber Services", path: "/admin/category/level-two", pro: false },
+      // { name: "Electrician Services", path: "/admin/category/level-two", pro: false },
     ],
   },
   {

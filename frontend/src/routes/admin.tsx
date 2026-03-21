@@ -55,7 +55,10 @@ const AddCLThree = lazy(() => import("../views/admin/categories/categoryLevel3/c
 // Service routes
 
 const CleaningServiceList = lazy(() => import("../views/admin/services"));
-const InteriorDesignServiceList = lazy(() => import("../views/admin/services/components/InteriorDesignService"));
+const InteriorDesignServiceList = lazy(() => import("../views/admin/services/components/InteriorDesignServiceList"));
+const PestControlServiceList = lazy(() => import("../views/admin/services/components/PestControlServiceList"));
+const FurnitureServiceList = lazy(() => import("../views/admin/services/components/FurnitureServiceList"));
+const AddService = lazy(() => import("../views/admin/services/components/AddService"));
 
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
@@ -241,6 +244,18 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/services/manage-interior-design-service",
     element: <InteriorDesignServiceList />,
+  },
+  {
+    path: "/admin/services/manage-pest-control-service",
+    element: <PestControlServiceList />,
+  },
+  {
+    path: "/admin/services/manage-furniture-service",
+    element: <FurnitureServiceList />,
+  },
+  {
+    path: "/admin/services/add",
+    element: <AddService />,
   }
 ];
 
