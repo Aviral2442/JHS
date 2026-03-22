@@ -137,7 +137,7 @@ const RoleList: React.FC = () => {
                 <DataTableFilters
                     title="Manage Roles"
                     onFilterChange={handleFilterChange}
-                    onAddNew={() => navigate("/admin/roles/add")}
+                    onAddNew={() => navigate("/admin/permissions/1")}
                     statusOptions={[
                         { label: "Active", value: 'active' },
                         { label: "Inactive", value: 'inactive' },
