@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { addRoleService, fetchRoleDetailsService, getRoleListService, updateRoleService, updateRoleStatusService } from '../../services/admin/roleBasedAccessControl.service';
+import { addModuleService, addRoleService, fetchModuleDetailsService, fetchRoleDetailsService, getModuleListService, getRoleListService, updateModuleService, updateModuleStatusService, updateRoleService, updateRoleStatusService } from '../../services/admin/roleBasedAccessControl.service';
 
 
 //----------------------------------------------ROLE CONTROLLER----------------------------------------------//
@@ -85,6 +85,96 @@ export const updateRoleStatusController = async (req: Request, res: Response, ne
             });
         }
         const result = await updateRoleStatusService(status, role_id);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+//----------------------------------------------MODULES CONTROLLER----------------------------------------------//
+
+// MODULE LIST CONTROLLER
+export const getModuleListController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const filters = {
+            date: req.query.date as string,
+            status: req.query.status as string,
+            fromDate: req.query.fromDate as string,
+            toDate: req.query.toDate as string,
+            page: req.query.page ? parseInt(req.query.page as string, 10) : undefined,
+            limit: req.query.limit ? parseInt(req.query.limit as string, 10) : undefined,
+            search: req.query.search as string,
+        }
+        const result = await getModuleListService(filters);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// ADD MODULE CONTROLLER
+export const addModuleController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const data = req.body;
+        const result = await addModuleService(data);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// FETCH MODULE DETAIL CONTROLLER
+export const getModuleDetailController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const module_id = parseInt(req.params.module_id);
+        if (!module_id) {
+            return res.status(400).json({
+                status: 400,
+                message: "Module ID is required and must be a valid integer.",
+            });
+        } 
+        const result = await fetchModuleDetailsService(module_id);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// UPDATE MODULE CONTROLLER
+export const updateModuleController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const module_id = parseInt(req.params.module_id);
+        const data = req.body;
+
+        if (!module_id) {
+            return res.status(400).json({
+                status: 400,
+                message: "Module ID is required and must be a valid integer.",
+            });
+        }
+
+        const result = await updateModuleService(data, module_id);
+        res.status(result.status).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// UPDATE MODULE STATUS CONTROLLER
+export const updateModuleStatusController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const module_id = parseInt(req.params.module_id);
+        const { status } = req.body.module_status;
+
+        if (!module_id || status === undefined) {
+            return res.status(400).json({
+                status: 400,
+                message: "Module ID OR Status is required and must be a valid integer.",
+            });
+        }
+        const result = await updateModuleStatusService(status, module_id);
         res.status(result.status).json(result);
     } catch (error) {
         next(error);
