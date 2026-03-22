@@ -3,7 +3,7 @@ import { addProductController, getProductDetailController, getProductListControl
 
 const router = Router();
 
-router.get('get_product_list', getProductListController);
+router.post('/get_product_list', getProductListController);
 router.post('/add_product_data', addProductController);
 router.get('/get_product_details', getProductDetailController);
 router.put('/update_product_details', updateProductController)

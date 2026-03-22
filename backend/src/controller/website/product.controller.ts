@@ -4,17 +4,30 @@ import { addProductService, fetchProductDetailsService, getProductListService, u
 // GET PRODUCT LIST CONTROLLER
 export const getProductListController = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const payload: any = req.body && Object.keys(req.body).length ? req.body : req.query;
+
         const filters = {
-            date: req.query.date as string,
-            status: req.query.status as string,
-            fromDate: req.query.fromDate as string,
-            toDate: req.query.toDate as string,
-            page: req.query.page ? parseInt(req.query.page as string, 10) : undefined,
-            limit: req.query.limit ? parseInt(req.query.limit as string, 10) : undefined,
-            search: req.query.search as string,
+            date: payload.date as string,
+            status: payload.status as string,
+            fromDate: payload.fromDate as string,
+            toDate: payload.toDate as string,
+            page: payload.page ? parseInt(payload.page as string, 10) : undefined,
+            limit: payload.limit ? parseInt(payload.limit as string, 10) : undefined,
+            search: payload.search as string,
         }
 
-        const result = await getProductListService(filters);
+        const categoryRaw = payload.category ?? payload.category_id ?? payload.service_ctg_level_1;
+        const categoryId = Number.parseInt(String(categoryRaw), 10);
+
+        if (!Number.isInteger(categoryId) || categoryId <= 0) {
+            return res.status(400).json({
+                status: 400,
+                message: "Valid category id is required.",
+                jsonData: {},
+            });
+        }
+
+        const result = await getProductListService(filters, categoryId);
         res.status(result.status).json(result);
     } catch (error) {
         next(error);

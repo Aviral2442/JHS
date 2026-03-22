@@ -13,8 +13,16 @@ export const getProductListService = async (filters?: {
   page?: number;
   limit?: number;
   search?: string;
-}, category?: string) => {
+}, categoryId?: number) => {
   try {
+    if (!categoryId) {
+      return {
+        status: 400,
+        message: "Valid category id is required.",
+        jsonData: {},
+      };
+    }
+
     const page = filters?.page && filters.page > 0 ? filters.page : 1;
     const limit = filters?.limit && filters.limit > 0 ? filters.limit : 10;
     const offset = (page - 1) * limit;
@@ -27,6 +35,16 @@ export const getProductListService = async (filters?: {
 
     let finalWhereSQL = whereSQL;
 
+    const appendCondition = (baseWhere: string, condition: string) => {
+      if (/where\s+/i.test(baseWhere)) {
+        return `${baseWhere} AND ${condition}`;
+      }
+      return `${baseWhere} WHERE ${condition}`;
+    };
+
+    finalWhereSQL = appendCondition(finalWhereSQL, "service.service_ctg_level_1 = ?");
+    params.push(categoryId);
+
     if (filters?.status) {
       const statusConditionMap: Record<string, string> = {
         active: "service.service_status = 0",
@@ -36,22 +54,14 @@ export const getProductListService = async (filters?: {
       const condition = statusConditionMap[filters.status];
 
       if (condition) {
-        if (/where\s+/i.test(finalWhereSQL)) {
-          finalWhereSQL += ` AND ${condition}`;
-        } else {
-          finalWhereSQL += ` WHERE ${condition}`;
-        }
+        finalWhereSQL = appendCondition(finalWhereSQL, condition);
       }
     }
 
     if (searchTerm) {
       const searchConditon = `service.service_title LIKE ? OR service.service_id LIKE ?`;
-      if (/where\s+/i.test(finalWhereSQL)) {
-        finalWhereSQL += ` AND (${searchConditon})`;
-      } else {
-        finalWhereSQL += ` WHERE ${searchConditon}`;
-      }
-      params.push(searchTerm, searchTerm, searchTerm);
+      finalWhereSQL = appendCondition(finalWhereSQL, `(${searchConditon})`);
+      params.push(searchTerm, searchTerm);
     }
 
     const isDateFilerApplied = filters?.date || (filters?.fromDate && filters?.toDate);
@@ -70,6 +80,7 @@ export const getProductListService = async (filters?: {
     const query = `
             SELECT
                 service.service_id,
+                service.service_ctg_level_1,
                 service.service_title,
                 service.service_primary_img,
                 service.service_fixed_price,
@@ -78,9 +89,8 @@ export const getProductListService = async (filters?: {
                 category_level_1.category_level1_name
               FROM
             service
-            LEFT JOIN category_level_1 ON service.category_level_1_id = category_level_1.category_level_1_id
+            LEFT JOIN category_level_1 ON service.service_ctg_level_1 = category_level_1.category_level1_id
             ${finalWhereSQL}
-            WHERE category_level_1.category_level_1_id = ${category}
             ORDER BY service.service_createdAt DESC
             LIMIT ? OFFSET ?
         `
@@ -91,7 +101,10 @@ export const getProductListService = async (filters?: {
     let total;
 
     if (noFilterApplied) {
-      const [countAllRows]: any = await dbConfig.query(`SELECT COUNT(*) as total FROM service`);
+      const [countAllRows]: any = await dbConfig.query(
+        `SELECT COUNT(*) as total FROM service ${finalWhereSQL}`,
+        params
+      );
       const acturalTotal = countAllRows[0]?.total || 0;
 
       if (acturalTotal < 100) {
@@ -100,7 +113,10 @@ export const getProductListService = async (filters?: {
         total = 100;
       }
     } else {
-      const [countAllRows]: any = await dbConfig.query(`SELECT COUNT(*) as total FROM service ${finalWhereSQL}`, params);
+      const [countAllRows]: any = await dbConfig.query(
+        `SELECT COUNT(*) as total FROM service ${finalWhereSQL}`,
+        params
+      );
       total = countAllRows[0]?.total || 0;
     }
 
@@ -133,9 +149,9 @@ export const addProductService = async (data: any) => {
   try {
 
     const insertServiceData = {
-      service_ctg_level_1: data.category_level_1_id,
-      service_ctg_level_2: data.category_level_2_id,
-      service_ctg_level_3: data.category_level_3_id,
+      service_ctg_level_1: data.service_ctg_level_1,
+      service_ctg_level_2: data.service_ctg_level_2,
+      service_ctg_level_3: data.service_ctg_level_3,
       service_title: data.service_title,
       service_sku: data.service_sku,
       service_primary_img: '',
@@ -170,7 +186,7 @@ export const addProductService = async (data: any) => {
       service_detail_includes: data.service_detail_includes,
       service_detail_excluded: data.service_detail_excluded,
       service_detail_please_note: data.service_detail_please_note,
-      service_detail_see_the_diff_img: data.service_detail_see_the_diff_img,
+      service_detail_see_the_diff_img: '',
       service_detail_needed_from_consumer: data.service_detail_needed_from_consumer,
     }
 
