@@ -66,9 +66,16 @@ const VendorTransList = lazy(() => import("../views/admin/transaction/components
 
 // Admin Users Routes
 const AdminList = lazy(() => import("../views/admin/adminUser"));
+const AddAdmin = lazy(() => import("../views/admin/adminUser/components/AddAdmin"));
 
 // Contact Form Routes
 const ContactFormList = lazy(() => import("../views/admin/contactForm"));
+
+// Role Based Access Control Routes
+const RoleList = lazy(() => import("../views/admin/roleBaseAccessControl/components/RoleList"));
+const ModuleList = lazy(() => import("../views/admin/roleBaseAccessControl/components/ModuleList"));
+const OperationList = lazy(() => import("../views/admin/roleBaseAccessControl/components/OperationList"));
+const PermissionDetail = lazy(() => import("../views/admin/roleBaseAccessControl/components/PermissionDetail"));
 
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
@@ -284,8 +291,28 @@ const protectedAdminRoutes: RouteObject[] = [
     element: <AdminList />,
   },
   {
+    path: "/admin/admin-users/add",
+    element: <AddAdmin />,
+  },
+  {
     path: "/admin/contact-forms",
     element: <ContactFormList />,
+  },
+  {
+    path: "/admin/roles",
+    element: <RoleList />,
+  },
+  {
+    path: "/admin/modules",
+    element: <ModuleList />,
+  },
+  {
+    path: "/admin/operations",
+    element: <OperationList />,
+  },
+  {
+    path: "/admin/permissions/:roleId",
+    element: <PermissionDetail />,
   }
 ];
 

@@ -35,7 +35,7 @@ interface Filters {
     search: string;
 }
 
-const AdminList: React.FC = () => {
+const OperationList: React.FC = () => {
     const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [consumers, setConsumers] = useState<ConsumerItem[]>([]);
@@ -135,9 +135,9 @@ const AdminList: React.FC = () => {
             <div className="p-5 lg:p-6 space-y-5">
                 {/* Filters Row */}
                 <DataTableFilters
-                    title="Manage Admin Users"
+                    title="Manage Operations"
                     onFilterChange={handleFilterChange}
-                    onAddNew={() => navigate("/admin/admin-users/add")}
+                    onAddNew={() => navigate("/admin/operations/add")}
                     statusOptions={[
                         { label: "Active", value: 'active' },
                         { label: "Inactive", value: 'inactive' },
@@ -375,4 +375,4 @@ const AdminList: React.FC = () => {
     );
 };
 
-export default AdminList;
+export default OperationList;
