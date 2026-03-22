@@ -196,7 +196,7 @@ const DatatableActionButton: React.FC<Props> = ({
   return (
     <div className="flex">
       <button
-        className="px-3 py-1 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-1 text-sm font-medium text-zinc-900 bg-gray-300 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={loading}
         onClick={handleCopy}
       >
@@ -204,7 +204,7 @@ const DatatableActionButton: React.FC<Props> = ({
       </button>
 
       <button
-        className="px-2 py-1 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-2 py-1 text-sm font-medium text-zinc-900 bg-gray-300 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={loading}
         onClick={handleExcel}
       >
@@ -212,7 +212,7 @@ const DatatableActionButton: React.FC<Props> = ({
       </button>
 
       <button
-        className="px-3 py-1 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-1 text-sm font-medium text-zinc-900 bg-gray-300 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={loading}
         onClick={handleCSV}
       >
@@ -220,7 +220,7 @@ const DatatableActionButton: React.FC<Props> = ({
       </button>
 
       <button
-        className="px-3 py-2 text-sm font-medium text-gray-700 bg-blue-600 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 text-sm font-medium text-zinc-900 bg-gray-300 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={loading}
         onClick={handlePDF}
       >
