@@ -30,6 +30,8 @@ const FormElements = lazy(() => import("../views/admin/Forms/FormElements"));
 const Blank = lazy(() => import("../views/admin/Blank"));
 const NotFound = lazy(() => import("../views/admin/OtherPage/NotFound"));
 
+const AdminDashboard = lazy(() => import("../views/admin/AdminDashboard"));
+
 const BlogList = lazy(() => import("../views/admin/blog"));
 const AddBlog = lazy(() => import("../views/admin/blog/components/AddBlog"));
 
@@ -165,6 +167,10 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "charts/bar-chart",
     element: <BarChart />,
+  },
+  {
+    path: "/admin/dashboard",
+    element: <AdminDashboard />,
   },
   {
     path: "/admin/blog",
