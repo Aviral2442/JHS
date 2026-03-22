@@ -137,7 +137,7 @@ const AdminList: React.FC = () => {
                 <DataTableFilters
                     title="Manage Admin Users"
                     onFilterChange={handleFilterChange}
-                    onAddNew={() => navigate("/admin/services/add")}
+                    onAddNew={() => navigate("/admin/admin-users/add")}
                     statusOptions={[
                         { label: "Active", value: 'active' },
                         { label: "Inactive", value: 'inactive' },

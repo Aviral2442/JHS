@@ -66,6 +66,7 @@ const VendorTransList = lazy(() => import("../views/admin/transaction/components
 
 // Admin Users Routes
 const AdminList = lazy(() => import("../views/admin/adminUser"));
+const AddAdmin = lazy(() => import("../views/admin/adminUser/components/AddAdmin"));
 
 // Contact Form Routes
 const ContactFormList = lazy(() => import("../views/admin/contactForm"));
@@ -288,6 +289,10 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/admin-users",
     element: <AdminList />,
+  },
+  {
+    path: "/admin/admin-users/add",
+    element: <AddAdmin />,
   },
   {
     path: "/admin/contact-forms",
