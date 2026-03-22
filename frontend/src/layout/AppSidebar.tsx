@@ -43,11 +43,6 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    icon: <User />, // Booking icon updated
-    name: "Booking",
-    path: "/admin/booking",
-  },
-  {
     icon: <UserCheck />, // Categories icon updated
     name: "Categories",
     subItems: [
@@ -68,6 +63,16 @@ const navItems: NavItem[] = [
       { name: "Pest Control Services", path: "/admin/services/manage-pest-control-service", pro: false },
       // { name: "Plumber Services", path: "/admin/category/level-two", pro: false },
       // { name: "Electrician Services", path: "/admin/category/level-two", pro: false },
+    ],
+  },
+  {
+    icon: <User />, // Booking icon updated
+    name: "Booking",
+    subItems: [
+      { name: "Cleaning Services", path: "/admin/booking", pro: false },
+      { name: "Interior Design Services", path: "/admin/services/manage-interior-design-service", pro: false },
+      { name: "Furniture Services", path: "/admin/services/manage-furniture-service", pro: false },
+      { name: "Pest Control Services", path: "/admin/services/manage-pest-control-service", pro: false },
     ],
   },
   {
@@ -378,7 +383,7 @@ const AppSidebar: React.FC = () => {
         className={`py-8 flex ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
           }`}
       >
-        <Link to="/admin">
+        {/* <Link to="/admin">
           {isExpanded || isHovered || isMobileOpen ? (
             <div className="bg-transparent">
               <img
@@ -399,7 +404,21 @@ const AppSidebar: React.FC = () => {
               />
             </div>
           )}
-        </Link>
+        </Link> */}
+        {/* Mention The Company Name */}
+        <div className="bg-none">
+          <img
+            src="http://localhost:5173/images/logo.png"
+            alt="Logo"
+            width={32}
+            height={32}
+          />
+        </div>
+        {(isExpanded || isHovered || isMobileOpen) && (
+          <span className="text-2xl font-bold text-gray-800 dark:text-gray-200 ml-3">
+            JHS
+          </span>
+        )}
       </div>
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
