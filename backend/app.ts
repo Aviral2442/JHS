@@ -12,6 +12,7 @@ import bookingRoutes from './src/routes/admin/booking.routes';
 import settingRoutes from './src/routes/website/setting.routes';
 import path from 'path/win32';
 import mailRoutes from './src/routes/mailer.routes';
+import adminRoutes from './src/routes/admin/admin.routes';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/api/category', categoryRoutes);
 app.use('/api/consumer', consumerRoutes);
 app.use('/api/vendor', vendorRoutes);
 app.use('/api/booking', bookingRoutes);
+app.use('/api/admin', adminRoutes);
 
 // WEBSITE ROUTES
 app.use('/api/auth', websiteAuthRoutes);
