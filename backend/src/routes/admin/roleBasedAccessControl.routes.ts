@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { addModuleController, addRoleController, getModuleDetailController, getModuleListController, getRoleDetailController, getRoleListController, getSidebarController, updateModuleController, updateModuleStatusController, updateRoleController, updateRoleStatusController } from "../../controller/admin/roleBasedAccessControl.controller";
-import { verifyToken } from "../../utils/jwt";
+// import { verifyToken } from "../../utils/jwt";
+import { authMiddleware } from "../../middleware/authMiddleware";
 
 const router = Router();
 
@@ -20,6 +21,6 @@ router.put('/update_module_details/:module_id', updateModuleController);
 router.patch('/update_module_status/:module_id', updateModuleStatusController);
 
 
-router.get("/sidebar", getSidebarController);
+router.get("/sidebar", authMiddleware, getSidebarController);
 
 export default router;

@@ -534,7 +534,7 @@ export const getSidebarService = async (roleId: number) => {
     `;
 
         const [rows]: any = await dbConfig.query(query, [roleId]);
-        console.log("Sidebar Data:", rows);
+        // console.log("Sidebar Data:", rows);
 
         // 👉 Transform into nested structure
         const modulesMap: any = {};
@@ -559,7 +559,13 @@ export const getSidebarService = async (roleId: number) => {
             }
         });
 
-        return Object.values(modulesMap);
+        return {
+            status: 200,
+            message: "Sidebar data fetched successfully.",
+            jsonData: {
+                sidebar: Object.values(modulesMap)
+            },
+        }
 
     } catch (error) {
         throw error;

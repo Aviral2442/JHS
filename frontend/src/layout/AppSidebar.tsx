@@ -9,9 +9,12 @@ import {
   GridIcon,
   HorizontaLDots,
   PieChartIcon,
+  PlugInIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 import { BookAIcon, User, UserCheck } from "lucide-react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 // import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
@@ -19,6 +22,19 @@ type NavItem = {
   icon: React.ReactNode;
   path?: string;
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
+};
+
+type SidebarOperation = {
+  operations_id?: number;
+  operation_id?: number;
+  operation_name: string;
+  operation_url: string;
+};
+
+type SidebarModule = {
+  module_id: number;
+  module_name: string;
+  operations: SidebarOperation[];
 };
 
 const navItems: NavItem[] = [
@@ -151,7 +167,7 @@ const othersItems: NavItem[] = [
     icon: <UserCheck />,
     name: "Admin",
     path: "/admin/admin-users",
-  }
+  },
 
   // {
   //   icon: <PieChartIcon />,
@@ -173,19 +189,64 @@ const othersItems: NavItem[] = [
   //     { name: "Videos", path: "/admin/videos", pro: false },
   //   ],
   // },
-  // {
-  //   icon: <PlugInIcon />,
-  //   name: "Authentication",
-  //   subItems: [
-  //     { name: "Sign In", path: "/admin/auth/sign-in", pro: false },
-  //     { name: "Sign Up", path: "/admin/auth/sign-up", pro: false },
-  //   ],
-  // },
+  {
+    icon: <PlugInIcon />,
+    name: "Authentication",
+    subItems: [
+      { name: "Sign In", path: "/admin/auth/sign-in", pro: false },
+      { name: "Sign Up", path: "/admin/auth/sign-up", pro: false },
+    ],
+  },
 ];
 
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
+  const baseUrl = import.meta.env.VITE_URL || "http://localhost:5000";
+  const [sidebar, setSidebar] = useState<SidebarModule[]>([]);
+
+  const token = localStorage.getItem("admin_token");
+  if (!token) {
+    console.warn("No token found in localStorage. Sidebar data will not be fetched.");
+  }
+
+  const decodedToken: { roleId?: number } | null = token
+    ? jwtDecode(token)
+    : null;
+  const roleId = decodedToken?.roleId;
+  // console.log(roleId)
+  const fetchSidebarData = async () => {
+    if (!token) {
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${baseUrl}/api/role-base-access-control/sidebar`, {
+        params: {
+          roleId,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log("Fetch Sidebar Response:", response);
+      if (response.data?.status === 200) {
+        const nextSidebar = response.data?.jsonData?.sidebar;
+        if (Array.isArray(nextSidebar)) {
+          setSidebar(nextSidebar);
+        }
+        console.log("Fetched Sidebar Data:", response.data.jsonData);
+      } else {
+        console.error("Failed to fetch sidebar data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching sidebar data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSidebarData();
+  }, [token, roleId, baseUrl]);
 
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";
@@ -423,6 +484,45 @@ const AppSidebar: React.FC = () => {
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
+            {sidebar.length > 0 && (
+              <div>
+                <h2
+                  className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                    }`}
+                >
+                  {isExpanded || isHovered || isMobileOpen ? (
+                    "Permission Menu"
+                  ) : (
+                    <HorizontaLDots className="size-6" />
+                  )}
+                </h2>
+                <div className="space-y-4">
+                  {sidebar.map((module) => (
+                    <div key={module.module_id} className="space-y-1">
+                      <h4 className="menu-item-text text-xs font-semibold uppercase text-gray-500">
+                        {module.module_name}
+                      </h4>
+
+                      {module.operations.map((op) => (
+                        <div key={op.operations_id ?? op.operation_id} className="ml-2">
+                          <Link
+                            to={op.operation_url}
+                            className={`menu-dropdown-item ${isActive(op.operation_url)
+                              ? "menu-dropdown-item-active"
+                              : "menu-dropdown-item-inactive"
+                              }`}
+                          >
+                            {op.operation_name}
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <div>
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered

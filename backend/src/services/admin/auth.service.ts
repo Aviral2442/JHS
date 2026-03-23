@@ -60,7 +60,7 @@ export const adminLoginService = async (
     }
 
     const [rows]: any = await dbConfig.query(
-      `SELECT admin_id, admin_name, admin_email, admin_password, admin_profile
+      `SELECT admin_id, admin_name, admin_email, admin_password, admin_profile, role_id
        FROM admin 
        WHERE admin_email = ? LIMIT 1`,
       [admin_email]
@@ -80,7 +80,7 @@ export const adminLoginService = async (
       adminId: admin.admin_id,
       name: admin.admin_name,
       email: admin.admin_email,
-      role: "admin",
+      roleId: admin.role_id
     };
 
     const token = generateToken(payload);
@@ -92,7 +92,8 @@ export const adminLoginService = async (
         adminId: admin.admin_id,
         adminName: admin.admin_name,
         adminEmail: admin.admin_email,
-        profilePic: admin.profilePic,
+        profilePic: admin.admin_profile,
+        roleId: admin.role_id,
       },
       token,
     };
