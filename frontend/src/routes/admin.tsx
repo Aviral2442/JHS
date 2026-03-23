@@ -77,6 +77,8 @@ const ModuleList = lazy(() => import("../views/admin/roleBaseAccessControl/compo
 const OperationList = lazy(() => import("../views/admin/roleBaseAccessControl/components/OperationList"));
 const PermissionDetail = lazy(() => import("../views/admin/roleBaseAccessControl/components/PermissionDetail"));
 
+const AddRole = lazy(() => import("../views/admin/roleBaseAccessControl/components/AddRole"));
+
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
 /**
@@ -313,6 +315,10 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/permissions/:roleId",
     element: <PermissionDetail />,
+  },
+  {
+    path: "/admin/roles/add",
+    element: <AddRole />,
   }
 ];
 

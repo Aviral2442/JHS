@@ -134,6 +134,7 @@ const RoleList: React.FC = () => {
                     title="Manage Roles"
                     onFilterChange={handleFilterChange}
                     onAddNew={() => navigate("/admin/permissions/1")}
+                    // onAddNew={() => navigate("/admin/permissions/1")}
                     statusOptions={[
                         { label: "Active", value: 'active' },
                         { label: "Inactive", value: 'inactive' },
