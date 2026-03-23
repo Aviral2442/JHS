@@ -13,6 +13,7 @@ import settingRoutes from './src/routes/website/setting.routes';
 import path from 'path/win32';
 import mailRoutes from './src/routes/mailer.routes';
 import adminRoutes from './src/routes/admin/admin.routes';
+import roleBaseAccessControl from './src/routes/admin/roleBasedAccessControl.routes';
 
 const app = express();
 
@@ -30,7 +31,7 @@ app.use('/api/consumer', consumerRoutes);
 app.use('/api/vendor', vendorRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/admin', adminRoutes);
-
+app.use('/api/role-base-access-control', roleBaseAccessControl);
 // WEBSITE ROUTES
 app.use('/api/auth', websiteAuthRoutes);
 app.use('/api/products', productRoutes);

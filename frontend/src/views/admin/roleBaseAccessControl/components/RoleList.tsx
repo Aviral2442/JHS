@@ -7,17 +7,13 @@ import DatatableActionButton from "../../../../components/DatatableActionButton"
 import { formatDate } from "../../../../components/DateFormat";
 
 const baseURL = (import.meta as any).env.VITE_URL || "";
-const ENDPOINT = "/api/consumer/get_consumers_list";
+const ENDPOINT = "/api/role-base-access-control/get_role_list";
 
 interface ConsumerItem {
-    consumer_id: number;
-    consumer_profile_pic: string;
-    consumer_full_name: string;
-    consumer_email: string;
-    consumer_mobile: string;
-    consumer_createdAt: string | number;
-    consumer_status: number;
-    consumer_address: string;
+    role_id: number;
+    role_name: string;
+    role_status: string;
+    role_createdAt: string;
 }
 
 interface Pagination {
@@ -73,12 +69,12 @@ const RoleList: React.FC = () => {
 
             const res = await axios.get(`${baseURL}${ENDPOINT}`, { params });
             const data = res.data;
-            setConsumers(data?.jsonData?.consumer_list || []);
+            setConsumers(data?.jsonData?.role_list || []);
             setPagination(
                 data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 },
             );
         } catch (error) {
-            console.error("Failed to fetch consumer list:", error);
+            console.error("Failed to fetch role list:", error);
         } finally {
             setLoading(false);
         }
@@ -116,17 +112,17 @@ const RoleList: React.FC = () => {
         fetchConsumers(page);
     };
 
-    const handleStatusToggle = async (consumerId: number, currentStatus: number) => {
+    const handleStatusToggle = async (roleId: number, currentStatus: number) => {
         const newStatus = currentStatus == 0 ? 1 : 0;
-        console.log(`Toggling status for consumer ID ${consumerId} from ${currentStatus} to ${newStatus}`); // Debug log to check values before API call
+        console.log(`Toggling status for role ID ${roleId} from ${currentStatus} to ${newStatus}`); // Debug log to check values before API call
         try {
-            await axios.patch(`${baseURL}/api/consumer/update_consumer_status/${consumerId}`, {
-                consumer_status: newStatus,
+            await axios.patch(`${baseURL}/api/role-base-access-control/update_role_status/${roleId}`, {
+                role_status: newStatus,
             });
-            console.log(`Consumer ID ${consumerId} status updated to ${newStatus}`);
+            console.log(`Role ID ${roleId} status updated to ${newStatus}`);
             fetchConsumers(pagination.page);
         } catch (error) {
-            console.error("Failed to update consumer status:", error);
+            console.error("Failed to update role status:", error);
         }
     };
 
@@ -178,16 +174,7 @@ const RoleList: React.FC = () => {
                                     ID
                                 </th>
                                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
-                                    Profile
-                                </th>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
                                     Name
-                                </th>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
-                                    Mobile
-                                </th>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
-                                    Email
                                 </th>
                                 <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">
                                     Date
@@ -216,68 +203,36 @@ const RoleList: React.FC = () => {
                                         colSpan={7}
                                         className="px-4 py-10 text-center text-gray-400 dark:text-gray-500"
                                     >
-                                        No consumers found.
+                                        No role found.
                                     </td>
                                 </tr>
                             ) : (
                                 consumers.map((consumer, idx) => {
                                     const sNo =
                                         (pagination.page - 1) * pagination.limit + idx + 1;
-                                    const isActive = consumer.consumer_status == 0;
+                                    const isActive = consumer.role_status == 0;
 
                                     return (
                                         <tr
-                                            key={consumer.consumer_id}
+                                            key={consumer.role_id}
                                             className="border-b border-gray-100 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700/40 transition-colors"
                                         >
-                                            {/* S.No. */}
                                             <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
                                                 {sNo}
                                             </td>
 
-                                            {/* ID */}
                                             <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
-                                                {consumer.consumer_id}
+                                                {consumer.role_id}
                                             </td>
 
-                                            {/* PROFILE */}
                                             <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
-                                                {consumer.consumer_profile_pic ? (
-                                                    <img
-                                                        src={`${baseURL}${consumer.consumer_profile_pic}`}
-                                                        alt="Profile"
-                                                        className="h-8 w-8 rounded-full object-cover"
-                                                    />
-                                                ) : (
-                                                    <img
-                                                        src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_user_personalization&w=740&q=80"
-                                                        alt="Default Profile"
-                                                        className="h-8 w-8 rounded-full object-cover"
-                                                    />
-                                                )}
+                                                {consumer.role_name || ""}
                                             </td>
 
-                                            {/* Name */}
-                                            <td className="px-4 py-2 text-sm text-gray-800 dark:text-gray-200 max-w-xs truncate">
-                                                {consumer.consumer_full_name || ""}
-                                            </td>
-
-                                            {/* Mobile */}
-                                            <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 max-w-sm truncate">
-                                                {consumer.consumer_mobile || ""}
-                                            </td>
-
-                                            {/* EMAIL */}
-                                            <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 max-w-sm truncate">
-                                                {consumer.consumer_email || ""}
-                                            </td>
-
-                                            {/* Date */}
                                             <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                                                {formatDate(consumer.consumer_createdAt)}
+                                                {formatDate(consumer.role_createdAt)}
                                             </td>
 
-                                            {/* Status Badge */}
                                             <td className="px-4 py-2">
                                                 <span
                                                     className={`inline-flex px-3 py-0.5 text-xs font-medium
@@ -295,7 +250,7 @@ const RoleList: React.FC = () => {
                                                 <div className="flex items-center justify-center gap-2">
                                                     {/* Toggle Status */}
                                                     <button
-                                                        onClick={() => handleStatusToggle(consumer.consumer_id, consumer.consumer_status)}
+                                                        onClick={() => handleStatusToggle(consumer.role_id, consumer.role_status)}
                                                         title={isActive ? "Deactivate" : "Activate"}
                                                         className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors
                                                              ${isActive

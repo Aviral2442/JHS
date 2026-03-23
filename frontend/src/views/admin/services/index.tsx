@@ -6,7 +6,6 @@ const ConsumerPage: React.FC = () => {
   return (
     <>
       <PageMeta title="Consumer List | Admin" description="Manage your consumer posts" />
-      {/* <PageBreadcrumb pageTitle="Consumer List" /> */}
       <ConsumerList />
     </>
   );
