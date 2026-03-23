@@ -489,3 +489,120 @@ export const updateModuleStatusService = async (module_id: number, status: numbe
         };
     }
 };
+
+
+
+//----------------------------------------------OPERATIONS SERVICES----------------------------------------------//
+
+// GET OPERATIONS LIST SERVICE
+// export const getOperationsListService = async (filters?: {
+//     date?: string;
+//     status?: string;
+//     fromDate?: string;
+//     toDate?: string;
+//     page?: number;
+//     limit?: number;
+//     search?: string;
+// }) => {
+//     try {
+//         const page = filters?.page && filters.page > 0 ? filters.page : 1;
+//         const limit = filters?.limit && filters.limit > 0 ? filters.limit : 10;
+//         const offset = (page - 1) * limit;
+//         const searchTerm = filters?.search ? `%${filters.search}%` : null;
+
+//         const { whereSQL, params } = buildFilters({
+//             ...filters,
+//             dateColumn: "admin_module.module_createdAt",
+//         });
+
+//         let finalWhereSQL = whereSQL;
+
+//         if (filters?.status) {
+//             const statusConditionMap: Record<string, string> = {
+//                 active: "admin_module.module_status = 0",
+//                 inactive: "admin_module.module_status = 1",
+//             };
+
+//             const statusCondition = statusConditionMap[filters.status];
+
+//             if (statusCondition) {
+//                 if (/where\s+/i.test(finalWhereSQL)) {
+//                     finalWhereSQL += ` AND ${statusCondition}`;
+//                 } else {
+//                     finalWhereSQL += ` WHERE ${statusCondition}`;
+//                 }
+//             }
+//         }
+
+//         if (searchTerm) {
+//             const searchCondition = `admin_module.module_name LIKE ? OR admin_module.module_id LIKE ?`;
+//             if (/where\s+/i.test(finalWhereSQL)) {
+//                 finalWhereSQL += `AND ${searchCondition}`;
+//             } else {
+//                 finalWhereSQL += `WHERE ${searchCondition}`;
+//             }
+//             params.push(searchTerm, searchTerm);
+//         }
+
+//         const isDateFilterApplied = filters?.date || (filters?.fromDate && filters?.toDate);
+//         const isStatusFilterApplied = !!filters?.status;
+//         const isSearchFilterApplied = !!filters?.search;
+//         const noFilterApplied = !isDateFilterApplied && !isStatusFilterApplied && !isSearchFilterApplied;
+
+//         let effectiveLimit = limit;
+//         let effectiveOffset = offset;
+
+//         if (noFilterApplied) {
+//             effectiveLimit = limit;
+//             effectiveLimit = (page - 1) * limit;
+//         }
+
+//         const query = `
+//             SELECT * FROM admin_module
+//             ${finalWhereSQL}
+//             ORDER BY admin_module.module_createdAt DESC
+//             LIMIT ? OFFSET ?
+//         `
+
+//         const queryParams = [...params, effectiveLimit, effectiveOffset];
+//         const [rows]: any = await db_Config.query(query, queryParams);
+
+//         let total;
+
+//         if (noFilterApplied) {
+//             const [countAllRows]: any = await db_Config.query(`SELECT COUNT(*) as total FROM admin_module`);
+//             const actualTotal = countAllRows[0]?.total || 0;
+
+//             if (actualTotal < 100) {
+//                 total = actualTotal;
+//             } else {
+//                 total = 100;
+//             }
+//         } else {
+//             const [countAllRows]: any = await db_Config.query(`SELECT COUNT(*) as total FROM admin_module ${finalWhereSQL}`, params);
+//             total = countAllRows[0]?.total || 0;
+//         }
+
+//         return {
+//             status: 200,
+//             message: "Module List fetched successfully.",
+//             pagination: {
+//                 total,
+//                 page,
+//                 limit,
+//                 totalPages: Math.ceil(total / limit),
+//             },
+//             jsonData: {
+//                 module_list: rows,
+//             }
+//         };
+
+//     } catch (error) {
+//         console.error("Error in getModuleListService:", error);
+//         return {
+//             status: 500,
+//             message: "An error occurred while fetching the module list.",
+//             jsonData: {},
+//         };
+//     }
+// };
