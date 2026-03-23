@@ -1,4 +1,4 @@
-import db_Config from "../../config/db_Config";
+import dbConfig from "../../config/db_Config";
 import { saveBase64File } from "../../middleware/base64FileUpload";
 import { currentUnixTimeStamp } from "../../utils/CurrentUnixTimeStamp";
 import { buildFilters } from "../../utils/filters";
@@ -15,6 +15,7 @@ export const getRoleListService = async (filters?: {
     limit?: number;
     search?: string;
 }) => {
+
     try {
         const page = filters?.page && filters.page > 0 ? filters.page : 1;
         const limit = filters?.limit && filters.limit > 0 ? filters.limit : 10;
@@ -23,7 +24,7 @@ export const getRoleListService = async (filters?: {
 
         const { whereSQL, params } = buildFilters({
             ...filters,
-            dateColumn: "admin_role.created_at",
+            dateColumn: "admin_role.role_createdAt",
         });
 
         let finalWhereSQL = whereSQL;
@@ -34,13 +35,13 @@ export const getRoleListService = async (filters?: {
                 inactive: "admin_role.role_status = 1",
             };
 
-            const statusCondition = statusConditionMap[filters.status];
+            const condition = statusConditionMap[filters.status];
 
-            if (statusCondition) {
+            if (condition) {
                 if (/where\s+/i.test(finalWhereSQL)) {
-                    finalWhereSQL += ` AND ${statusCondition}`;
+                    finalWhereSQL += ` AND ${condition}`;
                 } else {
-                    finalWhereSQL += ` WHERE ${statusCondition}`;
+                    finalWhereSQL = `WHERE ${condition}`;
                 }
             }
         }
@@ -48,40 +49,45 @@ export const getRoleListService = async (filters?: {
         if (searchTerm) {
             const searchCondition = `admin_role.role_name LIKE ? OR admin_role.role_id LIKE ?`;
             if (/where\s+/i.test(finalWhereSQL)) {
-                finalWhereSQL += `AND ${searchCondition}`;
+                finalWhereSQL += ` AND (${searchCondition})`;
             } else {
-                finalWhereSQL += `WHERE ${searchCondition}`;
+                finalWhereSQL = `WHERE ${searchCondition}`;
             }
             params.push(searchTerm, searchTerm);
         }
 
-        const isDateFilterApplied = filters?.date || (filters?.fromDate && filters?.toDate);
+        // Detect filters
+        const isDateFilterApplied = !!filters?.date || !!filters?.fromDate || !!filters?.toDate;
         const isStatusFilterApplied = !!filters?.status;
         const isSearchFilterApplied = !!filters?.search;
-        const noFilterApplied = !isDateFilterApplied && !isStatusFilterApplied && !isSearchFilterApplied;
+        const noFiltersApplied = !isDateFilterApplied && !isStatusFilterApplied && !isSearchFilterApplied;
 
         let effectiveLimit = limit;
         let effectiveOffset = offset;
 
-        if (noFilterApplied) {
-            effectiveLimit = limit;
-            effectiveLimit = (page - 1) * limit;
+        // If NO FILTERS applied → force fixed 100-record window
+        if (noFiltersApplied) {
+            effectiveLimit = limit;              // per page limit (e.g., 10)
+            effectiveOffset = (page - 1) * limit; // correct pagination
         }
 
         const query = `
-            SELECT * FROM admin_role
+            SELECT 
+                admin_role.*
+            FROM admin_role
             ${finalWhereSQL}
-            ORDER BY admin_role.role_createdAt DESC
+            ORDER BY admin_role.role_id DESC
             LIMIT ? OFFSET ?
-        `
+        `;
 
         const queryParams = [...params, effectiveLimit, effectiveOffset];
-        const [rows]: any = await db_Config.query(query, queryParams);
+        const [rows]: any = await dbConfig.query(query, queryParams);
 
         let total;
 
-        if (noFilterApplied) {
-            const [countAllRows]: any = await db_Config.query(`SELECT COUNT(*) as total FROM admin_role`);
+        if (noFiltersApplied) {
+            // determine actual total count and cap at 100 when no filters applied
+            const [countAllRows]: any = await dbConfig.query(`SELECT COUNT(*) as total FROM admin_role`);
             const actualTotal = countAllRows[0]?.total || 0;
 
             if (actualTotal < 100) {
@@ -89,33 +95,38 @@ export const getRoleListService = async (filters?: {
             } else {
                 total = 100;
             }
+
         } else {
-            const [countAllRows]: any = await db_Config.query(`SELECT COUNT(*) as total FROM admin_role ${finalWhereSQL}`, params);
-            total = countAllRows[0]?.total || 0;
+            const [countRows]: any = await dbConfig.query(
+                `SELECT COUNT(*) as total FROM admin_role ${finalWhereSQL}`,
+                params
+            );
+            total = countRows[0]?.total || 0;
         }
 
         return {
             status: 200,
-            message: "Role List fetched successfully.",
+            message: "Role list fetched successfully",
             pagination: {
-                total,
                 page,
                 limit,
+                total,
                 totalPages: Math.ceil(total / limit),
             },
             jsonData: {
-                role_list: rows,
-            }
+                role_list: rows
+            },
         };
 
     } catch (error) {
-        console.error("Error in getRoleListService:", error);
+        console.log(error);
         return {
             status: 500,
-            message: "An error occurred while fetching the role list.",
-            jsonData: {},
-        };
+            message: "Internal Server Error" + error,
+            jsonData: {}
+        }
     }
+
 };
 
 // ADD ROLE
@@ -127,7 +138,7 @@ export const addRoleService = async (data: any) => {
             role_createdAt: currentUnixTimeStamp(),
         }
 
-        const [result]: any = await db_Config.query(`INSERT INTO admin_role SET ?`, [insertData]);
+        const [result]: any = await dbConfig.query(`INSERT INTO admin_role SET ?`, [insertData]);
 
         return {
             status: 200,
@@ -147,7 +158,7 @@ export const addRoleService = async (data: any) => {
 // FETCH ROLE DETAIL SERVICE
 export const fetchRoleDetailsService = async (role_id: number) => {
     try {
-        const [rows]: any = await db_Config.query(`SELECT * FROM admin_role WHERE role_id = ?`, [role_id]);
+        const [rows]: any = await dbConfig.query(`SELECT * FROM admin_role WHERE role_id = ?`, [role_id]);
 
         if (rows.length === 0) {
             return {
@@ -180,7 +191,7 @@ export const updateRoleService = async (data: any, role_id: number) => {
         if (data.role_name) updateData.role_name = data.role_name;
         if (data.role_name) updateData.role_createdAt = currentUnixTimeStamp();
 
-        const [result]: any = await db_Config.query(`UPDATE admin_role SET ? WHERE role_id = ?`, [updateData, role_id]);
+        const [result]: any = await dbConfig.query(`UPDATE admin_role SET ? WHERE role_id = ?`, [updateData, role_id]);
 
         if (result.affectedRows === 0) {
             return {
@@ -209,7 +220,7 @@ export const updateRoleService = async (data: any, role_id: number) => {
 // UPDATE ROLE STATUS SERVICE
 export const updateRoleStatusService = async (role_id: number, status: number) => {
     try {
-        const [result]: any = await db_Config.query(`UPDATE admin_role SET role_status = ? WHERE role_id = ?`, [status, role_id]);
+        const [result]: any = await dbConfig.query(`UPDATE admin_role SET role_status = ? WHERE role_id = ?`, [status, role_id]);
         if (result.affectedRows === 0) {
             return {
                 status: 404,
@@ -307,12 +318,12 @@ export const getModuleListService = async (filters?: {
         `
 
         const queryParams = [...params, effectiveLimit, effectiveOffset];
-        const [rows]: any = await db_Config.query(query, queryParams);
+        const [rows]: any = await dbConfig.query(query, queryParams);
 
         let total;
 
         if (noFilterApplied) {
-            const [countAllRows]: any = await db_Config.query(`SELECT COUNT(*) as total FROM admin_module`);
+            const [countAllRows]: any = await dbConfig.query(`SELECT COUNT(*) as total FROM admin_module`);
             const actualTotal = countAllRows[0]?.total || 0;
 
             if (actualTotal < 100) {
@@ -321,7 +332,7 @@ export const getModuleListService = async (filters?: {
                 total = 100;
             }
         } else {
-            const [countAllRows]: any = await db_Config.query(`SELECT COUNT(*) as total FROM admin_module ${finalWhereSQL}`, params);
+            const [countAllRows]: any = await dbConfig.query(`SELECT COUNT(*) as total FROM admin_module ${finalWhereSQL}`, params);
             total = countAllRows[0]?.total || 0;
         }
 
@@ -369,7 +380,7 @@ export const addModuleService = async (data: any) => {
 
         insertData.module_icon = moduleImage;
 
-        const [result]: any = await db_Config.query(`INSERT INTO admin_module SET ?`, [insertData]);
+        const [result]: any = await dbConfig.query(`INSERT INTO admin_module SET ?`, [insertData]);
 
         return {
             status: 200,
@@ -384,14 +395,14 @@ export const addModuleService = async (data: any) => {
             message: "An error occurred while adding the module.",
             jsonData: {},
         };
-            
+
     }
 };
 
 // FETCH MODULE DETAIL SERVICE
 export const fetchModuleDetailsService = async (module_id: number) => {
     try {
-        const [rows]: any = await db_Config.query(`SELECT * FROM admin_module WHERE module_id = ?`, [module_id]);
+        const [rows]: any = await dbConfig.query(`SELECT * FROM admin_module WHERE module_id = ?`, [module_id]);
 
         if (rows.length === 0) {
             return {
@@ -436,7 +447,7 @@ export const updateModuleService = async (data: any, module_id: number) => {
             updateData.module_createdAt = currentUnixTimeStamp();
         }
 
-        const [result]: any = await db_Config.query(`UPDATE admin_module SET ? WHERE module_id = ?`, [updateData, module_id]);
+        const [result]: any = await dbConfig.query(`UPDATE admin_module SET ? WHERE module_id = ?`, [updateData, module_id]);
 
         if (result.affectedRows === 0) {
             return {
@@ -453,19 +464,19 @@ export const updateModuleService = async (data: any, module_id: number) => {
         };
 
     } catch (error) {
-            console.error("Error in updateModuleService:", error);
-            return {
-                status: 500,
-                message: "An error occurred while updating the module.",
-                jsonData: {},
-            };
-        }
+        console.error("Error in updateModuleService:", error);
+        return {
+            status: 500,
+            message: "An error occurred while updating the module.",
+            jsonData: {},
+        };
+    }
 };
 
 // UPDATE MODULE STATUS SERVICE
 export const updateModuleStatusService = async (module_id: number, status: number) => {
     try {
-        const [result]: any = await db_Config.query(`UPDATE admin_module SET module_status = ? WHERE module_id = ?`, [status, module_id]);
+        const [result]: any = await dbConfig.query(`UPDATE admin_module SET module_status = ? WHERE module_id = ?`, [status, module_id]);
         if (result.affectedRows === 0) {
             return {
                 status: 404,
@@ -487,6 +498,71 @@ export const updateModuleStatusService = async (module_id: number, status: numbe
             message: "An error occurred while updating the module status.",
             jsonData: {},
         };
+    }
+};
+
+
+export const getSidebarService = async (roleId: number) => {
+    try {
+        const query = `
+      SELECT 
+        m.module_id,
+        m.module_name,
+        m.module_icon,
+        m.module_page_url,
+        
+        o.operations_id,
+        o.operations_name,
+        o.operations_page_url
+
+      FROM admin_module m
+      LEFT JOIN admin_opertions o 
+        ON o.operations_module_id = m.module_id
+
+      LEFT JOIN admin_permission p 
+        ON p.permission_operations_id = o.operations_id 
+        AND p.permission_role_id = ?
+
+      WHERE 
+        m.module_status = 0
+        AND o.operations_status = 0
+        AND p.is_view = 0
+
+      ORDER BY 
+        m.module_order_priority ASC,
+        o.operations_order_priority ASC
+    `;
+
+        const [rows]: any = await dbConfig.query(query, [roleId]);
+        console.log("Sidebar Data:", rows);
+
+        // 👉 Transform into nested structure
+        const modulesMap: any = {};
+
+        rows.forEach((row: any) => {
+            if (!modulesMap[row.module_id]) {
+                modulesMap[row.module_id] = {
+                    module_id: row.module_id,
+                    module_name: row.module_name,
+                    module_icon: row.module_icon,
+                    module_page_url: row.module_page_url,
+                    operations: []
+                };
+            }
+
+            if (row.operations_id) {
+                modulesMap[row.module_id].operations.push({
+                    operations_id: row.operations_id,
+                    operation_name: row.operations_name,
+                    operation_url: row.operations_page_url
+                });
+            }
+        });
+
+        return Object.values(modulesMap);
+
+    } catch (error) {
+        throw error;
     }
 };
 
@@ -565,12 +641,12 @@ export const updateModuleStatusService = async (module_id: number, status: numbe
 //         `
 
 //         const queryParams = [...params, effectiveLimit, effectiveOffset];
-//         const [rows]: any = await db_Config.query(query, queryParams);
+//         const [rows]: any = await dbConfig.query(query, queryParams);
 
 //         let total;
 
 //         if (noFilterApplied) {
-//             const [countAllRows]: any = await db_Config.query(`SELECT COUNT(*) as total FROM admin_module`);
+//             const [countAllRows]: any = await dbConfig.query(`SELECT COUNT(*) as total FROM admin_module`);
 //             const actualTotal = countAllRows[0]?.total || 0;
 
 //             if (actualTotal < 100) {
@@ -579,7 +655,7 @@ export const updateModuleStatusService = async (module_id: number, status: numbe
 //                 total = 100;
 //             }
 //         } else {
-//             const [countAllRows]: any = await db_Config.query(`SELECT COUNT(*) as total FROM admin_module ${finalWhereSQL}`, params);
+//             const [countAllRows]: any = await dbConfig.query(`SELECT COUNT(*) as total FROM admin_module ${finalWhereSQL}`, params);
 //             total = countAllRows[0]?.total || 0;
 //         }
 

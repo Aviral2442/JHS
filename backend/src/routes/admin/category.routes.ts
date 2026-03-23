@@ -1,10 +1,10 @@
 import { Router } from "express";
+import { checkPermission } from "../../middleware/checkPermission";
 import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, addServicesController, getBlogDetailsBySkuController, getBlogDetailsController, getBlogListController, getBlogListForWebsiteController, getCategoryLevelOneController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, getServiceDatabyIdController, getServicesListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController, updateServicesController, updateServiceStatusController } from "../../controller/admin/category.controller";
 const router = Router();
 
 //------------------------------- CATEGORY LEVEL ONE ROUTES -------------------------------------------------------------------
-router.get("/get_category_level_one_list", getCategoryLevelOneListController);
-router.post("/add_category_level_one", addCategoryLevelOneController);
+router.post("/add_category_level_one", checkPermission("Level One"), addCategoryLevelOneController);
 router.get("/get_category_level_one/:catLvl1Id", getCategoryLevelOneDetailsController);
 router.put("/update_category_level_one/:catLvl1Id", updateCategoryLevelOneController);
 router.patch("/update_category_level_one_status/:catLvl1Id", updateCategoryLevelOneStatusController);

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { addModuleService, addRoleService, fetchModuleDetailsService, fetchRoleDetailsService, getModuleListService, getRoleListService, updateModuleService, updateModuleStatusService, updateRoleService, updateRoleStatusService } from '../../services/admin/roleBasedAccessControl.service';
+import { addModuleService, addRoleService, fetchModuleDetailsService, fetchRoleDetailsService, getModuleListService, getRoleListService, getSidebarService, updateModuleService, updateModuleStatusService, updateRoleService, updateRoleStatusService } from '../../services/admin/roleBasedAccessControl.service';
 
 
 //----------------------------------------------ROLE CONTROLLER----------------------------------------------//
@@ -84,6 +84,7 @@ export const updateRoleStatusController = async (req: Request, res: Response, ne
                 message: "Role ID OR Status is required and must be a valid integer.",
             });
         }
+        console.log("Received role_id:", role_id, "and status:", status); // Debug log
         const result = await updateRoleStatusService(status, role_id);
         res.status(result.status).json(result);
     } catch (error) {
@@ -179,4 +180,21 @@ export const updateModuleStatusController = async (req: Request, res: Response, 
     } catch (error) {
         next(error);
     }
+};
+
+
+export const getSidebarController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const roleId = req.body.roleId; // from JWT
+
+    const data = await getSidebarService(roleId);
+
+    res.status(200).json({
+      success: true,
+      data
+    });
+
+  } catch (error) {
+    next(error);
+  }
 };
