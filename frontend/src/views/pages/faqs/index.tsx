@@ -99,6 +99,29 @@ const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
 
 const FAQPage: React.FC = () => {
     const [activeService, setActiveService] = useState(services[0]);
+    const [search, setSearch] = useState("");
+
+    // Filtered FAQs for the active service
+    const filteredFaqs = activeService.faqs.filter(
+        (faq) =>
+            faq.q.toLowerCase().includes(search.toLowerCase()) ||
+            faq.a.toLowerCase().includes(search.toLowerCase())
+    );
+
+    // If search is active, show all matching FAQs across all services
+    const globalResults =
+        search.trim() !== ""
+            ? services
+                .map((service) => ({
+                    ...service,
+                    faqs: service.faqs.filter(
+                        (faq) =>
+                            faq.q.toLowerCase().includes(search.toLowerCase()) ||
+                            faq.a.toLowerCase().includes(search.toLowerCase())
+                    ),
+                }))
+                .filter((service) => service.faqs.length > 0)
+            : [];
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -116,39 +139,98 @@ const FAQPage: React.FC = () => {
                 </p>
             </section>
 
-            {/* SERVICES TABS */}
+            {/* SERVICES TABS & SEARCH */}
             <section className="max-w-7xl mx-auto px-4 py-10">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-                    {services.map((service) => (
-                        <button
-                            key={service.name}
-                            onClick={() => setActiveService(service)}
-                            className={`p-4 rounded-xl shadow text-sm md:text-base flex flex-col items-center gap-2 transition ${activeService.name === service.name
-                                ? "bg-indigo-600 text-white scale-105"
-                                : "bg-white hover:bg-gray-100"
-                                }`}
-                        >
-                            <span>{service.icon}</span>
-                            <span>{service.name}</span>
-                        </button>
-                    ))}
+
+                <div className="flex-1 flex justify-center mb-8">
+                    <div className="relative w-full md:w-80">
+                        <input
+                            type="text"
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                            placeholder="Search FAQs..."
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 pr-10"
+                        />
+                        <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    </div>
                 </div>
 
-                {/* FAQ LIST */}
-                <motion.div
-                    key={activeService.name}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-white rounded-2xl shadow p-6"
-                >
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="text-3xl">{activeService.icon}</span>
-                        <h2 className="text-2xl font-semibold">{activeService.name} FAQs</h2>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
+                        {services.map((service) => (
+                            <button
+                                key={service.name}
+                                onClick={() => setActiveService(service)}
+                                className={`p-4 rounded-xl shadow text-sm md:text-base flex flex-col items-center gap-2 transition ${activeService.name === service.name
+                                    ? "bg-indigo-600 text-white scale-105"
+                                    : "bg-white hover:bg-gray-100"
+                                    }`}
+                            >
+                                <span>{service.icon}</span>
+                                <span>{service.name}</span>
+                            </button>
+                        ))}
                     </div>
-                    {activeService.faqs.map((faq, index) => (
-                        <FAQItem key={index} q={faq.q} a={faq.a} />
-                    ))}
-                </motion.div>
+                    {/* <div className="flex-1 flex justify-end">
+                        <div className="relative w-full md:w-80">
+                            <input
+                                type="text"
+                                value={search}
+                                onChange={e => setSearch(e.target.value)}
+                                placeholder="Search FAQs..."
+                                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 pr-10"
+                            />
+                            <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        </div>
+                    </div> */}
+                </div>
+
+                {/* SEARCH RESULTS or SERVICE FAQ LIST */}
+                {search.trim() !== "" ? (
+                    <motion.div
+                        key={search}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-white rounded-2xl shadow p-6"
+                    >
+                        <div className="flex items-center gap-3 mb-4">
+                            <FaSearch className="text-2xl text-indigo-600" />
+                            <h2 className="text-2xl font-semibold">Search Results</h2>
+                        </div>
+                        {globalResults.length === 0 && (
+                            <div className="text-gray-500">No FAQs found for "{search}".</div>
+                        )}
+                        {globalResults.map(service => (
+                            <div key={service.name} className="mb-6">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-xl">{service.icon}</span>
+                                    <span className="font-semibold">{service.name}</span>
+                                </div>
+                                {service.faqs.map((faq, idx) => (
+                                    <FAQItem key={idx} q={faq.q} a={faq.a} />
+                                ))}
+                            </div>
+                        ))}
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key={activeService.name}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-white rounded-2xl shadow p-6"
+                    >
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="text-3xl">{activeService.icon}</span>
+                            <h2 className="text-2xl font-semibold">{activeService.name} FAQs</h2>
+                        </div>
+                        {filteredFaqs.length === 0 && (
+                            <div className="text-gray-500">No FAQs found for this service.</div>
+                        )}
+                        {filteredFaqs.map((faq, index) => (
+                            <FAQItem key={index} q={faq.q} a={faq.a} />
+                        ))}
+                    </motion.div>
+                )}
                 {/* HOW IT WORKS SECTION - Animated Steps */}
                 <section className="max-w-7xl mx-auto px-4 py-16">
                     <h2 className="text-3xl font-bold text-center mb-10">How It Works</h2>
