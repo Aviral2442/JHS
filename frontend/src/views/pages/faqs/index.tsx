@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaLaptopCode, FaMobileAlt, FaPaintBrush, FaBullhorn, FaSearch, FaShoppingCart, FaCloud, FaRobot, FaChevronDown, FaChevronUp, FaCheckCircle, FaQuestionCircle, FaSmile } from "react-icons/fa";
 
 const services = [
     {
         name: "Web Development",
+        icon: <FaLaptopCode className="text-2xl text-indigo-600" />,
         faqs: [
             { q: "What technologies do you use?", a: "We use React, Laravel, Node.js and modern stacks." },
             { q: "Do you provide SEO optimization?", a: "Yes, we follow SEO best practices in development." }
@@ -11,6 +13,7 @@ const services = [
     },
     {
         name: "Mobile App Development",
+        icon: <FaMobileAlt className="text-2xl text-indigo-600" />,
         faqs: [
             { q: "Do you build Android & iOS apps?", a: "Yes, we build cross-platform and native apps." },
             { q: "What frameworks do you use?", a: "React Native, Flutter, and Swift/Kotlin." }
@@ -18,36 +21,42 @@ const services = [
     },
     {
         name: "UI/UX Design",
+        icon: <FaPaintBrush className="text-2xl text-indigo-600" />,
         faqs: [
             { q: "Do you provide prototypes?", a: "Yes, we create Figma and interactive prototypes." }
         ]
     },
     {
         name: "Digital Marketing",
+        icon: <FaBullhorn className="text-2xl text-indigo-600" />,
         faqs: [
             { q: "Do you run ads?", a: "Yes, Google & Meta ads campaigns." }
         ]
     },
     {
         name: "SEO Services",
+        icon: <FaSearch className="text-2xl text-indigo-600" />,
         faqs: [
             { q: "How long for results?", a: "Typically 3-6 months for noticeable growth." }
         ]
     },
     {
         name: "E-commerce Solutions",
+        icon: <FaShoppingCart className="text-2xl text-indigo-600" />,
         faqs: [
             { q: "Which platforms do you support?", a: "Shopify, WooCommerce, custom solutions." }
         ]
     },
     {
         name: "Cloud Services",
+        icon: <FaCloud className="text-2xl text-indigo-600" />,
         faqs: [
             { q: "Do you provide deployment?", a: "Yes, AWS, DigitalOcean, VPS setups." }
         ]
     },
     {
         name: "AI Integration",
+        icon: <FaRobot className="text-2xl text-indigo-600" />,
         faqs: [
             { q: "Do you integrate AI?", a: "Yes, GPT APIs, automation & analytics." }
         ]
@@ -56,17 +65,20 @@ const services = [
 
 const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
     const [open, setOpen] = useState(false);
-
     return (
         <div className="border-b border-gray-200 py-4">
             <button
-                className="w-full text-left flex justify-between items-center"
+                className="w-full text-left flex justify-between items-center group"
                 onClick={() => setOpen(!open)}
             >
-                <span className="font-medium text-lg">{q}</span>
-                <span>{open ? "-" : "+"}</span>
+                <span className="font-medium text-lg flex items-center gap-2">
+                    <FaQuestionCircle className="text-indigo-400 group-hover:scale-110 transition-transform" />
+                    {q}
+                </span>
+                <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.3 }}>
+                    {open ? <FaChevronUp /> : <FaChevronDown />}
+                </motion.span>
             </button>
-
             <AnimatePresence>
                 {open && (
                     <motion.div
@@ -75,7 +87,9 @@ const FAQItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden"
                     >
-                        <p className="mt-2 text-gray-600">{a}</p>
+                        <p className="mt-2 text-gray-600 flex items-center gap-2">
+                            <FaCheckCircle className="text-green-500" /> {a}
+                        </p>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -109,12 +123,13 @@ const FAQPage: React.FC = () => {
                         <button
                             key={service.name}
                             onClick={() => setActiveService(service)}
-                            className={`p-4 rounded-xl shadow text-sm md:text-base transition ${activeService.name === service.name
-                                ? "bg-indigo-600 text-white"
+                            className={`p-4 rounded-xl shadow text-sm md:text-base flex flex-col items-center gap-2 transition ${activeService.name === service.name
+                                ? "bg-indigo-600 text-white scale-105"
                                 : "bg-white hover:bg-gray-100"
                                 }`}
                         >
-                            {service.name}
+                            <span>{service.icon}</span>
+                            <span>{service.name}</span>
                         </button>
                     ))}
                 </div>
@@ -122,18 +137,43 @@ const FAQPage: React.FC = () => {
                 {/* FAQ LIST */}
                 <motion.div
                     key={activeService.name}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
                     className="bg-white rounded-2xl shadow p-6"
                 >
-                    <h2 className="text-2xl font-semibold mb-4">
-                        {activeService.name} FAQs
-                    </h2>
-
+                    <div className="flex items-center gap-3 mb-4">
+                        <span className="text-3xl">{activeService.icon}</span>
+                        <h2 className="text-2xl font-semibold">{activeService.name} FAQs</h2>
+                    </div>
                     {activeService.faqs.map((faq, index) => (
                         <FAQItem key={index} q={faq.q} a={faq.a} />
                     ))}
                 </motion.div>
+                {/* HOW IT WORKS SECTION - Animated Steps */}
+                <section className="max-w-7xl mx-auto px-4 py-16">
+                    <h2 className="text-3xl font-bold text-center mb-10">How It Works</h2>
+                    <div className="grid md:grid-cols-4 gap-8">
+                        {[
+                            { icon: <FaQuestionCircle className="text-indigo-500 text-3xl" />, title: "Ask", desc: "Choose your service and ask your questions." },
+                            { icon: <FaCheckCircle className="text-green-500 text-3xl" />, title: "Get Answers", desc: "Get instant, expert answers from our team." },
+                            { icon: <FaLaptopCode className="text-indigo-500 text-3xl" />, title: "Start Project", desc: "Begin your project with confidence." },
+                            { icon: <FaSmile className="text-yellow-500 text-3xl" />, title: "Enjoy Results", desc: "See your vision come to life!" },
+                        ].map((step, idx) => (
+                            <motion.div
+                                key={step.title}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: idx * 0.15, duration: 0.6 }}
+                                className="bg-white rounded-xl shadow p-6 flex flex-col items-center text-center hover:scale-105 transition-transform"
+                            >
+                                <div className="mb-3 animate-bounce-slow">{step.icon}</div>
+                                <h3 className="font-semibold text-lg mb-1">{step.title}</h3>
+                                <p className="text-gray-500 text-sm">{step.desc}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </section>
             </section>
 
             {/* EXTRA SECTION - CTA */}
