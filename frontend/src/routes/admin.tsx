@@ -319,7 +319,8 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     path: "/admin/roles/add",
     element: <AddRole />,
-  }
+  },
+  { path: "/admin/roles/edit/:roleId", element: <AddRole /> },
 ];
 
 /**

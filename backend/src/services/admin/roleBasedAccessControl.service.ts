@@ -3,32 +3,126 @@ import { saveBase64File } from "../../middleware/base64FileUpload";
 import { ApiError } from "../../utils/ApiError";
 import { currentUnixTimeStamp } from "../../utils/CurrentUnixTimeStamp";
 import { buildFilters } from "../../utils/filters";
-import axios from "axios";
-import FormData from "form-data";
 
 // ROLE LIST 
-export const roleListService = async () => {
+export const roleListService = async (filters?: {
+    date?: string;
+    status?: string;
+    fromDate?: string;
+    toDate?: string;
+    page?: number;
+    limit?: number;
+    search?: string;
+}) => {
+
     try {
 
-        const [roleList]: any = await dbConfig.query(
-            `
+        const page = filters?.page && filters.page > 0 ? filters.page : 1;
+        const limit = filters?.limit && filters.limit > 0 ? filters.limit : 10;
+        const offset = (page - 1) * limit;
+        const searchTerm = filters?.search ? `%${filters.search}%` : null;
+
+        const { whereSQL, params } = buildFilters({
+            ...filters,
+            dateColumn: "admin_role.created_at",
+        });
+
+        let finalWhereSQL = whereSQL;
+
+        if (filters?.status) {
+            const statusConditionMap: Record<string, string> = {
+                active: "admin_role.role_status = 0",
+                inactive: "admin_role.role_status = 1",
+                block: "admin_role.role_status = 2",
+            };
+
+            const condition = statusConditionMap[filters.status];
+
+            if (condition) {
+                // If there’s already WHERE (from date filters), just add AND
+                if (/where\s+/i.test(finalWhereSQL)) {
+                    finalWhereSQL += ` AND ${condition}`;
+                } else {
+                    finalWhereSQL = `WHERE ${condition}`;
+                }
+            }
+        }
+
+        if (searchTerm) {
+            const searchCondition = `admin_role.role_name LIKE ? OR admin_role.role_description LIKE ? OR admin_role.role_id LIKE ?`;
+            if (/where\s+/i.test(finalWhereSQL)) {
+                finalWhereSQL += `AND (${searchCondition})`;
+            } else {
+                finalWhereSQL = `WHERE ${searchCondition}`;
+            }
+            params.push(searchTerm, searchTerm, searchTerm);
+        }
+
+        const isDateFilterApplied = !!filters?.date || !!filters?.fromDate || !!filters?.toDate;
+        const isStatusFilterApplied = !!filters?.status;
+        const isSearchFilterApplied = !!filters?.search;
+        const noFiltersApplied = !isDateFilterApplied && !isStatusFilterApplied && !isSearchFilterApplied;
+
+        let effectiveLimit = limit;
+        let effectiveOffset = offset;
+
+        // If NO FILTERS applied → force fixed 100-record window
+        if (noFiltersApplied) {
+            effectiveLimit = limit;              // per page limit (e.g., 10)
+            effectiveOffset = (page - 1) * limit; // correct pagination
+        }
+
+        const query = `
             SELECT *
-            FROM admin_roles
-            ORDER BY role_id ASC
-            `
-        );
+            FROM admin_role
+            ${finalWhereSQL}
+            ORDER BY admin_role.role_id DESC
+            LIMIT ? OFFSET ?
+        `;
+
+        const queryParams = [...params, effectiveLimit, effectiveOffset];
+        const [rows]: any = await dbConfig.query(query, queryParams);
+
+        let total;
+
+        if (noFiltersApplied) {
+            // determine actual total count and cap at 100 when no filters applied
+            const [countAllRows]: any = await dbConfig.query(`SELECT COUNT(*) as total FROM admin_role`);
+            const actualTotal = countAllRows[0]?.total || 0;
+
+            if (actualTotal < 100) {
+                total = actualTotal;
+            } else {
+                total = 100;
+            }
+
+        } else {
+            const [countRows]: any = await dbConfig.query(
+                `SELECT COUNT(*) as total FROM admin_role ${finalWhereSQL}`,
+                params
+            );
+            total = countRows[0]?.total || 0;
+        }
 
         return {
             status: 200,
-            message: "Role list retrieved successfully",
+            message: "Roles list fetched successfully",
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages: Math.ceil(total / limit),
+            },
             jsonData: {
-                role_list: roleList
-            }
+                roles_list: rows
+            },
         };
 
     } catch (error) {
-        throw new ApiError(500, "Failed to retrieve role list");
+        console.log(error);
+        throw new ApiError(500, "Get Roles Error On Fetching");
     }
+
 };
 
 // ADD ROLE
@@ -44,7 +138,7 @@ export const addRoleService = async (data: any) => {
 
         const [addRole]: any = await dbConfig.query(
             `
-            INSERT INTO admin_roles SET ?
+            INSERT INTO admin_role SET ?
             `,
             [insertData]
         );
@@ -72,7 +166,7 @@ export const getRoleDetailsService = async (roleId: number) => {
         const [roleDetails]: any = await dbConfig.query(
             `
             SELECT *
-            FROM admin_roles
+            FROM admin_role
             WHERE role_id = ?
             `,
             [roleId]
@@ -108,7 +202,7 @@ export const updateRoleService = async (data: any, roleId: number) => {
 
         const [updateRole]: any = await dbConfig.query(
             `
-            UPDATE admin_roles SET ? WHERE role_id = ?`,
+            UPDATE admin_role SET ? WHERE role_id = ?`,
             [updateData, roleId]
         );
 
@@ -132,7 +226,7 @@ export const updateRoleStatusService = async (roleId: number, newStatus: number)
     try {
         const [updateStatus]: any = await dbConfig.query(
             `
-            UPDATE admin_roles SET role_status = ? WHERE role_id = ?`,
+            UPDATE admin_role SET role_status = ? WHERE role_id = ?`,
             [newStatus, roleId]
         );
 

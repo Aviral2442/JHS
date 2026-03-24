@@ -7,13 +7,13 @@ import DatatableActionButton from "../../../../components/DatatableActionButton"
 import { formatDate } from "../../../../components/DateFormat";
 
 const baseURL = (import.meta as any).env.VITE_URL || "";
-const ENDPOINT = "/api/role-base-access-control/get_role_list";
+const ENDPOINT = "/api/role-base-access-control/role_list";
 
 interface ConsumerItem {
     role_id: number;
     role_name: string;
-    role_status: string;
-    role_createdAt: string;
+    role_status: number;
+    created_at: string;
 }
 
 interface Pagination {
@@ -70,7 +70,7 @@ const RoleList: React.FC = () => {
             const res = await axios.get(`${baseURL}${ENDPOINT}`, { params });
             const data = res.data;
             console.log(data)
-            setConsumers(data?.jsonData?.role_list || []);
+            setConsumers(data?.jsonData?.roles_list || []);
             setPagination(
                 data?.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 },
             );
@@ -111,25 +111,6 @@ const RoleList: React.FC = () => {
 
     const handlePageChange = (page: number) => {
         fetchConsumers(page);
-    };
-
-    const handleStatusToggle = async (roleId: number, currentStatus: number) => {
-        const newStatus = currentStatus == 0 ? 1 : 0;
-        console.log(
-            `Toggling status for role ID ${roleId} from ${currentStatus} to ${newStatus}`,
-        ); // Debug log to check values before API call
-        try {
-            await axios.patch(
-                `${baseURL}/api/role-base-access-control/update_role_status/${roleId}`,
-                {
-                    role_status: newStatus,
-                },
-            );
-            console.log(`Role ID ${roleId} status updated to ${newStatus}`);
-            fetchConsumers(pagination.page);
-        } catch (error) {
-            console.error("Failed to update role status:", error);
-        }
     };
 
     return (
@@ -237,7 +218,7 @@ const RoleList: React.FC = () => {
                                             </td>
 
                                             <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                                                {formatDate(consumer.role_createdAt)}
+                                                {formatDate(consumer.created_at)}
                                             </td>
 
                                             <td className="px-4 py-2">
@@ -255,58 +236,12 @@ const RoleList: React.FC = () => {
                                             {/* Actions */}
                                             <td className="px-4 py-2">
                                                 <div className="flex items-center justify-center gap-2">
-                                                    {/* Toggle Status */}
-                                                    <button
-                                                        onClick={() =>
-                                                            handleStatusToggle(
-                                                                consumer.role_id,
-                                                                consumer.role_status,
-                                                            )
-                                                        }
-                                                        title={isActive ? "Deactivate" : "Activate"}
-                                                        className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors
-                                                             ${isActive
-                                                                ? "bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"
-                                                                : "bg-green-100 text-green-600 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"
-                                                            }`}
-                                                    >
-                                                        {isActive ? (
-                                                            <svg
-                                                                width="16"
-                                                                height="16"
-                                                                viewBox="0 0 16 16"
-                                                                fill="none"
-                                                            >
-                                                                <path
-                                                                    d="M12 4L4 12M4 4L12 12"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                    strokeLinecap="round"
-                                                                />
-                                                            </svg>
-                                                        ) : (
-                                                            <svg
-                                                                width="16"
-                                                                height="16"
-                                                                viewBox="0 0 16 16"
-                                                                fill="none"
-                                                            >
-                                                                <path
-                                                                    d="M3 8L6.5 11.5L13 4.5"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                />
-                                                            </svg>
-                                                        )}
-                                                    </button>
 
                                                     {/* Edit */}
                                                     <button
                                                         onClick={() =>
                                                             navigate(
-                                                                `/admin/consumer/edit/${consumer.consumer_id}`,
+                                                                `/admin/roles/edit/${consumer.role_id}`,
                                                             )
                                                         }
                                                         title="Edit Consumer"
@@ -325,29 +260,6 @@ const RoleList: React.FC = () => {
                                                                 strokeWidth="1.3"
                                                                 strokeLinecap="round"
                                                                 strokeLinejoin="round"
-                                                            />
-                                                        </svg>
-                                                    </button>
-                                                    {/* View Details */}
-                                                    <button
-                                                        onClick={() =>
-                                                            navigate(
-                                                                `/admin/consumer/detail/${consumer.consumer_id}`,
-                                                            )
-                                                        }
-                                                        title="View Details"
-                                                        className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600
-                                                        hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50 transition-colors"
-                                                    >
-                                                        <svg
-                                                            width="16"
-                                                            height="16"
-                                                            viewBox="0 0 16 16"
-                                                            fill="none"
-                                                        >
-                                                            <path
-                                                                d="M8 3C4.5 3 1.73 5.61 1 9c.73 3.39 3.5 6 7 6s6.27-2.61 7-6c-.73-3.39-3.5-6-7-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                                                                fill="currentColor"
                                                             />
                                                         </svg>
                                                     </button>
