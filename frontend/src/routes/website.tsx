@@ -33,6 +33,7 @@ const ServiceDetail = lazy(() => import("../views/pages/services/Detail"));
 const InteriorPage = lazy(() => import("../views/pages/landingPages/interior"));
 const FurniturePage = lazy(() => import("../views/pages/landingPages/furniture"));
 const CarpenterPage = lazy(() => import("../views/pages/landingPages/carpenter"));
+const Faqs = lazy(() => import("../views/pages/faqs"));
 
 const websiteRoutes: RouteObject[] = [
   {
@@ -43,6 +44,7 @@ const websiteRoutes: RouteObject[] = [
   { path: "/about", element: <AboutPage /> },
   { path: "/contact", element: <ContactPage /> },
   { path: "/services", element: <ServicesPage /> },
+  { path: "/faqs", element: <Faqs /> },
   { path: "/blog", element: <BlogPage /> },
   { path: "/blog/:blogSku", element: <BlogDetailPage /> },
   { path: "/cart", element: <CartPage /> },
