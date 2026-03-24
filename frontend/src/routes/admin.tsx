@@ -78,6 +78,8 @@ const OperationList = lazy(() => import("../views/admin/roleBaseAccessControl/co
 const PermissionDetail = lazy(() => import("../views/admin/roleBaseAccessControl/components/PermissionDetail"));
 
 const AddRole = lazy(() => import("../views/admin/roleBaseAccessControl/components/AddRole"));
+const AddModule = lazy(() => import("../views/admin/roleBaseAccessControl/components/AddModules"));
+const AddOperation = lazy(() => import("../views/admin/roleBaseAccessControl/components/AddOperation"));
 
 // const partnerList = lazy(() => import("../views/admin/Tables/partner"));
 
@@ -289,7 +291,7 @@ const protectedAdminRoutes: RouteObject[] = [
     element: <VendorTransList />,
   },
   {
-    path: "/admin/admin-users",
+   path: "/admin/admin-users",
     element: <AdminList />,
   },
   {
@@ -321,6 +323,11 @@ const protectedAdminRoutes: RouteObject[] = [
     element: <AddRole />,
   },
   { path: "/admin/roles/edit/:roleId", element: <AddRole /> },
+  { path: "/admin/modules/add", element: <AddModule /> },
+  { path: "/admin/modules/edit/:moduleId", element: <AddModule /> },
+  { path: "/admin/operations/add", element: <AddOperation /> },
+  { path: "/admin/operations/edit/:operationId", element: <AddOperation /> }
+
 ];
 
 /**
