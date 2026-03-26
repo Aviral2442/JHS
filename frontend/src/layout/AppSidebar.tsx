@@ -6,7 +6,6 @@ import { BiCategory } from "react-icons/bi";
 import {
   BoxCubeIcon,
   ChevronDownIcon,
-  GridIcon,
   HorizontaLDots,
   PieChartIcon,
   PlugInIcon,
@@ -15,6 +14,7 @@ import { useSidebar } from "../context/SidebarContext";
 import { BookAIcon, User, UserCheck } from "lucide-react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import * as icons from "react-icons/lu";
 // import SidebarWidget from "./SidebarWidget";
 
 interface NavItem {
@@ -38,6 +38,7 @@ type SidebarModule = {
   module_id: number;
   module_name: string;
   module_route?: string;
+  module_icon?: string;
   operations: SidebarOperation[];
 };
 
@@ -53,34 +54,59 @@ const navItems: NavItem[] = [
     path: "/admin/consumer",
   },
   {
-    icon: <GridIcon />, // Vendor icon updated
+    // icon: <GridIcon />, // Vendor icon updated
+    icon: <icons.LuFileBox />,
     name: "Vendor",
     // path: "/admin/vendor",
     subItems: [
       { name: "Vendor List", path: "/admin/category/level-one", pro: false },
-      { name: "Vendor Referrals", path: "/admin/category/level-two", pro: false },
-      { name: "Live Tracking", path: "/admin/category/level-three", pro: false },
+      {
+        name: "Vendor Referrals",
+        path: "/admin/category/level-two",
+        pro: false,
+      },
+      {
+        name: "Live Tracking",
+        path: "/admin/category/level-three",
+        pro: false,
+      },
     ],
   },
-  {
-    icon: <UserCheck />, // Categories icon updated
-    name: "Categories",
-    subItems: [
-      { name: "Level One", path: "/admin/category/level-one", pro: false },
-      { name: "Level Two", path: "/admin/category/level-two", pro: false },
-      { name: "Level Three", path: "/admin/category/level-three", pro: false },
-    ],
-  },
+  // {
+  //   icon: <UserCheck />, // Categories icon updated
+  //   name: "Categories",
+  //   subItems: [
+  //     { name: "Level One", path: "/admin/category/level-one", pro: false },
+  //     { name: "Level Two", path: "/admin/category/level-two", pro: false },
+  //     { name: "Level Three", path: "/admin/category/level-three", pro: false },
+  //   ],
+  // },
   {
     icon: <BookAIcon />,
     name: "Services",
     subItems: [
-      { name: "Cleaning Services", path: "/admin/services/manage-cleaning-service", pro: false },
-      { name: "Interior Design Services", path: "/admin/services/manage-interior-design-service", pro: false },
-      { name: "Furniture Services", path: "/admin/services/manage-furniture-service", pro: false },
+      {
+        name: "Cleaning Services",
+        path: "/admin/services/manage-cleaning-service",
+        pro: false,
+      },
+      {
+        name: "Interior Design Services",
+        path: "/admin/services/manage-interior-design-service",
+        pro: false,
+      },
+      {
+        name: "Furniture Services",
+        path: "/admin/services/manage-furniture-service",
+        pro: false,
+      },
       // { name: "Carpenter Services", path: "/admin/category/level-two", pro: false },
       // { name: "Painting Services", path: "/admin/category/level-two", pro: false },
-      { name: "Pest Control Services", path: "/admin/services/manage-pest-control-service", pro: false },
+      {
+        name: "Pest Control Services",
+        path: "/admin/services/manage-pest-control-service",
+        pro: false,
+      },
       // { name: "Plumber Services", path: "/admin/category/level-two", pro: false },
       // { name: "Electrician Services", path: "/admin/category/level-two", pro: false },
     ],
@@ -90,9 +116,21 @@ const navItems: NavItem[] = [
     name: "Booking",
     subItems: [
       { name: "Cleaning Services", path: "/admin/booking", pro: false },
-      { name: "Interior Design Services", path: "/admin/services/manage-interior-design-service", pro: false },
-      { name: "Furniture Services", path: "/admin/services/manage-furniture-service", pro: false },
-      { name: "Pest Control Services", path: "/admin/services/manage-pest-control-service", pro: false },
+      {
+        name: "Interior Design Services",
+        path: "/admin/services/manage-interior-design-service",
+        pro: false,
+      },
+      {
+        name: "Furniture Services",
+        path: "/admin/services/manage-furniture-service",
+        pro: false,
+      },
+      {
+        name: "Pest Control Services",
+        path: "/admin/services/manage-pest-control-service",
+        pro: false,
+      },
     ],
   },
   {
@@ -211,7 +249,9 @@ const AppSidebar: React.FC = () => {
 
   const token = localStorage.getItem("admin_token");
   if (!token) {
-    console.warn("No token found in localStorage. Sidebar data will not be fetched.");
+    console.warn(
+      "No token found in localStorage. Sidebar data will not be fetched.",
+    );
   }
 
   const decodedToken: { roleId?: number } | null = token
@@ -225,19 +265,23 @@ const AppSidebar: React.FC = () => {
     }
 
     try {
-      const response = await axios.get(`${baseUrl}/api/role-base-access-control/fetch_data_for_sidebar`, { params: { roleId },
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.get(
+        `${baseUrl}/api/role-base-access-control/fetch_data_for_sidebar`,
+        {
+          params: { roleId },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
       // console.log("Fetch Sidebar Response:", response);
       if (response.data?.status === 200) {
         const nextSidebar = response.data?.jsonData?.sidebar_data;
-        console.log(nextSidebar)
+        console.log(nextSidebar);
         if (Array.isArray(nextSidebar)) {
           setSidebar(nextSidebar);
         }
-        console.log("Fetched Sidebar Data:", response.data.jsonData);
+        // console.log("Fetched Sidebar Data:", response.data.jsonData);
       } else {
         console.error("Failed to fetch sidebar data:", response.statusText);
       }
@@ -250,25 +294,43 @@ const AppSidebar: React.FC = () => {
     fetchSidebarData();
   }, [token, roleId, baseUrl]);
 
+  const normalizeRoute = useCallback((route: string) => {
+    const normalized = route.replace(/\/+/g, "/").replace(/([^:]\/)\/+/, "$1");
+    if (normalized.startsWith("/")) {
+      return normalized;
+    }
+    return `/${normalized}`;
+  }, []);
+
+  const getModuleIcon = useCallback((iconName?: string): React.ReactNode => {
+    if (!iconName) {
+      return <BoxCubeIcon />;
+    }
+
+    const DynamicIcon = icons[
+      iconName as keyof typeof icons
+    ] as React.ComponentType | undefined;
+
+    return DynamicIcon ? <DynamicIcon /> : <BoxCubeIcon />;
+  }, []);
+
   const permissionNavItems = useMemo<NavItem[]>(
     () =>
       sidebar
         .map((module) => ({
           name: module.module_name,
-          icon: <GridIcon />,
-          subItems: module.operations
-            .map((op) => ({
-              name: op.operation_name,
-              path:
-                op.operation_url ||
-                (op.operation_slug?.startsWith("/")
-                  ? op.operation_slug
-                  : module.module_route) ||
-                "/admin/dashboard",
-            })),
+          icon: getModuleIcon(module.module_icon),
+          subItems: module.operations.map((op) => ({
+            name: op.operation_name,
+            path: module.module_route
+              ? normalizeRoute(
+                  `/admin${module.module_route}/${op.operation_slug || op.operation_id}`,
+                )
+              : "/admin/dashboard",
+          })),
         }))
         .filter((item) => (item.subItems?.length || 0) > 0),
-    [sidebar],
+    [getModuleIcon, normalizeRoute, sidebar],
   );
 
   const [openSubmenu, setOpenSubmenu] = useState<{
@@ -349,19 +411,22 @@ const AppSidebar: React.FC = () => {
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
-              className={`menu-item group ${openSubmenu?.type === menuType && openSubmenu?.index === index
-                ? "menu-item-active"
-                : "menu-item-inactive"
-                } cursor-pointer ${!isExpanded && !isHovered
+              className={`menu-item group ${
+                openSubmenu?.type === menuType && openSubmenu?.index === index
+                  ? "menu-item-active"
+                  : "menu-item-inactive"
+              } cursor-pointer ${
+                !isExpanded && !isHovered
                   ? "lg:justify-center"
                   : "lg:justify-start"
-                }`}
+              }`}
             >
               <span
-                className={`menu-item-icon-size  ${openSubmenu?.type === menuType && openSubmenu?.index === index
-                  ? "menu-item-icon-active"
-                  : "menu-item-icon-inactive"
-                  }`}
+                className={`menu-item-icon-size  ${
+                  openSubmenu?.type === menuType && openSubmenu?.index === index
+                    ? "menu-item-icon-active"
+                    : "menu-item-icon-inactive"
+                }`}
               >
                 {nav.icon}
               </span>
@@ -370,11 +435,12 @@ const AppSidebar: React.FC = () => {
               )}
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDownIcon
-                  className={`ml-auto w-5 h-5 transition-transform duration-200 ${openSubmenu?.type === menuType &&
+                  className={`ml-auto w-5 h-5 transition-transform duration-200 ${
+                    openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
-                    ? "rotate-180 text-brand-500"
-                    : ""
-                    }`}
+                      ? "rotate-180 text-brand-500"
+                      : ""
+                  }`}
                 />
               )}
             </button>
@@ -382,14 +448,16 @@ const AppSidebar: React.FC = () => {
             nav.path && (
               <Link
                 to={nav.path}
-                className={`menu-item group ${isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
-                  }`}
+                className={`menu-item group ${
+                  isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
+                }`}
               >
                 <span
-                  className={`menu-item-icon-size ${isActive(nav.path)
-                    ? "menu-item-icon-active"
-                    : "menu-item-icon-inactive"
-                    }`}
+                  className={`menu-item-icon-size ${
+                    isActive(nav.path)
+                      ? "menu-item-icon-active"
+                      : "menu-item-icon-inactive"
+                  }`}
                 >
                   {nav.icon}
                 </span>
@@ -417,29 +485,32 @@ const AppSidebar: React.FC = () => {
                   <li key={subItem.name}>
                     <Link
                       to={subItem.path}
-                      className={`menu-dropdown-item ${isActive(subItem.path)
-                        ? "menu-dropdown-item-active"
-                        : "menu-dropdown-item-inactive"
-                        }`}
+                      className={`menu-dropdown-item ${
+                        isActive(subItem.path)
+                          ? "menu-dropdown-item-active"
+                          : "menu-dropdown-item-inactive"
+                      }`}
                     >
                       {subItem.name}
                       <span className="flex items-center gap-1 ml-auto">
                         {subItem.new && (
                           <span
-                            className={`ml-auto ${isActive(subItem.path)
-                              ? "menu-dropdown-badge-active"
-                              : "menu-dropdown-badge-inactive"
-                              } menu-dropdown-badge`}
+                            className={`ml-auto ${
+                              isActive(subItem.path)
+                                ? "menu-dropdown-badge-active"
+                                : "menu-dropdown-badge-inactive"
+                            } menu-dropdown-badge`}
                           >
                             new
                           </span>
                         )}
                         {subItem.pro && (
                           <span
-                            className={`ml-auto ${isActive(subItem.path)
-                              ? "menu-dropdown-badge-active"
-                              : "menu-dropdown-badge-inactive"
-                              } menu-dropdown-badge`}
+                            className={`ml-auto ${
+                              isActive(subItem.path)
+                                ? "menu-dropdown-badge-active"
+                                : "menu-dropdown-badge-inactive"
+                            } menu-dropdown-badge`}
                           >
                             pro
                           </span>
@@ -459,11 +530,12 @@ const AppSidebar: React.FC = () => {
   return (
     <aside
       className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
-        ${isExpanded || isMobileOpen
-          ? "w-[290px]"
-          : isHovered
-            ? "w-[290px]"
-            : "w-[90px]"
+        ${
+          isExpanded || isMobileOpen
+            ? "w-72.5"
+            : isHovered
+              ? "w-72.5"
+              : "w-22.5"
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0`}
@@ -471,8 +543,9 @@ const AppSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`py-8 flex ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
-          }`}
+        className={`py-8 flex ${
+          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+        }`}
       >
         {/* <Link to="/admin">
           {isExpanded || isHovered || isMobileOpen ? (
@@ -517,10 +590,11 @@ const AppSidebar: React.FC = () => {
             {sidebar.length > 0 && (
               <div>
                 <h2
-                  className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                    }`}
+                  className={`mb-4 text-xs uppercase flex leading-5 text-gray-400 ${
+                    !isExpanded && !isHovered
+                      ? "lg:justify-center"
+                      : "justify-start"
+                  }`}
                 >
                   {isExpanded || isHovered || isMobileOpen ? (
                     "Permission Menu"
@@ -533,10 +607,11 @@ const AppSidebar: React.FC = () => {
             )}
             <div>
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
-                  ? "lg:justify-center"
-                  : "justify-start"
-                  }`}
+                className={`mb-4 text-xs uppercase flex leading-5 text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
                   "Menu"
@@ -548,10 +623,11 @@ const AppSidebar: React.FC = () => {
             </div>
             <div className="">
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
-                  ? "lg:justify-center"
-                  : "justify-start"
-                  }`}
+                className={`mb-4 text-xs uppercase flex leading-5 text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
                   "Others"

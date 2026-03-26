@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import DatatableActionButton from "../../../../../components/DatatableActionButton";
 import { formatDate } from "../../../../../components/DateFormat";
 import Api from "../../../../../components/apicall";
+import { usePagePermissions } from "../../../../../components/auth/PermissionAccess";
 
 const baseURL = (import.meta as any).env.VITE_URL || "";
 const ENDPOINT = "/api/category/get_category_level_two_list";
@@ -45,6 +46,12 @@ const CLTwoList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const api = Api();
+  const { isAllowed } = usePagePermissions();
+  const canAdd = isAllowed("add");
+  const canEdit = isAllowed("edit");
+  const canExport = isAllowed("export");
+  const canActive = isAllowed("active");
+  const canInactive = isAllowed("inactive");
 
   const filtersRef = useRef<Filters>({
     date: "",
@@ -130,11 +137,13 @@ const CLTwoList: React.FC = () => {
         <DataTableFilters
           title="Category Level Two List"
           onFilterChange={handleFilterChange}
-          onAddNew={() => navigate("/admin/category/level-two/add")}
+          onAddNew={canAdd ? () => navigate("/admin/category/level-two/add") : undefined}
         />
 
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <DatatableActionButton endpoint={ENDPOINT} dataAccess="category_level_two_list" />
+          {canExport && (
+            <DatatableActionButton endpoint={ENDPOINT} dataAccess="category_level_two_list" />
+          )}
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Search:</span>
             <input
@@ -250,43 +259,48 @@ const CLTwoList: React.FC = () => {
 
                       <td className="px-4 py-2">
                         <div className="flex items-center justify-center gap-2">
-                          <button
-                            onClick={() => handleStatusToggle(category.category_level2_id, category.category_level2_status)}
-                            title={isActive ? "Deactivate" : "Activate"}
-                            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors
+                          {((isActive && canInactive) ||
+                            (!isActive && canActive)) && (
+                            <button
+                              onClick={() => handleStatusToggle(category.category_level2_id, category.category_level2_status)}
+                              title={isActive ? "Deactivate" : "Activate"}
+                              className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors
                               ${
                                 isActive
                                   ? "bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"
                                   : "bg-green-100 text-green-600 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"
                               }`}
-                          >
-                            {isActive ? (
-                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                              </svg>
-                            ) : (
-                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                            )}
-                          </button>
+                            >
+                              {isActive ? (
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                  <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                </svg>
+                              ) : (
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                  <path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              )}
+                            </button>
+                          )}
 
-                          <button
-                            onClick={() => navigate(`/admin/category/level-two/edit/${category.category_level2_id}`)}
-                            title="Edit Category Level Two"
-                            className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-600
+                          {canEdit && (
+                            <button
+                              onClick={() => navigate(`/admin/category/level-two/edit/${category.category_level2_id}`)}
+                              title="Edit Category Level Two"
+                              className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-600
                               hover:bg-brand-200 dark:bg-brand-900/30 dark:text-brand-400 dark:hover:bg-brand-900/50 transition-colors"
-                          >
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                              <path
-                                d="M11.334 2.00004C11.5091 1.82494 11.7169 1.68605 11.9457 1.59129C12.1745 1.49653 12.4197 1.44775 12.6673 1.44775C12.915 1.44775 13.1602 1.49653 13.389 1.59129C13.6178 1.68605 13.8256 1.82494 14.0007 2.00004C14.1758 2.17513 14.3147 2.383 14.4094 2.61178C14.5042 2.84055 14.553 3.08575 14.553 3.33337C14.553 3.581 14.5042 3.8262 14.4094 4.05497C14.3147 4.28375 14.1758 4.49161 14.0007 4.66671L5.00065 13.6667L1.33398 14.6667L2.33398 11L11.334 2.00004Z"
-                                stroke="currentColor"
-                                strokeWidth="1.3"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </button>
+                            >
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path
+                                  d="M11.334 2.00004C11.5091 1.82494 11.7169 1.68605 11.9457 1.59129C12.1745 1.49653 12.4197 1.44775 12.6673 1.44775C12.915 1.44775 13.1602 1.49653 13.389 1.59129C13.6178 1.68605 13.8256 1.82494 14.0007 2.00004C14.1758 2.17513 14.3147 2.383 14.4094 2.61178C14.5042 2.84055 14.553 3.08575 14.553 3.33337C14.553 3.581 14.5042 3.8262 14.4094 4.05497C14.3147 4.28375 14.1758 4.49161 14.0007 4.66671L5.00065 13.6667L1.33398 14.6667L2.33398 11L11.334 2.00004Z"
+                                  stroke="currentColor"
+                                  strokeWidth="1.3"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>

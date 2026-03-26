@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router";
 
 interface Permission {
     view: boolean;
@@ -16,6 +17,8 @@ interface Permission {
 
 interface ModuleItem {
     id: string;
+    moduleId: number;
+    operationId: number;
     name: string;
     permissions: Permission;
 }
@@ -25,6 +28,38 @@ interface Module {
     name: string;
     items: ModuleItem[];
 }
+
+interface PermissionApiRow {
+    module_id: number;
+    module_name: string;
+    operation_id: number;
+    operation_name: string;
+    is_view: number;
+    is_add: number;
+    is_edit: number;
+    is_delete: number;
+    is_add_remark: number;
+    is_view_remark: number;
+    is_edit_remark: number;
+    is_active: number;
+    is_inactive: number;
+    is_export: number;
+}
+
+const baseURL = (import.meta as any).env.VITE_URL || "";
+
+const permissionKeyToApiField: Record<keyof Permission, keyof PermissionApiRow> = {
+    view: "is_view",
+    add: "is_add",
+    edit: "is_edit",
+    delete: "is_delete",
+    addRemark: "is_add_remark",
+    viewRemark: "is_view_remark",
+    editRemark: "is_edit_remark",
+    active: "is_active",
+    inactive: "is_inactive",
+    export: "is_export",
+};
 
 const defaultPerm = (): Permission => ({
     view: false,
@@ -39,35 +74,100 @@ const defaultPerm = (): Permission => ({
     export: false,
 });
 
-const initialData: Module[] = [
-    {
-        id: "dashboard",
-        name: "Dashboard",
-        items: [
-            { id: "main", name: "Main Dashboard", permissions: defaultPerm() },
-            { id: "search", name: "Search Data", permissions: defaultPerm() },
-            { id: "stats", name: "Statistics", permissions: defaultPerm() },
-        ],
-    },
-    {
-        id: "partner",
-        name: "Partner Section",
-        items: [
-            { id: "partner", name: "Partner", permissions: defaultPerm() },
-            { id: "vehicle", name: "Vehicle", permissions: defaultPerm() },
-            { id: "driver", name: "Driver", permissions: defaultPerm() },
-        ],
-    },
-];
-
 const PermissionDetail: React.FC = () => {
-    const [modules, setModules] = useState<Module[]>(initialData);
+    const { roleId } = useParams();
+    const [modules, setModules] = useState<Module[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [updatingKeys, setUpdatingKeys] = useState<Record<string, boolean>>({});
 
-    const togglePermission = (
+    const permissionHeaders = useMemo(() => Object.keys(defaultPerm()) as (keyof Permission)[], []);
+
+    const mapApiRowsToModules = useCallback((rows: PermissionApiRow[]): Module[] => {
+        const modulesMap = new Map<number, Module>();
+
+        rows.forEach((row) => {
+            if (!modulesMap.has(row.module_id)) {
+                modulesMap.set(row.module_id, {
+                    id: String(row.module_id),
+                    name: row.module_name,
+                    items: [],
+                });
+            }
+
+            const targetModule = modulesMap.get(row.module_id);
+            if (!targetModule) {
+                return;
+            }
+
+            targetModule.items.push({
+                id: `${row.module_id}-${row.operation_id}`,
+                moduleId: row.module_id,
+                operationId: row.operation_id,
+                name: row.operation_name,
+                permissions: {
+                    view: row.is_view === 0,
+                    add: row.is_add === 0,
+                    edit: row.is_edit === 0,
+                    delete: row.is_delete === 0,
+                    addRemark: row.is_add_remark === 0,
+                    viewRemark: row.is_view_remark === 0,
+                    editRemark: row.is_edit_remark === 0,
+                    active: row.is_active === 0,
+                    inactive: row.is_inactive === 0,
+                    export: row.is_export === 0,
+                },
+            });
+        });
+
+        return Array.from(modulesMap.values());
+    }, []);
+
+    const fetchPermissions = useCallback(async () => {
+        if (!roleId) {
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const res = await axios.get(
+                `${baseURL}/api/role-base-access-control/fetch_all_modules_and_operations/${roleId}`,
+            );
+
+            const rows = (res.data?.jsonData?.modules_and_operations || []) as PermissionApiRow[];
+            console.log("Fetched Permissions Data:", rows);
+            setModules(mapApiRowsToModules(rows));
+        } catch (error) {
+            console.error("Failed to fetch permissions:", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [mapApiRowsToModules, roleId]);
+
+    useEffect(() => {
+        fetchPermissions();
+    }, [fetchPermissions]);
+
+    const togglePermission = async (
         moduleId: string,
         itemId: string,
-        key: keyof Permission
+        key: keyof Permission,
     ) => {
+        if (!roleId) {
+            return;
+        }
+
+        const currentModule = modules.find((mod) => mod.id === moduleId);
+        const currentItem = currentModule?.items.find((item) => item.id === itemId);
+        if (!currentItem) {
+            return;
+        }
+
+        const previousValue = currentItem.permissions[key];
+        const nextValue = !previousValue;
+        const updatingKey = `${itemId}-${key}`;
+
+        setUpdatingKeys((prev) => ({ ...prev, [updatingKey]: true }));
+
         setModules((prev) =>
             prev.map((mod) =>
                 mod.id === moduleId
@@ -79,38 +179,71 @@ const PermissionDetail: React.FC = () => {
                                     ...item,
                                     permissions: {
                                         ...item.permissions,
-                                        [key]: !item.permissions[key],
+                                        [key]: nextValue,
                                     },
                                 }
-                                : item
+                                : item,
                         ),
                     }
-                    : mod
-            )
+                    : mod,
+            ),
         );
-    };
 
-    const handleSave = async () => {
         try {
-            await axios.post("/api/save-permissions", { modules });
-            alert("Permissions saved successfully");
+            await axios.put(
+                `${baseURL}/api/role-base-access-control/update_permissions/${roleId}`,
+                {
+                    role_id: Number(roleId),
+                    module_id: currentItem.moduleId,
+                    operation_id: currentItem.operationId,
+                    [permissionKeyToApiField[key]]: nextValue ? 0 : 1,
+                },
+            );
         } catch (error) {
-            console.error(error);
-            alert("Error saving permissions");
+            setModules((prev) =>
+                prev.map((mod) =>
+                    mod.id === moduleId
+                        ? {
+                            ...mod,
+                            items: mod.items.map((item) =>
+                                item.id === itemId
+                                    ? {
+                                        ...item,
+                                        permissions: {
+                                            ...item.permissions,
+                                            [key]: previousValue,
+                                        },
+                                    }
+                                    : item,
+                            ),
+                        }
+                        : mod,
+                ),
+            );
+            console.error("Failed to update permission:", error);
+        } finally {
+            setUpdatingKeys((prev) => {
+                const next = { ...prev };
+                delete next[updatingKey];
+                return next;
+            });
         }
     };
 
     return (
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
             <div className="p-5 lg:p-6 space-y-5">
+                {loading && (
+                    <div className="text-sm text-gray-500 dark:text-gray-300">Loading permissions...</div>
+                )}
                 <div className="overflow-auto w-full">
-                    <div className="min-w-[1000px]">
+                    <div className="min-w-250">
                         <table className="w-full border border-gray-200 text-sm">
                             <thead className="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     <th className="p-2 border">Module</th>
                                     <th className="p-2 border">Operation</th>
-                                    {Object.keys(defaultPerm()).map((perm) => (
+                                    {permissionHeaders.map((perm) => (
                                         <th key={perm} className="p-2 border capitalize">
                                             {perm}
                                         </th>
@@ -144,6 +277,11 @@ const PermissionDetail: React.FC = () => {
                                                             <input
                                                                 type="checkbox"
                                                                 checked={val}
+                                                                disabled={
+                                                                    updatingKeys[
+                                                                    `${item.id}-${key as keyof Permission}`
+                                                                    ]
+                                                                }
                                                                 onChange={() =>
                                                                     togglePermission(
                                                                         module.id,
@@ -162,15 +300,6 @@ const PermissionDetail: React.FC = () => {
                             </tbody>
                         </table>
                     </div>
-                </div>
-
-                <div className="flex justify-end">
-                    <button
-                        onClick={handleSave}
-                        className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                    >
-                        Save Permissions
-                    </button>
                 </div>
             </div>
         </div>

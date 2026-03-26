@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import PageMeta from "../../../../../components/common/PageMeta";
 import * as Yup from "yup";
+import { usePagePermissions } from "../../../../../components/auth/PermissionAccess";
 
 const categoryValidationSchema = Yup.object().shape({
   category_level3_level2_id: Yup.string().required("Parent category is required"),
@@ -31,6 +32,8 @@ const AddCLThree: React.FC = () => {
   const [fetching, setFetching] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { isAllowed } = usePagePermissions();
+  const canSubmit = isEditMode ? isAllowed("edit") : isAllowed("add");
   const [levelTwoCategories, setLevelTwoCategories] = useState<CategoryLevelTwo[]>([]);
   const [form, setForm] = useState<CategoryForm>({
     category_level3_level2_id: "",
@@ -129,6 +132,10 @@ const AddCLThree: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!canSubmit) {
+      alert("You do not have permission for this action.");
+      return;
+    }
     setErrors({});
 
     try {
@@ -307,19 +314,21 @@ const AddCLThree: React.FC = () => {
             </div>
 
             <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                type="submit"
-                disabled={loading}
-                className="rounded-lg bg-[#1c3c57] px-6 py-2.5 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
-              >
-                {loading
-                  ? isEditMode
-                    ? "Updating..."
-                    : "Submitting..."
-                  : isEditMode
-                    ? "Update Category"
-                    : "Add Category"}
-              </button>
+              {canSubmit && (
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="rounded-lg bg-[#1c3c57] px-6 py-2.5 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
+                >
+                  {loading
+                    ? isEditMode
+                      ? "Updating..."
+                      : "Submitting..."
+                    : isEditMode
+                      ? "Update Category"
+                      : "Add Category"}
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => navigate("/admin/category/level-three")}

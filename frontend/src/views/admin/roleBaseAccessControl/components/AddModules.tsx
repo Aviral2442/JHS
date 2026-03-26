@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
+import toast from "react-hot-toast";
 
 const baseURL = (import.meta as any).env.VITE_URL || "";
 
@@ -9,6 +10,7 @@ interface ModuleData {
   module_name: string;
   module_icon: string;
   module_route: string;
+  module_order_priority?: number;
   status: number | string;
 }
 
@@ -16,6 +18,7 @@ const initialForm: ModuleData = {
   module_name: "",
   module_icon: "",
   module_route: "",
+  module_order_priority: 0,
   status: "",
 };
 
@@ -45,6 +48,7 @@ const AddModules: React.FC = () => {
             module_name: v.module_name || "",
             module_icon: v.module_icon || "",
             module_route: v.module_route || "",
+            module_order_priority: v.module_order_priority !== undefined ? v.module_order_priority : 0,
             status: v.status !== undefined ? v.status : "",
           });
         }
@@ -63,15 +67,27 @@ const AddModules: React.FC = () => {
     >,
   ) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    const nextValue =
+      name === "module_order_priority"
+        ? value === ""
+          ? undefined
+          : Number(value)
+        : value;
+
+    setForm((prev) => ({ ...prev, [name]: nextValue }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {};
-    if (!form.module_name.trim()) newErrors.module_name = "Module name is required.";
-    if (!form.module_icon.trim()) newErrors.module_icon = "Module icon is required.";
-    if (!form.module_route.trim()) newErrors.module_route = "Module route is required.";
+    if (!form.module_name.trim())
+      newErrors.module_name = "Module name is required.";
+    if (!form.module_icon.trim())
+      newErrors.module_icon = "Module icon is required.";
+    if (!form.module_route.trim())
+      newErrors.module_route = "Module route is required.";
+    if (form.module_order_priority === undefined || form.module_order_priority === null || form.module_order_priority === 0)
+      newErrors.module_order_priority = "Module order priority is required.";
     if (form.status === "") newErrors.status = "Status is required.";
 
     setErrors(newErrors);
@@ -100,7 +116,9 @@ const AddModules: React.FC = () => {
           form,
         );
         if (res.data?.status === 200) {
-          navigate("/admin/modules");
+          toast.success("Module added successfully!");
+          // navigate("/admin/modules");
+          setForm(initialForm);
         } else {
           alert(res.data?.message || "Failed to add module.");
         }
@@ -115,7 +133,7 @@ const AddModules: React.FC = () => {
 
   if (fetching) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex items-center justify-center min-h-100">
         <div className="animate-spin h-8 w-8 border-4 border-brand-500 border-t-transparent rounded-full" />
       </div>
     );
@@ -143,15 +161,7 @@ const AddModules: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="p-5 lg:p-6 space-y-8">
           <fieldset>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <InputField
-                label="Module Name *"
-                name="module_name"
-                value={form.module_name}
-                onChange={handleChange}
-                error={errors.module_name}
-                placeholder="Enter module name"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <InputField
                 label="Module Icon (SVG or Class) *"
                 name="module_icon"
@@ -160,6 +170,36 @@ const AddModules: React.FC = () => {
                 error={errors.module_icon}
                 placeholder="Enter module icon"
               />
+              <InputField
+                label="Module Name *"
+                name="module_name"
+                value={form.module_name}
+                onChange={handleChange}
+                error={errors.module_name}
+                placeholder="Enter module name"
+              />
+
+              <InputField
+                label="Module Order Priority *"
+                name="module_order_priority"
+                value={form.module_order_priority ?? ""}
+                onChange={handleChange}
+                error={errors.module_order_priority}
+                type="number"
+                placeholder="Enter module order priority"
+              />
+              <p className="text-sm text-gray-500 dark:text-gray-400 md:col-span-3">
+                Use icons from{" "}
+                <a
+                  href="https://react-icons.github.io/react-icons/icons/lu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-brand-500 hover:underline"
+                >
+                  react-icons/lu
+                </a>
+                .
+              </p>
               <InputField
                 label="Module Route *"
                 name="module_route"
@@ -186,9 +226,7 @@ const AddModules: React.FC = () => {
                   <option value="1">Inactive</option>
                 </select>
                 {errors.status && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.status}
-                  </p>
+                  <p className="mt-1 text-xs text-red-500">{errors.status}</p>
                 )}
               </div>
             </div>
@@ -208,7 +246,11 @@ const AddModules: React.FC = () => {
               disabled={loading}
               className="rounded-lg bg-brand-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50 transition-colors"
             >
-              {loading ? "Saving..." : isEditMode ? "Update Module" : "Add Module"}
+              {loading
+                ? "Saving..."
+                : isEditMode
+                  ? "Update Module"
+                  : "Add Module"}
             </button>
           </div>
         </form>
@@ -221,7 +263,7 @@ const AddModules: React.FC = () => {
 const InputField: React.FC<{
   label: string;
   name: string;
-  value: string;
+  value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   type?: string;

@@ -9,6 +9,7 @@ interface OperationData {
   module_id: number | string;
   operation_name: string;
   operation_slug: string;
+  operation_order_priority: number | string;
 }
 
 interface ModuleItem {
@@ -20,6 +21,7 @@ const initialForm: OperationData = {
   module_id: "",
   operation_name: "",
   operation_slug: "",
+  operation_order_priority: "",
 };
 
 const AddOperation: React.FC = () => {
@@ -71,6 +73,7 @@ const AddOperation: React.FC = () => {
             module_id: op.module_id !== undefined ? op.module_id : "",
             operation_name: op.operation_name || "",
             operation_slug: op.operation_slug || "",
+            operation_order_priority: op.operation_order_priority !== undefined ? op.operation_order_priority : "",
           });
         }
       } catch (err) {
@@ -103,6 +106,11 @@ const AddOperation: React.FC = () => {
     if (!form.operation_slug.trim()) {
       newErrors.operation_slug = "Operation slug is required.";
     }
+      if (form.operation_order_priority === "") {
+      newErrors.operation_order_priority = "Operation order priority is required.";
+    } else if (isNaN(Number(form.operation_order_priority))) {
+      newErrors.operation_order_priority = "Operation order priority must be a number.";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -116,6 +124,7 @@ const AddOperation: React.FC = () => {
       module_id: Number(form.module_id),
       operation_name: form.operation_name.trim(),
       operation_slug: form.operation_slug.trim(),
+      operation_order_priority: Number(form.operation_order_priority),
     };
 
     try {
@@ -138,7 +147,8 @@ const AddOperation: React.FC = () => {
         );
 
         if (res.data?.status === 200) {
-          navigate("/admin/operations");
+          // navigate("/admin/operations");
+          setForm(initialForm);
         } else {
           alert(res.data?.message || "Failed to add operation.");
         }
@@ -224,6 +234,16 @@ const AddOperation: React.FC = () => {
                 error={errors.operation_slug}
                 placeholder="Enter operation slug"
               />
+
+              <InputField
+                label="Operation Order Priority *"
+                name="operation_order_priority"
+                value={form.operation_order_priority ?? ""}
+                onChange={handleChange}
+                error={errors.operation_order_priority}
+                type="number"
+                placeholder="Enter operation order priority"
+              />
             </div>
           </fieldset>
 
@@ -256,7 +276,7 @@ const AddOperation: React.FC = () => {
 const InputField: React.FC<{
   label: string;
   name: string;
-  value: string;
+  value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   type?: string;

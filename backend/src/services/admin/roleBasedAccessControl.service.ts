@@ -76,7 +76,7 @@ export const roleListService = async (filters?: {
             SELECT *
             FROM admin_role
             ${finalWhereSQL}
-            ORDER BY admin_role.role_id DESC
+            ORDER BY admin_role.role_id ASC
             LIMIT ? OFFSET ?
         `;
 
@@ -631,6 +631,7 @@ export const addModuleService = async (data: any) => {
             module_name: data.module_name,
             module_icon: data.module_icon,
             module_route: data.module_route,
+            module_order_priority: data.module_order_priority,
             status: data.status,
             created_at: currentUnixTimeStamp(),
             updated_at: currentUnixTimeStamp(),
@@ -857,6 +858,7 @@ export const addOperationService = async (data: any) => {
             module_id: data.module_id,
             operation_name: data.operation_name,
             operation_slug: data.operation_slug,
+            operation_order_priority: data.operation_order_priority,
             created_at: currentUnixTimeStamp(),
             updated_at: currentUnixTimeStamp(),
         }
@@ -874,7 +876,7 @@ export const addOperationService = async (data: any) => {
 
         const [roleIdArray]: any = await dbConfig.query(
             `
-            SELECT role_id FROM admin_roles
+            SELECT role_id FROM admin_role
             `
         );
 
@@ -888,7 +890,7 @@ export const addOperationService = async (data: any) => {
 
         const [addPermission]: any = await dbConfig.query(
             `
-            INSERT INTO admin_permissions (role_id, module_id, operation_id, created_at) VALUES ?
+            INSERT INTO admin_permission (role_id, module_id, operation_id, created_at) VALUES ?
             `,
             [permissionsInsertData.map((data: any) => [data.role_id, data.module_id, data.operation_id, currentUnixTimeStamp()])]
         );
@@ -949,6 +951,7 @@ export const updateOperationService = async (data: any, operationId: number) => 
         if (data.module_id) updateData.module_id = data.module_id;
         if (data.operation_name) updateData.operation_name = data.operation_name;
         if (data.operation_slug) updateData.operation_slug = data.operation_slug;
+        if (data.operation_order_priority) updateData.operation_order_priority = data.operation_order_priority;
         if (data.updated_by) updateData.updated_by = currentUnixTimeStamp();
 
         const [result]: any = await dbConfig.query(
@@ -979,10 +982,10 @@ export const fetchAllModuleAndOperationsService = async (roleId: number) => {
         const [allPermissionData]: any = await dbConfig.query(
             `
             SELECT *
-            FROM admin_permissions
-            LEFT JOIN admin_modules ON admin_permissions.module_id = admin_modules.module_id
-            LEFT JOIN admin_operations ON admin_permissions.operation_id = admin_operations.operation_id
-            WHERE admin_permissions.role_id = ?
+            FROM admin_permission
+            LEFT JOIN admin_modules ON admin_permission.module_id = admin_modules.module_id
+            LEFT JOIN admin_operations ON admin_permission.operation_id = admin_operations.operation_id
+            WHERE admin_permission.role_id = ?
             `,
             [roleId]
         );
@@ -1023,7 +1026,7 @@ export const updatePermissionsService = async (roleId: number, data: any) => {
 
         const [result]: any = await dbConfig.query(
             `
-            UPDATE admin_permissions SET ? WHERE role_id = ? AND module_id = ? AND operation_id = ?`,
+            UPDATE admin_permission SET ? WHERE role_id = ? AND module_id = ? AND operation_id = ?`,
             [updateData, roleId, data.module_id, data.operation_id]
         );
 
