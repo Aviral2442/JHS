@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { BiCategory } from "react-icons/bi";
 
@@ -17,23 +17,27 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 // import SidebarWidget from "./SidebarWidget";
 
-type NavItem = {
+interface NavItem {
   name: string;
   icon: React.ReactNode;
   path?: string;
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
-};
+}
+
+type MenuType = "permission" | "main" | "others";
 
 type SidebarOperation = {
   operations_id?: number;
   operation_id?: number;
   operation_name: string;
-  operation_url: string;
+  operation_url?: string;
+  operation_slug?: string;
 };
 
 type SidebarModule = {
   module_id: number;
   module_name: string;
+  module_route?: string;
   operations: SidebarOperation[];
 };
 
@@ -221,17 +225,15 @@ const AppSidebar: React.FC = () => {
     }
 
     try {
-      const response = await axios.get(`${baseUrl}/api/role-base-access-control/sidebar`, {
-        params: {
-          roleId,
-        },
+      const response = await axios.get(`${baseUrl}/api/role-base-access-control/fetch_data_for_sidebar`, { params: { roleId },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       // console.log("Fetch Sidebar Response:", response);
       if (response.data?.status === 200) {
-        const nextSidebar = response.data?.jsonData?.sidebar;
+        const nextSidebar = response.data?.jsonData?.sidebar_data;
+        console.log(nextSidebar)
         if (Array.isArray(nextSidebar)) {
           setSidebar(nextSidebar);
         }
@@ -248,8 +250,29 @@ const AppSidebar: React.FC = () => {
     fetchSidebarData();
   }, [token, roleId, baseUrl]);
 
+  const permissionNavItems = useMemo<NavItem[]>(
+    () =>
+      sidebar
+        .map((module) => ({
+          name: module.module_name,
+          icon: <GridIcon />,
+          subItems: module.operations
+            .map((op) => ({
+              name: op.operation_name,
+              path:
+                op.operation_url ||
+                (op.operation_slug?.startsWith("/")
+                  ? op.operation_slug
+                  : module.module_route) ||
+                "/admin/dashboard",
+            })),
+        }))
+        .filter((item) => (item.subItems?.length || 0) > 0),
+    [sidebar],
+  );
+
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "others";
+    type: MenuType;
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
@@ -265,14 +288,21 @@ const AppSidebar: React.FC = () => {
 
   useEffect(() => {
     let submenuMatched = false;
-    ["main", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : othersItems;
+
+    const menuItemsByType: Record<MenuType, NavItem[]> = {
+      permission: permissionNavItems,
+      main: navItems,
+      others: othersItems,
+    };
+
+    (Object.keys(menuItemsByType) as MenuType[]).forEach((menuType) => {
+      const items = menuItemsByType[menuType];
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
             if (isActive(subItem.path)) {
               setOpenSubmenu({
-                type: menuType as "main" | "others",
+                type: menuType,
                 index,
               });
               submenuMatched = true;
@@ -285,7 +315,7 @@ const AppSidebar: React.FC = () => {
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [location, isActive]);
+  }, [location, isActive, permissionNavItems]);
 
   useEffect(() => {
     if (openSubmenu !== null) {
@@ -299,7 +329,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "main" | "others") => {
+  const handleSubmenuToggle = (index: number, menuType: MenuType) => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -312,7 +342,7 @@ const AppSidebar: React.FC = () => {
     });
   };
 
-  const renderMenuItems = (items: NavItem[], menuType: "main" | "others") => (
+  const renderMenuItems = (items: NavItem[], menuType: MenuType) => (
     <ul className="flex flex-col gap-4">
       {items.map((nav, index) => (
         <li key={nav.name}>
@@ -498,29 +528,7 @@ const AppSidebar: React.FC = () => {
                     <HorizontaLDots className="size-6" />
                   )}
                 </h2>
-                <div className="space-y-4">
-                  {sidebar.map((module) => (
-                    <div key={module.module_id} className="space-y-1">
-                      <h4 className="menu-item-text text-xs font-semibold uppercase text-gray-500">
-                        {module.module_name}
-                      </h4>
-
-                      {module.operations.map((op) => (
-                        <div key={op.operations_id ?? op.operation_id} className="ml-2">
-                          <Link
-                            to={op.operation_url}
-                            className={`menu-dropdown-item ${isActive(op.operation_url)
-                              ? "menu-dropdown-item-active"
-                              : "menu-dropdown-item-inactive"
-                              }`}
-                          >
-                            {op.operation_name}
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+                {renderMenuItems(permissionNavItems, "permission")}
               </div>
             )}
             <div>

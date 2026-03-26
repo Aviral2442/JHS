@@ -1062,7 +1062,7 @@ export const fetchDataForSideBarService = async (roleId: number) => {
             LEFT JOIN admin_operations o 
               ON o.module_id = m.module_id
 
-            LEFT JOIN admin_permissions p 
+            LEFT JOIN admin_permission p 
               ON p.operation_id = o.operation_id 
               AND p.role_id = ?
 

@@ -276,8 +276,9 @@ export const updatePermissionsController = async (req: Request, res: Response, n
 // FETCH DATA FOR SIDEBAR CONTROLLER
 export const fetchDataForSideBarController = async (req: Request, res: Response, next: Function) => {
     try {
-
-        const roleId = Number(req.body?.role_id);
+        // console.log("Request Body for Fetch Data for Sidebar:", req.body); // Debug log to check incoming data for sidebar
+        // console.log(req.query); // Debug log to check incoming query parameters for sidebar
+        const roleId = Number(req.query?.roleId);
 
         if (!roleId) {
             return res.status(400).json({ status: 400, message: "Role ID is required" });
