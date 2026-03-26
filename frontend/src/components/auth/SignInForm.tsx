@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
@@ -18,6 +18,8 @@ const singUPvalidationSchema = Yup.object().shape({
 
 export default function SignInForm() {
 
+  const naviagate = useNavigate();
+
   const signInForm = useFormik({
     initialValues: {
       admin_email: "",
@@ -28,6 +30,7 @@ export default function SignInForm() {
         await axios.post(`${import.meta.env.VITE_URL}/api/auth/admin/login`, values)
         .then((result) => {
           console.log("Admin login successfully!!")
+          naviagate("/admin/dashboard");
           localStorage.setItem("admin_token", result.data.token);
         }).catch((err) => {
           console.error("Admin login failed:", err.response?.data || err.message);

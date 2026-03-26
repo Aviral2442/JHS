@@ -1,4 +1,4 @@
-import { RouteObject } from "react-router";
+import { Navigate, RouteObject } from "react-router";
 import { lazy } from "react";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import AppLayout from "../layout/AppLayout";
@@ -87,7 +87,18 @@ const AddOperation = lazy(() => import("../views/admin/roleBaseAccessControl/com
  * Public authentication routes (no protection needed)
  */
 const authRoutes: RouteObject[] = [
-
+  {
+    index: true,
+    element: <Navigate to="/admin/auth/sign-in" replace />,
+  },
+  {
+    path: "auth/sign-in",
+    element: <SignIn />,
+  },
+  {
+    path: "auth/sign-up",
+    element: <SignUp />,
+  },
 ];
 
 /**
@@ -97,14 +108,6 @@ const protectedAdminRoutes: RouteObject[] = [
   {
     index: true,
     element: <AdminHome />,
-  },
-  {
-    path: "/admin/auth/sign-in",
-    element: <SignIn />,
-  },
-  {
-    path: "/admin/auth/sign-up",
-    element: <SignUp />,
   },
   {
     path: "dashboard",
