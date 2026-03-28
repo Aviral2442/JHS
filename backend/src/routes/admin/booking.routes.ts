@@ -1,8 +1,11 @@
 import { Router } from "express";
 import { addBookingDetailsController, fetchBookingDetailsController, getBookingListController, updateBookingAddressController, updateBookingCategoryController, updateBookingConsumerController, updateBookingScheduleController, updateBookingVendorController } from "../../controller/admin/booking.controller";
+import { authMiddleware } from "../../middleware/authMiddleware";
 
 
 const router = Router();
+
+router.use(authMiddleware);
 
 router.get("/get_booking_list", getBookingListController);
 router.get("/fetch_booking_details/:bookingId", fetchBookingDetailsController);

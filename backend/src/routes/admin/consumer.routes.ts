@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { consumerLoginController, fetchConsumerDetailsController, getConsumerListController, searchConsumerController, signUpConsumerController, updateConsumerDetailsController, updateConsumerStatusController } from "../../controller/admin/consumer.controller";
+import { authMiddleware } from "../../middleware/authMiddleware";
 const router = Router();
 
+router.use(authMiddleware);
 
 router.get("/get_consumers_list", getConsumerListController);
 router.post("/consumer_signup", signUpConsumerController);

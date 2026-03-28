@@ -77,13 +77,13 @@ export const getContactUsListService = async (filters?: {
         }
 
         if (searchTerm) {
-            const searchConditon = `contact_form.contactForm_name LIKE ? OR contact_form.contactForm_id LIKE ? OR contact_form.contactForm_mobile LIKE ? OR contact_form.contactForm_email LIKE ?`;
+            const searchCondition = `contact_form.contactForm_name LIKE ? OR contact_form.contactForm_id LIKE ? OR contact_form.contactForm_mobile LIKE ? OR contact_form.contactForm_email LIKE ? OR contact_form.contactForm_subject LIKE ? OR contact_form.contactForm_message LIKE ?`;
             if (/where\s+/i.test(finalWhereSQL)) {
-                finalWhereSQL += ` AND (${searchConditon})`;
+                finalWhereSQL += ` AND (${searchCondition})`;
             } else {
-                finalWhereSQL += ` WHERE ${searchConditon}`;
+                finalWhereSQL += ` WHERE ${searchCondition}`;
             }
-            params.push(searchTerm, searchTerm, searchTerm, searchTerm);
+            params.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
         }
 
         const isDateFilerApplied = filters?.date || (filters?.fromDate && filters?.toDate);

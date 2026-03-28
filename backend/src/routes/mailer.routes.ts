@@ -1,9 +1,13 @@
 import express from "express";
 import { sendOTPController, sendSMSController } from "../controller/mailerController";
+import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
 // MSG91 API Integration and nodemailer for sending OTP via email or SMS based on the input type (email or mobile number)
+
+router.use(authMiddleware);
+
 router.post("/send-sms", sendSMSController);
 
 router.post("/send-otp", sendOTPController);

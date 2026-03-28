@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { checkPermission } from "../../middleware/checkPermission";
 import { addBlogController, addCategoryLevelOneController, addCategoryLevelThreeController, addCategoryLevelTwoController, addServicesController, getBlogDetailsBySkuController, getBlogDetailsController, getBlogListController, getBlogListForWebsiteController, getCategoryLevelOneController, getCategoryLevelOneDetailsController, getCategoryLevelOneListController, getCategoryLevelThreeDetailsController, getCategoryLevelThreeListByCatLvl2IdController, getCategoryLevelThreeListController, getCategoryLevelTwoDetailsController, getCategoryLevelTwoListByCatLvl1IdController, getCategoryLevelTwoListController, getServiceDatabyIdController, getServicesListController, updateBlogController, updateBlogStatusController, updateCategoryLevelOneController, updateCategoryLevelOneStatusController, updateCategoryLevelThreeController, updateCategoryLevelThreeStatusController, updateCategoryLevelTwoController, updateCategoryLevelTwoStatusController, updateServicesController, updateServiceStatusController } from "../../controller/admin/category.controller";
+import { authMiddleware } from "../../middleware/authMiddleware";
 const router = Router();
+
+router.use(authMiddleware);
 
 //------------------------------- CATEGORY LEVEL ONE ROUTES -------------------------------------------------------------------
 router.post("/add_category_level_one", checkPermission("Level One"), addCategoryLevelOneController);
@@ -12,7 +15,7 @@ router.patch("/update_category_level_one_status/:catLvl1Id", updateCategoryLevel
 
 
 //------------------------------- CATEGORY LEVEL TWO ROUTES -------------------------------------------------------------------
-router.get("/get_category_level_two_list", getCategoryLevelTwoListController);
+router.get("/get_category_level_two_list", checkPermission("Level Two"), getCategoryLevelTwoListController);
 router.post("/add_category_level_two", addCategoryLevelTwoController);
 router.get("/get_category_level_two/:catLvl2Id", getCategoryLevelTwoDetailsController);
 router.put("/update_category_level_two/:catLvl2Id", updateCategoryLevelTwoController);
@@ -21,7 +24,7 @@ router.patch("/update_category_level_two_status/:catLvl2Id", updateCategoryLevel
 
 
 //------------------------------- CATEGORY LEVEL THREE ROUTES -----------------------------------------------------------------
-router.get("/get_category_level_three_list", getCategoryLevelThreeListController);
+router.get("/get_category_level_three_list", checkPermission("Level Three"), getCategoryLevelThreeListController);
 router.post("/add_category_level_three", addCategoryLevelThreeController);
 router.get("/get_category_level_three/:catLvl3Id", getCategoryLevelThreeDetailsController);
 router.put("/update_category_level_three/:catLvl3Id", updateCategoryLevelThreeController);

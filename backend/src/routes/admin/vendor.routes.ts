@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { addVendorDetailsController, fetchVendorDetailsController, getVendorListController, searchVendorController, updateVendorBlockStatusController, updateVendorDetailsController, updateVendorVerifyStatusController } from "../../controller/admin/vendor.controller";
+import { authMiddleware } from "../../middleware/authMiddleware";
 const router = Router();
+
+router.use(authMiddleware);
 
 router.get("/get_vendor_list", getVendorListController);
 router.get("/fetch_vendor_details/:vendorId", fetchVendorDetailsController);

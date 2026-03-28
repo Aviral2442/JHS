@@ -1,11 +1,13 @@
 import axios from "axios";
+import { config } from "../config";
 const baseURL = (import.meta as any).env?.VITE_URL ?? "";
+
 
 const Api = () => {
 
   const fetchCategoryLevelOneList = async (params?: Record<string, string | number>) => {
     try {
-      const response = await axios.get(`${baseURL}/api/category/get_category_level_one_list`, { params });
+      const response = await axios.get(`${baseURL}/api/category/get_category_level_one_list`, { params, headers: config.headers });
       if (response.data?.status === 200) {
         return { 
             success: true, 
@@ -29,7 +31,7 @@ const Api = () => {
 
   const fetchCategoryLevelTwoList = async (params?: Record<string, string | number>) => {
     try {
-        const response = await axios.get(`${baseURL}/api/category/get_category_level_two_list`, { params });
+        const response = await axios.get(`${baseURL}/api/category/get_category_level_two_list`, { params, headers: config.headers });
         if (response.data?.status === 200) {
             return { 
                 success: true, 
@@ -53,7 +55,7 @@ const Api = () => {
   const fetchCategoryLevelThreeList = async (params?: Record<string, string | number>) => {
     try {
 
-        const response = await axios.get(`${baseURL}/api/category/get_category_level_three_list`, { params });
+        const response = await axios.get(`${baseURL}/api/category/get_category_level_three_list`, { params, headers: config.headers });
         console.log("Category Level 3 List:", response.data);
         if (response.data?.status === 200) {
             return { 
@@ -83,7 +85,7 @@ const Api = () => {
     try {
       const response = await axios.patch(`${baseURL}/api/category/update_category_level_one_status/${categoryId}`, {
         category_level1_status: newStatus
-      });
+      }, { headers: config.headers });
       
       if (response.data?.status === 200) {
         return {
@@ -111,7 +113,7 @@ const Api = () => {
     try {
       const response = await axios.patch(`${baseURL}/api/category/update_category_level_two_status/${categoryId}`, {
         category_level2_status: newStatus
-      });
+      }, { headers: config.headers });
       
       if (response.data?.status === 200) {
         return {
@@ -139,7 +141,7 @@ const Api = () => {
     try {
       const response = await axios.patch(`${baseURL}/api/category/update_category_level_three_status/${categoryId}`, {
         category_level3_status: newStatus
-      });
+      }, { headers: config.headers });
       console.log("Toggle Status Response:", response.data);
       if (response.data?.status === 200) {
         return {
@@ -162,7 +164,7 @@ const Api = () => {
 
   const fetchCategoryLevelTwoListByLevelOneId = async (levelOneId: number) => {
     try {
-        const response = await axios.get(`${baseURL}/api/category/get_category_level_two_list_by_cat_lvl1_id/${levelOneId}`);
+        const response = await axios.get(`${baseURL}/api/category/get_category_level_two_list_by_cat_lvl1_id/${levelOneId}`, { headers: config.headers });
         console.log("Category Level 2 List by Level 1 ID:", response.data);
       return {
         success: true,
@@ -180,7 +182,7 @@ const Api = () => {
 
   const fetchCategoryLevelThreeListByLevelTwoId = async (levelTwoId: number) => {
     try {
-      const response = await axios.get(`${baseURL}/api/category/get_category_level_three_list_by_cat_lvl2_id/${levelTwoId}`);
+      const response = await axios.get(`${baseURL}/api/category/get_category_level_three_list_by_cat_lvl2_id/${levelTwoId}`, { headers: config.headers });
       return {
         success: true,
         message: response.data?.message || "Category level 3 list fetched successfully",
@@ -197,7 +199,7 @@ const Api = () => {
 
   const fetchBookingDetails = async (bookingId: number) => {
     try {
-      const response = await axios.get(`${baseURL}/api/booking/fetch_booking_details/${bookingId}`);
+      const response = await axios.get(`${baseURL}/api/booking/fetch_booking_details/${bookingId}`, { headers: config.headers });
       return {
         success: true,
         message: response.data?.message || "Booking details fetched successfully",
@@ -214,7 +216,7 @@ const Api = () => {
 
   const fetchVendorList = async (params?: Record<string, string | number>) => {
     try {
-      const response = await axios.get(`${baseURL}/api/vendor/get_vendor_list`, { params });
+      const response = await axios.get(`${baseURL}/api/vendor/get_vendor_list`, { params, headers: config.headers });
       return {
         success: true,
         message: response.data?.message || "Vendor list fetched successfully",
@@ -233,7 +235,8 @@ const Api = () => {
   const searchVendorByItsNumber = async (vendorNumber: string) => {
     try {
       const response = await axios.get(`${baseURL}/api/vendor/search_vendor`,{
-        params: { search: vendorNumber }
+        params: { search: vendorNumber },
+        headers: config.headers
       });
       return {
         success: true,
@@ -252,7 +255,8 @@ const Api = () => {
   const searchConsumerByItsNumber = async (consumerNumber: string) => {
     try {
       const response = await axios.get(`${baseURL}/api/consumer/search_consumer`,{
-        params: { search: consumerNumber }
+        params: { search: consumerNumber },
+        headers: config.headers
       });
       return {
         success: true,
@@ -270,7 +274,7 @@ const Api = () => {
 
   const fetchBlogForWebsiteList = async (params?: Record<string, string | number>) => {
     try {
-      const response = await axios.get(`${baseURL}/api/category/get_blog_list_for_website`, { params });
+      const response = await axios.get(`${baseURL}/api/category/get_blog_list_for_website`, { params, headers: config.headers });
       if (response.data?.status == 200) {
         console.log("Blog List for Website:", response.data);
         return {
@@ -295,7 +299,7 @@ const Api = () => {
 
   const fetchBlogDetailsById = async (blogId: number) => {
     try {
-      const response = await axios.get(`${baseURL}/api/category/get_blog_details/${blogId}`);
+      const response = await axios.get(`${baseURL}/api/category/get_blog_details/${blogId}`, { headers: config.headers });
       if (response.data?.status === 200) {
         console.log("Blog Details:", response.data);
         return {
@@ -319,7 +323,7 @@ const Api = () => {
 
   const fetchBlogDetailsBySku = async (blogSku: string) => {
     try {
-      const response = await axios.get(`${baseURL}/api/category/get_blog_details_by_sku/${encodeURIComponent(blogSku)}`);
+      const response = await axios.get(`${baseURL}/api/category/get_blog_details_by_sku/${encodeURIComponent(blogSku)}`, { headers: config.headers });
       if (response.data?.status === 200) {
         return {
           success: true,
@@ -340,6 +344,30 @@ const Api = () => {
     }
   };
 
+  const fetchContactUsList = async (params?: Record<string, string | number>) => {
+    try {
+      const response = await axios.get(`${baseURL}/api/admin/get_contact_us_list`, { params, headers: config.headers });
+      if (response.data?.status === 200) {
+        return {
+          success: true,
+          data: response.data?.jsonData?.contact_form_list || [],
+          pagination: response.data?.pagination || {},
+        };
+      } else {
+        return {
+          success: false,
+          error: response.data?.message || "Failed to fetch contact us list",
+        };
+      }
+    } catch (err) {
+      console.error("Failed to fetch contact us list:", err);
+      return {
+        success: false,
+        error: err || "An error occurred while fetching contact us list",
+      };
+    }
+  };
+
   return {
     fetchCategoryLevelOneList,
     fetchCategoryLevelTwoList,
@@ -356,6 +384,7 @@ const Api = () => {
     fetchBlogForWebsiteList,
     fetchBlogDetailsById,
     fetchBlogDetailsBySku,
+    fetchContactUsList,
   };
 };
 export default Api;

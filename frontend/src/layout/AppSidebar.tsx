@@ -200,17 +200,12 @@ const othersItems: NavItem[] = [
     icon: <User />,
     name: "RBAC",
     subItems: [
+      { name: "Admin", path: "/admin/admin-users", pro: false },
       { name: "Roles", path: "/admin/roles", pro: false },
       { name: "Modules", path: "/admin/modules", pro: false },
       { name: "Operations", path: "/admin/operations", pro: false },
     ],
   },
-  {
-    icon: <UserCheck />,
-    name: "Admin",
-    path: "/admin/admin-users",
-  },
-
   // {
   //   icon: <PieChartIcon />,
   //   name: "Charts",
